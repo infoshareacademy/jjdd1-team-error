@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+//import java.util.zip.ZipException;
+//import java.util.zip.ZipFile;
 
 /**
  * Created by Sebastian Los on 02.04.2017.
@@ -31,4 +33,16 @@ public class FileReader {
         }
         return content;
     }
+
+      // unzip the file from and to given location
+//    public static void unzipFile (String source, String destination) {
+//        try {
+//            ZipFile file = new ZipFile(source);
+//            file.extractAll(destination);
+//        } catch (ZipException e) {
+//            System.out.println(e);
+//        } catch (IOException e) {
+//            System.out.println(e);
+//        }
+//    }
 }
