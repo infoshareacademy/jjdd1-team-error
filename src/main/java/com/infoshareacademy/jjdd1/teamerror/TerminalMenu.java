@@ -11,10 +11,10 @@ public class TerminalMenu {
 //         FileReader test
 //        System.out.println(loadContent("EUR"));
 
-//        String[][] s = fileFilter(loadContent("EUR"));
-//        for (int i = 0; i < s.length; i++) {
-//            for (int j = 0; j < s[i].length; j++)
-//                System.out.println(s[i][j]);
-//        }
+        String[][] s = fileFilter(loadContent("EUR"));
+        for (int i = 0; i < s.length; i++) {
+            for (int j = 0; j < s[i].length; j++)
+                System.out.println(s[i][j]);
+        }
     }
 }

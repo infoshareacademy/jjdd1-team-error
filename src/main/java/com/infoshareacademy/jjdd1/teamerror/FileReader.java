@@ -34,15 +34,17 @@ public class FileReader {
         return content;
     }
 
+    // divide string into useful parts (words, prices)
     public static String[][] fileFilter(String content) {
+        // split content
         String[] lines = content.split("\n");
         String[] parts;
-        String[][] result = new String[lines.length][7];
+        String[][] result = new String[lines.length][];
         for (int i = 0; i < lines.length; i++) {
-            for (int j = 0; j < 7; j++) {
-                parts = lines[i].split(",");
+            parts = lines[i].split(",");
+            result[i] = new String[parts.length];
+            for (int j = 0; j < parts.length; j++)
                 result[i][j] = parts[j];
-            }
         }
         return result;
     }
