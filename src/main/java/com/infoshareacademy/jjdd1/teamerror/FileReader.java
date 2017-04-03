@@ -34,6 +34,19 @@ public class FileReader {
         return content;
     }
 
+    public static String[][] fileFilter(String content) {
+        String[] lines = content.split("\n");
+        String[] parts;
+        String[][] result = new String[lines.length][7];
+        for (int i = 0; i < lines.length; i++) {
+            for (int j = 0; j < 7; j++) {
+                parts = lines[i].split(",");
+                result[i][j] = parts[j];
+            }
+        }
+        return result;
+    }
+
       // unzip the file from and to given location
 //    public static void unzipFile (String source, String destination) {
 //        try {
