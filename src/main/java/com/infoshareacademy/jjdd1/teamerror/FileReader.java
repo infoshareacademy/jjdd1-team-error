@@ -7,8 +7,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-//import java.util.zip.ZipException;
-//import java.util.zip.ZipFile;
 
 /**
  * Created by Sebastian Los on 02.04.2017.
@@ -28,7 +26,6 @@ public class FileReader {
                     BufferedReader br = Files.newBufferedReader(Paths.get("files", currencyName + ".txt"));
                     while ((buffer = br.readLine()) != null) {
                         content += buffer + "\n";
-
                     }
                 } catch (IOException e) {
                     System.out.println(e);
