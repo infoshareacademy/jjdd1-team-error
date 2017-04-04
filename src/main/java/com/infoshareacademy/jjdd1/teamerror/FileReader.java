@@ -25,9 +25,10 @@ public class FileReader {
                 content += buffer + "\n";
             }
         } catch (IOException e) {
+            removeExtractedFiles();
             System.out.println(e);
         }
-
+        removeExtractedFiles();
         return content;
     }
 
@@ -65,8 +66,14 @@ public class FileReader {
     public static void removeExtractedFiles () {
         for (Map.Entry currency : CurrencyNames.Currencies.entrySet()) {
             try {
-                Files.delete(Paths.get("src/main/resources/files/" + currency + ".txt"));
+                Files.delete(Paths.get("src/main/resources/files/" + currency.getKey() + ".txt"));
             } catch (IOException e) {}
         }
+    }
+
+    public static String[][] loadCurrencyFile (String symbol) {
+        CurrencyNames.loadCurrencies();
+        unzipFile("src/main/resources/files/omeganbp.zip", "src/main/resources/files/");
+        return fileFilter(loadContent(symbol));
     }
 }

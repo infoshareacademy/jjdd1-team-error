@@ -9,36 +9,13 @@ import static com.infoshareacademy.jjdd1.teamerror.FileReader.*;
  */
 public class TerminalMenu {
     public static void main(String[] args) {
-//         FileReader test
-//        System.out.println(loadContent("EUR"));
 
-//        String[][] s = fileFilter(loadContent("EUR"));
-//        for (int i = 0; i < s.length; i++) {
-//            for (int j = 0; j < s[i].length; j++)
-//                System.out.println(s[i][j]);
-//        }
-//        // FileReader test
-//        System.out.println(loadContent("EUR"));
-//
-//        String[][] output = fileFilter(loadContent("EUR"));
-//        for(int i=0; i<output.length; i++){
-//            for(int j=0; j<output[i].length; j++){
-//                System.out.println(output[i][j]);
-//            }
-//        }
-
-//        String[][] s = fileFilter(loadContent("EUR"));
-//        for (int i = 0; i < s.length; i++) {
-//            for (int j = 0; j < s[i].length; j++)
-//                System.out.println(s[i][j]);
-//        }
-
-        // unzipFile("src/main/resources/files/omeganbp.zip", "src/main/resources/files/");
-
-        CurrencyNames.loadCurrencies();
-        for (Map.Entry i : CurrencyNames.Currencies.entrySet())
-            System.out.println(i.getKey() + " --> " + i.getValue());
-
-        // removeExtractedFiles();
+        String[][] output = loadCurrencyFile("Eur");
+        for(int i=1; i<output.length; i++){
+            for(int j=0; j<output[i].length; j++){
+                System.out.print(output[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 }
