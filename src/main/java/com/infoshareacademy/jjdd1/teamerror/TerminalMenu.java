@@ -10,7 +10,7 @@ import static com.infoshareacademy.jjdd1.teamerror.FileReader.*;
 public class TerminalMenu {
     public static void main(String[] args) {
 
-        String[][] output = loadCurrencyFile("Eur");
+        String[][] output = loadCurrencyFile("Zar");
         for(int i=1; i<output.length; i++){
             for(int j=0; j<output[i].length; j++){
                 System.out.print(output[i][j] + " ");

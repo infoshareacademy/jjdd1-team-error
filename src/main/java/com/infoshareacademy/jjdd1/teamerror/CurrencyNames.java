@@ -19,12 +19,13 @@ public class CurrencyNames {
         String[] parts;
         String[] file;
 
-        for (int i = 3; i < lines.length - 3; i++) {
+        for (int i = 3; i < lines.length - 2; i++) {
 
             parts = lines[i].split("\\s{2,}");
             file = parts[parts.length - 2].split("\\.");
 
             Currencies.put(file[0], parts[parts.length - 1]);
+            System.out.println("jj " + file[0]);
         }
     }
 }
