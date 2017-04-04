@@ -28,6 +28,7 @@ public class FileReader {
                     BufferedReader br = Files.newBufferedReader(Paths.get("files", currencyName + ".txt"));
                     while ((buffer = br.readLine()) != null) {
                         content += buffer + "\n";
+
                     }
                 } catch (IOException e) {
                     System.out.println(e);
