@@ -5,15 +5,15 @@ package com.infoshareacademy.jjdd1.teamerror;
  */
 public class FullCost {
 
+    public static double calculatePrice(double distance, double fuelUsage, double fuelPrice, double currencyRate){
 
-    int distance = 0;
-    int fuelUsage = 0;
-    int fuelPrice = 0;
-    int currencyRate = 0;
+        return distance * fuelUsage * fuelPrice;
+
+    }
 
 
 
-    int result = distance * fuelUsage * fuelPrice;
+
 
 
 
