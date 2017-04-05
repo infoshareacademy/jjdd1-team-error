@@ -39,9 +39,11 @@ public class TerminalMenu {
         System.out.println(FullCost.calculatePrice(120,10, 5, 2));
 
 
+        FullCost2 testName = new FullCost2();
+        testName.calculatePriceSecond(15,15,15,15);
+
     }
 
-        FullCost2 cost = new cal
 }
 
 

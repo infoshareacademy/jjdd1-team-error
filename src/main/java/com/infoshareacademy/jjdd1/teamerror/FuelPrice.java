@@ -6,6 +6,6 @@ package com.infoshareacademy.jjdd1.teamerror;
 public class FuelPrice {
 
     public static double fuelCostByCountry(double costLitr){
-        return;
+        return costLitr;
     }
 }

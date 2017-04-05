@@ -6,6 +6,6 @@ package com.infoshareacademy.jjdd1.teamerror;
 public class FuelUsage {
 
     public static double fuelEconomy (double fuelKM){
-    return;
+    return fuelKM;
     }
 }

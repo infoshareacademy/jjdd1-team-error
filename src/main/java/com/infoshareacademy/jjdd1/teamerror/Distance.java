@@ -6,7 +6,7 @@ package com.infoshareacademy.jjdd1.teamerror;
 public class Distance {
 
     public static double giveDistance(double km){
-        return;
+        return km;
     }
 
 }

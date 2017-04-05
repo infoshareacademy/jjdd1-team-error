@@ -6,6 +6,6 @@ package com.infoshareacademy.jjdd1.teamerror;
 public class CurrencyRate {
 
     public static double currencyByCountry(double currencyRate){
-        return;
+        return currencyRate;
     }
 }

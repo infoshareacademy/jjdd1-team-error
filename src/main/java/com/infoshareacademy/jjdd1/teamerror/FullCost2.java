@@ -5,10 +5,11 @@ package com.infoshareacademy.jjdd1.teamerror;
  */
 public class FullCost2 {
 
-    public double calculatePriceNonStatic(double distance, double fuelUsage, double fuelPrice, double currencyRate){
+    public double calculatePriceSecond(double distance, double fuelUsage, double fuelPrice, double currencyRate) {
 
-        return distance*fuelUsage*fuelPrice;
+        return distance * fuelUsage * fuelPrice * currencyRate;
     }
-
 }
+
+
 
