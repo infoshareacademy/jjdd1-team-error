@@ -66,6 +66,16 @@ public class CurrencyHistoryDayValue {
         this.volume = volume;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "CurrencyHistoryDayValue{" +
+                "name='" + name + '\'' +
+                ", date=" + date +
+                ", open=" + open +
+                ", high=" + high +
+                ", low=" + low +
+                ", close=" + close +
+                ", volume=" + volume +
+                '}';
+    }
 }

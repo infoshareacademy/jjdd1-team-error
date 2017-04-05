@@ -3,7 +3,6 @@ package com.infoshareacademy.jjdd1.teamerror;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -21,11 +20,10 @@ public class FileReader {
         List<String> lines = null;
         // iterate over all currency names
         try {
-            lines = Files.readAllLines(Paths.get("files", currencyName + ".txt"));
+            lines = Files.readAllLines(Paths.get("src/main/resources/files/", currencyName + ".txt"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return lines;
     }
 
@@ -35,8 +33,6 @@ public class FileReader {
         // single elements of given line
         List<CurrencyHistoryDayValue> currencyHistoryDayValues = new ArrayList<>();
         String[] parts;
-        // all single elements
-        String[][] result = new String[lines.length][];
 
         for (int i = 1; i < lines.size(); i++) {
             parts = lines.get(i).split(",");
@@ -50,6 +46,7 @@ public class FileReader {
             value.setVolume(Double.parseDouble(parts[6]));
             currencyHistoryDayValues.add(value);
         }
+        removeExtractedFiles();
         return currencyHistoryDayValues;
     }
 
@@ -73,7 +70,7 @@ public class FileReader {
         }
     }
 
-    public static String[][] loadCurrencyFile (String symbol) {
+    public static List<CurrencyHistoryDayValue> loadCurrencyFile (String symbol) {
         CurrencyNames.loadCurrencies();
         unzipFile("src/main/resources/files/omeganbp.zip", "src/main/resources/files/");
         return fileFilter(loadContent(symbol));
