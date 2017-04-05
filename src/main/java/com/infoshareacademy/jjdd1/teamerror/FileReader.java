@@ -8,47 +8,49 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sebastian Los on 02.04.2017.
  */
 public class FileReader {
     // load file's content
-    public static String loadContent(String fileName) {
+    public static List<String> loadContent(String currencyName) {
         // file's content
-        String content = "";
-        String buffer = "";
-
+        List<String> lines = null;
+        // iterate over all currency names
         try {
-            BufferedReader br = Files.newBufferedReader(Paths.get("src/main/resources/files/" + fileName + ".txt"));
-            while ((buffer = br.readLine()) != null) {
-                content += buffer + "\n";
-            }
+            lines = Files.readAllLines(Paths.get("files", currencyName + ".txt"));
         } catch (IOException e) {
-            removeExtractedFiles();
-            System.out.println(e);
+            e.printStackTrace();
         }
-        removeExtractedFiles();
-        return content;
+
+        return lines;
     }
 
     // divide string into useful parts (words, prices)
-    public static String[][] fileFilter(String content) {
-        // split content into single lines
-        String[] lines = content.split("\n");
+    public static List<CurrencyHistoryDayValue> fileFilter(List<String> lines) {
+
         // single elements of given line
+        List<CurrencyHistoryDayValue> currencyHistoryDayValues = new ArrayList<>();
         String[] parts;
         // all single elements
         String[][] result = new String[lines.length][];
 
-        for (int i = 0; i < lines.length; i++) {
-            // split single lines into single elements
-            parts = lines[i].split(",");
-            result[i] = new String[parts.length];
-            for (int j = 0; j < parts.length; j++)
-                result[i][j] = parts[j];
+        for (int i = 1; i < lines.size(); i++) {
+            parts = lines.get(i).split(",");
+            CurrencyHistoryDayValue value = new CurrencyHistoryDayValue();
+            value.setName(parts[0]);
+            value.setDate(DateParser.DateFromString(parts[1]));
+            value.setOpen(Double.parseDouble(parts[2]));
+            value.setHigh(Double.parseDouble(parts[3]));
+            value.setLow(Double.parseDouble(parts[4]));
+            value.setClose(Double.parseDouble(parts[5]));
+            value.setVolume(Double.parseDouble(parts[6]));
+            currencyHistoryDayValues.add(value);
         }
-        return result;
+        return currencyHistoryDayValues;
     }
 
       // unzip the file from and to given location
