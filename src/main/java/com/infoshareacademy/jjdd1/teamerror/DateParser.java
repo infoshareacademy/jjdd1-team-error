@@ -22,4 +22,5 @@ public class DateParser {
         return LocalDate.parse(dateNumber, DateTimeFormatter.ofPattern("yyyyMMdd"));
     }
 
+
 }

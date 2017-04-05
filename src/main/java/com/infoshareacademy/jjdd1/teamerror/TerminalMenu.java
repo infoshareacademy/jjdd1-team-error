@@ -19,12 +19,6 @@ public class TerminalMenu {
 
         unzipFile("files/omeganbp.zip", "files/");
 
-        String[][] output = fileFilter(loadContent("EUR"));
-        for(int i=0; i<output.length; i++){
-            for(int j=0; j<output[i].length; j++){
-                System.out.println(output[i][j]);
-            }
-        }
         // FileReader test
         System.out.println(loadContent("EUR"));
 
@@ -35,23 +29,6 @@ public class TerminalMenu {
         System.out.println("State your starting date in the format: YYYYMMDD");
         String input = scan.nextLine();
 
-        for(int i=0; i<output.length; i++){
-            for(int j=0; j<output[i].length; j++){
-                if(input.equals(output[i][j])){
-                    dateOne = DateParser.DateFromString(output[i][j]);
-                }
-            }
-        }
-        System.out.println("State your ending date in the format: YYYYMMDD");
-        input = scan.nextLine();
-
-        for(int i=0; i<output.length; i++){
-            for(int j=0; j<output[i].length; j++){
-                if(input.equals(output[i][j])){
-                    dateTwo = DateParser.DateFromString(output[i][j]);
-                }
-            }
-        }
 
         System.out.println(DAYS.between(dateOne, dateTwo));
     }
