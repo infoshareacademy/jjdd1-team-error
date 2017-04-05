@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static com.infoshareacademy.jjdd1.teamerror.FileReader.fileFilter;
@@ -12,8 +13,6 @@ import static com.infoshareacademy.jjdd1.teamerror.FileReader.unzipFile;
 public class TerminalMenu {
     public static void main(String[] args) {
 
-        Scanner input = new Scanner(System.in);
-
         System.out.println("Menu");
         System.out.println("------------------");
         System.out.println("Options:");
@@ -21,26 +20,35 @@ public class TerminalMenu {
         System.out.println("2 - Option 2");
         System.out.println("3 - Option 3");
         System.out.println("4 - Option 4");
+        System.out.println("------------------");
         System.out.println("Select option: ");
 
-        int selection = input.nextInt();
 
-        switch (selection) {
-            case 1:
-                System.out.println("Option 1 selected");
-                break;
-            case 2:
-                System.out.println("Option 2 selected");
-                break;
-            case 3:
-                System.out.println("Option 3 selected");
-                break;
-            case 4:
-                System.out.println("Option 4 selected");
-                break;
-            default:
-                System.out.println("Invalid selection");
+        try {
+            Scanner input = new Scanner(System.in);
+            int selection = input.nextInt();
+
+            switch (selection) {
+                case 1:
+                    System.out.println("Option 1 selected");
+                    break;
+                case 2:
+                    System.out.println("Option 2 selected");
+                    break;
+                case 3:
+                    System.out.println("Option 3 selected");
+                    break;
+                case 4:
+                    System.out.println("Option 4 selected");
+                    break;
+                default:
+                    System.out.println("Selected invalid number");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("You didn't select a number");
         }
+    }
+}
 
 
 
@@ -69,5 +77,3 @@ public class TerminalMenu {
 //        }
 //
 //        unzipFile("files/omeganbp.zip", "files/");
-    }
-}
