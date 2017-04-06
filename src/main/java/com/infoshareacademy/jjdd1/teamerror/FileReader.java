@@ -14,13 +14,16 @@ import java.util.List;
  * Created by Sebastian Los on 02.04.2017.
  */
 public class FileReader {
+
+    public static final String PATH_TO_FILES = "src/main/resources/files/";
+
     // load file's content
-    public static List<String> loadContent(String currencyName) {
+    public static List<String> loadContent(String path) {
         // file's content
         List<String> lines = null;
         // iterate over all currency names
         try {
-            lines = Files.readAllLines(Paths.get("src/main/resources/files/", currencyName + ".txt"));
+            lines = Files.readAllLines(Paths.get(path));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -28,10 +31,10 @@ public class FileReader {
     }
 
     // divide string into useful parts (words, prices)
-    public static List<CurrencyHistoryDayValue> fileFilter(List<String> lines) {
+    public static List<Object> fileFilter(List<String> lines) {
 
         // single elements of given line
-        List<CurrencyHistoryDayValue> currencyHistoryDayValues = new ArrayList<>();
+        List<Object> currencyHistoryDayValues = new ArrayList<>();
         String[] parts;
 
         for (int i = 1; i < lines.size(); i++) {
@@ -46,7 +49,6 @@ public class FileReader {
             value.setVolume(Double.parseDouble(parts[6]));
             currencyHistoryDayValues.add(value);
         }
-        removeExtractedFiles();
         return currencyHistoryDayValues;
     }
 
@@ -65,14 +67,24 @@ public class FileReader {
     public static void removeExtractedFiles () {
         for (Map.Entry currency : CurrencyNames.Currencies.entrySet()) {
             try {
-                Files.delete(Paths.get("src/main/resources/files/" + currency.getKey() + ".txt"));
+                Files.delete(Paths.get(PATH_TO_FILES + currency.getKey() + ".txt"));
             } catch (IOException e) {}
         }
     }
 
-    public static List<CurrencyHistoryDayValue> loadCurrencyFile (String symbol) {
+
+    // create path
+    public static String createPath(String fileName, String extension) {
+        return PATH_TO_FILES + fileName + extension;
+    }
+
+    // do all
+    public static List<Object> loadCurrencyFile (String symbol) {
         CurrencyNames.loadCurrencies();
-        unzipFile("src/main/resources/files/omeganbp.zip", "src/main/resources/files/");
-        return fileFilter(loadContent(symbol));
+        unzipFile(PATH_TO_FILES + "omeganbp.zip", PATH_TO_FILES);
+        String path = createPath(symbol, ".txt");
+        List<Object> result = fileFilter(loadContent(path));
+        removeExtractedFiles();
+        return result;
     }
 }
