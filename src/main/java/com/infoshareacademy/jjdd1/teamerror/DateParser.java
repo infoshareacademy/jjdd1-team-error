@@ -18,9 +18,14 @@ public class DateParser {
         this.date = date;
     }
 
-    public static LocalDate DateFromString (String dateNumber){
-        return LocalDate.parse(dateNumber, DateTimeFormatter.ofPattern("yyyyMMdd"));
+    public static LocalDate DateFromString (String... dateFragment){
+        if(dateFragment.length == 1){
+            return LocalDate.parse(dateFragment[0], DateTimeFormatter.ofPattern("yyyyMMdd"));
+        }
+        else{
+            LocalDate date = LocalDate.parse(dateFragment[1].substring(0,3), DateTimeFormatter.ofPattern("MMM"));
+            String month = date.toString();
+            return LocalDate.parse(dateFragment[0]+dateFragment[1]+"01", DateTimeFormatter.ofPattern("yyyyMMdd"));
+        }
     }
-
-
 }

@@ -19,11 +19,11 @@ public class PetrolPrices {
         this.countryName = countryName;
     }
 
-    public LocalDate getYear() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setYear(LocalDate date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -61,5 +61,4 @@ public class PetrolPrices {
                 ", dieselPrice=" + dieselPrice +
                 '}';
     }
-
 }

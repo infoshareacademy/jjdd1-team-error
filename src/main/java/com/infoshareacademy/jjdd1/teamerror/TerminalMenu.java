@@ -26,5 +26,10 @@ public class TerminalMenu {
         for(Object obj : loadPetrolFiles("iSA-PetrolPrices")) {
             System.out.println(obj);
         }
+
+
+        LocalDate data =
+
+
     }
 }
