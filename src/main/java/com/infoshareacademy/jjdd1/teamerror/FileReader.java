@@ -69,8 +69,7 @@ public class FileReader {
     // do all
     public static List<Object> loadPetrolFiles (String fileName) {
         String path = createPath(fileName, ".csv");
-        List<Object> result = PetrolFileFilter.putPetrolFileContentToClass(loadContent(path));
-        return result;
+        return PetrolFileFilter.putPetrolFileContentToClass(loadContent(path));
     }
 
 

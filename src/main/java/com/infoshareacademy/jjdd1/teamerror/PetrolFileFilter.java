@@ -30,7 +30,7 @@ public class PetrolFileFilter {
     }
 
     public static String changeComaToPoint(String price) {
-        return price = price.replace(',','.');
+        return price.replace(',','.');
     }
 
 }
