@@ -52,7 +52,7 @@ public class FileReader {
         return currencyHistoryDayValues;
     }
 
-      // unzip the file from and to given location
+    // unzip the file from and to given location
     public static void unzipFile (String source, String destination) {
         try {
             ZipFile file = new ZipFile(source);
