@@ -13,10 +13,9 @@ public class CurrencyNames {
 
     public static void loadCurrencies() {
 
-        List<String> lines = FileReader.loadContent("omeganbp.lst");
+        List<String> lines = FileReader.loadContent(FileReader.PATH_TO_FILES + "omeganbp.lst.txt");
 
-        String[] parts;
-        String[] file;
+        String[] parts, file;
 
         for (int i = 3; i < lines.size() - 2; i++) {
 
