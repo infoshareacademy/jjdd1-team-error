@@ -19,7 +19,11 @@ public class TerminalMenu {
 //        System.out.println(DAYS.between(dateOne, dateTwo));
 
 
-        for(CurrencyHistoryDayValue obj : loadCurrencyFile("EUR")) {
+//        for(Object obj : loadCurrencyFile("EUR")) {
+//            System.out.println(obj);
+//        }
+
+        for(Object obj : loadPetrolFiles("iSA-PetrolPrices")) {
             System.out.println(obj);
         }
     }

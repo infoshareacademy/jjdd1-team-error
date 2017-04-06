@@ -30,28 +30,6 @@ public class FileReader {
         return lines;
     }
 
-    // divide string into useful parts (words, prices)
-    public static List<Object> fileFilter(List<String> lines) {
-
-        // single elements of given line
-        List<Object> currencyHistoryDayValues = new ArrayList<>();
-        String[] parts;
-
-        for (int i = 1; i < lines.size(); i++) {
-            parts = lines.get(i).split(",");
-            CurrencyHistoryDayValue value = new CurrencyHistoryDayValue();
-            value.setName(parts[0]);
-            value.setDate(DateParser.DateFromString(parts[1]));
-            value.setOpen(Double.parseDouble(parts[2]));
-            value.setHigh(Double.parseDouble(parts[3]));
-            value.setLow(Double.parseDouble(parts[4]));
-            value.setClose(Double.parseDouble(parts[5]));
-            value.setVolume(Double.parseDouble(parts[6]));
-            currencyHistoryDayValues.add(value);
-        }
-        return currencyHistoryDayValues;
-    }
-
     // unzip the file from and to given location
     public static void unzipFile (String source, String destination) {
         try {
@@ -83,8 +61,17 @@ public class FileReader {
         CurrencyNames.loadCurrencies();
         unzipFile(PATH_TO_FILES + "omeganbp.zip", PATH_TO_FILES);
         String path = createPath(symbol, ".txt");
-        List<Object> result = fileFilter(loadContent(path));
+        List<Object> result = CurrencyFileFilter.putCurrencyFileContentToClass(loadContent(path));
         removeExtractedFiles();
         return result;
     }
+
+    // do all
+    public static List<Object> loadPetrolFiles (String fileName) {
+        String path = createPath(fileName, ".csv");
+        List<Object> result = PetrolFileFilter.putPetrolFileContentToClass(loadContent(path));
+        return result;
+    }
+
+
 }

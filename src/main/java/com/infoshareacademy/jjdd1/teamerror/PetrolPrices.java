@@ -1,18 +1,13 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * Created by krystianskrzyszewski on 06.04.17.
  */
 public class PetrolPrices {
     String countryName;
-    LocalDate year;
-    LocalDate month;
+    LocalDate date;
     String currencyCode;
     double gasolinePrice, dieselPrice;
 
@@ -25,19 +20,11 @@ public class PetrolPrices {
     }
 
     public LocalDate getYear() {
-        return year;
+        return date;
     }
 
-    public void setYear(LocalDate year) {
-        this.year = year;
-    }
-
-    public LocalDate getMonth() {
-        return month;
-    }
-
-    public void setMonth(LocalDate month) {
-        this.month = month;
+    public void setYear(LocalDate date) {
+        this.date = date;
     }
 
     public String getCurrencyCode() {
@@ -68,8 +55,7 @@ public class PetrolPrices {
     public String toString() {
         return "PetrolPrices{" +
                 "countryName='" + countryName + '\'' +
-                ", year=" + year +
-                ", month=" + month +
+                ", date=" + date +
                 ", currencyCode='" + currencyCode + '\'' +
                 ", gasolinePrice=" + gasolinePrice +
                 ", dieselPrice=" + dieselPrice +
