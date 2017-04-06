@@ -36,12 +36,8 @@ public class TerminalMenu {
 //        unzipFile("files/omeganbp.zip", "files/");
 
 
-        System.out.println(FullCost.calculatePrice(120,10, 5, 2));
-
-
-        FullCost2 testName = new FullCost2();
-        testName.calculatePriceSecond(15,15,15,15);
-
+        System.out.println(FullCost.calculatePrice(100,0.1, 1.5, 4.4));
+//      in here distance and usage will be given by user (here litres/1km!)
     }
 
 }

@@ -7,7 +7,7 @@ public class FullCost {
 
     public static double calculatePrice(double distance, double fuelUsage, double fuelPrice, double currencyRate){
 
-        return distance * fuelUsage * fuelPrice;
+        return distance * fuelUsage * fuelPrice * currencyRate;
 
     }
 
