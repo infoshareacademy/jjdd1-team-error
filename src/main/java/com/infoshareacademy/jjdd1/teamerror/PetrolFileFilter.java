@@ -19,7 +19,7 @@ public class PetrolFileFilter {
             parts = lines.get(i).split(";");
             PetrolPrices value = new PetrolPrices();
             value.setCountryName(parts[0]);
-            //value.setYear(DateParser.DateFromString(parts[1], parts[2]));
+            value.setDate(DateParser.DateFromString(parts[1], parts[2]));
             value.setCurrencyCode(parts[3]);
             value.setGasolinePrice(Double.parseDouble(changeComaToPoint(parts[4])));
             value.setDieselPrice(Double.parseDouble(changeComaToPoint(parts[5])));

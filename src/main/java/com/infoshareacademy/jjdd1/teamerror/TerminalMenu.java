@@ -28,7 +28,7 @@ public class TerminalMenu {
         }
 
 
-        LocalDate data =
+       // LocalDate data =
 
 
     }
