@@ -21,8 +21,15 @@ public class TerminalMenu {
         Scanner input = new Scanner(System.in);
            String selection = input.nextLine();
 
+//        Scanner scan = new Scanner(System.in);
+//        LocalDate dateOne = null;
+//        LocalDate dateTwo = null;
+//        System.out.println(DAYS.between(dateOne, dateTwo));
 
 
+//        for(Object obj : loadCurrencyFile("EUR")) {
+//            System.out.println(obj);
+//        }
 
 //        System.out.println("Menu");
 //        System.out.println("------------------");

@@ -57,17 +57,17 @@ public class FileReader {
     }
 
     // do all
-    public static List<Object> loadCurrencyFile (String symbol) {
+    public static List<CurrencyHistoryDayValue> loadCurrencyFile (String symbol) {
         CurrencyNames.loadCurrencies();
         unzipFile(PATH_TO_FILES + "omeganbp.zip", PATH_TO_FILES);
         String path = createPath(symbol, ".txt");
-        List<Object> result = CurrencyFileFilter.putCurrencyFileContentToClass(loadContent(path));
+        List<CurrencyHistoryDayValue> result = CurrencyFileFilter.putCurrencyFileContentToClass(loadContent(path));
         removeExtractedFiles();
         return result;
     }
 
     // do all
-    public static List<Object> loadPetrolFiles (String fileName) {
+    public static List<PetrolPrices> loadPetrolFiles (String fileName) {
         String path = createPath(fileName, ".csv");
         return PetrolFileFilter.putPetrolFileContentToClass(loadContent(path));
     }

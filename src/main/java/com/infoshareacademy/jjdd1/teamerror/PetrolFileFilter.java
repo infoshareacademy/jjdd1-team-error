@@ -9,10 +9,10 @@ import java.util.List;
 public class PetrolFileFilter {
 
     // divide content of Currency File and put this information as objects
-    public static List<Object> putPetrolFileContentToClass(List<String> lines) {
+    public static List<PetrolPrices> putPetrolFileContentToClass(List<String> lines) {
 
         // single elements of given line
-        List<Object> PetrolPrices = new ArrayList<>();
+        List<PetrolPrices> PetrolPrices = new ArrayList<>();
         String[] parts;
 
         for (int i = 1; i < lines.size(); i++) {
