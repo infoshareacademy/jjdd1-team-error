@@ -3,16 +3,11 @@ package com.infoshareacademy.jjdd1.teamerror;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import static com.infoshareacademy.jjdd1.teamerror.FileReader.fileFilter;
-import static com.infoshareacademy.jjdd1.teamerror.FileReader.loadContent;
-import static com.infoshareacademy.jjdd1.teamerror.FileReader.unzipFile;
-
 /**
  * Created by igafalkowska on 31.03.17.
  */
 public class TerminalMenu {
     public static void main(String[] args) {
-
         System.out.println("Menu");
         System.out.println("------------------");
         System.out.println("Options:");
@@ -77,3 +72,4 @@ public class TerminalMenu {
 //        }
 //
 //        unzipFile("files/omeganbp.zip", "files/");
+
