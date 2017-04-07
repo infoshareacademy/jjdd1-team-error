@@ -1,43 +1,28 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
- * Created by Sebastian Los on 02.04.2017.
+ * Created by sebastianlos on 04.04.17.
  */
-public enum CurrencyNames {
-    // symbols of all given currencies
-    AUD,
-    BGN,
-    BRL,
-    CAD,
-    CHF,
-    CLP,
-    CNY,
-    CZK,
-    DKK,
-    EUR,
-    GBP,
-    HKD,
-    HRK,
-    HUF,
-    IDR,
-    ILS,
-    INR,
-    ISK,
-    JPY,
-    KRW,
-    MXN,
-    MYR,
-    NOK,
-    NZD,
-    PHP,
-    RON,
-    RUB,
-    SEK,
-    SGD,
-    THB,
-    TRY,
-    UAH,
-    USD,
-    XDR,
-    ZAR
+public class CurrencyNames {
+    // symbols and full names of currencies
+    public static Map<String, String> Currencies = new HashMap<>();
+
+    public static void loadCurrencies() {
+
+        List<String> lines = FileReader.loadContent(FileReader.PATH_TO_FILES + "omeganbp.lst.txt");
+
+        String[] parts, file;
+
+        for (int i = 3; i < lines.size() - 2; i++) {
+
+            parts = lines.get(i).split("\\s{2,}");
+            file = parts[parts.length - 2].split("\\.");
+
+            Currencies.put(file[0], parts[parts.length - 1]);
+        }
+    }
 }
