@@ -9,10 +9,10 @@ import java.util.List;
 public class CurrencyFileFilter {
 
     // divide content of Currency File and put this information as objects
-    public static List<Object> putCurrencyFileContentToClass(List<String> lines) {
+    public static List<CurrencyHistoryDayValue> putCurrencyFileContentToClass(List<String> lines) {
 
         // single elements of given line
-        List<Object> currencyHistoryDayValues = new ArrayList<>();
+        List<CurrencyHistoryDayValue> currencyHistoryDayValues = new ArrayList<>();
         String[] parts;
 
         for (int i = 1; i < lines.size(); i++) {
