@@ -24,9 +24,9 @@ public class TerminalMenu {
 //            System.out.println(obj);
 //        }
 
-        for(Object obj : loadPetrolFiles("iSA-PetrolPrices")) {
-            System.out.println(obj);
-        }
+//        for(Object obj : loadPetrolFiles("iSA-PetrolPrices")) {
+//            System.out.println(obj);
+//        }
 
         System.out.println("Please input a start and end date, both in a YYYYMMDD format");
         String date1 = scan.nextLine();
