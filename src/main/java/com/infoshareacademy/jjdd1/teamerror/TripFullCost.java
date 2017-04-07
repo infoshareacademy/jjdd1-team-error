@@ -69,20 +69,21 @@ public class TripFullCost {
             System.out.println(i);
         List<PetrolPrices> petrolObjectsList = FileReader.loadPetrolFiles("iSA-PetrolPrices");
 
-        int iterator1=1;
-        int iterator2=1;
+        int iterator1=0;
+        int iterator2=0;
         for(CurrencyHistoryDayValue o: currencyObjectsList){
             if(tripData.getDate1().getMonth() == o.getDate().getMonth()){
-                currencyPriceDate1 += o.getOpen();
-                currencyPriceDate1 = currencyPriceDate1 / iterator1;
+                currencyPriceDate1 += o.getClose();
                 iterator1++;
             }
-            if(tripData.getDate2() == o.getDate()){
-                currencyPriceDate2 += o.getOpen();
-                currencyPriceDate2 /= iterator2;
+            if(tripData.getDate2().getMonth() == o.getDate().getMonth()){
+                currencyPriceDate2 += o.getClose();
                 iterator2++;
             }
         }
+        currencyPriceDate1 = currencyPriceDate1/iterator1;
+        currencyPriceDate2 = currencyPriceDate2/iterator2;
+
         System.out.println(currencyPriceDate1 +" "+currencyPriceDate2);
 
         for(PetrolPrices o: petrolObjectsList){
