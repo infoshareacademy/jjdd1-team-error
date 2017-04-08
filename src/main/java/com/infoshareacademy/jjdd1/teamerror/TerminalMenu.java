@@ -28,22 +28,24 @@ public class TerminalMenu {
 //            System.out.println(obj);
 //        }
 
-        System.out.println("Please input a start and end date, both in a YYYYMMDD format");
-        String date1 = scan.nextLine();
-        String date2 = scan.nextLine();
-        LocalDate localDate1 = LocalDate.parse(date1, DateTimeFormatter.ofPattern("yyyyMMdd"));
-        LocalDate localDate2 = LocalDate.parse(date2, DateTimeFormatter.ofPattern("yyyyMMdd"));
-        System.out.println("Please input country");
-        String countryName = scan.nextLine();
-        System.out.println("Please input fuel type");
-        String fuelType = scan.nextLine();
+//        System.out.println("Please input a start and end date, both in a YYYYMMDD format");
+//        String date1 = scan.nextLine();
+//        String date2 = scan.nextLine();
+//        LocalDate localDate1 = LocalDate.parse(date1, DateTimeFormatter.ofPattern("yyyyMMdd"));
+//        LocalDate localDate2 = LocalDate.parse(date2, DateTimeFormatter.ofPattern("yyyyMMdd"));
+//        System.out.println("Please input country");
+//        String countryName = scan.nextLine();
+//        System.out.println("Please input fuel type");
+//        String fuelType = scan.nextLine();
         /*if (fuelType.equalsIgnoreCase(FuelTypes.DIESEL.toString())){
 
         }*/
 
 
-        TripFullCost newTrip = new TripFullCost(localDate1, localDate2, countryName, fuelType);
-        System.out.println(newTrip.costCount(newTrip));
+//        TripFullCost newTrip = new TripFullCost(localDate1, localDate2, countryName, fuelType);
+//        System.out.println(newTrip.costCount(newTrip));
+
+        Trendy.checkTrendy(loadCurrencyFile("Eur"),loadPetrolFiles("iSA-PetrolPrices"));
 
 
     }
