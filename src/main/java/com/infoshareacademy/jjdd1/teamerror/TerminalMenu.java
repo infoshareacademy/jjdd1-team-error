@@ -24,7 +24,7 @@ public class TerminalMenu {
 //            System.out.println(obj);
 //        }
 
-        for(Object obj : loadPetrolFiles("iSA-PetrolPrices")) {
+        for (Object obj : loadPetrolFiles("iSA-PetrolPrices")) {
             System.out.println(obj);
         }
 
@@ -46,5 +46,13 @@ public class TerminalMenu {
         System.out.println(newTrip.costCount(newTrip));
 
 
+
+        System.out.println(FullCost.calculatePrice(100,5, 1.5, 4.4));
+  //  distance as it is, fuel given litres per 100 km
+
     }
+
+
 }
+
+
