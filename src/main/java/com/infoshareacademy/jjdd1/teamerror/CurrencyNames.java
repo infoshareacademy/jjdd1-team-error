@@ -11,7 +11,7 @@ public class CurrencyNames {
     // symbols and full names of currencies
     public static Map<String, String> Currencies = new HashMap<>();
 
-    public static void loadCurrencies() {
+    public static Map loadCurrencies() {
 
         List<String> lines = FileReader.loadContent(FileReader.PATH_TO_FILES + "omeganbp.lst.txt");
 
@@ -24,5 +24,7 @@ public class CurrencyNames {
 
             Currencies.put(file[0], parts[parts.length - 1]);
         }
+
+        return Currencies;
     }
 }
