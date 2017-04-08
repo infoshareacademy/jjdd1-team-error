@@ -15,7 +15,9 @@ public class TripFullCost {
 
     LocalDate date1, date2;
     String country;
+    String currency;
     String fuelType;
+    Double distance;
 
     public String getFuelType() {
         return fuelType;
@@ -49,11 +51,21 @@ public class TripFullCost {
         this.country = country;
     }
 
-    public TripFullCost(LocalDate date1, LocalDate date2, String country, String fuelType){
+    public String getCurrency() {return currency;}
+
+    public void setCurrency(String currency) {this.currency = currency;}
+
+    public Double getDistance() {return distance;}
+
+    public void setDistance(Double distance) {this.distance = distance;}
+
+    public TripFullCost(LocalDate date1, LocalDate date2, String country, String currency, String fuelType, Double distance){
         this.date1 = date1;
         this.date2 = date2;
         this.country = country;
+        this.currency = currency;
         this.fuelType = fuelType;
+        this.distance = distance;
     }
 
     public static double costCount(TripFullCost tripData){
@@ -109,6 +121,10 @@ public class TripFullCost {
         System.out.println(((currencyPriceDate1+currencyPriceDate2)/2) * ((fuelPriceDate1+fuelPriceDate2)/2) * days);
         return ((currencyPriceDate1+currencyPriceDate2)/2) * ((fuelPriceDate1+fuelPriceDate2)/2) * days;
 
-    }
+    }////        Scanner scan = new Scanner(System.in);
+//        LocalDate dateOne = null;
+//        LocalDate dateTwo = null;
+//        System.out.println(DAYS.between(dateOne, dateTwo));
+
 
 }

@@ -1,16 +1,13 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import java.util.InputMismatchException;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import static com.infoshareacademy.jjdd1.teamerror.FileReader.fileFilter;
-import static com.infoshareacademy.jjdd1.teamerror.FileReader.loadContent;
-import static com.infoshareacademy.jjdd1.teamerror.FileReader.unzipFile;
+
+import static com.infoshareacademy.jjdd1.teamerror.CurrencyNames.*;
+
 import java.time.LocalDate;
-import java.time.Period;
-import java.util.Scanner;
 
-import static com.infoshareacademy.jjdd1.teamerror.FileReader.*;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
@@ -18,18 +15,54 @@ import static java.time.temporal.ChronoUnit.DAYS;
  */
 public class TerminalMenu {
     public static void main(String[] args) {
+
         Scanner input = new Scanner(System.in);
-           String selection = input.nextLine();
+        System.out.println("Podaj datę wyjazdu w formacie YYYYMMDD: ");
+        String date1 = input.nextLine();
 
-//        Scanner scan = new Scanner(System.in);
-//        LocalDate dateOne = null;
-//        LocalDate dateTwo = null;
-//        System.out.println(DAYS.between(dateOne, dateTwo));
+        System.out.println("Podaj datę powrotu w formacie YYYYMMDD: ");
+        String date2 = input.nextLine();
+
+        System.out.println("Podaj kraj wyjazdu (Honduras, Croatia, USA, France): ");
+        String country = input.nextLine();
+
+        System.out.println("Podaj walutę kraju: ");
+        String currency = input.nextLine();
+
+        System.out.println("Podaj rodzaj paliwa (gasoline, diesel): ");
+        String fuelType = input.nextLine();
+
+        System.out.println("Podaj przewidywany średni dystans w km, który zostanie przejechany w ciągu każdego dnia wyjazdu: ");
+        Double distance = input.nextDouble();
 
 
-//        for(Object obj : loadCurrencyFile("EUR")) {
-//            System.out.println(obj);
-//        }
+//        System.out.println(date1);
+//        System.out.println(date2);
+//        System.out.println(country);
+//        System.out.println(currency);
+//        System.out.println(fuelType);
+//        System.out.println(distance);
+
+
+        TripFullCost cost = new TripFullCost(LocalDate.parse(date1, DateTimeFormatter.ofPattern("yyyyMMdd")),
+                LocalDate.parse(date2, DateTimeFormatter.ofPattern("yyyyMMdd")), country, currency, fuelType, distance);
+
+        System.out.println("Koszt auta za granicą podczas wyjazdu będzie wynosił: ");
+        //wywołanie metody obliczającej koszt jako argumenty przyjmującej dane z obiektu cost)
+
+
+//        long days = DAYS.between(LocalDate.parse(date1, DateTimeFormatter.ofPattern("yyyyMMdd")),
+// LocalDate.parse(date2, DateTimeFormatter.ofPattern("yyyyMMdd")));
+//        System.out.println(days);
+
+//        loadCurrencies();
+//        System.out.println(Currencies.get(currency));
+
+
+
+//        TripFullCost cost = new TripFullCost(LocalDate.of(2016,05,02), LocalDate.of(2016,05,06), "euro", "diesel", 300.0);
+//        System.out.println(cost.costCount(cost));
+////
 
 //        System.out.println("Menu");
 //        System.out.println("------------------");
@@ -69,30 +102,4 @@ public class TerminalMenu {
 }
 
 
-
-//         FileReader test
-//        System.out.println(loadContent("EUR"));
-//
-//        String[][] s = fileFilter(loadContent("EUR"));
-//        for (int i = 0; i < s.length; i++) {
-//            for (int j = 0; j < s[i].length; j++)
-//                System.out.println(s[i][j]);
-//        }
-//        // FileReader test
-//        System.out.println(loadContent("EUR"));
-//
-//        String[][] output = fileFilter(loadContent("EUR"));
-//        for(int i=0; i<output.length; i++){
-//            for(int j=0; j<output[i].length; j++){
-//                System.out.println(output[i][j]);
-//            }
-//        }
-//
-//        String[][] s = fileFilter(loadContent("EUR"));
-//        for (int i = 0; i < s.length; i++) {
-//            for (int j = 0; j < s[i].length; j++)
-//                System.out.println(s[i][j]);
-//        }
-//
-//        unzipFile("files/omeganbp.zip", "files/");
 
