@@ -11,12 +11,14 @@ public class PetrolFileFilter {
     // divide content of Currency File and put this information as objects
     public static List<PetrolPrices> putPetrolFileContentToClass(List<String> lines, String country) {
 
-        // single elements of given line
+        // single elements of given line as object
         List<PetrolPrices> PetrolPrices = new ArrayList<>();
         String[] parts;
 
+        // iterate over all lines
         for (int i = 1; i < lines.size(); i++) {
             parts = lines.get(i).split(";");
+            // read only data of given country
             if (parts[0].equalsIgnoreCase(country)) {
                 PetrolPrices value = new PetrolPrices();
                 value.setCountryName(parts[0]);

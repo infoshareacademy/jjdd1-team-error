@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import java.text.DateFormatSymbols;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -167,5 +168,40 @@ public class Trendy {
         value = value * factor;
         long tmp = Math.round(value);
         return (double) tmp / factor;
+    }
+
+    // print differences in currencies and fuel rates in each month and the best time for cheap travel
+    public static void optimalTimeForTrip(String currencySymbol, String fuelType, String country) {
+        // list of percentage values of currency rates difference for each month
+        List<Double> currencyList = checkCurrencyTrendy(FileReader.loadCurrencyFile(currencySymbol));
+        // list of percentage values of petrol rates difference for each month
+        List<Double> petrolList = checkFuelTrendy(FileReader.loadPetrolFiles(country), fuelType);
+        Double sum = null;
+        int result = 0;
+        DateFormatSymbols symbols = new DateFormatSymbols(Locale.US);
+        System.out.println("Optimal time for trip analysis: \n");
+        // iterate over all months
+        for (int i = 0; i < 12; i++) {
+            // determine the lowest sum of currency and petrol percentage rates
+            if (sum == null || (currencyList.get(i) + petrolList.get(i)) < sum) {
+                sum = (currencyList.get(i) + petrolList.get(i));
+                result = i;
+            }
+            System.out.println("Rates in " + symbols.getMonths()[i] + " are usualy as follows:");
+            if (currencyList.get(i).equals(0.0)) {
+                System.out.print("Currency --> THE LOWEST \t\t");
+            }
+            else {
+                System.out.print("Currency --> " + currencyList.get(i) + "% higher \t\t");
+            }
+            if (petrolList.get(i).equals(0.0)) {
+                System.out.println("Petrol --> THE LOWEST \t\t");
+            }
+            else {
+                System.out.println("Petrol --> " + petrolList.get(i) + "% higher. \t\t");
+            }
+            System.out.println();
+        }
+        System.out.println("The best time for cheap travel is in: " + symbols.getMonths()[result].toUpperCase());
     }
 }

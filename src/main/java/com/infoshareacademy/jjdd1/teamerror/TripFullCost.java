@@ -137,10 +137,6 @@ public class TripFullCost {
         System.out.println(((currencyPriceDate1+currencyPriceDate2)/2) * ((fuelPriceDate1+fuelPriceDate2)/2) * days);
         return ((currencyPriceDate1+currencyPriceDate2)/2) * ((fuelPriceDate1+fuelPriceDate2)/2) * days;
 
-    }////        Scanner scan = new Scanner(System.in);
-//        LocalDate dateOne = null;
-//        LocalDate dateTwo = null;
-//        System.out.println(DAYS.between(dateOne, dateTwo));
-
+    }
 
 }
