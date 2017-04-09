@@ -22,10 +22,6 @@ public class Trendy {
             List<Double> monthValues = new ArrayList<>();
             allMonthsAverageCurrencyRates.put(i, monthValues);
         }
-        // list of averaged difference rates for all months and given years
-        List<Double> results = new ArrayList<>();
-        // list of final results of currency differences for all months and given years in percents
-        List<Double> resultsInPercents = new ArrayList<>();
 
         // sum of all currency rates in given month
         double monthSumOfRates = 0.0;
@@ -71,29 +67,11 @@ public class Trendy {
             }
             monthAverageCurrencyRate.clear();
         }
-        // iterate over all months and merge all values of given month to one
-        for (int i = 0; i < 12; i++) {
-            // copy present list to temporary list
-            List<Double> tempList = allMonthsAverageCurrencyRates.get(i);
 
-            Double sum = 0.0;
-            // sum all month's values
-            for (Double d : tempList) {
-                sum += d;
-            }
-            Double result = 0.0;
-            // make average value
-            if (tempList.size() != 0)
-                result = sum / tempList.size();
-            results.add(result);
-        }
-        Double minVal = Collections.min(results);
-        // convert values to percentage form
-        for (Double r : results) {
-            resultsInPercents.add(round((r - minVal) * 100,2));
-        }
-        return resultsInPercents;
+        return convertSingleValuesToPercentageVlues(allMonthsAverageCurrencyRates);
     }
+
+
 
     // return a list of 12 averaged, percentage values of petrol rate differences for each month
     public static List<Double> checkFuelTrendy(List<PetrolPrices> petrolList, String kindOfFuel) {
@@ -146,10 +124,21 @@ public class Trendy {
             }
             monthAveragePetrolRate.clear();
         }
+
+        return convertSingleValuesToPercentageVlues(allMonthsAveragePetrolRates);
+    }
+
+    // convert map of all valuse of months for each given years to list of single percentage averaged values for each month
+    private static List<Double> convertSingleValuesToPercentageVlues(Map<Integer,List<Double>> allMonthsAverageRates) {
+        // list of final results of currency/petrol differences for all months and given years in percents
+        List<Double> resultsInPercents = new ArrayList<>();
+        // list of averaged difference rates for all months and given years
+        List<Double> results = new ArrayList<>();
+
         // iterate over all months and merge all values of given month to one
         for (int i = 0; i < 12; i++) {
             // copy present list to temporary list
-            List<Double> tempList = allMonthsAveragePetrolRates.get(i);
+            List<Double> tempList = allMonthsAverageRates.get(i);
 
             Double sum = 0.0;
             // sum all month's values
