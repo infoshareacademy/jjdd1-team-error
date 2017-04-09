@@ -17,6 +17,7 @@ public class TripFullCost {
     String country;
     String currency;
     String fuelType;
+    Double fuelUsage;
     Double distance;
 
     public String getFuelType() {
@@ -28,8 +29,17 @@ public class TripFullCost {
             this.fuelType = fuelType;
         }
         else
-        throw new IllegalArgumentException("Given fuel type is incorrect");
+            throw new IllegalArgumentException("Given fuel type is incorrect");
     }
+
+    public Double getFuelUsage() {
+        return fuelUsage;
+    }
+
+    public void setFuelUsage(Double fuelUsage) {
+        this.fuelUsage = fuelUsage;
+    }
+
 
     public LocalDate getDate1() {
         return date1;
@@ -71,12 +81,13 @@ public class TripFullCost {
 
     public void setDistance(Double distance) {this.distance = distance;}
 
-    public TripFullCost(LocalDate date1, LocalDate date2, String country, String currency, String fuelType, Double distance){
+    public TripFullCost(LocalDate date1, LocalDate date2, String country, String currency, String fuelType, Double fuelUsage, Double distance){
         this.date1 = date1;
         this.date2 = date2;
         this.country = country;
         this.currency = currency;
         this.fuelType = fuelType;
+        this.fuelUsage = fuelUsage;
         this.distance = distance;
     }
 
