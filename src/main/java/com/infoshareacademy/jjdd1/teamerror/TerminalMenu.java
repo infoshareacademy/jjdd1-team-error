@@ -46,15 +46,19 @@ public class TerminalMenu {
 //        TripFullCost newTrip = new TripFullCost(localDate1, localDate2, countryName, fuelType);
 //        System.out.println(newTrip.costCount(newTrip));
 
-        CurrencyNames.loadCurrencies();
-        for (Map.Entry i : CurrencyNames.currencies.entrySet()) {
-            System.out.println(i.getKey());
-            for (Double month : Trendy.checkCurrencyTrendy(loadCurrencyFile(i.getKey().toString()))) {
-                System.out.println(month);
-            }
-            System.out.println();
-        }
+//        CurrencyNames.loadCurrencies();
+//        for (Map.Entry i : CurrencyNames.currencies.entrySet()) {
+//            System.out.println(i.getKey());
+//            for (Double month : Trendy.checkCurrencyTrendy(loadCurrencyFile(i.getKey().toString()))) {
+//                System.out.println(month);
+//            }
+//            System.out.println();
+//        }
 
+
+        for (Double month : Trendy.checkFuelTrendy(loadPetrolFiles("croatia"), "diesel")) {
+            System.out.println(month);
+        }
 
     }
 }

@@ -8,6 +8,7 @@ import java.util.*;
  * Created by sebastianlos on 07.04.17.
  */
 public class Trendy {
+    // return a list of 12 averaged, percentage values of currency rate differences for each month
     public static List<Double> checkCurrencyTrendy(List<CurrencyHistoryDayValue> currencyList) {
 
         // set of years for which currency data are available
@@ -23,7 +24,7 @@ public class Trendy {
         }
         // list of averaged difference rates for all months and given years
         List<Double> results = new ArrayList<>();
-        // list of final results of Currency differences for all months and given years in percents
+        // list of final results of currency differences for all months and given years in percents
         List<Double> resultsInPercents = new ArrayList<>();
 
         // sum of all currency rates in given month
@@ -93,6 +94,82 @@ public class Trendy {
         }
         return resultsInPercents;
     }
+
+    // return a list of 12 averaged, percentage values of petrol rate differences for each month
+    public static List<Double> checkFuelTrendy(List<PetrolPrices> petrolList, String kindOfFuel) {
+        // set of years for which petrol data are available
+        Set<Integer> years = new LinkedHashSet<>();
+        // list of averaged petrol rates for each month at given year
+        List<Double> monthAveragePetrolRate = new ArrayList<>();
+        // map of all averaged currency rates for each month at given years
+        Map<Integer,List<Double>> allMonthsAveragePetrolRates = new HashMap<>();
+        // create 12 elements for each month
+        for (int i = 0; i < 12; i++) {
+            List<Double> monthValues = new ArrayList<>();
+            allMonthsAveragePetrolRates.put(i, monthValues);
+        }
+        // list of averaged difference rates for all months and given years
+        List<Double> results = new ArrayList<>();
+        // list of final results of petrol differences for all months and given years in percents
+        List<Double> resultsInPercents = new ArrayList<>();
+
+        // set all available years to list of years
+        for (PetrolPrices obj : petrolList) {
+            years.add(obj.getDate().getYear());
+        }
+
+        // iterate over years
+        for (int year : years) {
+            // iterate over months
+            for (Integer x = 1; x <= 12; x++) {
+                // iterate over all dates(objects)
+                for (PetrolPrices obj : petrolList) {
+                    // check whether given year and month fit to the object date
+                    if (obj.getDate().getYear() == year && obj.getDate().getMonthValue() == x) {
+                        // add another rate
+                        if (kindOfFuel.equalsIgnoreCase("diesel"))
+                            monthAveragePetrolRate.add(obj.getDieselPrice());
+                        else if (kindOfFuel.equalsIgnoreCase("gasolin"))
+                            monthAveragePetrolRate.add(obj.getGasolinePrice());
+                    }
+                }
+            }
+            double minValue = Collections.min(monthAveragePetrolRate);
+            // iterate over all month average petrol rates of given year
+            for (int i = 0; i < monthAveragePetrolRate.size(); i++) {
+                // copy present list to temporary list
+                List<Double> tempList = new ArrayList<>(allMonthsAveragePetrolRates.get(i));
+                // add another values to list
+                tempList.add(monthAveragePetrolRate.get(i) / minValue);
+                // update list
+                allMonthsAveragePetrolRates.put(i,tempList);
+            }
+            monthAveragePetrolRate.clear();
+        }
+        // iterate over all months and merge all values of given month to one
+        for (int i = 0; i < 12; i++) {
+            // copy present list to temporary list
+            List<Double> tempList = allMonthsAveragePetrolRates.get(i);
+
+            Double sum = 0.0;
+            // sum all month's values
+            for (Double d : tempList) {
+                sum += d;
+            }
+            Double result = 0.0;
+            // make average value
+            if (tempList.size() != 0)
+                result = sum / tempList.size();
+            results.add(result);
+        }
+        Double minVal = Collections.min(results);
+        // convert values to percentage form
+        for (Double r : results) {
+            resultsInPercents.add(round((r - minVal) * 100,2));
+        }
+        return resultsInPercents;
+    }
+
     // round value to given number of decimal places
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();

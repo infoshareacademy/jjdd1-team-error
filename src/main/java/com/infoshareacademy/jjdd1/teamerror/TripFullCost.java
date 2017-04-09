@@ -56,7 +56,7 @@ public class TripFullCost {
         this.fuelType = fuelType;
     }
 
-    public static double costCount(TripFullCost tripData){
+    public double costCount(TripFullCost tripData){
         double currencyPriceDate1=0;
         double currencyPriceDate2=0;
         double fuelPriceDate1=0;
@@ -67,7 +67,7 @@ public class TripFullCost {
 
         for(CurrencyHistoryDayValue i : currencyObjectsList)
             System.out.println(i);
-        List<PetrolPrices> petrolObjectsList = FileReader.loadPetrolFiles("iSA-PetrolPrices");
+        List<PetrolPrices> petrolObjectsList = FileReader.loadPetrolFiles(getCountry());
 
         int iterator1=1;
         int iterator2=1;
@@ -107,7 +107,7 @@ public class TripFullCost {
 
         System.out.println(((currencyPriceDate1+currencyPriceDate2)/2) * ((fuelPriceDate1+fuelPriceDate2)/2) * days);
         return ((currencyPriceDate1+currencyPriceDate2)/2) * ((fuelPriceDate1+fuelPriceDate2)/2) * days;
-
     }
+
 
 }
