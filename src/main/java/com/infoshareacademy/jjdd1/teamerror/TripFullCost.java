@@ -28,7 +28,7 @@ public class TripFullCost {
             this.fuelType = fuelType;
         }
         else
-        throw new IllegalArgumentException("Podano błędny rodzaj paliwa");
+        throw new IllegalArgumentException("Given fuel type is incorrect");
     }
 
     public LocalDate getDate1() {
@@ -55,7 +55,7 @@ public class TripFullCost {
         if ("USA".equals(country) || "Croatia".equals(country) || "France".equals(country) || "Honduras".equals(country)) {
             this.country = country;
         } else
-            throw new IllegalArgumentException("Podano nieprawidłowy kraj");
+            throw new IllegalArgumentException("Given country is incorrect");
     }
 
     public String getCurrency() {return currency;}
@@ -64,7 +64,7 @@ public class TripFullCost {
         if ("USD".equals(currency) || "HRK".equals(currency) || "EUR".equals(currency) || "HNL".equals(currency)) {
             this.currency = currency;
         } else
-            throw new IllegalArgumentException("Podano nieprawidłową walutę");
+            throw new IllegalArgumentException("Given currency is incorrect");
     }
 
     public Double getDistance() {return distance;}
