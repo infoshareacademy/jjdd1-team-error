@@ -3,6 +3,7 @@ package com.infoshareacademy.jjdd1.teamerror;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import java.util.Scanner;
 
 import static com.infoshareacademy.jjdd1.teamerror.FileReader.*;
@@ -14,7 +15,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class TerminalMenu {
     public static void main(String[] args) {
 
-        Scanner scan = new Scanner(System.in);
+//        Scanner scan = new Scanner(System.in);
 //        LocalDate dateOne = null;
 //        LocalDate dateTwo = null;
 //        System.out.println(DAYS.between(dateOne, dateTwo));
@@ -45,7 +46,14 @@ public class TerminalMenu {
 //        TripFullCost newTrip = new TripFullCost(localDate1, localDate2, countryName, fuelType);
 //        System.out.println(newTrip.costCount(newTrip));
 
-        Trendy.checkTrendy(loadCurrencyFile("Eur"),loadPetrolFiles("iSA-PetrolPrices"));
+        CurrencyNames.loadCurrencies();
+        for (Map.Entry i : CurrencyNames.currencies.entrySet()) {
+            System.out.println(i.getKey());
+            for (Double month : Trendy.checkCurrencyTrendy(loadCurrencyFile(i.getKey().toString()))) {
+                System.out.println(month);
+            }
+            System.out.println();
+        }
 
 
     }

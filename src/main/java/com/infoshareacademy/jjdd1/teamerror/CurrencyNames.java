@@ -1,6 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +9,7 @@ import java.util.Map;
  */
 public class CurrencyNames {
     // symbols and full names of currencies
-    public static Map<String, String> Currencies = new HashMap<>();
+    public static Map<String, String> currencies = new LinkedHashMap<>();
 
     public static void loadCurrencies() {
 
@@ -22,7 +22,7 @@ public class CurrencyNames {
             parts = lines.get(i).split("\\s{2,}");
             file = parts[parts.length - 2].split("\\.");
 
-            Currencies.put(file[0], parts[parts.length - 1]);
+            currencies.put(file[0], parts[parts.length - 1]);
         }
     }
 }

@@ -43,7 +43,7 @@ public class FileReader {
 
     // delete extracted files
     public static void removeExtractedFiles () {
-        for (Map.Entry currency : CurrencyNames.Currencies.entrySet()) {
+        for (Map.Entry currency : CurrencyNames.currencies.entrySet()) {
             try {
                 Files.delete(Paths.get(PATH_TO_FILES + currency.getKey() + ".txt"));
             } catch (IOException e) {}
