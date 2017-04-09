@@ -86,24 +86,56 @@ public class TripFullCost {
 
         System.out.println(currencyPriceDate1 +" "+currencyPriceDate2);
 
-        for(PetrolPrices o: petrolObjectsList){
-            if(tripData.getDate1().getYear() == o.getDate().getYear() && tripData.getDate1().getMonth() == o.getDate().getMonth()){
-                if(tripData.getFuelType().equals("gasoline")){
-                    fuelPriceDate1 = o.getGasolinePrice();
+        int iterator101=0;
+        int iterator102=0;
+        for(PetrolPrices o: petrolObjectsList) {
+            if (tripData.getFuelType().equals("gasoline")) {
+                if (tripData.getDate1().getMonth() == o.getDate().getMonth()) {
+                    fuelPriceDate1 += o.getGasolinePrice();
+                    iterator101++;
                 }
-                if(tripData.getFuelType().equals("diesel")){
-                    fuelPriceDate1 = o.getDieselPrice();
+                if (tripData.getDate2().getMonth() == o.getDate().getMonth()) {
+                    fuelPriceDate2 += o.getGasolinePrice();
+                    iterator102++;
                 }
             }
-            if(tripData.getDate2().getYear() == o.getDate().getYear() && tripData.getDate2().getMonth() == o.getDate().getMonth()){
-                if(tripData.getFuelType().equals("gasoline")){
-                    fuelPriceDate2 = o.getGasolinePrice();
+            if (tripData.getFuelType().equals("diesel")) {
+                if (tripData.getDate1().getMonth() == o.getDate().getMonth()) {
+                    fuelPriceDate1 += o.getDieselPrice();
+                    iterator101++;
                 }
-                if(tripData.getFuelType().equals("diesel")){
-                    fuelPriceDate2 = o.getDieselPrice();
+                if (tripData.getDate2().getMonth() == o.getDate().getMonth()) {
+                    fuelPriceDate2 += o.getDieselPrice();
+                    iterator102++;
                 }
             }
         }
+        fuelPriceDate1 = fuelPriceDate1/iterator101;
+        fuelPriceDate2 = fuelPriceDate2/iterator102;
+
+           /* if(tripData.getDate1().getMonth() == o.getDate().getMonth()){
+                if(tripData.getFuelType().equals("gasoline")){
+                    fuelPriceDate1 += o.getGasolinePrice();
+                    iterator101++;
+                }
+                if(tripData.getFuelType().equals("diesel")){
+                    fuelPriceDate1 += o.getDieselPrice();
+                    iterator201++;
+                }
+            }
+            if(tripData.getDate2().getMonth() == o.getDate().getMonth()){
+                if(tripData.getFuelType().equals("gasoline")){
+                    fuelPriceDate2 += o.getGasolinePrice();
+                    iterator102++;
+                }
+                if(tripData.getFuelType().equals("diesel")){
+                    fuelPriceDate2 += o.getDieselPrice();
+                    iterator202++;
+                }
+            }
+        }*/
+
+
         System.out.println(fuelPriceDate1 +" "+fuelPriceDate2);
 
         System.out.println(((currencyPriceDate1+currencyPriceDate2)/2) * ((fuelPriceDate1+fuelPriceDate2)/2) * days);
