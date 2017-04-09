@@ -52,8 +52,15 @@ public class TerminalMenu {
                 System.out.println("Wrong value input");
             }
 
-        System.out.println("The trip cost will be aproximately: ");
-        TripFullCost.costCount(cost);
+        System.out.println("State how much fuel your car will burn on average  for 100km: ");
+        try {
+            cost.setFuellUse(input.nextDouble());
+        } catch(InputMismatchException e) {
+            System.out.println("Wrong value input");
+        }
+
+        System.out.println("The trip cost will be approximately: ");
+        cost.costCount(cost);
         //wywołanie metody obliczającej koszt jako argumenty przyjmującej dane z obiektu cost)
 
 
