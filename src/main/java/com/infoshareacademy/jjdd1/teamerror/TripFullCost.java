@@ -108,7 +108,7 @@ public class TripFullCost {
         double days = DAYS.between(tripData.getDate1(), tripData.getDate2());
 
         List<CurrencyHistoryDayValue> currencyObjectsList = FileReader.loadCurrencyFile(tripData.getCurrency());
-        List<PetrolPrices> petrolObjectsList = FileReader.loadPetrolFiles("iSA-PetrolPrices");
+        List<PetrolPrices> petrolObjectsList = FileReader.loadPetrolFiles(tripData.getCountry());
 
         int iterator1=0;
         int iterator2=0;
@@ -125,7 +125,7 @@ public class TripFullCost {
         currencyPriceDate1 = currencyPriceDate1/iterator1;
         currencyPriceDate2 = currencyPriceDate2/iterator2;
 
-        System.out.println(currencyPriceDate1 +" "+currencyPriceDate2);
+        //System.out.println(currencyPriceDate1 +" "+currencyPriceDate2);
 
         int iterator101 = 0;
         int iterator102 = 0;
@@ -155,10 +155,10 @@ public class TripFullCost {
         fuelPriceDate1 = fuelPriceDate1 / iterator101;
         fuelPriceDate2 = fuelPriceDate2 / iterator102;
 
-        System.out.println(fuelPriceDate1 + " " + fuelPriceDate2);
+        //System.out.println(fuelPriceDate1 + " " + fuelPriceDate2);
 
-        System.out.println(((currencyPriceDate1 + currencyPriceDate2) / 2) * ((fuelPriceDate1 + fuelPriceDate2) / 2) * (tripData.getDistance() / 100) * tripData.getFuelUsage());
-        return ((currencyPriceDate1 + currencyPriceDate2) / 2) * ((fuelPriceDate1 + fuelPriceDate2) / 2) * (tripData.getDistance() / 100) * tripData.getFuelUsage();
+        return Trendy.round (((currencyPriceDate1 + currencyPriceDate2) / 2) *
+                ((fuelPriceDate1 + fuelPriceDate2) / 2) * (tripData.getDistance() / 100) * tripData.getFuelUsage(), 2);
     }
 
 }
