@@ -1,5 +1,7 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import com.sun.org.apache.xerces.internal.impl.dv.DatatypeException;
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
@@ -13,10 +15,10 @@ import static java.time.temporal.ChronoUnit.DAYS;
  */
 public class TripFullCost {
 
-    LocalDate date1, date2;
-    String country, currency;
-    String fuelType;
-    double distance, fuelUsage;
+    private LocalDate date1, date2;
+    private String country, currency;
+    private String fuelType;
+    private double distance, fuelUsage;
 
     public String getFuelType() {
         return fuelType;
@@ -52,7 +54,10 @@ public class TripFullCost {
     }
 
     public void setDate2(LocalDate date2) {
-        this.date2 = date2;
+        if (date2.isBefore(date1)) {
+            throw new IllegalArgumentException("Date of return must be after date of departue");
+        } else
+            this.date2 = date2;
     }
 
     public String getCountry() {

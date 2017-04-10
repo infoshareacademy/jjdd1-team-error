@@ -82,7 +82,7 @@ public class TerminalMenu {
                     System.out.println("Given date format is incorrect.");
                     badAnswerDate1++;
                 }
-            }
+        }
 
 
         int badAnswerDate2 = 1;
@@ -93,8 +93,11 @@ public class TerminalMenu {
                 } catch (DateTimeException e) {
                     System.out.println("Given date format is incorrect.");
                     badAnswerDate2++;
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Date of return must be after date of departue");
+                    badAnswerDate2++;
                 }
-            }
+        }
 
         int badAnswerCountry = 1;
         for (int i = 0; i < badAnswerCountry; i++) {
