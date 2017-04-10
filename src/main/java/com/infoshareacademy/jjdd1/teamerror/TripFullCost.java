@@ -56,7 +56,7 @@ public class TripFullCost {
     //data check added to standard SET method
     void setDate2(LocalDate date2) {
         if (date2.isBefore(date1)) {
-            throw new IllegalArgumentException("Date of return must be after date of departue");
+            throw new IllegalArgumentException("Date of return must be after date of departure");
         } else
             this.date2 = date2;
     }
