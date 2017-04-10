@@ -16,6 +16,8 @@ import java.util.List;
 public class FileReader {
 
     public static final String PATH_TO_FILES = "src/main/resources/files/";
+    public static final String PETROL_FILE_NAME = "iSA-PetrolPrices.csv";
+    public static final String ZIP_CURRENCY_FILE = "omeganbp.zip";
 
     // load file's content
     public static List<String> loadContent(String path) {
@@ -43,7 +45,7 @@ public class FileReader {
 
     // delete extracted files
     public static void removeExtractedFiles () {
-        for (Map.Entry currency : CurrencyNames.Currencies.entrySet()) {
+        for (Map.Entry currency : CurrencyNames.currencies.entrySet()) {
             try {
                 Files.delete(Paths.get(PATH_TO_FILES + currency.getKey() + ".txt"));
             } catch (IOException e) {}
@@ -52,25 +54,22 @@ public class FileReader {
 
 
     // create path
-    public static String createPath(String fileName, String extension) {
-        return PATH_TO_FILES + fileName + extension;
+    public static String createPath(String fileName) {
+        return PATH_TO_FILES + fileName + ".txt";
     }
 
     // do all
     public static List<CurrencyHistoryDayValue> loadCurrencyFile (String symbol) {
         CurrencyNames.loadCurrencies();
-        unzipFile(PATH_TO_FILES + "omeganbp.zip", PATH_TO_FILES);
-        String path = createPath(symbol, ".txt");
+        unzipFile(PATH_TO_FILES + ZIP_CURRENCY_FILE, PATH_TO_FILES);
+        String path = createPath(symbol);
         List<CurrencyHistoryDayValue> result = CurrencyFileFilter.putCurrencyFileContentToClass(loadContent(path));
         removeExtractedFiles();
         return result;
     }
 
     // do all
-    public static List<PetrolPrices> loadPetrolFiles (String fileName) {
-        String path = createPath(fileName, ".csv");
-        return PetrolFileFilter.putPetrolFileContentToClass(loadContent(path));
+    public static List<PetrolPrices> loadPetrolFiles (String country) {
+        return PetrolFileFilter.putPetrolFileContentToClass(loadContent(PATH_TO_FILES + PETROL_FILE_NAME), country);
     }
-
-
 }
