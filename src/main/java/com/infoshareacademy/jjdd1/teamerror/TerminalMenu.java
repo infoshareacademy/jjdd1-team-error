@@ -170,7 +170,7 @@ public class TerminalMenu {
         System.out.println("The cost of a car abroad during departure for given values will be: ");
         //wywołanie metody obliczającej koszt jako argumenty przyjmującej dane z obiektu cost)
         //FullCost.calculatePrice();
-        System.out.println("------------------------------------------------------------------------------");
+        System.out.println(cost.costCount(cost));
     }
 }
 

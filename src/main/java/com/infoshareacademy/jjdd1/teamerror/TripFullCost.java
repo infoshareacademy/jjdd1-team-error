@@ -16,15 +16,7 @@ public class TripFullCost {
     LocalDate date1, date2;
     String country, currency;
     String fuelType;
-    double distance, fuellUse;
-
-    public double getFuellUse() {
-        return fuellUse;
-    }
-
-    public void setFuellUse(double fuellUse) {
-        this.fuellUse = fuellUse;
-    }
+    double distance, fuelUsage;
 
     public String getFuelType() {
         return fuelType;
@@ -87,6 +79,11 @@ public class TripFullCost {
 
     public void setDistance(Double distance) {this.distance = distance;}
 
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
     public TripFullCost(LocalDate date1, LocalDate date2, String country, String currency, String fuelType, Double fuelUsage, Double distance){
         this.date1 = date1;
         this.date2 = date2;
@@ -100,7 +97,6 @@ public class TripFullCost {
     public TripFullCost() {
 
     }
-
 
     public double costCount(TripFullCost tripData) {
         double currencyPriceDate1 = 0;
@@ -162,23 +158,9 @@ public class TripFullCost {
 
         System.out.println(fuelPriceDate1 + " " + fuelPriceDate2);
 
-        System.out.println(((currencyPriceDate1 + currencyPriceDate2) / 2) * ((fuelPriceDate1 + fuelPriceDate2) / 2) * (tripData.getDistance() / 100) * tripData.getFuellUse());
-        return ((currencyPriceDate1 + currencyPriceDate2) / 2) * ((fuelPriceDate1 + fuelPriceDate2) / 2) * (tripData.getDistance() / 100) * tripData.getFuellUse();
+        System.out.println(((currencyPriceDate1 + currencyPriceDate2) / 2) * ((fuelPriceDate1 + fuelPriceDate2) / 2) * (tripData.getDistance() / 100) * tripData.getFuelUsage());
+        return ((currencyPriceDate1 + currencyPriceDate2) / 2) * ((fuelPriceDate1 + fuelPriceDate2) / 2) * (tripData.getDistance() / 100) * tripData.getFuelUsage();
     }
 
-    public void setDistance(double distance) {
-        this.distance = distance;
-    }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public double getDistance(){
-        return distance;
-    }
 }
