@@ -110,7 +110,7 @@ public class TerminalMenu {
         int badAnswerCurrency = 1;
         for (int i = 0; i < badAnswerCurrency; i++) {
             System.out.println("Enter currency of the selected country (e.g. HRK, USD, EUR): ");
-            String currency = input.nextLine();
+            String currency = input.nextLine().toUpperCase();
             if (CurrencyNames.loadCurrencies().containsKey(currency)) {
                 cost.setCurrency(currency) ;
             } else {
@@ -168,7 +168,7 @@ public class TerminalMenu {
         //wywołanie metody obliczającej koszt jako argumenty przyjmującej dane z obiektu cost)
         //FullCost.calculatePrice();
         // print differences in currencies and fuel rates in each month and the best time for cheap travel
-        //Trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
+        Trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
         System.out.println(cost.costCount(cost));
     }
 }
