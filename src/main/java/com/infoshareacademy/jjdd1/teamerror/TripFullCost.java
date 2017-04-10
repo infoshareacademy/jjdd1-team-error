@@ -148,9 +148,6 @@ public class TripFullCost {
                     fuelPriceDate2 += o.getDieselPrice();
                     iterator102++;
                 }
-                if(tripData.getFuelType().equals("diesel")){
-                    fuelPriceDate2 = o.getDieselPrice();
-                }
             }
         }
         fuelPriceDate1 = fuelPriceDate1 / iterator101;
