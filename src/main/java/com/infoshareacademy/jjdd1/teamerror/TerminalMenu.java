@@ -98,10 +98,10 @@ public class TerminalMenu {
 
         int badAnswerCountry = 1;
         for (int i = 0; i < badAnswerCountry; i++) {
-            System.out.println("Enter a country of the trip (Honduras, Croatia, USA, France): ");
+            System.out.println("Enter a country of the trip (Croatia, USA, France): ");
             String country = input.nextLine();
             if ("USA".equals(country) || "Croatia".equals(country)  ||
-                    "France".equals(country)  || "Honduras".equals(country))
+                    "France".equals(country))
             cost.setCountry(country);
             else {
                 System.out.println("Given country is incorrect.");
@@ -111,10 +111,10 @@ public class TerminalMenu {
 
         int badAnswerCurrency = 1;
         for (int i = 0; i < badAnswerCurrency; i++) {
-            System.out.println("Enter currency of the selected country (HNL, HRK, USD, EUR): ");
+            System.out.println("Enter currency of the selected country (HRK, USD, EUR): ");
             String currency = input.nextLine();
             if ("USD".equals(currency) || "HRK".equals(currency)  ||
-                    "EUR".equals(currency)  || "HNL".equals(currency)) {
+                    "EUR".equals(currency)) {
                 cost.setCurrency(currency) ;
             } else {
                 System.out.println("Given currency is incorrect.");

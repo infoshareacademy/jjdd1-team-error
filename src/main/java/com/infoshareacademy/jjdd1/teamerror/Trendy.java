@@ -108,7 +108,7 @@ public class Trendy {
                         // add another rate
                         if (kindOfFuel.equalsIgnoreCase("diesel"))
                             monthAveragePetrolRate.add(obj.getDieselPrice());
-                        else if (kindOfFuel.equalsIgnoreCase("gasolin"))
+                        else if (kindOfFuel.equalsIgnoreCase("gasoline"))
                             monthAveragePetrolRate.add(obj.getGasolinePrice());
                     }
                 }

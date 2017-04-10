@@ -23,11 +23,7 @@ public class TripFullCost {
     }
 
     public void setFuelType(String fuelType) {
-        if("diesel".equals(fuelType) || "gasoline".equals(fuelType)) {
-            this.fuelType = fuelType;
-        }
-        else
-            throw new IllegalArgumentException("Given fuel type is incorrect");
+        this.fuelType = fuelType;
     }
 
     public Double getFuelUsage() {
@@ -37,7 +33,6 @@ public class TripFullCost {
     public void setFuelUsage(Double fuelUsage) {
         this.fuelUsage = fuelUsage;
     }
-
 
     public LocalDate getDate1() {
         return date1;
@@ -60,22 +55,20 @@ public class TripFullCost {
     }
 
     public void setCountry(String country) {
-        if ("USA".equals(country) || "Croatia".equals(country) || "France".equals(country) || "Honduras".equals(country)) {
-            this.country = country;
-        } else
-            throw new IllegalArgumentException("Given country is incorrect");
+        this.country = country;
     }
 
-    public String getCurrency() {return currency;}
+    public String getCurrency() {
+        return currency;
+    }
 
     public void setCurrency(String currency) {
-        if ("USD".equals(currency) || "HRK".equals(currency) || "EUR".equals(currency) || "HNL".equals(currency)) {
-            this.currency = currency;
-        } else
-            throw new IllegalArgumentException("Given currency is incorrect");
+        this.currency = currency;
     }
 
-    public Double getDistance() {return distance;}
+    public Double getDistance() {
+        return distance;
+    }
 
     public void setDistance(Double distance) {this.distance = distance;}
 
@@ -158,6 +151,5 @@ public class TripFullCost {
         System.out.println(((currencyPriceDate1 + currencyPriceDate2) / 2) * ((fuelPriceDate1 + fuelPriceDate2) / 2) * (tripData.getDistance() / 100) * tripData.getFuelUsage());
         return ((currencyPriceDate1 + currencyPriceDate2) / 2) * ((fuelPriceDate1 + fuelPriceDate2) / 2) * (tripData.getDistance() / 100) * tripData.getFuelUsage();
     }
-
 
 }
