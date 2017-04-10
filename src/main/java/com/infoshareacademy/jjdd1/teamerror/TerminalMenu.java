@@ -55,7 +55,7 @@ public class TerminalMenu {
         int badAnswerFuelType = 1;
         for (int i = 0; i < badAnswerFuelType; i++) {
             System.out.println("Enter fuel type (gasoline, diesel): ");
-            String fuelType = input.nextLine();
+            String fuelType = input.nextLine().toLowerCase();
             if ("diesel".equals(fuelType) || "gasoline".equals(fuelType)) {
                 cost.setFuelType(fuelType);
             } else {
