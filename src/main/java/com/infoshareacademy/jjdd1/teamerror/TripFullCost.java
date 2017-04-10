@@ -20,11 +20,11 @@ public class TripFullCost {
     private String fuelType;
     private double distance, fuelUsage;
 
-    public String getFuelType() {
+    String getFuelType() {
         return fuelType;
     }
 
-    public void setFuelType(String fuelType) {
+    void setFuelType(String fuelType) {
         if("diesel".equals(fuelType) || "gasoline".equals(fuelType)) {
             this.fuelType = fuelType;
         }
@@ -32,72 +32,59 @@ public class TripFullCost {
             throw new IllegalArgumentException("Given fuel type is incorrect");
     }
 
-    public Double getFuelUsage() {
+    Double getFuelUsage() {
         return fuelUsage;
     }
 
-    public void setFuelUsage(Double fuelUsage) {
+    void setFuelUsage(Double fuelUsage) {
         this.fuelUsage = fuelUsage;
     }
 
 
-    public LocalDate getDate1() {
+    LocalDate getDate1() {
         return date1;
     }
 
-    public void setDate1(LocalDate date1) {
+    void setDate1(LocalDate date1) {
         this.date1 = date1;
     }
 
-    public LocalDate getDate2() {
+    LocalDate getDate2() {
         return date2;
     }
 
-    public void setDate2(LocalDate date2) {
+    void setDate2(LocalDate date2) {
         if (date2.isBefore(date1)) {
             throw new IllegalArgumentException("Date of return must be after date of departue");
         } else
             this.date2 = date2;
     }
 
-    public String getCountry() {
+    String getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    void setCountry(String country) {
         if ("USA".equals(country) || "Croatia".equals(country) || "France".equals(country) || "Honduras".equals(country)) {
             this.country = country;
         } else
             throw new IllegalArgumentException("Given country is incorrect");
     }
 
-    public String getCurrency() {return currency;}
+    String getCurrency() {return currency;}
 
-    public void setCurrency(String currency) {
+    void setCurrency(String currency) {
         if ("USD".equals(currency) || "HRK".equals(currency) || "EUR".equals(currency) || "HNL".equals(currency)) {
             this.currency = currency;
         } else
             throw new IllegalArgumentException("Given currency is incorrect");
     }
 
-    public Double getDistance() {
+    Double getDistance() {
         return distance;
     }
 
-    public void setDistance(Double distance) {this.distance = distance;}
-
-
-    public void setDistance(double distance) {
-        this.distance = distance;
-    }
-
-    public TripFullCost(LocalDate date1, LocalDate date2, String country, String currency, String fuelType, Double fuelUsage, Double distance){
-        this.date1 = date1;
-        this.date2 = date2;
-        this.country = country;
-        this.currency = currency;
-        this.fuelType = fuelType;
-        this.fuelUsage = fuelUsage;
+    void setDistance(double distance) {
         this.distance = distance;
     }
 
