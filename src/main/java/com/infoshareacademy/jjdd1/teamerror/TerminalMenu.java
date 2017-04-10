@@ -170,16 +170,8 @@ public class TerminalMenu {
         System.out.println("The cost of a car abroad during departure for given values will be: ");
         //wywołanie metody obliczającej koszt jako argumenty przyjmującej dane z obiektu cost)
         //FullCost.calculatePrice();
+        // print differences in currencies and fuel rates in each month and the best time for cheap travel
+        Trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
         System.out.println(cost.costCount(cost));
     }
 }
-
-
-
-
-
-
-
-
-
-
