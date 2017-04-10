@@ -3,9 +3,12 @@ package com.infoshareacademy.jjdd1.teamerror;
 import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.time.LocalDate;
+import java.util.zip.DataFormatException;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 /**
@@ -73,19 +76,30 @@ public class TerminalMenu {
         for (int i = 0; i < badAnswerDate1; i++) {
             System.out.println("Enter a date of departure in the format YYYYMMDD: ");
                 try {
-                    cost.setDate1(LocalDate.parse(input.nextLine(), DateTimeFormatter.ofPattern("yyyyMMdd")));
+                    String date = input.nextLine();
+                    cost.setDate1(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyyMMdd")));
+                    int check = Integer.parseInt(date.substring(6));
+                    if(check!=cost.getDate1().getDayOfMonth()){
+                        System.out.println("Wrong number of days");
+                        badAnswerDate1++;
+                    }
                 } catch (DateTimeException e) {
                     System.out.println("Given date format is incorrect.");
                     badAnswerDate1++;
                 }
         }
 
-
         int badAnswerDate2 = 1;
         for (int i = 0; i < badAnswerDate2; i++) {
             System.out.println("Enter a date of return in the format YYYYMMDD: ");
                 try {
-                        cost.setDate2(LocalDate.parse(input.nextLine(), DateTimeFormatter.ofPattern("yyyyMMdd")));
+                    String date = input.nextLine();
+                    cost.setDate2(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyyMMdd")));
+                    int check = Integer.parseInt(date.substring(6));
+                    if(check!=cost.getDate2().getDayOfMonth()){
+                        System.out.println("Wrong number of days");
+                        badAnswerDate2++;
+                    }
                 } catch (DateTimeException e) {
                     System.out.println("Given date format is incorrect.");
                     badAnswerDate2++;
