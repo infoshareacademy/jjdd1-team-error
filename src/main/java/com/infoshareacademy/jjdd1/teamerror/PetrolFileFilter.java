@@ -1,7 +1,9 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by sebastianlos on 06.04.17.
@@ -9,10 +11,10 @@ import java.util.List;
 public class PetrolFileFilter {
 
     // divide content of Currency File and put this information as objects
-    public static List<PetrolPrices> putPetrolFileContentToClass(List<String> lines, String country) {
+    static List<PetrolPrices> putPetrolFileContentToClass(List<String> lines, String country) {
 
         // single elements of given line as object
-        List<PetrolPrices> PetrolPrices = new ArrayList<>();
+        List<PetrolPrices> petrolPrices = new ArrayList<>();
         String[] parts;
 
         // iterate over all lines
@@ -27,13 +29,29 @@ public class PetrolFileFilter {
                 value.setGasolinePrice(Double.parseDouble(changeComaToPoint(parts[4])));
                 value.setDieselPrice(Double.parseDouble(changeComaToPoint(parts[5])));
 
-                PetrolPrices.add(value);
+                petrolPrices.add(value);
             }
         }
-        return PetrolPrices;
+        return petrolPrices;
     }
 
-    public static String changeComaToPoint(String price) {
+    static Set<String> loadAvailableCountries() {
+
+        List<String> lines = FileReader.loadContent(FileReader.PATH_TO_FILES + FileReader.PETROL_FILE_NAME);
+        // single elements of given line as object
+        Set<String> countries = new LinkedHashSet<>();
+        String[] parts;
+
+        // iterate over all lines
+        for (int i = 1; i < lines.size(); i++) {
+            parts = lines.get(i).split(";");
+            // read only countries
+            countries.add(parts[0]);
+        }
+        return countries;
+    }
+
+    private static String changeComaToPoint(String price) {
         return price.replace(',','.');
     }
 

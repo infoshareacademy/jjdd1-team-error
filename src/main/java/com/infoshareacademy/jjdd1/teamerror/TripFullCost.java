@@ -67,7 +67,7 @@ public class TripFullCost {
 
     //data check added to standard SET method
     void setCountry(String country) {
-        if ("USA".equals(country) || "Croatia".equals(country) || "France".equals(country) || "Honduras".equals(country)) {
+        if (PetrolFileFilter.loadAvailableCountries().contains(country)) {
             this.country = country;
         } else
             throw new IllegalArgumentException("Given country is incorrect");
@@ -77,7 +77,7 @@ public class TripFullCost {
 
     //data check added to standard SET method
     void setCurrency(String currency) {
-        if ("USD".equals(currency) || "HRK".equals(currency) || "EUR".equals(currency) || "HNL".equals(currency)) {
+        if (CurrencyNames.loadCurrencies().containsKey(currency)) {
             this.currency = currency;
         } else
             throw new IllegalArgumentException("Given currency is incorrect");
