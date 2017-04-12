@@ -5,6 +5,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.infoshareacademy.jjdd1.teamerror.CurrencyNames.currencies;
+
 /**
  * Created by sebastianlos on 06.04.17.
  */
@@ -50,6 +52,21 @@ public class PetrolFileFilter {
         }
         return countries;
     }
+
+    static Set<String> loadAvailableCurrency() {
+
+        List<String> lines = FileReader.loadContent(FileReader.PATH_TO_FILES + FileReader.PATH_TO_FILES);
+        // single elements of ginven line as object
+        Set<String> countries = new LinkedHashSet<>();
+
+        // iterate over all lines
+        for (int i = 1; i < lines.size(); i++) {
+            parts = lines.get(i).split(";");
+            // read only currencies
+            currencies.add(parts[3]);)
+        }
+    }
+
 
     private static String changeComaToPoint(String price) {
         return price.replace(',','.');
