@@ -47,15 +47,15 @@ public class TerminalMenu {
 
         int badAnswerCurrency = 1;
         for (int i = 0; i < badAnswerCurrency; i++) {
-           LOGGER.info("Enter currency of the selected country (e.g. HRK, USD, EUR): ");
+            System.out.println("Enter currency of the selected country (e.g. HRK, USD, EUR): ");
             String currency = input.nextLine().toUpperCase();
-            if (CurrencyNames.loadCurrencies().containsKey(currency)) {
-                cost.setCurrency(currency) ;
-            } else {
-                LOGGER.error("Given currency is incorrect.");
-                badAnswerCurrency++;
-            }
-        }
+            try {
+                CurrencyNames.loadCurrencies().containsKey(currency);
+                cost.setCurrency(currency);
+            } catch (Exception e) {
+                LOGGER.error("Currency [{}{}] is not accepted", currency);
+//                System.out.println("Given currency is incorrect.");
+                badAnswerCurrency++;    }}
 
         int badAnswerFuelType = 1;
         for (int i = 0; i < badAnswerFuelType; i++) {
