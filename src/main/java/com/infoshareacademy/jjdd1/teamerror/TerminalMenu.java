@@ -194,6 +194,6 @@ public class TerminalMenu {
         //wywołanie metody obliczającej koszt jako argumenty przyjmującej dane z obiektu cost)
         //FullCost.calculatePrice();
 
-        System.out.println(cost.costCount(cost));
+        System.out.println(cost.costCount(cost) + "PLN");
     }
 }
