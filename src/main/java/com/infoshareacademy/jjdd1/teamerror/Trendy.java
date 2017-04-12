@@ -14,6 +14,7 @@ public class Trendy {
 
         // set of years for which currency data are available
         Set<Integer> years = new LinkedHashSet<>();
+        currencyList.forEach(year -> years.add(year.getDate().getYear()));
         // list of averaged currency rates for each month at given year
         List<Double> monthAverageCurrencyRate = new ArrayList<>();
         // map of all averaged currency rates for each month at given years
@@ -29,10 +30,6 @@ public class Trendy {
         // number of days in month
         int dayCount = 0;
 
-        // set all available years to list of years
-        for (CurrencyHistoryDayValue obj : currencyList) {
-            years.add(obj.getDate().getYear());
-        }
 
         // iterate over years
         for (int year : years) {
