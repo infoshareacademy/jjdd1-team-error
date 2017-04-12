@@ -2,15 +2,16 @@ package com.infoshareacademy.jjdd1.teamerror;
 
 import java.text.DateFormatSymbols;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.Year;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by sebastianlos on 07.04.17.
  */
 public class Trendy {
     // return a list of 12 averaged, percentage values of currency rate differences for each month
-    public static List<Double> checkCurrencyTrendy(List<CurrencyHistoryDayValue> currencyList) {
+    public List<Double> checkCurrencyTrendy(List<CurrencyHistoryDayValue> currencyList) {
 
         // set of years for which currency data are available
         Set<Integer> years = new LinkedHashSet<>();
@@ -30,6 +31,12 @@ public class Trendy {
         // number of days in month
         int dayCount = 0;
 
+//        Map<LocalDate, Double> averageCloseValueByMonth = currencyList.stream()
+//                .collect(Collectors.groupingBy(CurrencyHistoryDayValue::getBeginOfMonth, Collectors.averagingDouble(CurrencyHistoryDayValue::getClose)));
+//        Map<Integer, Double> minAverageCloseValueByYear =  averageCloseValueByMonth.entrySet().stream()
+//                .collect(Collectors.groupingBy(Map.Entry::getKey, Collectors.minBy(Map.Entry::getValue)));
+
+//        System.out.println(averageCloseValueByMonth);
 
         // iterate over years
         for (int year : years) {
@@ -65,6 +72,8 @@ public class Trendy {
             }
             monthAverageCurrencyRate.clear();
         }
+
+        System.out.println(allMonthsAverageCurrencyRates);
 
         return convertSingleValuesToPercentageVlues(allMonthsAverageCurrencyRates);
     }
@@ -168,7 +177,7 @@ public class Trendy {
     }
 
     // print differences in currencies and fuel rates in each month and the best time for cheap travel
-    public static void optimalTimeForTrip(String currencySymbol, String fuelType, String country) {
+    public  void optimalTimeForTrip(String currencySymbol, String fuelType, String country) {
         // list of percentage values of currency rates difference for each month
         List<Double> currencyList = checkCurrencyTrendy(FileReader.loadCurrencyFile(currencySymbol));
         // list of percentage values of petrol rates difference for each month

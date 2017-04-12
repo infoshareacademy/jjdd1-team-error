@@ -92,7 +92,7 @@ public class TerminalMenu {
                         System.out.println("------------------------------------");
                         System.out.println("OPTIMAL TIME FOR TRAVEL ANALYSIS");
                         System.out.println("------------------------------------");
-                        Trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
+                        new Trendy().optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
                         badAnswerSelection++;
                         break;
                     }

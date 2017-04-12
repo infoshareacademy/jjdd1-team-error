@@ -1,6 +1,8 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
 
 /**
  * Created by krystianskrzyszewski on 05.04.17.
@@ -78,4 +80,10 @@ public class CurrencyHistoryDayValue {
                 ", volume=" + volume +
                 '}';
     }
+
+
+    public LocalDate getBeginOfMonth() {
+        return getDate().withDayOfMonth(1);
+    }
+
 }
