@@ -1,5 +1,8 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.format.DateTimeFormatter;
@@ -8,6 +11,7 @@ import java.util.GregorianCalendar;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.time.LocalDate;
+
 import java.util.zip.DataFormatException;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -16,6 +20,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
  */
 public class TerminalMenu {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TerminalMenu.class);
 
     public static void main(String[] arg) {
         menu();
@@ -30,36 +35,36 @@ public class TerminalMenu {
 
         int badAnswerCountry = 1;
         for (int i = 0; i < badAnswerCountry; i++) {
-            System.out.println("Enter a country of the trip (e.g. Croatia, USA, France): ");
+            LOGGER.info("Enter a country of the trip (e.g. Croatia, USA, France): ");
             String country = input.nextLine();
             if (PetrolFileFilter.loadAvailableCountries().contains(country))
                 cost.setCountry(country);
             else {
-                System.out.println("Given country is incorrect.");
+                LOGGER.error("Given country is incorrect.");
                 badAnswerCountry++;
             }
         }
 
         int badAnswerCurrency = 1;
         for (int i = 0; i < badAnswerCurrency; i++) {
-            System.out.println("Enter currency of the selected country (e.g. HRK, USD, EUR): ");
+           LOGGER.info("Enter currency of the selected country (e.g. HRK, USD, EUR): ");
             String currency = input.nextLine().toUpperCase();
             if (CurrencyNames.loadCurrencies().containsKey(currency)) {
                 cost.setCurrency(currency) ;
             } else {
-                System.out.println("Given currency is incorrect.");
+                LOGGER.error("Given currency is incorrect.");
                 badAnswerCurrency++;
             }
         }
 
         int badAnswerFuelType = 1;
         for (int i = 0; i < badAnswerFuelType; i++) {
-            System.out.println("Enter fuel type (gasoline, diesel): ");
+            LOGGER.info("Enter fuel type (gasoline, diesel): ");
             String fuelType = input.nextLine().toLowerCase();
             if ("diesel".equals(fuelType) || "gasoline".equals(fuelType)) {
                 cost.setFuelType(fuelType);
             } else {
-                System.out.println("Given fuel type is incorrect");
+                LOGGER.error("Given fuel type is incorrect");
                 badAnswerFuelType++;
             }
         }
