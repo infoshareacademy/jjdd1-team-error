@@ -84,7 +84,7 @@ public class TripFullCost {
         if (CurrencyNames.loadCurrencies().containsKey(currency)) {
             this.currency = currency;
         } else{
-            LOGGER.error("Currency [{}{}] is not accepted", currency);
+            LOGGER.error("Currency [{}] is not accepted", currency);
             throw new Exception("Given currency is incorrect");
         }
     }
