@@ -1,14 +1,15 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
 import com.sun.org.apache.xerces.internal.impl.dv.DatatypeException;
-//import org.apache.log4j.LogManager;
-//import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.LogManager;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -21,7 +22,7 @@ public class TripFullCost {
     private String country, currency;
     private String fuelType;
     private double distance, fuelUsage;
-//    private static final Logger LOGGER = LogManager.getLogger(TripFullCost.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TripFullCost.class);
 
     String getFuelType() {
         return fuelType;
@@ -79,11 +80,13 @@ public class TripFullCost {
     String getCurrency() {return currency;}
 
     //data check added to standard SET method
-    void setCurrency(String currency) {
+    void setCurrency(String currency) throws Exception {
         if (CurrencyNames.loadCurrencies().containsKey(currency)) {
             this.currency = currency;
-        } else
-            throw new IllegalArgumentException("Given currency is incorrect");
+        } else{
+            LOGGER.error("Currency [{}{}] is not accepted", currency);
+            throw new Exception("Given currency is incorrect");
+        }
     }
 
     Double getDistance() {
