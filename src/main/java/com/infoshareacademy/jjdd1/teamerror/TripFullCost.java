@@ -1,6 +1,8 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
 import com.sun.org.apache.xerces.internal.impl.dv.DatatypeException;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -19,6 +21,7 @@ public class TripFullCost {
     private String country, currency;
     private String fuelType;
     private double distance, fuelUsage;
+    private static final Logger LOGGER = LogManager.getLogger(TripFullCost.class);
 
     String getFuelType() {
         return fuelType;
