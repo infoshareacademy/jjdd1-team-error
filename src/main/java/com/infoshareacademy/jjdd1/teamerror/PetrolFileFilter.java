@@ -38,6 +38,7 @@ public class PetrolFileFilter {
     static Set<String> loadAvailableCountries() {
 
         List<String> lines = FileReader.loadContent(FileReader.PATH_TO_FILES + FileReader.PETROL_FILE_NAME);
+
         // single elements of given line as object
         Set<String> countries = new LinkedHashSet<>();
         String[] parts;

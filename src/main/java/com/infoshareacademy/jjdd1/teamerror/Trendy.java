@@ -1,14 +1,17 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.DateFormatSymbols;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
  * Created by sebastianlos on 07.04.17.
  */
 public class Trendy {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Trendy.class);
     // return a list of 12 averaged, percentage values of currency rate differences for each month
     public static List<Double> checkCurrencyTrendy(List<CurrencyHistoryDayValue> currencyList) {
 
@@ -64,9 +67,10 @@ public class Trendy {
                 allMonthsAverageCurrencyRates.put(i,tempList);
             }
             monthAverageCurrencyRate.clear();
+            LOGGER.debug("List of all average month values of currency in {} generated", year);
         }
 
-        return convertSingleValuesToPercentageVlues(allMonthsAverageCurrencyRates);
+        return convertSingleValuesToPercentageValues(allMonthsAverageCurrencyRates);
     }
 
 
@@ -121,13 +125,14 @@ public class Trendy {
                 allMonthsAveragePetrolRates.put(i,tempList);
             }
             monthAveragePetrolRate.clear();
+            LOGGER.debug("List of all average month values of currency in {} generated", year);
         }
 
-        return convertSingleValuesToPercentageVlues(allMonthsAveragePetrolRates);
+        return convertSingleValuesToPercentageValues(allMonthsAveragePetrolRates);
     }
 
     // convert map of all valuse of months for each given years to list of single percentage averaged values for each month
-    private static List<Double> convertSingleValuesToPercentageVlues(Map<Integer,List<Double>> allMonthsAverageRates) {
+    private static List<Double> convertSingleValuesToPercentageValues(Map<Integer,List<Double>> allMonthsAverageRates) {
         // list of final results of currency/petrol differences for all months and given years in percents
         List<Double> resultsInPercents = new ArrayList<>();
         // list of averaged difference rates for all months and given years
@@ -154,6 +159,7 @@ public class Trendy {
         for (Double r : results) {
             resultsInPercents.add(round((r - minVal) * 100,2));
         }
+        LOGGER.info("Trendy for petrol/currency successfully generated");
         return resultsInPercents;
     }
 
@@ -168,37 +174,40 @@ public class Trendy {
     }
 
     // print differences in currencies and fuel rates in each month and the best time for cheap travel
-    public static void optimalTimeForTrip(String currencySymbol, String fuelType, String country) {
+    public static String optimalTimeForTrip(String currencySymbol, String fuelType, String country) {
         // list of percentage values of currency rates difference for each month
         List<Double> currencyList = checkCurrencyTrendy(FileReader.loadCurrencyFile(currencySymbol));
         // list of percentage values of petrol rates difference for each month
         List<Double> petrolList = checkFuelTrendy(FileReader.loadPetrolFiles(country), fuelType);
         Double sum = null;
-        int result = 0;
+        int numberOfMonthWithOptimalRates = 0;
+        String returnStatement = "";
         DateFormatSymbols symbols = new DateFormatSymbols(Locale.US);
-        System.out.println("Optimal time for trip analysis: \n");
+        returnStatement += "Optimal time for trip analysis: \n\n";
         // iterate over all months
         for (int i = 0; i < 12; i++) {
             // determine the lowest sum of currency and petrol percentage rates
             if (sum == null || (currencyList.get(i) + petrolList.get(i)) < sum) {
                 sum = (currencyList.get(i) + petrolList.get(i));
-                result = i;
+                numberOfMonthWithOptimalRates = i;
             }
-            System.out.println("Rates in " + symbols.getMonths()[i] + " are usualy as follows:");
+            returnStatement += symbols.getMonths()[i].toUpperCase() + "\n";
             if (currencyList.get(i).equals(0.0)) {
-                System.out.print("Currency --> THE LOWEST \t\t");
+                returnStatement += "Currency --> THE LOWEST \t\t";
             }
             else {
-                System.out.print("Currency --> " + currencyList.get(i) + "% higher \t\t");
+                returnStatement += "Currency --> " + currencyList.get(i) + "% higher \t\t";
             }
             if (petrolList.get(i).equals(0.0)) {
-                System.out.println("Petrol --> THE LOWEST \t\t");
+                returnStatement += "Petrol --> THE LOWEST \n";
             }
             else {
-                System.out.println("Petrol --> " + petrolList.get(i) + "% higher. \t\t");
+                returnStatement += "Petrol --> " + petrolList.get(i) + "% higher. \n";
             }
-            System.out.println();
+            returnStatement += "\n";
         }
-        System.out.println("The best time for cheap travel is in: " + symbols.getMonths()[result].toUpperCase());
+        returnStatement += "The best time for cheap travel is in: " + symbols.getMonths()[numberOfMonthWithOptimalRates].toUpperCase();
+        return returnStatement;
     }
+
 }
