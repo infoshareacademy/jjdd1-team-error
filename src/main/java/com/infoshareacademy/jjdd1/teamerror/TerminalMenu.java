@@ -1,5 +1,8 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.format.DateTimeFormatter;
@@ -15,6 +18,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
  * Created by igafalkowska on 31.03.17.
  */
 public class TerminalMenu {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TerminalMenu.class);
 
 
     public static void main(String[] arg) {
@@ -44,10 +48,12 @@ public class TerminalMenu {
         for (int i = 0; i < badAnswerCurrency; i++) {
             System.out.println("Enter currency of the selected country (e.g. HRK, USD, EUR): ");
             String currency = input.nextLine().toUpperCase();
-            if (CurrencyNames.loadCurrencies().containsKey(currency)) {
+            try {
+                CurrencyNames.loadCurrencies().containsKey(currency);
                 cost.setCurrency(currency) ;
-            } else {
-                System.out.println("Given currency is incorrect.");
+            } catch (Exception e) {
+                LOGGER.error("Currency [{}{}] is not accepted", currency);
+               // System.out.println("Given currency is incorrect.");
                 badAnswerCurrency++;
             }
         }
