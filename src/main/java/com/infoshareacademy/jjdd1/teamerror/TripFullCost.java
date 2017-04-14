@@ -70,22 +70,31 @@ public class TripFullCost {
     }
 
     //data check added to standard SET method
-    void setCountry(String country) {
-        if (PetrolFileFilter.loadAvailableCountries().contains(country)) {
-            this.country = country;
-        } else
-            throw new IllegalArgumentException("Given country is incorrect");
+    void setCountry(String country){
+        try{
+            if (PetrolFileFilter.loadAvailableCountries().contains(country)) {
+                this.country = country;
+            } else {
+                throw new Exception();
+            }
+        } catch (Exception e) {
+            LOGGER.error("Currency [{}] is not accepted", country);
+        }
     }
 
     String getCurrency() {return currency;}
 
     //data check added to standard SET method
-    void setCurrency(String currency) throws Exception {
-        if (CurrencyNames.loadCurrencies().containsKey(currency)) {
-            this.currency = currency;
-        } else{
+    void setCurrency(String currency){
+        try {
+            if(CurrencyNames.loadCurrencies().containsKey(currency)){
+                this.currency = currency;
+            }
+            else{
+                throw new Exception();
+            }
+        } catch (Exception e) {
             LOGGER.error("Currency [{}] is not accepted", currency);
-            throw new Exception("Given currency is incorrect");
         }
     }
 

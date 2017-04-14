@@ -21,11 +21,11 @@ public class TerminalMenu {
     private static final Logger LOGGER = LoggerFactory.getLogger(TerminalMenu.class);
 
 
-    public static void main(String[] arg) {
+    public static void main(String[] arg) throws Exception {
         menu();
     }
 
-    public static void menu() {
+    public static void menu() throws Exception {
 
         System.out.println("CAR ABROAD CALCULATOR");
 
@@ -48,12 +48,8 @@ public class TerminalMenu {
         for (int i = 0; i < badAnswerCurrency; i++) {
             System.out.println("Enter currency of the selected country (e.g. HRK, USD, EUR): ");
             String currency = input.nextLine().toUpperCase();
-            try {
-                CurrencyNames.loadCurrencies().containsKey(currency);
-                cost.setCurrency(currency) ;
-            } catch (Exception e) {
-                LOGGER.error("Currency [{}{}] is not accepted", currency);
-               // System.out.println("Given currency is incorrect.");
+            cost.setCurrency(currency);
+            if(cost.getCurrency() == null){
                 badAnswerCurrency++;
             }
         }
