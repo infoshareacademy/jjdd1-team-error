@@ -8,22 +8,22 @@ import java.util.stream.Collectors;
 /**
  * Created by sebastianlos on 14.04.17.
  */
-public class MonthValues {
-    List<Double> MonthValues = new ArrayList<>();
+public class MonthValuesForOneYear {
+    List<Double> monthValues = new ArrayList<>();
 
     public void setMonthValues(Double monthValues) {
-        this.MonthValues.add(monthValues);
+        this.monthValues.add(monthValues);
     }
 
     public List<Double> getMonthDeviations() {
 
-        return MonthValues.stream()
+        return monthValues.stream()
                 .map(s -> s / getMinValue())
                 .collect(Collectors.toList());
     }
 
     public Double getMinValue() {
-        return Collections.min(MonthValues);
+        return Collections.min(monthValues);
     }
 
 }
