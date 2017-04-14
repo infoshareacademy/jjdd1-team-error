@@ -50,7 +50,7 @@ public class PetrolFileFilter {
         return countries;
     }
 
-    static Map<String,String> loadAvailableCurrencyAndCountries() {
+    static Map loadAvailableCurrencyAndCountries() {
 
         List<String> lines = FileReader.loadContent(FileReader.PATH_TO_FILES + FileReader.PATH_TO_FILES);
         // single elements of given line as object
