@@ -1,9 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static com.infoshareacademy.jjdd1.teamerror.CurrencyNames.currencies;
 
@@ -53,18 +50,20 @@ public class PetrolFileFilter {
         return countries;
     }
 
-    static Set<String> loadAvailableCurrency() {
+    static Map<String,String> loadAvailableCurrencyAndCountries() {
 
         List<String> lines = FileReader.loadContent(FileReader.PATH_TO_FILES + FileReader.PATH_TO_FILES);
-        // single elements of ginven line as object
-        Set<String> countries = new LinkedHashSet<>();
+        // single elements of given line as object
+        Map<String, String> countriesAndCurrency = new LinkedHashMap<>();
+        String[] parts;
 
         // iterate over all lines
         for (int i = 1; i < lines.size(); i++) {
             parts = lines.get(i).split(";");
-            // read only currencies
-            currencies.add(parts[3]);)
+
+            countriesAndCurrency.put(parts[0], parts[3]);
         }
+        return countriesAndCurrency;
     }
 
 
