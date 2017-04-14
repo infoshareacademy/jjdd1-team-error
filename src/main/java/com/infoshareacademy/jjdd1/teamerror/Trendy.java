@@ -75,6 +75,8 @@ public class Trendy {
 
 
 
+
+
     // return a list of 12 averaged, percentage values of petrol rate differences for each month
     public static List<Double> checkFuelTrendy(List<PetrolPrices> petrolList, String kindOfFuel) {
         // set of years for which petrol data are available
