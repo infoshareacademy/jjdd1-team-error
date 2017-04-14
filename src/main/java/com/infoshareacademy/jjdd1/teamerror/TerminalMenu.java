@@ -22,6 +22,7 @@ public class TerminalMenu {
     public static void menu() {
 
         System.out.println("CAR ABROAD CALCULATOR");
+        System.out.println("-----------------------------");
 
         Scanner input = new Scanner(System.in);
         TripFullCost cost = new TripFullCost();
@@ -35,7 +36,7 @@ public class TerminalMenu {
                 cost.setCountry(country);
             }
             catch (Exception e){
-                LOGGER.trace("Country [{}] is not accepted", country);
+                LOGGER.error("Country [{}] is not accepted", country);
                 badAnswerCountry++;
             }
         }
@@ -44,13 +45,15 @@ public class TerminalMenu {
         for (int i = 0; i < badAnswerCurrency; i++) {
             LOGGER.info("Enter currency of the selected country (e.g. HRK, USD, EUR): ");
             String currency = input.nextLine().toUpperCase();
-            try {
-                CurrencyNames.loadCurrencies().containsKey(currency);
+//            try {
+//                CurrencyNames.loadCurrencies().containsKey(currency);
                 cost.setCurrency(currency);
-            } catch (Exception e) {
-                LOGGER.error("Currency [{}] is not accepted", currency);
-                badAnswerCurrency++;
-            }
+                if (cost.getCurrency()==null)
+                    badAnswerCurrency++;
+//            } catch (Exception e) {
+//                LOGGER.error("Currency [{}] is not accepted", currency);
+//                badAnswerCurrency++;
+//            }
         }
 
         int badAnswerFuelType = 1;
@@ -69,6 +72,7 @@ public class TerminalMenu {
         int badAnswerSelection = 1;
         for (int i = 0; i < badAnswerSelection; i++) {
             System.out.println();
+            System.out.println("-----------------------------");
             System.out.println("MENU");
             System.out.println("-----------------------------");
             System.out.println("Select:");
@@ -95,6 +99,7 @@ public class TerminalMenu {
                         LOGGER.info("Country: "+ cost.getCountry());
                         LOGGER.info("Currency: "+ cost.getCurrency());
                         LOGGER.info("Fuel type: "+ cost.getFuelType());
+                        System.out.println("");
                         Trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
                         badAnswerSelection++;
                         break;
@@ -104,8 +109,7 @@ public class TerminalMenu {
                         break;
                     }
                     case 0: {
-                        LOGGER.info("You have left a program CAR ABROAD CALCULATOR");
-                        //TODO change info to debug
+                        LOGGER.debug("You have left a program CAR ABROAD CALCULATOR");
                         System.exit(0);
                         break;
                     }

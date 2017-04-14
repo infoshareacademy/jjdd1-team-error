@@ -80,12 +80,15 @@ public class TripFullCost {
     String getCurrency() {return currency;}
 
     //data check added to standard SET method
-    void setCurrency(String currency) throws Exception {
-        if (CurrencyNames.loadCurrencies().containsKey(currency)) {
-            this.currency = currency;
-        } else{
-            LOGGER.error("Currency [{}{}] is not accepted", currency);
-            throw new Exception("Given currency is incorrect");
+    void setCurrency(String currency) {
+        try {
+            if (CurrencyNames.loadCurrencies().containsKey(currency)) {
+                this.currency = currency;
+            } else {
+                throw new Exception("Given currency is incorrect");
+            }
+        } catch(Exception e) {
+            LOGGER.error("Currency [{}] is not accepted", currency);
         }
     }
 
