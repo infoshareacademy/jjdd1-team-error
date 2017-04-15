@@ -58,13 +58,9 @@ public class TerminalMenu {
         int badAnswerFuelType = 1;
         for (int i = 0; i < badAnswerFuelType; i++) {
             LOGGER.info("Enter a number for a specific fuel type (1 = diesel, 2 = gasoline): ");
-            try {
-                cost.setFuelType(Integer.parseInt(input.nextLine()));
-                if(cost.getFuelType() == null){
-                    badAnswerFuelType++;
-                }
-            } catch (NumberFormatException e) {
-                LOGGER.info("Input [{}] is not a number");
+            String fuelType = input.nextLine();
+            cost.setFuelType(fuelType);
+            if(cost.getFuelType() == null){
                 badAnswerFuelType++;
             }
         }

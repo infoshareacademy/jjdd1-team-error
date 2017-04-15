@@ -31,9 +31,10 @@ public class TripFullCost {
     }
 
     //data check added to standard SET method
-    void setFuelType(int fuelNumber) {
+    void setFuelType(String fuelNumber) {
         try{
-            switch(fuelNumber){
+            int number = Integer.parseInt(fuelNumber);
+            switch(number){
                 case 1:
                     this.fuelType = "diesel";
                     LOGGER.info("[{}] chosen", fuelType);
@@ -44,6 +45,7 @@ public class TripFullCost {
                     break;
                 default:
                     LOGGER.error("[{}] fuel type is incorrect", fuelNumber);
+                    break;
             }
         }catch (Exception e) {
             LOGGER.error("[{}] is not a number", fuelNumber);
