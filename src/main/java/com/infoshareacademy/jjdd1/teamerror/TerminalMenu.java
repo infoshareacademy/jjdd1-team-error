@@ -18,14 +18,16 @@ import static java.time.temporal.ChronoUnit.DAYS;
  * Created by igafalkowska on 31.03.17.
  */
 public class TerminalMenu {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TerminalMenu.class);
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TerminalMenu.class);
 
     public static void main(String[] arg) {
         menu();
     }
 
     public static void menu() {
+        String StringInput;
+        int intInput;
 
         System.out.println("CAR ABROAD CALCULATOR");
         System.out.println("-----------------------------");
@@ -56,15 +58,16 @@ public class TerminalMenu {
         int badAnswerFuelType = 1;
         for (int i = 0; i < badAnswerFuelType; i++) {
             LOGGER.info("Enter a number for a specific fuel type (1 = diesel, 2 = gasoline): ");
-            int fuelType = input.nextInt();
-            cost.setFuelType(fuelType);
-            if(cost.getFuelType() == null){
+            try {
+                cost.setFuelType(Integer.parseInt(input.nextLine()));
+                if(cost.getFuelType() == null){
+                    badAnswerFuelType++;
+                }
+            } catch (NumberFormatException e) {
                 LOGGER.info("Input [{}] is not a number");
                 badAnswerFuelType++;
             }
         }
-
-
 
         int badAnswerSelection = 1;
         for (int i = 0; i < badAnswerSelection; i++) {
@@ -158,7 +161,7 @@ public class TerminalMenu {
         int badAnswerDistance = 1;
         for (int i = 0; i < badAnswerDistance; i++) {
             try {
-                LOGGER.info("Enter the expected average distance in km to be traveled summary on the trip: ");
+                LOGGER.info("Enter the expected distance in km that you plan to travel during your trip: ");
                 cost.setDistance(Double.parseDouble(input.nextLine()));
             } catch (NumberFormatException e) {
                 LOGGER.error("Given value is incorrect.");

@@ -48,11 +48,6 @@ public class TripFullCost {
         }catch (Exception e) {
             LOGGER.error("[{}] is not a number", fuelNumber);
         }
-//        if("diesel".equals(fuelType) || "gasoline".equals(fuelType)) {
-//            this.fuelType = fuelType;
-//        }
-//        else
-//            throw new IllegalArgumentException("Given fuel type is incorrect");
     }
 
     Double getFuelUsage() {
