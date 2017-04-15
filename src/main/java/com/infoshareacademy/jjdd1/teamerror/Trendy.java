@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.DateFormatSymbols;
+import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by sebastianlos on 07.04.17.
@@ -12,6 +14,9 @@ import java.util.*;
 public class Trendy {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Trendy.class);
+    public static final int FIRST_DAY_OF_MONTH = 1;
+    public static final int DECIMAL_PLACES = 2;
+
     // return a list of 12 averaged, percentage values of currency rate differences for each month
     public static List<Double> checkCurrencyTrendy(List<CurrencyHistoryDayValue> currencyList) {
 
@@ -74,7 +79,57 @@ public class Trendy {
     }
 
 
+    public static Map<Integer, Double> calculateMonthPercentageDeviationsForCurrency(List<CurrencyHistoryDayValue> currencyRatesList) {
 
+        List<DayValues> dayValuesList = new ArrayList<>();
+        List<MonthValuesForOneYear> monthValuesForOneYearList = new ArrayList<>();
+        LocalDate currentDate =  currencyRatesList.get(0).getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);;
+        dayValuesList.add(new DayValues(currentDate));
+        for (CurrencyHistoryDayValue dailyRate : currencyRatesList) {
+            if (!dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH).equals(currentDate) && dailyRate.getDate().getYear() == currentDate.getYear()) {
+                currentDate = dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);
+                dayValuesList.add(new DayValues(currentDate));
+            }
+            else if (!dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH).equals(currentDate) && dailyRate.getDate().getYear() != currentDate.getYear()) {
+                MonthValuesForOneYear monthValues = new MonthValuesForOneYear();
+                dayValuesList.forEach(s -> monthValues.setMonthValue(s));
+                monthValuesForOneYearList.add(monthValues);
+                dayValuesList.clear();
+                currentDate = dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);
+                dayValuesList.add(new DayValues(currentDate));
+
+            }
+            if (dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH).equals(currentDate)) {
+                dayValuesList.get(dayValuesList.size()-1).setDayValue(dailyRate.getClose());
+            }
+        }
+        MonthValuesForOneYear monthValues = new MonthValuesForOneYear();
+        dayValuesList.forEach(s -> monthValues.setMonthValue(s));
+        monthValuesForOneYearList.add(monthValues);
+
+        Map<Integer, MonthValuesForAllYears> monthValuesForAllYearsList = new HashMap<>();
+        monthValuesForOneYearList.forEach(
+                monthRates -> monthRates.getMonthDeviations().entrySet()
+                .forEach( monthRate -> {
+                    LocalDate date = (LocalDate)monthRate.getKey();
+                    monthValuesForAllYearsList.putIfAbsent(date.getMonthValue()-1, new MonthValuesForAllYears());
+                    monthValuesForAllYearsList.get(date.getMonthValue()-1).setMonthDeviation((Double)monthRate.getValue());
+                }));
+        Map<Integer, Double> averageValuesForSingleMonths = monthValuesForAllYearsList.entrySet().stream()
+                .collect(Collectors.toMap(
+                        s -> s.getKey(),
+                        s -> s.getValue().getAverageMonthValue()
+                ));
+
+        Double min = Collections.min(averageValuesForSingleMonths.values());
+
+        Map<Integer, Double> averageValuesOfDeviationsForSingleMonths = averageValuesForSingleMonths.entrySet().stream()
+                .collect(Collectors.toMap(
+                        s -> s.getKey(),
+                        s -> round(((s.getValue() - min) * 100), DECIMAL_PLACES)
+                ));
+        return averageValuesOfDeviationsForSingleMonths;
+    }
 
 
     // return a list of 12 averaged, percentage values of petrol rate differences for each month
@@ -168,7 +223,6 @@ public class Trendy {
     // round value to given number of decimal places
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
-
         long factor = (long) Math.pow(10, places);
         value = value * factor;
         long tmp = Math.round(value);
@@ -187,6 +241,40 @@ public class Trendy {
         DateFormatSymbols symbols = new DateFormatSymbols(Locale.US);
         returnStatement += "Optimal time for trip analysis: \n\n";
         // iterate over all months
+        for (int i = 0; i < 12; i++) {
+            // determine the lowest sum of currency and petrol percentage rates
+            if (sum == null || (currencyList.get(i) + petrolList.get(i)) < sum) {
+                sum = (currencyList.get(i) + petrolList.get(i));
+                numberOfMonthWithOptimalRates = i;
+            }
+            returnStatement += symbols.getMonths()[i].toUpperCase() + "\n";
+            if (currencyList.get(i).equals(0.0)) {
+                returnStatement += "Currency --> THE LOWEST \t\t";
+            }
+            else {
+                returnStatement += "Currency --> " + currencyList.get(i) + "% higher \t\t";
+            }
+            if (petrolList.get(i).equals(0.0)) {
+                returnStatement += "Petrol --> THE LOWEST \n";
+            }
+            else {
+                returnStatement += "Petrol --> " + petrolList.get(i) + "% higher. \n";
+            }
+            returnStatement += "\n";
+        }
+        returnStatement += "The best time for cheap travel is in: " + symbols.getMonths()[numberOfMonthWithOptimalRates].toUpperCase();
+        return returnStatement;
+    }
+
+    // print differences in currencies and fuel rates in each month and the best time for cheap travel
+    public static String optimalTimeForTrip2(String currencySymbol, String fuelType, String country) {
+        Map<Integer, Double> currencyList = calculateMonthPercentageDeviationsForCurrency(FileReader.loadCurrencyFile(currencySymbol));
+        List<Double> petrolList = checkFuelTrendy(FileReader.loadPetrolFiles(country), fuelType);
+        Double sum = null;
+        int numberOfMonthWithOptimalRates = 0;
+        String returnStatement = "";
+        DateFormatSymbols symbols = new DateFormatSymbols(Locale.US);
+        returnStatement += "Optimal time for trip analysis: \n\n";
         for (int i = 0; i < 12; i++) {
             // determine the lowest sum of currency and petrol percentage rates
             if (sum == null || (currencyList.get(i) + petrolList.get(i)) < sum) {

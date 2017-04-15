@@ -1,29 +1,31 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * Created by sebastianlos on 14.04.17.
  */
 public class MonthValuesForOneYear {
-    List<Double> monthValues = new ArrayList<>();
+    Map<LocalDate, Double> monthValues = new HashMap<>();
 
-    public void setMonthValues(Double monthValues) {
-        this.monthValues.add(monthValues);
-    }
-
-    public List<Double> getMonthDeviations() {
-
-        return monthValues.stream()
-                .map(s -> s / getMinValue())
-                .collect(Collectors.toList());
+    public void setMonthValue(DayValues dayValues) {
+        this.monthValues.put(dayValues.getDate(), dayValues.getAverageMonthValue());
     }
 
     public Double getMinValue() {
-        return Collections.min(monthValues);
+        return Collections.min(monthValues.values());
     }
+
+    public Map<LocalDate, Double> getMonthDeviations() {
+
+        Map <LocalDate, Double> result = monthValues.entrySet().stream()
+                .collect(Collectors.toMap(
+                        s -> s.getKey(),
+                        s -> s.getValue() / getMinValue()));
+        return result;
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -8,7 +9,12 @@ import java.util.*;
 public class DayValues {
 
 
-    List<Double> dayValues = new ArrayList<>();
+    private List<Double> dayValues = new ArrayList<>();
+    private LocalDate date;
+
+    public DayValues(LocalDate date) {
+        this.date = date;
+    }
 
     public void setDayValue(Double dayValues) {
         this.dayValues.add(dayValues);
@@ -19,5 +25,9 @@ public class DayValues {
                 .mapToDouble(s -> s)
                 .summaryStatistics();
         return stats.getAverage();
+    }
+
+    public LocalDate getDate() {
+        return date;
     }
 }
