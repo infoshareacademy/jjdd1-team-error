@@ -37,12 +37,8 @@ public class TerminalMenu {
         for (int i = 0; i < badAnswerCountry; i++) {
             LOGGER.info("Enter a country of the trip (e.g. Croatia, USA, France): ");
             String country = input.nextLine();
-            try {
-                PetrolFileFilter.loadAvailableCountries().contains(country);
-                cost.setCountry(country);
-            }
-            catch (Exception e){
-                LOGGER.error("Country [{}] is not accepted", country);
+            cost.setCountry(country);
+            if (cost.getCountry() == null) {
                 badAnswerCountry++;
             }
         }
@@ -59,13 +55,11 @@ public class TerminalMenu {
 
         int badAnswerFuelType = 1;
         for (int i = 0; i < badAnswerFuelType; i++) {
-            LOGGER.info("Enter fuel type (gasoline, diesel): ");
-            String fuelType = input.nextLine().toLowerCase();
-            try {
-                if ("diesel".equals(fuelType) || "gasoline".equals(fuelType));
-                cost.setFuelType(fuelType);
-            } catch (Exception e) {
-                LOGGER.error("Fuel type [{}] is not accepted", fuelType);
+            LOGGER.info("Enter a number for a specific fuel type (1 = diesel, 2 = gasoline): ");
+            int fuelType = input.nextInt();
+            cost.setFuelType(fuelType);
+            if(cost.getFuelType() == null){
+                LOGGER.info("Input [{}] is not a number");
                 badAnswerFuelType++;
             }
         }
@@ -134,38 +128,20 @@ public class TerminalMenu {
         for (int i = 0; i < badAnswerDate1; i++) {
             LOGGER.info("Enter a date of departure in the format YYYYMMDD: ");
             String date = input.nextLine();
-                try {
-                    cost.setDate1(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyyMMdd")));
-                    int check = Integer.parseInt(date.substring(6));
-                    if(check!=cost.getDate1().getDayOfMonth()){
-                        LOGGER.error("Wrong number of days");
-                        badAnswerDate1++;
-                    }
-                } catch (DateTimeException e) {
-                    LOGGER.error("Given date format [{}] is incorrect.", date);
-                    badAnswerDate1++;
-                }
+            cost.setDate1(date);
+            if (cost.getDate1() == null) {
+                badAnswerDate1++;
+            }
         }
 
         int badAnswerDate2 = 1;
         for (int i = 0; i < badAnswerDate2; i++) {
             LOGGER.info("Enter a date of return in the format YYYYMMDD: ");
             String date = input.nextLine();
-                try {
-                    cost.setDate2(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyyMMdd")));
-                    int check = Integer.parseInt(date.substring(6));
-                    if(check!=cost.getDate2().getDayOfMonth()){
-                        LOGGER.error("Wrong number of days");
-                        badAnswerDate2++;
-                    }
-                } catch (DateTimeException e) {
-                    LOGGER.error("Given date format [{}] is incorrect.", date);
-                    badAnswerDate2++;
-                }
-                catch (IllegalArgumentException e) {
-                    LOGGER.error("Date of return must be after date of departure");
-                    badAnswerDate2++;
-                }
+            cost.setDate2(date);
+            if (cost.getDate2() == null) {
+                badAnswerDate2++;
+            }
         }
 
         int badAnswerFuelUsage = 1;

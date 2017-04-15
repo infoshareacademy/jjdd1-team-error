@@ -4,9 +4,11 @@ import com.sun.org.apache.xerces.internal.impl.dv.DatatypeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.LogManager;
@@ -29,12 +31,28 @@ public class TripFullCost {
     }
 
     //data check added to standard SET method
-    void setFuelType(String fuelType) {
-        if("diesel".equals(fuelType) || "gasoline".equals(fuelType)) {
-            this.fuelType = fuelType;
+    void setFuelType(int fuelNumber) {
+        try{
+            switch(fuelNumber){
+                case 1:
+                    this.fuelType = "diesel";
+                    LOGGER.info("[{}] chosen", fuelType);
+                    break;
+                case 2:
+                    this.fuelType = "gasoline";
+                    LOGGER.info("[{}] chosen", fuelType);
+                    break;
+                default:
+                    LOGGER.error("[{}] fuel type is incorrect", fuelNumber);
+            }
+        }catch (Exception e) {
+            LOGGER.error("[{}] is not a number", fuelNumber);
         }
-        else
-            throw new IllegalArgumentException("Given fuel type is incorrect");
+//        if("diesel".equals(fuelType) || "gasoline".equals(fuelType)) {
+//            this.fuelType = fuelType;
+//        }
+//        else
+//            throw new IllegalArgumentException("Given fuel type is incorrect");
     }
 
     Double getFuelUsage() {
@@ -49,8 +67,26 @@ public class TripFullCost {
         return date1;
     }
 
-    void setDate1(LocalDate date1) {
-        this.date1 = date1;
+    //data check added to standard SET method
+    void setDate1(String date1String) {
+        boolean isInteger;
+        try {
+            Integer.parseInt(date1String);
+            isInteger=true;
+        }
+        catch( Exception e ) {
+            isInteger=false;
+        }
+        if(date1String.length()!=8){
+            LOGGER.error("Wrong date format");
+        }
+        if(!isInteger){
+            LOGGER.error("Input contains letters");
+        }
+        if(isInteger && date1String.length()==8){
+            LocalDate date1 = LocalDate.parse(date1String, DateTimeFormatter.ofPattern("yyyyMMdd"));
+            this.date1 = date1;
+        }
     }
 
     LocalDate getDate2() {
@@ -58,11 +94,33 @@ public class TripFullCost {
     }
 
     //data check added to standard SET method
-    void setDate2(LocalDate date2) {
-        if (date2.isBefore(date1)) {
-            throw new IllegalArgumentException("Date of return must be after date of departure");
-        } else
-            this.date2 = date2;
+    void setDate2(String date2String) {
+        boolean isInteger;
+        try {
+            Integer.parseInt(date2String);
+            isInteger=true;
+        }
+        catch( Exception e ) {
+            isInteger=false;
+        }
+        if(date2String.length()!=8){
+            LOGGER.error("Wrong date format");
+        }
+        if(!isInteger){
+            LOGGER.error("Input contains letters");
+        }
+        if(isInteger && date2String.length()==8){
+            LocalDate date2 = LocalDate.parse(date2String, DateTimeFormatter.ofPattern("yyyyMMdd"));
+            try{
+                if (date2.isAfter(date1)) {
+                    this.date2 = date2;
+                }
+                else{
+                    LOGGER.error("Return date [{}] is before start date [{}]", date2, date1);
+                }
+            } catch (Exception e) {
+            }
+        }
     }
 
     String getCountry() {
@@ -78,7 +136,7 @@ public class TripFullCost {
                 throw new Exception();
             }
         } catch (Exception e) {
-            LOGGER.error("Currency [{}] is not accepted", country);
+            LOGGER.error("Country [{}] is not accepted", country);
         }
     }
 
