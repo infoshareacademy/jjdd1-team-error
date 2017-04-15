@@ -3,17 +3,23 @@ package com.infoshareacademy.jjdd1.teamerror;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.time.DateTimeException;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.util.zip.DataFormatException;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 /**
  * Created by igafalkowska on 31.03.17.
  */
 public class TerminalMenu {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(TerminalMenu.class);
+
 
     public static void main(String[] arg) {
         menu();
@@ -54,6 +60,10 @@ public class TerminalMenu {
 //                LOGGER.error("Currency [{}] is not accepted", currency);
 //                badAnswerCurrency++;
 //            }
+            cost.setCurrency(currency);
+            if(cost.getCurrency() == null){
+                badAnswerCurrency++;
+            }
         }
 
         int badAnswerFuelType = 1;
@@ -68,6 +78,8 @@ public class TerminalMenu {
                 badAnswerFuelType++;
             }
         }
+
+
 
         int badAnswerSelection = 1;
         for (int i = 0; i < badAnswerSelection; i++) {
@@ -200,5 +212,6 @@ public class TerminalMenu {
         System.out.println("------------------------------------------------------------------------------");
         LOGGER.info("The cost of a car abroad during departure for given values will be: " + "\n" + cost.costCount(cost) + " PLN" + "\n");
 
+        System.out.println(cost.costCount(cost) + "PLN");
     }
 }
