@@ -51,15 +51,6 @@ public class TerminalMenu {
         for (int i = 0; i < badAnswerCurrency; i++) {
             LOGGER.info("Enter currency of the selected country (e.g. HRK, USD, EUR): ");
             String currency = input.nextLine().toUpperCase();
-//            try {
-//                CurrencyNames.loadCurrencies().containsKey(currency);
-                cost.setCurrency(currency);
-                if (cost.getCurrency()==null)
-                    badAnswerCurrency++;
-//            } catch (Exception e) {
-//                LOGGER.error("Currency [{}] is not accepted", currency);
-//                badAnswerCurrency++;
-//            }
             cost.setCurrency(currency);
             if(cost.getCurrency() == null){
                 badAnswerCurrency++;
