@@ -22,7 +22,7 @@ public class FileReader {
     // load file's content
     public static List<String> loadContent(String path) {
         // file's content
-        List<String> lines = null;
+        List<String> lines = new ArrayList<>();
         // iterate over all currency names
         try {
             lines = Files.readAllLines(Paths.get(path));
