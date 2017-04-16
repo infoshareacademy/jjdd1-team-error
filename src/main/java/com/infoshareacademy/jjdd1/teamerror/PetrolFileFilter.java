@@ -10,6 +10,8 @@ import java.util.Set;
  */
 public class PetrolFileFilter {
 
+    public static final int NUMBER_OF_ELEMENTS_IN_LINE = 6;
+
     // divide content of Currency File and put this information as objects
     static List<PetrolPrices> putPetrolFileContentToClass(List<String> lines, String country) {
 
@@ -17,19 +19,21 @@ public class PetrolFileFilter {
         List<PetrolPrices> petrolPrices = new ArrayList<>();
         String[] parts;
 
-        // iterate over all lines
+        // iterate over all lines excepts the first one
         for (int i = 1; i < lines.size(); i++) {
             parts = lines.get(i).split(";");
-            // read only data of given country
-            if (parts[0].equalsIgnoreCase(country)) {
-                PetrolPrices value = new PetrolPrices();
-                value.setCountryName(parts[0]);
-                value.setDate(DateParser.DateFromString(parts[1], parts[2]));
-                value.setCurrencyCode(parts[3]);
-                value.setGasolinePrice(Double.parseDouble(changeComaToPoint(parts[4])));
-                value.setDieselPrice(Double.parseDouble(changeComaToPoint(parts[5])));
+            if (!lines.get(i).isEmpty() && parts.length == NUMBER_OF_ELEMENTS_IN_LINE) {
+                // read only data of given country
+                if (parts[0].equalsIgnoreCase(country)) {
+                    PetrolPrices value = new PetrolPrices();
+                    value.setCountryName(parts[0]);
+                    value.setDate(DateParser.DateFromString(parts[1], parts[2]));
+                    value.setCurrencyCode(parts[3]);
+                    value.setGasolinePrice(Double.parseDouble(changeComaToPoint(parts[4])));
+                    value.setDieselPrice(Double.parseDouble(changeComaToPoint(parts[5])));
 
-                petrolPrices.add(value);
+                    petrolPrices.add(value);
+                }
             }
         }
         return petrolPrices;
