@@ -20,7 +20,9 @@ public class Trendy {
 
 
     public static Map<Integer, Double> calculateMonthPercentageDeviationsForCurrency(List<CurrencyHistoryDayValue> currencyRatesList) {
-
+        if (currencyRatesList.isEmpty()) {
+            return new HashMap<>();
+        }
         List<DayValues> dayValuesList = new ArrayList<>();
         List<MonthValuesForOneYear> monthValuesForOneYearList = new ArrayList<>();
         LocalDate currentDate =  currencyRatesList.get(0).getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);;
@@ -79,6 +81,9 @@ public class Trendy {
 
     public static Map<Integer, Double> calculateMonthPercentageDeviationsForPetrol(List<PetrolPrices> petrolRatesList, String kindOfFuel) {
 
+        if (petrolRatesList.isEmpty()) {
+            return new HashMap<>();
+        }
         List<DayValues> dayValuesList = new ArrayList<>();
         List<MonthValuesForOneYear> monthValuesForOneYearList = new ArrayList<>();
         LocalDate currentDate =  petrolRatesList.get(0).getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);;
