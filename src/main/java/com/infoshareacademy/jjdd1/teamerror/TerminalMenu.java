@@ -145,22 +145,20 @@ public class TerminalMenu {
 
         int badAnswerFuelUsage = 1;
         for (int i = 0; i < badAnswerFuelUsage; i++) {
-            try {
-                LOGGER.info("Enter fuel usage per 100 km: ");
-                cost.setFuelUsage(Double.parseDouble(input.nextLine()));
-            } catch (NumberFormatException e) {
-                LOGGER.error("Given value is incorrect.");
+            LOGGER.info("Enter fuel usage per 100 km: ");
+            String fuelUsage = input.nextLine();
+            cost.setFuelUsage(fuelUsage);
+            if(cost.getFuelUsage() == 0.0){
                 badAnswerFuelUsage++;
             }
         }
 
         int badAnswerDistance = 1;
         for (int i = 0; i < badAnswerDistance; i++) {
-            try {
-                LOGGER.info("Enter the expected distance in km that you plan to travel during your trip: ");
-                cost.setDistance(Double.parseDouble(input.nextLine()));
-            } catch (NumberFormatException e) {
-                LOGGER.error("Given value is incorrect.");
+            LOGGER.info("Enter the full distance you want to travel during your trip: ");
+            String distance = input.nextLine();
+            cost.setDistance(distance);
+            if (cost.getDistance() == 0.0) {
                 badAnswerDistance++;
             }
         }
@@ -176,8 +174,6 @@ public class TerminalMenu {
         LOGGER.info("Fuel usage: "+ cost.getFuelUsage());
         LOGGER.info("Distance: "+ cost.getDistance());
         System.out.println("------------------------------------------------------------------------------");
-        LOGGER.info("The cost of a car abroad during departure for given values will be: " + "\n" + cost.costCount(cost) + " PLN" + "\n");
-
-        System.out.println(cost.costCount(cost) + "PLN");
+        LOGGER.info("The cost of renting a car abroad (for the specified data) will be: " + "\n" + cost.costCount(cost) + " PLN" + "\n");
     }
 }

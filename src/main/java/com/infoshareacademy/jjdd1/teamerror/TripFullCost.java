@@ -56,8 +56,19 @@ public class TripFullCost {
         return fuelUsage;
     }
 
-    void setFuelUsage(Double fuelUsage) {
-        this.fuelUsage = fuelUsage;
+    void setFuelUsage(String fuelUsage) {
+        try{
+            double usage = Double.parseDouble(fuelUsage);
+            if(usage>0){
+                this.fuelUsage = usage;
+            }
+            else{
+                LOGGER.error("[{}] is not a positive number", fuelUsage);
+            }
+        }
+        catch(Exception e) {
+            LOGGER.error("[{}] is not a number", fuelUsage);
+        }
     }
 
     LocalDate getDate1() {
@@ -157,13 +168,23 @@ public class TripFullCost {
         return distance;
     }
 
-    void setDistance(double distance) {
-        this.distance = distance;
+    void setDistance(String distance) {
+        try{
+            double distanceDouble = Double.parseDouble(distance);
+            if(distanceDouble>0){
+                this.distance = distanceDouble;
+            }
+            else{
+                LOGGER.error("[{}] is not a positive number", distance);
+            }
+        }
+        catch(Exception e) {
+            LOGGER.error("[{}] is not a number", distance);
+        }
     }
 
     //basic constructor
     public TripFullCost() {
-
     }
 
     //method which will count the trip's entire cost depending on different variables
@@ -179,64 +200,66 @@ public class TripFullCost {
         List<PetrolPrices> petrolObjectsList = FileReader.loadPetrolFiles(tripData.getCountry());
 
         //getting average currency values for the specified months of travel if years in files (lists) match
-        for(CurrencyHistoryDayValue o1: currencyObjectsList){
-            for(PetrolPrices o2 : petrolObjectsList) {
+
+
+        int iterator1 = 0;
+        int iterator2 = 0;
+        int iterator3 = 0;
+        int iterator4 = 0;
+        for(PetrolPrices o2 : petrolObjectsList){
+            for(CurrencyHistoryDayValue o1: currencyObjectsList) {
                 if (o1.getDate().getYear() == o2.getDate().getYear()) {
-                    int iterator1 = 0;
-                    int iterator2 = 0;
-                    for (CurrencyHistoryDayValue o : currencyObjectsList) {
-                        if (tripData.getDate1().getMonth() == o.getDate().getMonth()) {
-                            currencyPriceDate1 += o.getClose();
-                            iterator1++;
+                    //LOGGER.info("The o1 year is: [{}] ", o1.getDate().getYear());
+                    //LOGGER.info("The o2 year is: [{}] ", o2.getDate().getYear());
+
+                    //getting average currency price values for the specified months of travel
+                    if (tripData.getDate1().getMonth() == o1.getDate().getMonth()) {
+                        currencyPriceDate1 += o1.getClose();
+                        iterator1++;
+                    }
+                    if (tripData.getDate2().getMonth() == o1.getDate().getMonth()) {
+                        currencyPriceDate2 += o1.getClose();
+                        iterator2++;
+                    }
+
+                    //getting average fuel price values for the specified months of travel and specified type of fuel
+                    if (tripData.getFuelType().equalsIgnoreCase("gasoline")) {
+                        if (tripData.getDate1().getMonth() == o2.getDate().getMonth()) {
+                            fuelPriceDate1 += o2.getGasolinePrice();
+                            iterator3++;
                         }
-                        if (tripData.getDate2().getMonth() == o.getDate().getMonth()) {
-                            currencyPriceDate2 += o.getClose();
-                            iterator2++;
+                        if (tripData.getDate2().getMonth() == o2.getDate().getMonth()) {
+                            fuelPriceDate2 += o2.getGasolinePrice();
+                            iterator4++;
                         }
                     }
-                    currencyPriceDate1 = currencyPriceDate1 / iterator1;
-                    currencyPriceDate2 = currencyPriceDate2 / iterator2;
-
-                    //checking if the average currencies are counted correctly
-                    //System.out.println(currencyPriceDate1 +" "+currencyPriceDate2);
-
-                    //resetting the iterators and getting average fuel price values for the specified months of travel and specified type of fuel
-                    iterator1 = 0;
-                    iterator2 = 0;
-                    for (PetrolPrices o : petrolObjectsList) {
-                        if (tripData.getFuelType().equalsIgnoreCase("gasoline")) {
-                            if (tripData.getDate1().getMonth() == o.getDate().getMonth()) {
-                                fuelPriceDate1 += o.getGasolinePrice();
-                                iterator1++;
-                            }
-                            if (tripData.getDate2().getMonth() == o.getDate().getMonth()) {
-                                fuelPriceDate2 += o.getGasolinePrice();
-                                iterator2++;
-                            }
+                    if (tripData.getFuelType().equalsIgnoreCase("diesel")) {
+                        if (tripData.getDate1().getMonth() == o2.getDate().getMonth()) {
+                            fuelPriceDate1 += o2.getDieselPrice();
+                            iterator3++;
                         }
-                        if (tripData.getFuelType().equalsIgnoreCase("diesel")) {
-                            if (tripData.getDate1().getMonth() == o.getDate().getMonth()) {
-                                fuelPriceDate1 += o.getDieselPrice();
-                                iterator1++;
-                            }
-                            if (tripData.getDate2().getMonth() == o.getDate().getMonth()) {
-                                fuelPriceDate2 += o.getDieselPrice();
-                                iterator2++;
-                            }
+                        if (tripData.getDate2().getMonth() == o2.getDate().getMonth()) {
+                            fuelPriceDate2 += o2.getDieselPrice();
+                            iterator4++;
                         }
                     }
-                    fuelPriceDate1 = fuelPriceDate1 / iterator1;
-                    fuelPriceDate2 = fuelPriceDate2 / iterator2;
-
-                    //checking if the average fuel prices are counted correctly
-                    //System.out.println(fuelPriceDate1 + " " + fuelPriceDate2);
                 }
             }
-
         }
+
+        //creating averages of the data and logging it in
+        currencyPriceDate1 = currencyPriceDate1 / iterator1;
+        currencyPriceDate2 = currencyPriceDate2 / iterator2;
+        LOGGER.info("Currency prices for the begining an the end of the trip are: [{}] [{}]",
+                currencyPriceDate1, currencyPriceDate2);
+        fuelPriceDate1 = fuelPriceDate1 / iterator3;
+        fuelPriceDate2 = fuelPriceDate2 / iterator4;
+        LOGGER.info("Fuel prices for the begining an the end of the trip are: [{}] [{}]",
+                fuelPriceDate1, fuelPriceDate2);
+
         //counting the trip cost using all the necessary data
         return Trendy.round(((currencyPriceDate1 + currencyPriceDate2) / 2) *
-                ((fuelPriceDate1 + fuelPriceDate2) / 2) * (tripData.getDistance() / 100) * tripData.getFuelUsage(), 2);
+                ((fuelPriceDate1 + fuelPriceDate2) / 2) *
+                (tripData.getDistance() / 100) * tripData.getFuelUsage(), 2);
     }
-
 }
