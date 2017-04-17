@@ -12,11 +12,20 @@ public class PetrolFileFilter {
 
     public static final int NUMBER_OF_ELEMENTS_IN_LINE = 6;
 
+    private static List<PetrolPrices> listOfPetrolDataObjects = new ArrayList<>();
+
+    public static List<PetrolPrices> getListOfPetrolDataObjects(String country) {
+        if (listOfPetrolDataObjects.isEmpty() || !listOfPetrolDataObjects.get(0).countryName.equalsIgnoreCase(country)) {
+            putPetrolFileContentToClass(country);
+        }
+        return listOfPetrolDataObjects;
+    }
+
     // divide content of Currency File and put this information as objects
-    static List<PetrolPrices> putPetrolFileContentToClass(List<String> lines, String country) {
+    public static void putPetrolFileContentToClass(String country) {
 
         // single elements of given line as object
-        List<PetrolPrices> petrolPrices = new ArrayList<>();
+        List<String> lines = FilesContent.getPetrolDataFile();
         String[] parts;
 
         // iterate over all lines excepts the first one
@@ -32,28 +41,10 @@ public class PetrolFileFilter {
                     value.setGasolinePrice(Double.parseDouble(changeComaToPoint(parts[4])));
                     value.setDieselPrice(Double.parseDouble(changeComaToPoint(parts[5])));
 
-                    petrolPrices.add(value);
+                    listOfPetrolDataObjects.add(value);
                 }
             }
         }
-        return petrolPrices;
-    }
-
-    static Set<String> loadAvailableCountries() {
-
-        List<String> lines = FileReader.loadContent(FileReader.PATH_TO_FILES + FileReader.PETROL_FILE_NAME);
-
-        // single elements of given line as object
-        Set<String> countries = new LinkedHashSet<>();
-        String[] parts;
-
-        // iterate over all lines
-        for (int i = 1; i < lines.size(); i++) {
-            parts = lines.get(i).split(";");
-            // read only countries
-            countries.add(parts[0]);
-        }
-        return countries;
     }
 
     private static String changeComaToPoint(String price) {

@@ -35,6 +35,7 @@ public class Trendy {
                 MonthValuesForOneYear monthValues = new MonthValuesForOneYear();
                 dayValuesList.forEach(monthValues::setMonthValue);
                 monthValuesForOneYearList.add(monthValues);
+                LOGGER.debug("Month average currency rates for year {} calculated.", currentDate.getYear());
                 dayValuesList.clear();
                 currentDate = dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);
                 dayValuesList.add(new DayValues(currentDate));
@@ -57,19 +58,23 @@ public class Trendy {
                     monthValuesForAllYearsList.putIfAbsent(date.getMonthValue()-1, new MonthValuesForAllYears());
                     monthValuesForAllYearsList.get(date.getMonthValue()-1).setMonthDeviation((Double)monthRate.getValue());
                 }));
+        LOGGER.debug("Currency month ratio values for all years calculated");
         Map<Integer, Double> averageValuesForSingleMonths = monthValuesForAllYearsList.entrySet().stream()
                 .collect(Collectors.toMap(
                         s -> s.getKey(),
                         s -> s.getValue().getAverageMonthValue()
                 ));
+        LOGGER.debug("Currency month average ratio values for all years calculated");
 
         Double min = Collections.min(averageValuesForSingleMonths.values());
 
-        return averageValuesForSingleMonths.entrySet().stream()
+        Map<Integer, Double> results =  averageValuesForSingleMonths.entrySet().stream()
                 .collect(Collectors.toMap(
                         s -> s.getKey(),
                         s -> round(((s.getValue() - min) * 100), DECIMAL_PLACES)
                 ));
+        LOGGER.info("Currency month average deviations for all years calculated");
+        return results;
     }
 
     public static Map<Integer, Double> calculateMonthPercentageDeviationsForPetrol(List<PetrolPrices> petrolRatesList, String kindOfFuel) {
@@ -88,6 +93,7 @@ public class Trendy {
                 MonthValuesForOneYear monthValues = new MonthValuesForOneYear();
                 dayValuesList.forEach(monthValues::setMonthValue);
                 monthValuesForOneYearList.add(monthValues);
+                LOGGER.debug("Month average petrol rates for year {} calculated.", currentDate.getYear());
                 dayValuesList.clear();
                 currentDate = dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);
                 dayValuesList.add(new DayValues(currentDate));
@@ -115,19 +121,22 @@ public class Trendy {
                             monthValuesForAllYearsList.putIfAbsent(date.getMonthValue()-1, new MonthValuesForAllYears());
                             monthValuesForAllYearsList.get(date.getMonthValue()-1).setMonthDeviation((Double)monthRate.getValue());
                         }));
+        LOGGER.debug("Petrol month ratio values for all years calculated");
         Map<Integer, Double> averageValuesForSingleMonths = monthValuesForAllYearsList.entrySet().stream()
                 .collect(Collectors.toMap(
                         s -> s.getKey(),
                         s -> s.getValue().getAverageMonthValue()
                 ));
-
+        LOGGER.debug("Petrol month average ratio values for all years calculated");
         Double min = Collections.min(averageValuesForSingleMonths.values());
 
-        return averageValuesForSingleMonths.entrySet().stream()
+        Map<Integer, Double> results =  averageValuesForSingleMonths.entrySet().stream()
                 .collect(Collectors.toMap(
                         s -> s.getKey(),
                         s -> round(((s.getValue() - min) * 100), DECIMAL_PLACES)
                 ));
+        LOGGER.info("Petrol month average deviations for all years calculated");
+        return results;
     }
 
     // round value to given number of decimal places
@@ -142,12 +151,14 @@ public class Trendy {
     // print differences in currencies and fuel rates in each month and the best time for cheap travel
     public static String optimalTimeForTrip(String currencySymbol, String fuelType, String country) {
         Map<Integer, Double> currencyList = new HashMap<>();
-        if (!FileReader.loadCurrencyFile(currencySymbol).isEmpty()) {
-            currencyList = calculateMonthPercentageDeviationsForCurrency(FileReader.loadCurrencyFile(currencySymbol));
+        List<CurrencyHistoryDayValue> currencyDataList = FileReader.loadCurrencyFile(currencySymbol);
+        if (!currencyDataList.isEmpty()) {
+            currencyList = calculateMonthPercentageDeviationsForCurrency(currencyDataList);
         }
         Map<Integer, Double> petrolList = new HashMap<>();
-        if (!FileReader.loadPetrolFiles(country).isEmpty()) {
-            petrolList = calculateMonthPercentageDeviationsForPetrol(FileReader.loadPetrolFiles(country), fuelType);
+        List <PetrolPrices> petrolDataList = FileReader.loadPetrolFiles(country);
+        if (!petrolDataList.isEmpty()) {
+            petrolList = calculateMonthPercentageDeviationsForPetrol(petrolDataList, fuelType);
         }
         Double sum = null;
         Integer numberOfMonthWithOptimalRates = null;

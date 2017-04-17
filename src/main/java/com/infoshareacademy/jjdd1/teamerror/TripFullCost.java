@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import com.infoshareacademy.jjdd1.teamerror.file_loader.CountryNames;
 import com.sun.org.apache.xerces.internal.impl.dv.DatatypeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +72,7 @@ public class TripFullCost {
 
     //data check added to standard SET method
     void setCountry(String country) {
-        if (PetrolFileFilter.loadAvailableCountries().contains(country)) {
+        if (CountryNames.getCountryNames().contains(country)) {
             this.country = country;
         } else
             throw new IllegalArgumentException("Given country is incorrect");
@@ -81,7 +82,7 @@ public class TripFullCost {
 
     //data check added to standard SET method
     void setCurrency(String currency) throws Exception {
-        if (CurrencyNames.loadCurrencies().containsKey(currency)) {
+        if (CurrencyNames.getCurrencies().containsKey(currency)) {
             this.currency = currency;
         } else{
             LOGGER.error("Currency [{}] is not accepted", currency);
@@ -111,8 +112,8 @@ public class TripFullCost {
         double days = DAYS.between(tripData.getDate1(), tripData.getDate2());
 
         //creating lists from files, so that they can be searched through
-        List<CurrencyHistoryDayValue> currencyObjectsList = FileReader.loadCurrencyFile(tripData.getCurrency());
-        List<PetrolPrices> petrolObjectsList = FileReader.loadPetrolFiles(tripData.getCountry());
+        List<CurrencyHistoryDayValue> currencyObjectsList = CurrencyFileFilter.getListOfCurrencyDataObjects(tripData.getCurrency());
+        List<PetrolPrices> petrolObjectsList = PetrolFileFilter.getListOfPetrolDataObjects(tripData.getCountry());
 
         //getting average currency values for the specified months of travel if years in files (lists) match
         for(CurrencyHistoryDayValue o1: currencyObjectsList){

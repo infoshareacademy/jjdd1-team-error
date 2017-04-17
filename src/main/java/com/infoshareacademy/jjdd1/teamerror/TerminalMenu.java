@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import com.infoshareacademy.jjdd1.teamerror.file_loader.CountryNames;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +37,7 @@ public class TerminalMenu {
         for (int i = 0; i < badAnswerCountry; i++) {
             System.out.println("Enter a country of the trip (e.g. Croatia, USA, France): ");
             String country = input.nextLine();
-            if (PetrolFileFilter.loadAvailableCountries().contains(country))
+            if (CountryNames.getCountryNames().contains(country))
                 cost.setCountry(country);
             else {
                 System.out.println("Given country is incorrect.");
@@ -49,7 +50,7 @@ public class TerminalMenu {
             System.out.println("Enter currency of the selected country (e.g. HRK, USD, EUR): ");
             String currency = input.nextLine().toUpperCase();
             try {
-                CurrencyNames.loadCurrencies().containsKey(currency);
+                CurrencyNames.getCurrencies().containsKey(currency);
                 cost.setCurrency(currency) ;
             } catch (Exception e) {
                 LOGGER.error("Currency [{}{}] is not accepted", currency);
@@ -69,8 +70,6 @@ public class TerminalMenu {
                 badAnswerFuelType++;
             }
         }
-
-
 
         int badAnswerSelection = 1;
         for (int i = 0; i < badAnswerSelection; i++) {
