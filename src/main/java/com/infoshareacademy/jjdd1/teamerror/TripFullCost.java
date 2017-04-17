@@ -77,23 +77,21 @@ public class TripFullCost {
 
     //data check added to standard SET method
     void setDate1(String date1String) {
-        boolean isInteger;
         try {
-            Integer.parseInt(date1String);
-            isInteger=true;
+            if(date1String.length()==8){
+                int integerCheck = Integer.parseInt(date1String);
+                LocalDate date1 = LocalDate.parse(date1String, DateTimeFormatter.ofPattern("yyyyMMdd"));
+                this.date1 = date1;
+            }
+            else{
+                LOGGER.error("Wrong date format");
+            }
         }
-        catch( Exception e ) {
-            isInteger=false;
-        }
-        if(date1String.length()!=8){
-            LOGGER.error("Wrong date format");
-        }
-        if(!isInteger){
+        catch (NumberFormatException e){
             LOGGER.error("Input contains letters");
         }
-        if(isInteger && date1String.length()==8){
-            LocalDate date1 = LocalDate.parse(date1String, DateTimeFormatter.ofPattern("yyyyMMdd"));
-            this.date1 = date1;
+        catch( Exception e ) {
+            LOGGER.error("No such year/month/day exists");
         }
     }
 
@@ -103,31 +101,26 @@ public class TripFullCost {
 
     //data check added to standard SET method
     void setDate2(String date2String) {
-        boolean isInteger;
         try {
-            Integer.parseInt(date2String);
-            isInteger=true;
-        }
-        catch( Exception e ) {
-            isInteger=false;
-        }
-        if(date2String.length()!=8){
-            LOGGER.error("Wrong date format");
-        }
-        if(!isInteger){
-            LOGGER.error("Input contains letters");
-        }
-        if(isInteger && date2String.length()==8){
-            LocalDate date2 = LocalDate.parse(date2String, DateTimeFormatter.ofPattern("yyyyMMdd"));
-            try{
+            if(date2String.length()==8){
+                int integerCheck = Integer.parseInt(date2String);
+                LocalDate date2 = LocalDate.parse(date2String, DateTimeFormatter.ofPattern("yyyyMMdd"));
                 if (date2.isAfter(date1)) {
                     this.date2 = date2;
                 }
                 else{
                     LOGGER.error("Return date [{}] is before start date [{}]", date2, date1);
                 }
-            } catch (Exception e) {
             }
+            else{
+                LOGGER.error("Wrong date format");
+            }
+        }
+        catch (NumberFormatException e){
+            LOGGER.error("Input contains letters");
+        }
+        catch( Exception e ) {
+            LOGGER.error("No such year/month/day exists");
         }
     }
 
@@ -148,7 +141,9 @@ public class TripFullCost {
         }
     }
 
-    String getCurrency() {return currency;}
+    String getCurrency() {
+        return currency;
+    }
 
     //data check added to standard SET method
     void setCurrency(String currency){
@@ -199,9 +194,7 @@ public class TripFullCost {
         List<CurrencyHistoryDayValue> currencyObjectsList = FileReader.loadCurrencyFile(tripData.getCurrency());
         List<PetrolPrices> petrolObjectsList = FileReader.loadPetrolFiles(tripData.getCountry());
 
-        //getting average currency values for the specified months of travel if years in files (lists) match
-
-
+        //getting average currency values for the specified months of travel if years match in files (lists)
         int iterator1 = 0;
         int iterator2 = 0;
         int iterator3 = 0;
