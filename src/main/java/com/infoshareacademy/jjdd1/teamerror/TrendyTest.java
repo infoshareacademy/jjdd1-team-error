@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import com.google.common.collect.ImmutableMap;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -31,6 +32,7 @@ public class TrendyTest {
     private static Map<Integer, Double> expectedResult8;
     private static Map<Integer, Double> expectedResult9;
     private static Map<Integer, Double> expectedResult10;
+
     @BeforeClass
     public static void setupCurrencyHistoryDayValue() {
         listTest1 = new ArrayList<>();
