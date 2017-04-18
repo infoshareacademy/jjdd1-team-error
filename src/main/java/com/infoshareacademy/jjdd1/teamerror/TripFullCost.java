@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import com.infoshareacademy.jjdd1.teamerror.file_loader.CountryNames;
 import com.sun.org.apache.xerces.internal.impl.dv.DatatypeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,7 +132,7 @@ public class TripFullCost {
     //data check added to standard SET method
     void setCountry(String country){
         try{
-            if (PetrolFileFilter.loadAvailableCountries().contains(country)) {
+            if (CountryNames.getCountryNames().contains(country)) {
                 this.country = country;
             } else {
                 throw new Exception();
@@ -148,7 +149,7 @@ public class TripFullCost {
     //data check added to standard SET method
     void setCurrency(String currency){
         try {
-            if(CurrencyNames.loadCurrencies().containsKey(currency)){
+            if(CurrencyNames.getCurrencies().containsKey(currency)){
                 this.currency = currency;
             }
             else{
