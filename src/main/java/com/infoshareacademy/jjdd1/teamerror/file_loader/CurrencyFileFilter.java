@@ -1,4 +1,6 @@
-package com.infoshareacademy.jjdd1.teamerror;
+package com.infoshareacademy.jjdd1.teamerror.file_loader;
+
+import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.CurrencyHistoryDayValue;
 
 import java.util.ArrayList;
 import java.util.List;

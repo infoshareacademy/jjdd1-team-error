@@ -1,4 +1,4 @@
-package com.infoshareacademy.jjdd1.teamerror;
+package com.infoshareacademy.jjdd1.teamerror.currency_petrol_data;
 
 import java.time.LocalDate;
 
@@ -66,16 +66,4 @@ public class CurrencyHistoryDayValue {
         this.volume = volume;
     }
 
-    @Override
-    public String toString() {
-        return "CurrencyHistoryDayValue{" +
-                "name='" + name + '\'' +
-                ", date=" + date +
-                ", open=" + open +
-                ", high=" + high +
-                ", low=" + low +
-                ", close=" + close +
-                ", volume=" + volume +
-                '}';
-    }
 }
