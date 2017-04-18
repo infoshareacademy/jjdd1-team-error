@@ -94,7 +94,7 @@ public class TerminalMenu {
                         LOGGER.info("Currency: "+ cost.getCurrency());
                         LOGGER.info("Fuel type: "+ cost.getFuelType());
                         System.out.println("");
-                        Trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
+                        System.out.println(Trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry()));
                         badAnswerSelection++;
                         break;
                     }
