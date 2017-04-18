@@ -1,7 +1,5 @@
 package com.infoshareacademy.jjdd1.teamerror.file_loader;
 
-import com.infoshareacademy.jjdd1.teamerror.FilesContent;
-
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.infoshareacademy.jjdd1.teamerror;
+package com.infoshareacademy.jjdd1.teamerror.file_loader;
 
 import java.util.LinkedHashMap;
 import java.util.List;

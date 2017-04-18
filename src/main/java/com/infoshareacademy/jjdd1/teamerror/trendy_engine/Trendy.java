@@ -1,5 +1,8 @@
-package com.infoshareacademy.jjdd1.teamerror;
+package com.infoshareacademy.jjdd1.teamerror.trendy_engine;
 
+import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.PetrolPrices;
+import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.CurrencyHistoryDayValue;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.FileReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

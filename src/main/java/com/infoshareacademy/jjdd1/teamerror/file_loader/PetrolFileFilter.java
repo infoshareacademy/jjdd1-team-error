@@ -1,9 +1,9 @@
-package com.infoshareacademy.jjdd1.teamerror;
+package com.infoshareacademy.jjdd1.teamerror.file_loader;
+
+import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.PetrolPrices;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by sebastianlos on 06.04.17.
@@ -15,7 +15,7 @@ public class PetrolFileFilter {
     private static List<PetrolPrices> listOfPetrolDataObjects = new ArrayList<>();
 
     public static List<PetrolPrices> getListOfPetrolDataObjects(String country) {
-        if (listOfPetrolDataObjects.isEmpty() || !listOfPetrolDataObjects.get(0).countryName.equalsIgnoreCase(country)) {
+        if (listOfPetrolDataObjects.isEmpty() || !listOfPetrolDataObjects.get(0).getCountryName().equalsIgnoreCase(country)) {
             putPetrolFileContentToClass(country);
         }
         return listOfPetrolDataObjects;

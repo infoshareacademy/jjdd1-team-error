@@ -1,4 +1,4 @@
-package com.infoshareacademy.jjdd1.teamerror;
+package com.infoshareacademy.jjdd1.teamerror.trendy_engine;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
