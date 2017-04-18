@@ -10,18 +10,23 @@ import java.util.Set;
  */
 public class CountryNames {
 
-    private static List<String> countryNames = new ArrayList<>();
+    private List<String> countryNames = new ArrayList<>();
+    private final FilesContent filesContent;
 
-    public static List<String> getCountryNames() {
+    public CountryNames(FilesContent filesContent) {
+        this.filesContent = filesContent;
+    }
+
+    public List<String> getCountryNames() {
         if (countryNames.isEmpty()) {
             loadAvailableCountries();
         }
         return countryNames;
     }
 
-    public static void loadAvailableCountries() {
+    public void loadAvailableCountries() {
 
-        List<String> lines = FilesContent.getPetrolDataFile();
+        List<String> lines = filesContent.getPetrolDataFile();
 
         // single elements of given line as object
         Set<String> countries = new LinkedHashSet<>();

@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,18 +13,25 @@ import java.util.Scanner;
 public class TerminalMenu {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TerminalMenu.class);
+    private final FilesContent filesContent;
 
-    public static void main(String[] arg) {
-        menu();
+    public TerminalMenu(FilesContent filesContent) {
+        this.filesContent = filesContent;
     }
 
-    public static void menu() {
+    public static void main(String[] arg) {
+        FilesContent filesContent = new OnDemandFilesContent();
+        TerminalMenu menu = new TerminalMenu(filesContent);
+        menu.menu();
+    }
+
+    public void menu() {
 
         System.out.println("CAR ABROAD CALCULATOR");
         System.out.println("-----------------------------");
 
         Scanner input = new Scanner(System.in);
-        TripFullCost cost = new TripFullCost();
+        TripFullCost cost = TripFullCost.createTripCostObject(filesContent);
 
         int badAnswerCountry = 1;
         for (int i = 0; i < badAnswerCountry; i++) {
@@ -85,8 +93,12 @@ public class TerminalMenu {
                         LOGGER.info("Country: "+ cost.getCountry());
                         LOGGER.info("Currency: "+ cost.getCurrency());
                         LOGGER.info("Fuel type: "+ cost.getFuelType());
+
+                        Trendy trendy = new Trendy(new PetrolFileFilter(filesContent), new CurrencyFileFilter(filesContent));
+                        String trendForTrip = trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
+
                         System.out.println("");
-                        System.out.println(Trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry()));
+                        System.out.println(trendForTrip);
                         badAnswerSelection++;
                         break;
                     }
