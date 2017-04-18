@@ -26,8 +26,6 @@ public class TerminalMenu {
     }
 
     public static void menu() {
-        String StringInput;
-        int intInput;
 
         System.out.println("CAR ABROAD CALCULATOR");
         System.out.println("-----------------------------");
