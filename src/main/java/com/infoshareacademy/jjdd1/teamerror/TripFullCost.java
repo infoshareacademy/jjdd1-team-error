@@ -218,10 +218,12 @@ public class TripFullCost {
         int iterator3 = 0;
         int iterator4 = 0;
         for(PetrolPrices o2 : petrolObjectsList){
+            LOGGER.debug("Jestem w liście cen paliw");
             for(CurrencyHistoryDayValue o1: currencyObjectsList) {
+                LOGGER.debug("Jestem w liście cen walut");
                 if (o1.getDate().getYear() == o2.getDate().getYear()) {
-                    //LOGGER.info("The o1 year is: [{}] ", o1.getDate().getYear());
-                    //LOGGER.info("The o2 year is: [{}] ", o2.getDate().getYear());
+                    LOGGER.debug("The o1 year is: [{}] ", o1.getDate().getYear());
+                    LOGGER.debug("The o2 year is: [{}] ", o2.getDate().getYear());
 
                     //getting average currency price values for the specified months of travel
                     if (tripData.getDate1().getMonth() == o1.getDate().getMonth()) {
