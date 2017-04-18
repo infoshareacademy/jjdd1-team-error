@@ -81,7 +81,12 @@ public class TripFullCost {
             if(date1String.length()==8){
                 int integerCheck = Integer.parseInt(date1String);
                 LocalDate date1 = LocalDate.parse(date1String, DateTimeFormatter.ofPattern("yyyyMMdd"));
-                this.date1 = date1;
+                if(date1.toString().substring(8).equals(date1String.substring(6))){
+                    this.date1 = date1;
+                }
+                else{
+                    LOGGER.error("No such day exists");
+                }
             }
             else{
                 LOGGER.error("Wrong date format");
@@ -105,11 +110,16 @@ public class TripFullCost {
             if(date2String.length()==8){
                 int integerCheck = Integer.parseInt(date2String);
                 LocalDate date2 = LocalDate.parse(date2String, DateTimeFormatter.ofPattern("yyyyMMdd"));
-                if (date2.isAfter(date1)) {
-                    this.date2 = date2;
+                if(date2.toString().substring(8).equals(date2String.substring(6))){
+                    if (date2.isAfter(date1)) {
+                        this.date2 = date2;
+                    }
+                    else{
+                        LOGGER.error("Return date [{}] is before start date [{}]", date2, date1);
+                    }
                 }
                 else{
-                    LOGGER.error("Return date [{}] is before start date [{}]", date2, date1);
+                    LOGGER.error("No such day exists");
                 }
             }
             else{
