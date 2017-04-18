@@ -2,6 +2,7 @@ package com.infoshareacademy.jjdd1.teamerror;
 
 import java.util.*;
 
+
 import static com.infoshareacademy.jjdd1.teamerror.CurrencyNames.currencies;
 
 /**
@@ -46,18 +47,26 @@ public class PetrolFileFilter {
             parts = lines.get(i).split(";");
             // read only countries
             countries.add(parts[0]);
+
         }
+
         return countries;
+
     }
 
-    static Map loadAvailableCurrencyAndCountries() {
 
-        List<String> lines = FileReader.loadContent(FileReader.PATH_TO_FILES + FileReader.PATH_TO_FILES);
+
+    static Map<String, String> loadAvailableCurrencyAndCountries() {
+
+        List<String> lines = FileReader.loadContent(FileReader.PATH_TO_FILES + FileReader.PETROL_FILE_NAME);
+
         // single elements of given line as object
-        Map<String, String> countriesAndCurrency = new LinkedHashMap<>();
+
+        HashMap<String, String> countriesAndCurrency = new LinkedHashMap<>();
         String[] parts;
 
         // iterate over all lines
+
         for (int i = 1; i < lines.size(); i++) {
             parts = lines.get(i).split(";");
 
