@@ -10,45 +10,41 @@ import java.util.Set;
  */
 public class PetrolFileFilter {
 
-    // divide content of Currency File and put this information as objects
-    static List<PetrolPrices> putPetrolFileContentToClass(List<String> lines, String country) {
+    public static final int NUMBER_OF_ELEMENTS_IN_LINE = 6;
 
-        // single elements of given line as object
-        List<PetrolPrices> petrolPrices = new ArrayList<>();
-        String[] parts;
+    private static List<PetrolPrices> listOfPetrolDataObjects = new ArrayList<>();
 
-        // iterate over all lines
-        for (int i = 1; i < lines.size(); i++) {
-            parts = lines.get(i).split(";");
-            // read only data of given country
-            if (parts[0].equalsIgnoreCase(country)) {
-                PetrolPrices value = new PetrolPrices();
-                value.setCountryName(parts[0]);
-                value.setDate(DateParser.DateFromString(parts[1], parts[2]));
-                value.setCurrencyCode(parts[3]);
-                value.setGasolinePrice(Double.parseDouble(changeComaToPoint(parts[4])));
-                value.setDieselPrice(Double.parseDouble(changeComaToPoint(parts[5])));
-
-                petrolPrices.add(value);
-            }
+    public static List<PetrolPrices> getListOfPetrolDataObjects(String country) {
+        if (listOfPetrolDataObjects.isEmpty() || !listOfPetrolDataObjects.get(0).countryName.equalsIgnoreCase(country)) {
+            putPetrolFileContentToClass(country);
         }
-        return petrolPrices;
+        return listOfPetrolDataObjects;
     }
 
-    static Set<String> loadAvailableCountries() {
+    // divide content of Currency File and put this information as objects
+    public static void putPetrolFileContentToClass(String country) {
 
-        List<String> lines = FileReader.loadContent(FileReader.PATH_TO_FILES + FileReader.PETROL_FILE_NAME);
         // single elements of given line as object
-        Set<String> countries = new LinkedHashSet<>();
+        List<String> lines = FilesContent.getPetrolDataFile();
         String[] parts;
 
-        // iterate over all lines
+        // iterate over all lines excepts the first one
         for (int i = 1; i < lines.size(); i++) {
             parts = lines.get(i).split(";");
-            // read only countries
-            countries.add(parts[0]);
+            if (!lines.get(i).isEmpty() && parts.length == NUMBER_OF_ELEMENTS_IN_LINE) {
+                // read only data of given country
+                if (parts[0].equalsIgnoreCase(country)) {
+                    PetrolPrices value = new PetrolPrices();
+                    value.setCountryName(parts[0]);
+                    value.setDate(DateParser.DateFromString(parts[1], parts[2]));
+                    value.setCurrencyCode(parts[3]);
+                    value.setGasolinePrice(Double.parseDouble(changeComaToPoint(parts[4])));
+                    value.setDieselPrice(Double.parseDouble(changeComaToPoint(parts[5])));
+
+                    listOfPetrolDataObjects.add(value);
+                }
+            }
         }
-        return countries;
     }
 
     private static String changeComaToPoint(String price) {
