@@ -1,6 +1,9 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
 import com.google.common.collect.ImmutableMap;
+import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.CurrencyHistoryDayValue;
+import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.PetrolPrices;
+import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

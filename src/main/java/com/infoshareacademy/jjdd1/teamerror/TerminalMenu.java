@@ -1,19 +1,11 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.time.DateTimeException;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.time.LocalDate;
-import java.util.zip.DataFormatException;
 
-import static java.time.temporal.ChronoUnit.DAYS;
 /**
  * Created by igafalkowska on 31.03.17.
  */

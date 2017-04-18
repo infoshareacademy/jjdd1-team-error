@@ -1,18 +1,17 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.CurrencyHistoryDayValue;
+import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.PetrolPrices;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.CountryNames;
-import com.sun.org.apache.xerces.internal.impl.dv.DatatypeException;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.CurrencyNames;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.FileReader;
+import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.LogManager;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 

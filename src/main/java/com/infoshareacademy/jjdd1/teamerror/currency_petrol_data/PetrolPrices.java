@@ -1,4 +1,4 @@
-package com.infoshareacademy.jjdd1.teamerror;
+package com.infoshareacademy.jjdd1.teamerror.currency_petrol_data;
 
 import java.time.LocalDate;
 
@@ -51,14 +51,4 @@ public class PetrolPrices {
         this.dieselPrice = dieselPrice;
     }
 
-    @Override
-    public String toString() {
-        return "PetrolPrices{" +
-                "countryName='" + countryName + '\'' +
-                ", date=" + date +
-                ", currencyCode='" + currencyCode + '\'' +
-                ", gasolinePrice=" + gasolinePrice +
-                ", dieselPrice=" + dieselPrice +
-                '}';
-    }
 }
