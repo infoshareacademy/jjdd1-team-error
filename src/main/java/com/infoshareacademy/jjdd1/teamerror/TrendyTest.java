@@ -3,6 +3,9 @@ package com.infoshareacademy.jjdd1.teamerror;
 import com.google.common.collect.ImmutableMap;
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.CurrencyHistoryDayValue;
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.PetrolPrices;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.CurrencyFileFilter;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.OnDemandFilesContent;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.PetrolFileFilter;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -18,6 +21,8 @@ import static org.junit.Assert.*;
  */
 
 public class TrendyTest {
+
+    private Trendy trendy = new Trendy(new PetrolFileFilter(new OnDemandFilesContent()), new CurrencyFileFilter(new OnDemandFilesContent()));
 
     private static List<CurrencyHistoryDayValue> listTest1;
     private static List<CurrencyHistoryDayValue> listTest2;
@@ -60,13 +65,6 @@ public class TrendyTest {
     public void setup() throws Exception {
         Double value = 4.0;
         Double result = 0.0;
-
-        // CURRENCY TRENDY
-        // test 2
-        CurrencyHistoryDayValue dayCurrencyObject1 = new CurrencyHistoryDayValue();
-        dayCurrencyObject1.setDate(LocalDate.of(2016, 1, 1));
-        dayCurrencyObject1.setClose(value);
-        listTest2.add(dayCurrencyObject1);
 
         // test 3
         for (int month = 1; month <= 12; month++, value += 0.02, result += 0.5) {
@@ -147,57 +145,64 @@ public class TrendyTest {
 
     @Test // test 1
     public void CURRENCY_TEST_for_empty_parameter_should_return_empty_map() throws Exception {
-        assertEquals(new HashMap<>(), Trendy.calculateMonthPercentageDeviationsForCurrency(listTest1));
+        // CURRENCY TRENDY
+        // test 2
+        List<CurrencyHistoryDayValue> listTest2 = new ArrayList<>();
+        CurrencyHistoryDayValue dayCurrencyObject1 = new CurrencyHistoryDayValue();
+        dayCurrencyObject1.setDate(LocalDate.of(2016, 1, 1));
+        dayCurrencyObject1.setClose(4.0);
+        listTest2.add(dayCurrencyObject1);
+        assertEquals(ImmutableMap.of(0, 0.0), trendy.calculateMonthPercentageDeviationsForCurrency(listTest2));
     }
 
     @Test // test2
     public void CURRENCY_TEST_should_return_percentage_deviation_for_first_month() {
-        assertEquals(ImmutableMap.of(0, 0.0), Trendy.calculateMonthPercentageDeviationsForCurrency(listTest2));
+        assertEquals(ImmutableMap.of(0, 0.0), trendy.calculateMonthPercentageDeviationsForCurrency(listTest2));
     }
 
     @Test // test 3
     public void CURRENCY_TEST_should_return_percentage_deviations_for_all_months() {
         assertEquals(expectedResult3,
-                Trendy.calculateMonthPercentageDeviationsForCurrency(listTest3));
+                trendy.calculateMonthPercentageDeviationsForCurrency(listTest3));
     }
 
     @Test // test 4
     public void CURRENCY_TEST_should_return_percentage_deviations_for_6_months() {
         assertEquals(expectedResult4,
-                Trendy.calculateMonthPercentageDeviationsForCurrency(listTest4));
+                trendy.calculateMonthPercentageDeviationsForCurrency(listTest4));
     }
 
     @Test // test 5
     public void CURRENCY_TEST_should_return_percentage_deviations_for_all_months_in_4_years() {
         assertEquals(expectedResult5,
-                Trendy.calculateMonthPercentageDeviationsForCurrency(listTest5));
+                trendy.calculateMonthPercentageDeviationsForCurrency(listTest5));
     }
 
     @Test // test6
     public void PETROL_TEST_for_empty_parameter_should_return_empty_map() throws Exception {
-        assertEquals(new HashMap<>(), Trendy.calculateMonthPercentageDeviationsForPetrol(listTest6, "diesel"));
+        assertEquals(new HashMap<>(), trendy.calculateMonthPercentageDeviationsForPetrol(listTest6, "diesel"));
     }
 
     @Test // test7
     public void PETROL_TEST_should_return_percentage_deviation_for_first_month() {
-        assertEquals(ImmutableMap.of(0, 0.0), Trendy.calculateMonthPercentageDeviationsForPetrol(listTest7, "diesel"));
+        assertEquals(ImmutableMap.of(0, 0.0), trendy.calculateMonthPercentageDeviationsForPetrol(listTest7, "diesel"));
     }
 
     @Test // test 8
     public void PETROL_TEST_should_return_percentage_deviations_for_all_months() {
         assertEquals(expectedResult8,
-                Trendy.calculateMonthPercentageDeviationsForPetrol(listTest8, "diesel"));
+                trendy.calculateMonthPercentageDeviationsForPetrol(listTest8, "diesel"));
     }
 
     @Test // test 9
     public void PETROL_TEST_should_return_percentage_deviations_for_6_months() {
         assertEquals(expectedResult9,
-                Trendy.calculateMonthPercentageDeviationsForPetrol(listTest9, "diesel"));
+                trendy.calculateMonthPercentageDeviationsForPetrol(listTest9, "diesel"));
     }
 
     @Test // test 10
     public void should_return_percentage_deviations_for_all_months_in_4_years() {
         assertEquals(expectedResult10,
-                Trendy.calculateMonthPercentageDeviationsForPetrol(listTest10, "diesel"));
+                trendy.calculateMonthPercentageDeviationsForPetrol(listTest10, "diesel"));
     }
 }

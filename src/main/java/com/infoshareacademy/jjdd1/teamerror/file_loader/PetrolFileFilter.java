@@ -10,11 +10,16 @@ import java.util.List;
  */
 public class PetrolFileFilter {
 
-    public static final int NUMBER_OF_ELEMENTS_IN_LINE = 6;
+    private static final int NUMBER_OF_ELEMENTS_IN_LINE = 6;
+    private final FilesContent filesContent;
 
-    private static List<PetrolPrices> listOfPetrolDataObjects = new ArrayList<>();
+    private List<PetrolPrices> listOfPetrolDataObjects = new ArrayList<>();
 
-    public static List<PetrolPrices> getListOfPetrolDataObjects(String country) {
+    public PetrolFileFilter(FilesContent filesContent) {
+        this.filesContent = filesContent;
+    }
+
+    public List<PetrolPrices> getListOfPetrolDataObjects(String country) {
         if (listOfPetrolDataObjects.isEmpty() || !listOfPetrolDataObjects.get(0).getCountryName().equalsIgnoreCase(country)) {
             putPetrolFileContentToClass(country);
         }
@@ -22,10 +27,10 @@ public class PetrolFileFilter {
     }
 
     // divide content of Currency File and put this information as objects
-    public static void putPetrolFileContentToClass(String country) {
+    public void putPetrolFileContentToClass(String country) {
 
         // single elements of given line as object
-        List<String> lines = FilesContent.getPetrolDataFile();
+        List<String> lines = filesContent.getPetrolDataFile();
         String[] parts;
 
         // iterate over all lines excepts the first one
@@ -49,6 +54,9 @@ public class PetrolFileFilter {
 
     private static String changeComaToPoint(String price) {
         return price.replace(',','.');
+    }
+
+    public static void getListOfPetrolDataObjects() {
     }
 
 }

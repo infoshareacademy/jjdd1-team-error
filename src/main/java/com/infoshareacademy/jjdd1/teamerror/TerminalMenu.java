@@ -3,6 +3,7 @@ package com.infoshareacademy.jjdd1.teamerror;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
 
 import java.util.Scanner;
 
@@ -13,17 +14,24 @@ public class TerminalMenu {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TerminalMenu.class);
 
-    public static void main(String[] arg) {
-        menu();
+    private final FilesContent filesContent;
+    public TerminalMenu(FilesContent filesContent) {
+        this.filesContent = filesContent;
     }
 
-    public static void menu() {
+    public static void main(String[] arg) {
+        FilesContent filesContent = new OnDemandFilesContent();
+        TerminalMenu menu = new TerminalMenu(filesContent);
+        menu.menu();
+    }
+
+    public void menu() {
 
         System.out.println("CAR ABROAD CALCULATOR");
         System.out.println("-----------------------------");
 
         Scanner input = new Scanner(System.in);
-        TripFullCost cost = new TripFullCost();
+        TripFullCost cost = TripFullCost.createTripCostObject(filesContent);
 
         int badAnswerCountry = 1;
         for (int i = 0; i < badAnswerCountry; i++) {
@@ -85,8 +93,10 @@ public class TerminalMenu {
                         LOGGER.info("Country: "+ cost.getCountry());
                         LOGGER.info("Currency: "+ cost.getCurrency());
                         LOGGER.info("Fuel type: "+ cost.getFuelType());
+                        Trendy trendy = new Trendy(new PetrolFileFilter(filesContent), new CurrencyFileFilter(filesContent));
+                        String trendForTrip = trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
                         System.out.println("");
-                        System.out.println(Trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry()));
+                        System.out.println(trendForTrip);
                         badAnswerSelection++;
                         break;
                     }
@@ -164,6 +174,6 @@ public class TerminalMenu {
         LOGGER.info("Fuel usage: "+ cost.getFuelUsage() + "l/100km");
         LOGGER.info("Distance: "+ cost.getDistance() + "km");
         System.out.println("------------------------------------------------------------------------------");
-        LOGGER.info("The cost of renting a car abroad (for the specified data) will be: " + "\n" + cost.costCount() + " PLN" + "\n");
+        LOGGER.info("The cost of renting a car abroad (for the specified data) will be: " + "\n" + cost.costCount(cost) + " PLN" + "\n");
     }
 }
