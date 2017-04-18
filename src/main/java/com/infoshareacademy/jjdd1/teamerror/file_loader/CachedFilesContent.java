@@ -7,7 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+<<<<<<< HEAD
  * Created by sebas on 17.04.2017.
+=======
+ * Created by Krystian on 17.04.2017.
+>>>>>>> JD1TE-28
  */
 public class CachedFilesContent implements FilesContent {
 

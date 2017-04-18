@@ -58,4 +58,5 @@ public class PetrolFileFilter {
 
     public static void getListOfPetrolDataObjects() {
     }
+
 }
