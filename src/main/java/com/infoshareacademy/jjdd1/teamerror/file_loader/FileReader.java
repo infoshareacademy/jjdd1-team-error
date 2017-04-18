@@ -11,9 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Sebastian Los on 02.04.2017.
@@ -84,5 +82,28 @@ public class FileReader {
     // do all
     public static List<PetrolPrices> loadPetrolFiles (String country) {
         return PetrolFileFilter.getListOfPetrolDataObjects(country);
+    }
+
+    /**
+     * Created by samulilaine on 18/04/2017.
+     */
+    public static class CountryAndCurrency {  public static Map<String, String> loadAvailableCurrencyAndCountries() {
+
+        List<String> lines = loadContent(PATH_TO_FILES + PETROL_FILE_NAME);
+
+        // single elements of given line as object
+
+        HashMap<String, String> countriesAndCurrency = new LinkedHashMap<>();
+        String[] parts;
+
+        // iterate over all lines
+
+        for (int i = 1; i < lines.size(); i++) {
+            parts = lines.get(i).split(";");
+
+            countriesAndCurrency.put(parts[0], parts[3]);
+        }
+        return countriesAndCurrency;
+    }
     }
 }

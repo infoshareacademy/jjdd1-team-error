@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import com.infoshareacademy.jjdd1.teamerror.file_loader.FileReader;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +35,7 @@ public class TerminalMenu {
                 badAnswerCountry++;
             }
         }
-        cost.setCurrency(CountryAndCurrency.loadAvailableCurrencyAndCountries().get(cost.getCountry()));
+        cost.setCurrency(FileReader.CountryAndCurrency.loadAvailableCurrencyAndCountries().get(cost.getCountry()));
 
         System.out.println("Currency in chosen country is " + cost.getCurrency());
 
