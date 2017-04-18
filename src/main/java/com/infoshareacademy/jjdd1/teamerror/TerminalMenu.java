@@ -1,23 +1,17 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import java.io.IOException;
-import java.time.DateTimeException;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.InputMismatchException;
-import java.util.Scanner;
-import java.time.LocalDate;
-import java.util.zip.DataFormatException;
+import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static java.time.temporal.ChronoUnit.DAYS;
+import java.util.Scanner;
+
 /**
  * Created by igafalkowska on 31.03.17.
  */
 public class TerminalMenu {
-//    public static void main(String[] arg) {
-//        System.out.println(PetrolFileFilter.loadAvailableCurrencyAndCountries());
-//    }
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TerminalMenu.class);
 
     public static void main(String[] arg) {
         menu();
@@ -26,19 +20,17 @@ public class TerminalMenu {
     public static void menu() {
 
         System.out.println("CAR ABROAD CALCULATOR");
+        System.out.println("-----------------------------");
 
         Scanner input = new Scanner(System.in);
         TripFullCost cost = new TripFullCost();
 
         int badAnswerCountry = 1;
         for (int i = 0; i < badAnswerCountry; i++) {
-            System.out.println("Enter a country of the trip (e.g. Croatia, USA, France): ");
+            LOGGER.info("Enter a country of the trip (e.g. Croatia, USA, France): ");
             String country = input.nextLine();
-            if (CountryAndCurrency.loadAvailableCurrencyAndCountries().containsKey(country))
-                cost.setCountry(country);
-            //moja metoda i country
-            else {
-                System.out.println("Given country is incorrect.");
+            cost.setCountry(country);
+            if (cost.getCountry() == null) {
                 badAnswerCountry++;
             }
         }
@@ -49,31 +41,28 @@ public class TerminalMenu {
 
         int badAnswerFuelType = 1;
         for (int i = 0; i < badAnswerFuelType; i++) {
-            System.out.println("Enter fuel type (gasoline, diesel): ");
-            String fuelType = input.nextLine().toLowerCase();
-            if ("diesel".equals(fuelType) || "gasoline".equals(fuelType)) {
-                cost.setFuelType(fuelType);
-            } else {
-                System.out.println("Given fuel type is incorrect");
+            LOGGER.info("Enter a number for a specific fuel type (1 = diesel, 2 = gasoline): ");
+            String fuelType = input.nextLine();
+            cost.setFuelType(fuelType);
+            if(cost.getFuelType() == null){
                 badAnswerFuelType++;
             }
         }
 
-
-
         int badAnswerSelection = 1;
         for (int i = 0; i < badAnswerSelection; i++) {
             System.out.println();
+            System.out.println("-----------------------------");
             System.out.println("MENU");
             System.out.println("-----------------------------");
             System.out.println("Select:");
             System.out.println("1 - Trip cost calculator");
             System.out.println("2 - Optimal time for travel analysis");
-            System.out.println("3 - Change initial details");
+            System.out.println(String.format("3 - Change initial details (country: %s, currency: %s, fuel type: %s)", cost.getCountry(), cost.getCurrency(), cost.getFuelType()));
             System.out.println("0 - EXIT");
             System.out.println("-----------------------------");
             try {
-                int selection = input.nextInt();
+                int selection = Integer.parseInt(input.nextLine());
                 switch (selection) {
                     case 1: {
                         System.out.println("--------------------------");
@@ -87,7 +76,11 @@ public class TerminalMenu {
                         System.out.println("------------------------------------");
                         System.out.println("OPTIMAL TIME FOR TRAVEL ANALYSIS");
                         System.out.println("------------------------------------");
-                        Trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
+                        LOGGER.info("Country: "+ cost.getCountry());
+                        LOGGER.info("Currency: "+ cost.getCurrency());
+                        LOGGER.info("Fuel type: "+ cost.getFuelType());
+                        System.out.println("");
+                        System.out.println(Trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry()));
                         badAnswerSelection++;
                         break;
                     }
@@ -96,16 +89,16 @@ public class TerminalMenu {
                         break;
                     }
                     case 0: {
-                        System.out.println("You have left a program CAR ABROAD CALCULATOR");
+                        LOGGER.debug("You have left a program CAR ABROAD CALCULATOR");
                         System.exit(0);
                         break;
                     }
                     default:
-                        System.out.println("Given number is incorrect.");
-                        menu();
+                        LOGGER.warn("Given number is incorrect.");
+                        badAnswerSelection++;
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Please select a number");
+            } catch (NumberFormatException e) {
+                LOGGER.error("Please select a number");
                 badAnswerSelection++;
             }
         }
@@ -116,60 +109,40 @@ public class TerminalMenu {
 
         int badAnswerDate1 = 1;
         for (int i = 0; i < badAnswerDate1; i++) {
-            System.out.println("Enter a date of departure in the format YYYYMMDD: ");
-                try {
-                    String date = input.nextLine();
-                    cost.setDate1(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyyMMdd")));
-                    int check = Integer.parseInt(date.substring(6));
-                    if(check!=cost.getDate1().getDayOfMonth()){
-                        System.out.println("Wrong number of days");
-                        badAnswerDate1++;
-                    }
-                } catch (DateTimeException e) {
-                    System.out.println("Given date format is incorrect.");
-                    badAnswerDate1++;
-                }
+            LOGGER.info("Enter a date of departure in the format YYYYMMDD: ");
+            String date = input.nextLine();
+            cost.setDate1(date);
+            if (cost.getDate1() == null) {
+                badAnswerDate1++;
+            }
         }
 
         int badAnswerDate2 = 1;
         for (int i = 0; i < badAnswerDate2; i++) {
-            System.out.println("Enter a date of return in the format YYYYMMDD: ");
-                try {
-                    String date = input.nextLine();
-                    cost.setDate2(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyyMMdd")));
-                    int check = Integer.parseInt(date.substring(6));
-                    if(check!=cost.getDate2().getDayOfMonth()){
-                        System.out.println("Wrong number of days");
-                        badAnswerDate2++;
-                    }
-                } catch (DateTimeException e) {
-                    System.out.println("Given date format is incorrect.");
-                    badAnswerDate2++;
-                }
-                catch (IllegalArgumentException e) {
-                    System.out.println("Date of return must be after date of departure");
-                    badAnswerDate2++;
-                }
+            LOGGER.info("Enter a date of return in the format YYYYMMDD: ");
+            String date = input.nextLine();
+            cost.setDate2(date);
+            if (cost.getDate2() == null) {
+                badAnswerDate2++;
+            }
         }
 
         int badAnswerFuelUsage = 1;
         for (int i = 0; i < badAnswerFuelUsage; i++) {
-            try {
-                System.out.println("Enter fuel usage per 100 km: ");
-                cost.setFuelUsage(Double.parseDouble(input.nextLine()));
-            } catch (NumberFormatException e) {
-                System.out.println("Given value is incorrect.");
+            LOGGER.info("Enter fuel usage in liters per 100 km: ");
+            String fuelUsage = input.nextLine();
+            cost.setFuelUsage(fuelUsage);
+            if(cost.getFuelUsage() == 0.0){
                 badAnswerFuelUsage++;
             }
         }
 
         int badAnswerDistance = 1;
         for (int i = 0; i < badAnswerDistance; i++) {
-            try {
-                System.out.println("Enter the expected average distance in km to be traveled summary on the trip: ");
-                cost.setDistance(Double.parseDouble(input.nextLine()));
-            } catch (NumberFormatException e) {
-                System.out.println("Given value is incorrect.");
+            LOGGER.info("Enter the full distance (counted in km) you want to travel during your trip: ");
+            String distance = input.nextLine();
+            cost.setDistance(distance);
+            if (cost.getDistance() == 0.0) {
                 badAnswerDistance++;
             }
         }
@@ -177,19 +150,14 @@ public class TerminalMenu {
         System.out.println("------------------------------------------------------------------------------");
         System.out.println("Given values are: ");
         System.out.println("------------------------------------------------------------------------------");
-        System.out.println("Date of departure: "+ cost.getDate1());
-        System.out.println("Date of return: "+ cost.getDate2());
-        System.out.println("Country: "+ cost.getCountry());
-        System.out.println("Currency: "+ cost.getCurrency());
-        System.out.println("Fuel type: "+ cost.getFuelType());
-        System.out.println("Fuel usage: "+ cost.getFuelUsage());
-        System.out.println("Distance: "+ cost.getDistance());
+        LOGGER.info("Date of departure: "+ cost.getDate1());
+        LOGGER.info("Date of return: "+ cost.getDate2());
+        LOGGER.info("Country: "+ cost.getCountry());
+        LOGGER.info("Currency: "+ cost.getCurrency());
+        LOGGER.info("Fuel type: "+ cost.getFuelType());
+        LOGGER.info("Fuel usage: "+ cost.getFuelUsage() + "l/100km");
+        LOGGER.info("Distance: "+ cost.getDistance() + "km");
         System.out.println("------------------------------------------------------------------------------");
-        System.out.println("The cost of a car abroad during departure for given values will be: ");
-        //wywołanie metody obliczającej koszt jako argumenty przyjmującej dane z obiektu cost)
-        //FullCost.calculatePrice();
-
-        System.out.println(cost.costCount(cost) + "PLN");
-
+        LOGGER.info("The cost of renting a car abroad (for the specified data) will be: " + "\n" + cost.costCount(cost) + " PLN" + "\n");
     }
 }
