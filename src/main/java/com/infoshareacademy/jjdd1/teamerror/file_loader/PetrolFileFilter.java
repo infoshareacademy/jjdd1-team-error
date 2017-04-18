@@ -35,7 +35,7 @@ public class PetrolFileFilter {
                 // read only data of given country
                 if (parts[0].equalsIgnoreCase(country)) {
                     PetrolPrices value = new PetrolPrices();
-                    value.setCountryName(parts[0]);
+                    value.setCountryName(parts[0].toUpperCase());
                     value.setDate(DateParser.DateFromString(parts[1], parts[2]));
                     value.setCurrencyCode(parts[3]);
                     value.setGasolinePrice(Double.parseDouble(changeComaToPoint(parts[4])));

@@ -29,7 +29,7 @@ public class TerminalMenu {
         for (int i = 0; i < badAnswerCountry; i++) {
             LOGGER.info("Enter a country of the trip (e.g. Croatia, USA, France): ");
             String country = input.nextLine();
-            cost.setCountry(country);
+            cost.setCountry(country.toUpperCase());
             if (cost.getCountry() == null) {
                 badAnswerCountry++;
             }
