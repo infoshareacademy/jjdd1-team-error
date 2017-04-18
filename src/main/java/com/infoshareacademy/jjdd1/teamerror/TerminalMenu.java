@@ -29,7 +29,7 @@ public class TerminalMenu {
         for (int i = 0; i < badAnswerCountry; i++) {
             LOGGER.info("Enter a country of the trip (e.g. Croatia, USA, France): ");
             String country = input.nextLine();
-            cost.setCountry(country.toUpperCase());
+            cost.setCountry(country);
             if (cost.getCountry() == null) {
                 badAnswerCountry++;
             }
@@ -64,7 +64,7 @@ public class TerminalMenu {
             System.out.println("Select:");
             System.out.println("1 - Trip cost calculator");
             System.out.println("2 - Optimal time for travel analysis");
-            System.out.println("3 - Change initial details");
+            System.out.println(String.format("3 - Change initial details (country: %s, currency: %s, fuel type: %s)", cost.getCountry(), cost.getCurrency(), cost.getFuelType()));
             System.out.println("0 - EXIT");
             System.out.println("-----------------------------");
             try {
