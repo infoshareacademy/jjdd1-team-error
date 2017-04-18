@@ -164,6 +164,6 @@ public class TerminalMenu {
         LOGGER.info("Fuel usage: "+ cost.getFuelUsage() + "l/100km");
         LOGGER.info("Distance: "+ cost.getDistance() + "km");
         System.out.println("------------------------------------------------------------------------------");
-        LOGGER.info("The cost of renting a car abroad (for the specified data) will be: " + "\n" + cost.costCount(cost) + " PLN" + "\n");
+        LOGGER.info("The cost of renting a car abroad (for the specified data) will be: " + "\n" + cost.costCount() + " PLN" + "\n");
     }
 }

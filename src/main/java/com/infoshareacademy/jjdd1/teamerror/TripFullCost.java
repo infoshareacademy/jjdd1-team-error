@@ -193,16 +193,16 @@ public class TripFullCost {
     }
 
     //method which will count the trip's entire cost depending on different variables
-    public double costCount(TripFullCost tripData) {
+    public double costCount() {
         double currencyPriceDate1 = 0;
         double currencyPriceDate2 = 0;
         double fuelPriceDate1 = 0;
         double fuelPriceDate2 = 0;
-        double days = DAYS.between(tripData.getDate1(), tripData.getDate2());
+        double days = DAYS.between(getDate1(), getDate2());
 
         //creating lists from files, so that they can be searched through
-        List<CurrencyHistoryDayValue> currencyObjectsList = FileReader.loadCurrencyFile(tripData.getCurrency());
-        List<PetrolPrices> petrolObjectsList = FileReader.loadPetrolFiles(tripData.getCountry());
+        List<CurrencyHistoryDayValue> currencyObjectsList = FileReader.loadCurrencyFile(getCurrency());
+        List<PetrolPrices> petrolObjectsList = FileReader.loadPetrolFiles(getCountry());
 
         //getting average currency values for the specified months of travel if years match in files (lists)
         int iterator1 = 0;
@@ -216,32 +216,32 @@ public class TripFullCost {
                     //LOGGER.info("The o2 year is: [{}] ", o2.getDate().getYear());
 
                     //getting average currency price values for the specified months of travel
-                    if (tripData.getDate1().getMonth() == o1.getDate().getMonth()) {
+                    if (getDate1().getMonth() == o1.getDate().getMonth()) {
                         currencyPriceDate1 += o1.getClose();
                         iterator1++;
                     }
-                    if (tripData.getDate2().getMonth() == o1.getDate().getMonth()) {
+                    if (getDate2().getMonth() == o1.getDate().getMonth()) {
                         currencyPriceDate2 += o1.getClose();
                         iterator2++;
                     }
 
                     //getting average fuel price values for the specified months of travel and specified type of fuel
-                    if (tripData.getFuelType().equalsIgnoreCase("gasoline")) {
-                        if (tripData.getDate1().getMonth() == o2.getDate().getMonth()) {
+                    if (getFuelType().equalsIgnoreCase("gasoline")) {
+                        if (getDate1().getMonth() == o2.getDate().getMonth()) {
                             fuelPriceDate1 += o2.getGasolinePrice();
                             iterator3++;
                         }
-                        if (tripData.getDate2().getMonth() == o2.getDate().getMonth()) {
+                        if (getDate2().getMonth() == o2.getDate().getMonth()) {
                             fuelPriceDate2 += o2.getGasolinePrice();
                             iterator4++;
                         }
                     }
-                    if (tripData.getFuelType().equalsIgnoreCase("diesel")) {
-                        if (tripData.getDate1().getMonth() == o2.getDate().getMonth()) {
+                    if (getFuelType().equalsIgnoreCase("diesel")) {
+                        if (getDate1().getMonth() == o2.getDate().getMonth()) {
                             fuelPriceDate1 += o2.getDieselPrice();
                             iterator3++;
                         }
-                        if (tripData.getDate2().getMonth() == o2.getDate().getMonth()) {
+                        if (getDate2().getMonth() == o2.getDate().getMonth()) {
                             fuelPriceDate2 += o2.getDieselPrice();
                             iterator4++;
                         }
@@ -263,6 +263,6 @@ public class TripFullCost {
         //counting the trip cost using all the necessary data
         return Trendy.round(((currencyPriceDate1 + currencyPriceDate2) / 2) *
                 ((fuelPriceDate1 + fuelPriceDate2) / 2) *
-                (tripData.getDistance() / 100) * tripData.getFuelUsage(), 2);
+                (getDistance() / 100) * getFuelUsage(), 2);
     }
 }
