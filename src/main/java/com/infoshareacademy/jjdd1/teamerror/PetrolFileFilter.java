@@ -34,46 +34,46 @@ public class PetrolFileFilter {
         }
         return petrolPrices;
     }
+//
+//    static Set<String> loadAvailableCountries() {
+//
+//        List<String> lines = FileReader.loadContent(FileReader.PATH_TO_FILES + FileReader.PETROL_FILE_NAME);
+//        // single elements of given line as object
+//        Set<String> countries = new LinkedHashSet<>();
+//        String[] parts;
+//
+//        // iterate over all lines
+//        for (int i = 1; i < lines.size(); i++) {
+//            parts = lines.get(i).split(";");
+//            // read only countries
+//            countries.add(parts[0]);
+//
+//        }
+//
+//        return countries;
+//
+//    }
 
-    static Set<String> loadAvailableCountries() {
-
-        List<String> lines = FileReader.loadContent(FileReader.PATH_TO_FILES + FileReader.PETROL_FILE_NAME);
-        // single elements of given line as object
-        Set<String> countries = new LinkedHashSet<>();
-        String[] parts;
-
-        // iterate over all lines
-        for (int i = 1; i < lines.size(); i++) {
-            parts = lines.get(i).split(";");
-            // read only countries
-            countries.add(parts[0]);
-
-        }
-
-        return countries;
-
-    }
 
 
-
-    static Map<String, String> loadAvailableCurrencyAndCountries() {
-
-        List<String> lines = FileReader.loadContent(FileReader.PATH_TO_FILES + FileReader.PETROL_FILE_NAME);
-
-        // single elements of given line as object
-
-        HashMap<String, String> countriesAndCurrency = new LinkedHashMap<>();
-        String[] parts;
-
-        // iterate over all lines
-
-        for (int i = 1; i < lines.size(); i++) {
-            parts = lines.get(i).split(";");
-
-            countriesAndCurrency.put(parts[0], parts[3]);
-        }
-        return countriesAndCurrency;
-    }
+//    static Map<String, String> loadAvailableCurrencyAndCountries() {
+//
+//        List<String> lines = FileReader.loadContent(FileReader.PATH_TO_FILES + FileReader.PETROL_FILE_NAME);
+//
+//        // single elements of given line as object
+//
+//        HashMap<String, String> countriesAndCurrency = new LinkedHashMap<>();
+//        String[] parts;
+//
+//        // iterate over all lines
+//
+//        for (int i = 1; i < lines.size(); i++) {
+//            parts = lines.get(i).split(";");
+//
+//            countriesAndCurrency.put(parts[0], parts[3]);
+//        }
+//        return countriesAndCurrency;
+//    }
 
 
     private static String changeComaToPoint(String price) {

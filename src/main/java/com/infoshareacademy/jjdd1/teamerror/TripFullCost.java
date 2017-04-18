@@ -70,7 +70,7 @@ public class TripFullCost {
 
     //data check added to standard SET method
     void setCountry(String country) {
-        if (PetrolFileFilter.loadAvailableCountries().contains(country)) {
+        if (CountryAndCurrency.loadAvailableCurrencyAndCountries().containsKey(country)) {
             this.country = country;
         } else
             throw new IllegalArgumentException("Given country is incorrect");
