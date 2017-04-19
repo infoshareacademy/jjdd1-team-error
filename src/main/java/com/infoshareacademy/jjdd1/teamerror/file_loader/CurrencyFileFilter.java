@@ -37,7 +37,7 @@ public class CurrencyFileFilter {
             parts = lines.get(i).split(",");
             if (!lines.get(i).isEmpty() && parts.length == NUMBER_OF_ELEMENTS_IN_LINE) {
                 CurrencyHistoryDayValue value = new CurrencyHistoryDayValue();
-                value.setName(parts[0]);
+                value.setName(parts[0].toUpperCase());
                 value.setDate(DateParser.DateFromString(parts[1]));
                 value.setOpen(Double.parseDouble(parts[2]));
                 value.setHigh(Double.parseDouble(parts[3]));
