@@ -12,6 +12,7 @@ public class CountryAndCurrency {
 
     private final FilesContent filesContent;
     private Map<String, String> countriesAndCurrency = new LinkedHashMap<>();
+    private String currency;
 
     public CountryAndCurrency(FilesContent filesContent) {
         this.filesContent = filesContent;
@@ -33,5 +34,15 @@ public class CountryAndCurrency {
             parts = lines.get(i).split(";");
             countriesAndCurrency.put(parts[0], parts[3]);
         }
+    }
+
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String country) {
+        this.currency = getCountriesAndCurrency().get(country);
+        System.out.println(currency);
     }
 }

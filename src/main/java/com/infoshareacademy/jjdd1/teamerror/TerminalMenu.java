@@ -50,17 +50,17 @@ public class TerminalMenu {
 
         int badAnswerCurrency = 1;
         for (int i = 0; i < badAnswerCurrency; i++) {
-            //        countryAndCurrency.getCountriesAndCurrency();
-            //        cost.setCurrency(countryAndCurrency.loadAvailableCurrencyAndCountries().get(cost.getCountry()));
-            //        System.out.println("Currency in chosen country is " + cost.getCurrency());
+            countryAndCurrency.setCurrency(cost.getCountry());
+            cost.setCurrency(countryAndCurrency.getCurrency());
+            System.out.println("Currency in chosen country is " + cost.getCurrency());
 
 
-            LOGGER.info("Enter currency of the selected country (e.g. HRK, USD, EUR): ");
-            String currency = input.nextLine().toUpperCase();
-            cost.setCurrency(currency);
-            if(cost.getCurrency() == null){
-                badAnswerCurrency++;
-            }
+//            LOGGER.info("Enter currency of the selected country (e.g. HRK, USD, EUR): ");
+//            String currency = input.nextLine().toUpperCase();
+//            cost.setCurrency(currency);
+//            if(cost.getCurrency() == null){
+//                badAnswerCurrency++;
+//            }
         }
 
         int badAnswerFuelType = 1;
