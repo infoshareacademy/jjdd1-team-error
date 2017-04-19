@@ -218,7 +218,7 @@ public class TripFullCost {
         int iterator3 = 0;
         int iterator4 = 0;
         for(PetrolPrices o2 : petrolObjectsList){
-            LOGGER.debug("Jestem w liście cen paliw");
+            LOGGER.debug("Inside petrol prices list");
             for(CurrencyHistoryDayValue o1: currencyObjectsList) {
                 LOGGER.debug("Jestem w liście cen walut");
                 if (o1.getDate().getYear() == o2.getDate().getYear()) {
