@@ -32,7 +32,7 @@ public class CountryAndCurrency {
         // iterate over all lines
         for (int i = 1; i < lines.size(); i++) {
             parts = lines.get(i).split(";");
-            countriesAndCurrency.put(parts[0], parts[3]);
+            countriesAndCurrency.put(parts[0].toUpperCase(), parts[3]);
         }
     }
 
