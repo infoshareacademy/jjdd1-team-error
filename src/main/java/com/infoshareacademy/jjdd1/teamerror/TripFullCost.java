@@ -2,9 +2,7 @@ package com.infoshareacademy.jjdd1.teamerror;
 
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.CurrencyHistoryDayValue;
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.PetrolPrices;
-import com.infoshareacademy.jjdd1.teamerror.file_loader.CountryNames;
-import com.infoshareacademy.jjdd1.teamerror.file_loader.CurrencyNames;
-import com.infoshareacademy.jjdd1.teamerror.file_loader.FileReader;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +23,19 @@ public class TripFullCost {
     private String fuelType;
     private double distance, fuelUsage;
     private static final Logger LOGGER = LoggerFactory.getLogger(TripFullCost.class);
+
+    private final PetrolFileFilter petrolFileFilter;
+    private final CurrencyFileFilter currencyFileFilter;
+    private final CountryNames countryNames;
+    private final CurrencyNames currencyNames;
+
+    //basic constructor
+    private TripFullCost(PetrolFileFilter filter, CurrencyFileFilter currencyFileFilter, CountryNames countryNames, CurrencyNames currencyNames) {
+        this.petrolFileFilter = filter;
+        this.currencyFileFilter = currencyFileFilter;
+        this.countryNames = countryNames;
+        this.currencyNames = currencyNames;
+    }
 
     String getFuelType() {
         return fuelType;
@@ -141,7 +152,7 @@ public class TripFullCost {
     //data check added to standard SET method
     void setCountry(String country){
         try{
-            if (CountryNames.getCountryNames().contains(country)) {
+            if (countryNames.getCountryNames().contains(country)) {
                 this.country = country;
             } else {
                 throw new Exception();
@@ -158,7 +169,7 @@ public class TripFullCost {
     //data check added to standard SET method
     void setCurrency(String currency){
         try {
-            if(CurrencyNames.getCurrencies().containsKey(currency)){
+            if(currencyNames.getCurrencies().containsKey(currency)){
                 this.currency = currency;
             }
             else{
@@ -188,10 +199,6 @@ public class TripFullCost {
         }
     }
 
-    //basic constructor
-    public TripFullCost() {
-    }
-
     //method which will count the trip's entire cost depending on different variables
     public double costCount(TripFullCost tripData) {
         double currencyPriceDate1 = 0;
@@ -201,8 +208,9 @@ public class TripFullCost {
         double days = DAYS.between(tripData.getDate1(), tripData.getDate2());
 
         //creating lists from files, so that they can be searched through
-        List<CurrencyHistoryDayValue> currencyObjectsList = FileReader.loadCurrencyFile(tripData.getCurrency());
-        List<PetrolPrices> petrolObjectsList = FileReader.loadPetrolFiles(tripData.getCountry());
+        List<CurrencyHistoryDayValue> currencyObjectsList = currencyFileFilter.getListOfCurrencyDataObjects(tripData.getCurrency());
+        List<PetrolPrices> petrolObjectsList = petrolFileFilter.getListOfPetrolDataObjects(tripData.getCountry());
+
 
         //getting average currency values for the specified months of travel if years match in files (lists)
         int iterator1 = 0;
@@ -210,10 +218,12 @@ public class TripFullCost {
         int iterator3 = 0;
         int iterator4 = 0;
         for(PetrolPrices o2 : petrolObjectsList){
+            LOGGER.debug("Inside petrol prices list");
             for(CurrencyHistoryDayValue o1: currencyObjectsList) {
+                LOGGER.debug("Inside currency prices list");
                 if (o1.getDate().getYear() == o2.getDate().getYear()) {
-                    //LOGGER.info("The o1 year is: [{}] ", o1.getDate().getYear());
-                    //LOGGER.info("The o2 year is: [{}] ", o2.getDate().getYear());
+                    LOGGER.debug("The o1 year is: [{}] ", o1.getDate().getYear());
+                    LOGGER.debug("The o2 year is: [{}] ", o2.getDate().getYear());
 
                     //getting average currency price values for the specified months of travel
                     if (tripData.getDate1().getMonth() == o1.getDate().getMonth()) {
@@ -264,5 +274,12 @@ public class TripFullCost {
         return Trendy.round(((currencyPriceDate1 + currencyPriceDate2) / 2) *
                 ((fuelPriceDate1 + fuelPriceDate2) / 2) *
                 (tripData.getDistance() / 100) * tripData.getFuelUsage(), 2);
+    }
+
+    public static TripFullCost createTripCostObject(FilesContent filesContent) {
+        return new TripFullCost(new PetrolFileFilter(filesContent),
+                new CurrencyFileFilter(filesContent),
+                new CountryNames(filesContent),
+                new CurrencyNames(filesContent));
     }
 }

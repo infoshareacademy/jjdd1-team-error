@@ -8,11 +8,15 @@ import java.util.Map;
  * Created by sebastianlos on 04.04.17.
  */
 public class CurrencyNames {
-    public static final String CURRENCY_FILE_WITH_GENERAL_DATA = "omeganbp.lst.txt";
+    private final FilesContent filesContent;
     // symbols and full names of currencies
-    private static Map<String, String> currencies = new LinkedHashMap<>();
+    private Map<String, String> currencies = new LinkedHashMap<>();
 
-    public static Map<String, String> getCurrencies() {
+    public CurrencyNames(FilesContent filesContent) {
+        this.filesContent = filesContent;
+    }
+
+    public Map<String, String> getCurrencies() {
         if (currencies.isEmpty()) {
             loadCurrencies();
         }
@@ -20,10 +24,10 @@ public class CurrencyNames {
     }
 
     // load all available currencies from given file
-    public static void loadCurrencies() {
+    public void loadCurrencies() {
 
         // read content of the file line by line
-        List<String> lines = FilesContent.getCurrencyInfoFile();
+        List<String> lines = filesContent.getCurrencyInfoFile();
         String[] parts, file;
 
         currencies.clear();
@@ -31,7 +35,7 @@ public class CurrencyNames {
             // split line by at least 2 spaces
             parts = lines.get(i).split("\\s{2,}");
             file = parts[parts.length - 2].split("\\.");
-            currencies.put(file[0], parts[parts.length - 1]);
+            currencies.put(file[0].toUpperCase(), parts[parts.length - 1]);
         };
     }
 }

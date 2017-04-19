@@ -12,9 +12,14 @@ public class CurrencyFileFilter {
 
     public static final int NUMBER_OF_ELEMENTS_IN_LINE = 7;
 
-    private static List<CurrencyHistoryDayValue> listOfCurrencyDataObjects = new ArrayList<>();
+    private List<CurrencyHistoryDayValue> listOfCurrencyDataObjects = new ArrayList<>();
+    private final FilesContent filesContent;
 
-    public static List<CurrencyHistoryDayValue> getListOfCurrencyDataObjects(String currencySymbol) {
+    public CurrencyFileFilter(FilesContent filesContent) {
+        this.filesContent = filesContent;
+    }
+
+    public List<CurrencyHistoryDayValue> getListOfCurrencyDataObjects(String currencySymbol) {
         if (listOfCurrencyDataObjects.isEmpty() || !listOfCurrencyDataObjects.get(0).getName().equalsIgnoreCase(currencySymbol)) {
             putCurrencyFileContentToClass(currencySymbol);
         }
@@ -22,17 +27,17 @@ public class CurrencyFileFilter {
     }
 
     // divide content of Currency File and put this information as objects
-    public static void putCurrencyFileContentToClass(String currencySymbol) {
+    public void putCurrencyFileContentToClass(String currencySymbol) {
 
         // single elements of given line
-        List<String> lines = FilesContent.getCurrencyDataFile(currencySymbol);
+        List<String> lines = filesContent.getCurrencyDataFile(currencySymbol);
         String[] parts;
 
         for (int i = 1; i < lines.size(); i++) {
             parts = lines.get(i).split(",");
             if (!lines.get(i).isEmpty() && parts.length == NUMBER_OF_ELEMENTS_IN_LINE) {
                 CurrencyHistoryDayValue value = new CurrencyHistoryDayValue();
-                value.setName(parts[0]);
+                value.setName(parts[0].toUpperCase());
                 value.setDate(DateParser.DateFromString(parts[1]));
                 value.setOpen(Double.parseDouble(parts[2]));
                 value.setHigh(Double.parseDouble(parts[3]));

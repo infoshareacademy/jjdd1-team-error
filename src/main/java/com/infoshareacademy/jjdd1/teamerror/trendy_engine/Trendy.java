@@ -2,7 +2,8 @@ package com.infoshareacademy.jjdd1.teamerror.trendy_engine;
 
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.PetrolPrices;
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.CurrencyHistoryDayValue;
-import com.infoshareacademy.jjdd1.teamerror.file_loader.FileReader;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.CurrencyFileFilter;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.PetrolFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,9 +21,16 @@ public class Trendy {
     public static final int FIRST_DAY_OF_MONTH = 1;
     public static final int DECIMAL_PLACES = 2;
     public static final int NUMBER_OF_MONTHS_IN_YEAR = 12;
+    private final PetrolFileFilter petrolFileFilter;
+    private final CurrencyFileFilter currencyFileFilter;
+
+    public Trendy(PetrolFileFilter petrolFileFilter, CurrencyFileFilter currencyFileFilter) {
+        this.petrolFileFilter = petrolFileFilter;
+        this.currencyFileFilter = currencyFileFilter;
+    }
 
 
-    public static Map<Integer, Double> calculateMonthPercentageDeviationsForCurrency(List<CurrencyHistoryDayValue> currencyRatesList) {
+    public Map<Integer, Double> calculateMonthPercentageDeviationsForCurrency(List<CurrencyHistoryDayValue> currencyRatesList) {
         if (currencyRatesList.isEmpty()) {
             return new HashMap<>();
         }
@@ -82,7 +90,7 @@ public class Trendy {
         return results;
     }
 
-    public static Map<Integer, Double> calculateMonthPercentageDeviationsForPetrol(List<PetrolPrices> petrolRatesList, String kindOfFuel) {
+    public Map<Integer, Double> calculateMonthPercentageDeviationsForPetrol(List<PetrolPrices> petrolRatesList, String kindOfFuel) {
 
         if (petrolRatesList.isEmpty()) {
             return new HashMap<>();
@@ -157,14 +165,14 @@ public class Trendy {
     }
 
     // print differences in currencies and fuel rates in each month and the best time for cheap travel
-    public static String optimalTimeForTrip(String currencySymbol, String fuelType, String country) {
+    public String optimalTimeForTrip(String currencySymbol, String fuelType, String country) {
         Map<Integer, Double> currencyList = new HashMap<>();
-        List<CurrencyHistoryDayValue> currencyDataList = FileReader.loadCurrencyFile(currencySymbol);
+        List<CurrencyHistoryDayValue> currencyDataList = currencyFileFilter.getListOfCurrencyDataObjects(currencySymbol);
         if (!currencyDataList.isEmpty()) {
             currencyList = calculateMonthPercentageDeviationsForCurrency(currencyDataList);
         }
         Map<Integer, Double> petrolList = new HashMap<>();
-        List <PetrolPrices> petrolDataList = FileReader.loadPetrolFiles(country);
+        List <PetrolPrices> petrolDataList = petrolFileFilter.getListOfPetrolDataObjects(country);
         if (!petrolDataList.isEmpty()) {
             petrolList = calculateMonthPercentageDeviationsForPetrol(petrolDataList, fuelType);
         }
