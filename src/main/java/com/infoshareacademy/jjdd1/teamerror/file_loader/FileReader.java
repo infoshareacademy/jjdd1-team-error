@@ -89,7 +89,7 @@ public class FileReader {
      */
     public static class CountryAndCurrency {  public static Map<String, String> loadAvailableCurrencyAndCountries() {
 
-        List<String> lines = loadContent(PATH_TO_FILES + PETROL_FILE_NAME);
+List<String> lines = loadContent(PATH_TO_FILES + PETROL_FILE_NAME);
 
         // single elements of given line as object
 
