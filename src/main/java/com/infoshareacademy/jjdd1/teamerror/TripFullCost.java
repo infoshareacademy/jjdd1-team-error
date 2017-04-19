@@ -220,7 +220,7 @@ public class TripFullCost {
         for(PetrolPrices o2 : petrolObjectsList){
             LOGGER.debug("Inside petrol prices list");
             for(CurrencyHistoryDayValue o1: currencyObjectsList) {
-                LOGGER.debug("Jestem w liście cen walut");
+                LOGGER.debug("Inside currency prices list");
                 if (o1.getDate().getYear() == o2.getDate().getYear()) {
                     LOGGER.debug("The o1 year is: [{}] ", o1.getDate().getYear());
                     LOGGER.debug("The o2 year is: [{}] ", o2.getDate().getYear());
