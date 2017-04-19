@@ -35,7 +35,7 @@ public class CurrencyNames {
             // split line by at least 2 spaces
             parts = lines.get(i).split("\\s{2,}");
             file = parts[parts.length - 2].split("\\.");
-            currencies.put(file[0], parts[parts.length - 1]);
+            currencies.put(file[0].toUpperCase(), parts[parts.length - 1]);
         };
     }
 }

@@ -36,7 +36,7 @@ public class CountryNames {
         for (int i = 1; i < lines.size(); i++) {
             parts = lines.get(i).split(";");
             // read only countries
-            countryNames.add(parts[0]);
+            countryNames.add(parts[0].toUpperCase());
         }
     }
 }
