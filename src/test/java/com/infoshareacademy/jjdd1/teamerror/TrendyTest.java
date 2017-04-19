@@ -7,6 +7,7 @@ import com.infoshareacademy.jjdd1.teamerror.file_loader.CurrencyFileFilter;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.OnDemandFilesContent;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.PetrolFileFilter;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -80,6 +81,12 @@ public class TrendyTest {
     @Before
     public void setupCurrencyData() throws Exception {
         createCurrencyDataFor5Years();
+    }
+
+    @After
+    public void setOff() throws Exception{
+        listOfCurrencyObjects.clear();
+        expectedResultsForCurrencyData.clear();
     }
 
     @Test
