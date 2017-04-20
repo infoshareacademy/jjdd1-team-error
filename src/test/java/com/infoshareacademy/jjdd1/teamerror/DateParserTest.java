@@ -21,6 +21,6 @@ public class DateParserTest {
     public void dateFromString_should_parse_two_string_to_local_date(){
         DateParser dateParser = new DateParser();
         LocalDate date = dateParser.DateFromString("2016", "February");
-        Assert.assertEquals(LocalDate.of(2016, 02,01),);
+        Assert.assertEquals(LocalDate.of(2016, 02,01),date);
     }
 }
