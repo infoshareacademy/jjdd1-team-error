@@ -1,9 +1,10 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.FileReader;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
 
 import java.util.Scanner;
 
@@ -12,46 +13,44 @@ import java.util.Scanner;
  */
 public class TerminalMenu {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TerminalMenu.class);
-    private final FilesContent filesContent;
+//    CountryAndCurrency countryAndCurrency = new CountryAndCurrency(filesContent);
+//
+//    public static void main(String[] args) {
+//
+//        System.out.println(CountryAndCurrency.getCountriesAndCurrency());
+//    }
 
-    public TerminalMenu(FilesContent filesContent) {
-        this.filesContent = filesContent;
-    }
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TerminalMenu.class);
 
     public static void main(String[] arg) {
-        FilesContent filesContent = new OnDemandFilesContent();
-        TerminalMenu menu = new TerminalMenu(filesContent);
-        menu.menu();
+        menu();
     }
 
-    public void menu() {
+    public static void menu() {
 
         System.out.println("CAR ABROAD CALCULATOR");
         System.out.println("-----------------------------");
 
         Scanner input = new Scanner(System.in);
-        TripFullCost cost = TripFullCost.createTripCostObject(filesContent);
+        TripFullCost cost = new TripFullCost();
 
         int badAnswerCountry = 1;
         for (int i = 0; i < badAnswerCountry; i++) {
             LOGGER.info("Enter a country of the trip (e.g. Croatia, USA, France): ");
             String country = input.nextLine();
-            cost.setCountry(country.toUpperCase());
+            cost.setCountry(country);
             if (cost.getCountry() == null) {
                 badAnswerCountry++;
             }
         }
 
-        int badAnswerCurrency = 1;
-        for (int i = 0; i < badAnswerCurrency; i++) {
-            LOGGER.info("Enter currency of the selected country (e.g. HRK, USD, EUR): ");
-            String currency = input.nextLine().toUpperCase();
-            cost.setCurrency(currency);
-            if(cost.getCurrency() == null){
-                badAnswerCurrency++;
-            }
-        }
+//        final CountryAndCurrency countryAndCurrency;
+//
+//        cost.setCurrency(countryAndCurrency.loadAvailableCurrencyAndCountries().get(cost.getCountry()));
+//
+//        System.out.println("Currency in chosen country is " + cost.getCurrency());
+//
 
         int badAnswerFuelType = 1;
         for (int i = 0; i < badAnswerFuelType; i++) {
@@ -93,12 +92,8 @@ public class TerminalMenu {
                         LOGGER.info("Country: "+ cost.getCountry());
                         LOGGER.info("Currency: "+ cost.getCurrency());
                         LOGGER.info("Fuel type: "+ cost.getFuelType());
-
-                        Trendy trendy = new Trendy(new PetrolFileFilter(filesContent), new CurrencyFileFilter(filesContent));
-                        String trendForTrip = trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
-
                         System.out.println("");
-                        System.out.println(trendForTrip);
+                        System.out.println(Trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry()));
                         badAnswerSelection++;
                         break;
                     }
