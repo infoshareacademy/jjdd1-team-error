@@ -139,18 +139,18 @@ public class TrendyTest {
     public void CURRENCY_TEST_should_return_percentage_deviations_for_6_months() {
         //given
         List<CurrencyHistoryDayValue> listOfObjectsOf6Months = listOfCurrencyObjects.stream()
-                .filter(s -> (s.getDate().getYear() == EXEMPLARY_YEAR && s.getDate().getMonthValue() % 2 == 0))
+                .filter(s -> (s.getDate().getYear() == EXEMPLARY_YEAR && s.getDate().getMonthValue() % 2 == 1))
                 .collect(Collectors.toList());
 
         Map<Integer, Double> expectedResult = expectedResultsForCurrencyData.entrySet().stream()
                 .filter(s -> s.getKey() % 2 == 0)
-                .collect(Collectors.toMap(k -> k.getKey() + 1, Map.Entry::getValue));
+                .collect(Collectors.toMap(k -> k.getKey(), Map.Entry::getValue));
 
         //when
         Map<Integer, Double> result = trendy.calculateMonthPercentageDeviationsForCurrency(listOfObjectsOf6Months);
 
         //then
-        assertEquals(expectedResult, equalTo(result));
+        assertEquals(expectedResult, result);
     }
 
     @Test
@@ -165,7 +165,7 @@ public class TrendyTest {
         Map<Integer, Double> result = trendy.calculateMonthPercentageDeviationsForCurrency(listOfObjectsOf5Years);
 
         //then
-        assertEquals(expectedResult, equalTo(result));
+        assertEquals(expectedResult, result);
     }
 
     @Before
@@ -217,25 +217,25 @@ public class TrendyTest {
         Map<Integer, Double> result = trendy.calculateMonthPercentageDeviationsForPetrol(listOfObjectsOf12Months, "diesel");
 
         //then
-        assertThat(expectedResult, equalTo(result));
+        assertEquals(expectedResult, result);
     }
 
     @Test
     public void PETROL_TEST_should_return_percentage_deviations_for_6_months() {
             //given
             List<PetrolPrices> listOfObjectsOf6Months = listOfPetrolObjects.stream()
-                    .filter(s -> (s.getDate().getYear() == EXEMPLARY_YEAR && s.getDate().getMonthValue() % 2 == 0))
+                    .filter(s -> (s.getDate().getYear() == EXEMPLARY_YEAR && s.getDate().getMonthValue() % 2 == 1))
                     .collect(Collectors.toList());
 
             Map<Integer, Double> expectedResult = expectedResultsForPetrolData.entrySet().stream()
                     .filter(s -> s.getKey() % 2 == 0)
-                    .collect(Collectors.toMap(k -> k.getKey() + 1, Map.Entry::getValue));
+                    .collect(Collectors.toMap(k -> k.getKey(), Map.Entry::getValue));
 
             //when
             Map<Integer, Double> result = trendy.calculateMonthPercentageDeviationsForPetrol(listOfObjectsOf6Months, "diesel");
 
             //then
-            assertEquals(expectedResult, equalTo(result));
+            assertEquals(expectedResult, result);
         }
 
     @Test
@@ -250,6 +250,6 @@ public class TrendyTest {
         Map<Integer, Double> result = trendy.calculateMonthPercentageDeviationsForPetrol(listOfObjectsOf5Years, "diesel");
 
         //then
-        assertEquals(expectedResult, equalTo(result));
+        assertEquals(expectedResult, result);
     }
 }
