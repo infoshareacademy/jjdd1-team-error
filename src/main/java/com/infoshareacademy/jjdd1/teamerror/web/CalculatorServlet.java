@@ -1,6 +1,9 @@
 package com.infoshareacademy.jjdd1.teamerror.web;
 
+import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
+
 import javax.inject.Inject;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,39 +16,31 @@ import java.io.PrintWriter;
  * Created by krystianskrzyszewski on 19.04.17.
  */
 
-@WebServlet(urlPatterns = "/")
+@WebServlet(urlPatterns = "/usa")
 public class CalculatorServlet extends HttpServlet {
-    private String message;
-
-    public void init() throws ServletException{
-        message = "Hello World";
-    }
 
     @Inject
+    Trendy trendy;
 
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println(trendy.hashCode());
+        String country = req.getParameter("country");
+        String currency = req.getParameter("currency");
+        String kindOfFuel = req.getParameter("kindOfFuel");
 
-        resp.setContentType("text/html");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/plain;charset=UTF-8");
 
-        PrintWriter out = resp.getWriter();
-        out.println("<h1>" + message + "</h1>" +"\n");
 
-        String title = "Using GET Method to Read From Data";
+        req.setAttribute("country", country);
+        req.setAttribute("currency", currency);
+        req.setAttribute("kindOfFuel", kindOfFuel);
 
-        String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
+        dispatcher.forward(req, resp);
 
-        out.println(docType + "<html>\n" +
-                "<head><title>" + title + "</title></head>\n" +
-                "<body bgcolor=\"#f0f0f0\">\n" +
-                "<h1 align=\"center\">" + title + "</h1>\n" +
-                "<ul>\n" +
-                "  <li><b>First Name</b>: "
-                + req.getParameter("first_name") + "\n" +
-                "  <li><b>Last Name</b>: "
-                + req.getParameter("last_name") + "\n" +
-                "</ul>\n" +
-                "</body></html>");
+        System.out.println(country + currency + kindOfFuel);
     }
 }

@@ -7,6 +7,8 @@ import com.infoshareacademy.jjdd1.teamerror.file_loader.PetrolFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import java.text.DateFormatSymbols;
 import java.time.LocalDate;
 import java.util.*;
@@ -21,14 +23,22 @@ public class Trendy {
     public static final int FIRST_DAY_OF_MONTH = 1;
     public static final int DECIMAL_PLACES = 2;
     public static final int NUMBER_OF_MONTHS_IN_YEAR = 12;
-    private final PetrolFileFilter petrolFileFilter;
-    private final CurrencyFileFilter currencyFileFilter;
 
-    public Trendy(PetrolFileFilter petrolFileFilter, CurrencyFileFilter currencyFileFilter) {
+    @Inject
+    private PetrolFileFilter petrolFileFilter;
+    @Inject
+    private CurrencyFileFilter currencyFileFilter;
+
+    public void setPetrolFileFilter(PetrolFileFilter petrolFileFilter) {
         this.petrolFileFilter = petrolFileFilter;
+    }
+
+    public void setCurrencyFileFilter(CurrencyFileFilter currencyFileFilter) {
         this.currencyFileFilter = currencyFileFilter;
     }
 
+    public Trendy() {
+    }
 
     public Map<Integer, Double> calculateMonthPercentageDeviationsForCurrency(List<CurrencyHistoryDayValue> currencyRatesList) {
         if (currencyRatesList.isEmpty()) {

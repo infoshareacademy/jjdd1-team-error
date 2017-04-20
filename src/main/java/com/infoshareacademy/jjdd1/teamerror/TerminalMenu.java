@@ -97,7 +97,13 @@ public class TerminalMenu {
                         LOGGER.info("Currency: "+ cost.getCurrency());
                         LOGGER.info("Fuel type: "+ cost.getFuelType());
 
-                        Trendy trendy = new Trendy(new PetrolFileFilter(filesContent), new CurrencyFileFilter(filesContent));
+                        Trendy trendy = new Trendy();
+                        CurrencyFileFilter currencyFileFilter = new CurrencyFileFilter();
+                        currencyFileFilter.setFilesContent(filesContent);
+                        trendy.setCurrencyFileFilter(currencyFileFilter);
+                        PetrolFileFilter petrolFileFilter = new PetrolFileFilter();
+                        petrolFileFilter.setFilesContent(filesContent);
+                        trendy.setPetrolFileFilter(petrolFileFilter);
                         String trendForTrip = trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
 
                         System.out.println("");

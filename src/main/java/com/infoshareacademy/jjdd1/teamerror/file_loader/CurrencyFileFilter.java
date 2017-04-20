@@ -13,9 +13,12 @@ public class CurrencyFileFilter {
     public static final int NUMBER_OF_ELEMENTS_IN_LINE = 7;
 
     private List<CurrencyHistoryDayValue> listOfCurrencyDataObjects = new ArrayList<>();
-    private final FilesContent filesContent;
+    private FilesContent filesContent;
 
-    public CurrencyFileFilter(FilesContent filesContent) {
+    public CurrencyFileFilter() {
+    }
+
+    public void setFilesContent(FilesContent filesContent) {
         this.filesContent = filesContent;
     }
 

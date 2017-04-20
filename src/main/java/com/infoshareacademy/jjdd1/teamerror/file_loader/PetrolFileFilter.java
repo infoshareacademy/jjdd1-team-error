@@ -11,11 +11,14 @@ import java.util.List;
 public class PetrolFileFilter {
 
     private static final int NUMBER_OF_ELEMENTS_IN_LINE = 6;
-    private final FilesContent filesContent;
+    private FilesContent filesContent;
 
     private List<PetrolPrices> listOfPetrolDataObjects = new ArrayList<>();
 
-    public PetrolFileFilter(FilesContent filesContent) {
+    public PetrolFileFilter() {
+    }
+
+    public void setFilesContent(FilesContent filesContent) {
         this.filesContent = filesContent;
     }
 

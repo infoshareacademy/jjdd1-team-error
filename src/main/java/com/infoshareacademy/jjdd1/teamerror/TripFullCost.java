@@ -277,8 +277,12 @@ public class TripFullCost {
     }
 
     public static TripFullCost createTripCostObject(FilesContent filesContent) {
-        return new TripFullCost(new PetrolFileFilter(filesContent),
-                new CurrencyFileFilter(filesContent),
+        PetrolFileFilter petrolFileFilter = new PetrolFileFilter();
+        petrolFileFilter.setFilesContent(filesContent);
+        CurrencyFileFilter currencyFileFilter = new CurrencyFileFilter();
+        currencyFileFilter.setFilesContent(filesContent);
+        return new TripFullCost(petrolFileFilter,
+                currencyFileFilter,
                 new CountryNames(filesContent),
                 new CurrencyNames(filesContent));
     }
