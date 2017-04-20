@@ -15,7 +15,8 @@ public class MonthValuesForOneYear {
     }
 
     public Double getMinValue() {
-        return Collections.min(monthValues.values());
+        Double min = Collections.min(monthValues.values());
+        return min;
     }
 
     public Map<LocalDate, Double> getMonthDeviations() {
