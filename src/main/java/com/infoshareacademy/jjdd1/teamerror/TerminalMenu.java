@@ -19,9 +19,17 @@ public class TerminalMenu {
         this.filesContent = filesContent;
     }
 
+
     public static void main(String[] arg) {
         FilesContent filesContent = new OnDemandFilesContent();
         TerminalMenu menu = new TerminalMenu(filesContent);
+
+        CountryNames countryNames = new CountryNames(filesContent);
+        System.out.println(countryNames.getCountryNames() );
+
+        CurrencyNames currencyNames = new CurrencyNames(filesContent);
+        System.out.println(currencyNames.getCurrencies());
+
         menu.menu();
     }
 

@@ -28,14 +28,15 @@ public class CurrencyNames {
 
         // read content of the file line by line
         List<String> lines = filesContent.getCurrencyInfoFile();
-        String[] parts, file;
+        String[] parts, file, currencyName;
 
         currencies.clear();
         for (int i = 3; i < lines.size() - 2; i++) {
             // split line by at least 2 spaces
             parts = lines.get(i).split("\\s{2,}");
             file = parts[parts.length - 2].split("\\.");
-            currencies.put(file[0].toUpperCase(), parts[parts.length - 1]);
+            currencyName = parts[parts.length - 1].split("\\(");
+            currencies.put(file[0].toUpperCase(), currencyName[0]);
         };
     }
 }
