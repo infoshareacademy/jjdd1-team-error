@@ -43,6 +43,5 @@ public class CountryAndCurrency {
 
     public void setCurrency(String country) {
         this.currency = getCountriesAndCurrency().get(country);
-        System.out.println(currency);
     }
 }

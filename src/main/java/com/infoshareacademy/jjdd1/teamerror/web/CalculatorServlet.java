@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror.web;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +20,9 @@ public class CalculatorServlet extends HttpServlet {
     public void init() throws ServletException{
         message = "Hello World";
     }
+
+    @Inject
+
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
