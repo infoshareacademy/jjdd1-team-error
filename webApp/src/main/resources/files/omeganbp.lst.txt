@@ -1,0 +1,40 @@
+-------------------------------------------------------------------------
+data          czas      rozmiar  plik              opis
+-------------------------------------------------------------------------
+2017-03-31    15:30      263 kB  AUD.txt           dolar australijski  
+2017-03-31    15:30      109 kB  BGN.txt           lew bulgarski       
+2017-03-31    15:30      101 kB  BRL.txt           real brazylijski    
+2017-03-31    15:30      263 kB  CAD.txt           dolar kanadyjski    
+2017-03-31    15:30      263 kB  CHF.txt           frank szwajcarski   
+2017-03-31    15:30       61 kB  CLP.txt           peso chilijskie     
+2017-03-31    15:30      101 kB  CNY.txt           yuan renminbi (Chiny)
+2017-03-31    15:30      198 kB  CZK.txt           korona czeska       
+2017-03-31    15:30      263 kB  DKK.txt           korona dunska       
+2017-03-31    15:30      198 kB  EUR.txt           euro                
+2017-03-31    15:30      263 kB  GBP.txt           funt szterling      
+2017-03-31    15:30      155 kB  HKD.txt           dolar Hongkongu     
+2017-03-31    15:30      101 kB  HRK.txt           kuna chorwacka      
+2017-03-31    15:30      198 kB  HUF.txt           forint (Wegry)      
+2017-03-31    15:30      101 kB  IDR.txt           rupia (Indonezja)   
+2017-03-31    15:30       62 kB  ILS.txt           nowy szekel izraelski
+2017-03-31    15:30       62 kB  INR.txt           rupia indyjska      
+2017-03-31    15:30      101 kB  ISK.txt           korona islandzka    
+2017-03-31    15:30      263 kB  JPY.txt           jen (Japonia)       
+2017-03-31    15:30      101 kB  KRW.txt           won (Korea Pld.)    
+2017-03-31    15:30      101 kB  MXN.txt           peso meksykanskie   
+2017-03-31    15:30      101 kB  MYR.txt           ringgit malezyjski  
+2017-03-31    15:30      263 kB  NOK.txt           korona norweska     
+2017-03-31    15:30      101 kB  NZD.txt           dolar nowozelandzki 
+2017-03-31    15:30      101 kB  PHP.txt           peso filipinskie    
+2017-03-31    15:30      109 kB  RON.txt           lej rumunski        
+2017-03-31    15:30      155 kB  RUB.txt           rubel rosyjski      
+2017-03-31    15:30      263 kB  SEK.txt           korona szwedzka     
+2017-03-31    15:30      101 kB  SGD.txt           dolar singapurski   
+2017-03-31    15:30      101 kB  THB.txt           bat (Tajlandia)     
+2017-03-31    15:30      101 kB  TRY.txt           lira turecka        
+2017-03-31    15:30      155 kB  UAH.txt           hrywna (Ukraina)    
+2017-03-31    15:30      263 kB  USD.txt           dolar amerykanski   
+2017-03-31    15:30      263 kB  XDR.txt           SDR (MFW)           
+2017-03-31    15:30      155 kB  ZAR.txt           rand (RPA)          
+-------------------------------------------------------------------------
+                        5560 kB  35 plikow
