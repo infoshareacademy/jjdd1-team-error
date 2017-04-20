@@ -7,14 +7,19 @@ import com.infoshareacademy.jjdd1.teamerror.file_loader.CurrencyFileFilter;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.OnDemandFilesContent;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.PetrolFileFilter;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by sebas on 17.04.2017.
@@ -22,188 +27,229 @@ import static org.junit.Assert.*;
 
 public class TrendyTest {
 
-    private Trendy trendy = new Trendy(new PetrolFileFilter(new OnDemandFilesContent()), new CurrencyFileFilter(new OnDemandFilesContent()));
+    public static final int LIST_OF_MONTHS = 12;
+    public static final int FIRST_MONTH = 1;
+    public static final int FIRST_DAY_OF_MONTH = 1;
+    public static final int EXEMPLARY_YEAR = 2016;
 
-    private static List<CurrencyHistoryDayValue> listTest1;
-    private static List<CurrencyHistoryDayValue> listTest2;
-    private static List<CurrencyHistoryDayValue> listTest3;
-    private static List<CurrencyHistoryDayValue> listTest4;
-    private static List<CurrencyHistoryDayValue> listTest5;
-    private static List<PetrolPrices> listTest6;
-    private static List<PetrolPrices> listTest7;
-    private static List<PetrolPrices> listTest8;
-    private static List<PetrolPrices> listTest9;
-    private static List<PetrolPrices> listTest10;
-    private static Map<Integer, Double> expectedResult3;
-    private static Map<Integer, Double> expectedResult4;
-    private static Map<Integer, Double> expectedResult5;
-    private static Map<Integer, Double> expectedResult8;
-    private static Map<Integer, Double> expectedResult9;
-    private static Map<Integer, Double> expectedResult10;
+    private Trendy trendy = new Trendy(new PetrolFileFilter(new OnDemandFilesContent()),
+            new CurrencyFileFilter(new OnDemandFilesContent()));
+
+    private static List<CurrencyHistoryDayValue> listOfCurrencyObjects = new ArrayList<>();
+    private static List<PetrolPrices> listOfPetrolObjects = new ArrayList();
+    private static Map<Integer, Double> expectedResultsForCurrencyData = new LinkedHashMap<>();
+    private static Map<Integer, Double> expectedResultsForPetrolData = new LinkedHashMap<>();
+
 
     @BeforeClass
     public static void setupCurrencyHistoryDayValue() {
-        listTest1 = new ArrayList<>();
-        listTest2 = new ArrayList<>();
-        listTest3 = new ArrayList<>();
-        listTest4 = new ArrayList<>();
-        listTest5 = new ArrayList<>();
-        listTest6 = new ArrayList<>();
-        listTest7 = new ArrayList<>();
-        listTest8 = new ArrayList<>();
-        listTest9 = new ArrayList<>();
-        listTest10 = new ArrayList<>();
-        expectedResult3 = new LinkedHashMap<>();
-        expectedResult4 = new LinkedHashMap<>();
-        expectedResult5 = new LinkedHashMap<>();
-        expectedResult8 = new LinkedHashMap<>();
-        expectedResult9 = new LinkedHashMap<>();
-        expectedResult10 = new LinkedHashMap<>();
+
+    }
+
+    public void createCurrencyDataFor5Years() {
+
+        for (int year = EXEMPLARY_YEAR; year <= EXEMPLARY_YEAR + 5; year++) {
+            BigDecimal initialValue = BigDecimal.valueOf(4.0), increment = BigDecimal.valueOf(0.02),
+                    initialResultValue = BigDecimal.valueOf(0.0), resultIncrement = BigDecimal.valueOf(0.5);
+            for (int month = FIRST_MONTH; month <= LIST_OF_MONTHS; month++) {
+                CurrencyHistoryDayValue dayObject = new CurrencyHistoryDayValue();
+                dayObject.setDate(LocalDate.of(year, month, FIRST_DAY_OF_MONTH));
+                dayObject.setClose(initialValue.doubleValue());
+                listOfCurrencyObjects.add(dayObject);
+                expectedResultsForCurrencyData.put(month - 1, initialResultValue.doubleValue());
+                initialValue = initialValue.add(increment);
+                initialResultValue = initialResultValue.add(resultIncrement);
+            }
+        }
+    }
+
+    public void createPetrolDataFor5Years() {
+        for (int year = EXEMPLARY_YEAR; year <= EXEMPLARY_YEAR + 5; year++) {
+            double initialValue = 4.0, increment = 0.02, initialResultValue = 0.0, resultIncrement = 0.5;
+            for (int month = FIRST_MONTH; month <= LIST_OF_MONTHS; month++) {
+                PetrolPrices dayObject = new PetrolPrices();
+                dayObject.setDate(LocalDate.of(year, month, FIRST_DAY_OF_MONTH));
+                dayObject.setDieselPrice(initialValue);
+                listOfPetrolObjects.add(dayObject);
+                expectedResultsForPetrolData.put(month - 1, initialResultValue);
+                initialValue += increment;
+                initialResultValue += resultIncrement;
+            }
+        }
     }
 
     @Before
-    public void setup() throws Exception {
-        Double value = 4.0;
-        Double result = 0.0;
-
-        // test 3
-        for (int month = 1; month <= 12; month++, value += 0.02, result += 0.5) {
-            CurrencyHistoryDayValue dayObject = new CurrencyHistoryDayValue();
-            dayObject.setDate(LocalDate.of(2016, month, 1));
-            dayObject.setClose(value);
-            listTest3.add(dayObject);
-            expectedResult3.put(month - 1, result);
-        }
-
-        value = 4.0;
-        result = 0.0;
-        // test 4
-        for (int month = 1; month <= 12; month += 2, value += 0.02, result += 0.5) {
-            CurrencyHistoryDayValue dayObject = new CurrencyHistoryDayValue();
-            dayObject.setDate(LocalDate.of(2016, month, 1));
-            dayObject.setClose(value);
-            listTest4.add(dayObject);
-            expectedResult4.put(month - 1, result);
-        }
-
-        // test 5
-        for (int year = 2016; year < 2020; year++) {
-            value = 4.0;
-            result = 0.0;
-            for (int month = 1; month <= 12; month++, value += 0.02, result += 0.5) {
-                CurrencyHistoryDayValue dayObject = new CurrencyHistoryDayValue();
-                dayObject.setDate(LocalDate.of(2016, month, 1));
-                dayObject.setClose(value);
-                listTest5.add(dayObject);
-                expectedResult5.putIfAbsent(month - 1, result);
-            }
-        }
-
-        value = 4.0;
-        result = 0.0;
-
-        // PETROL TRENDY
-        // test 7
-        PetrolPrices dayPetrolObject1 = new PetrolPrices();
-        dayPetrolObject1.setDate(LocalDate.of(2016, 1, 1));
-        dayPetrolObject1.setDieselPrice(value);
-        listTest7.add(dayPetrolObject1);
-
-        // test 8
-        for (int month = 1; month <= 12; month++, value += 0.02, result += 0.5) {
-            PetrolPrices dayObject = new PetrolPrices();
-            dayObject.setDate(LocalDate.of(2016, month, 1));
-            dayObject.setDieselPrice(value);
-            listTest8.add(dayObject);
-            expectedResult8.put(month - 1, result);
-        }
-
-        value = 4.0;
-        result = 0.0;
-        // test 9
-        for (int month = 1; month <= 12; month += 2, value += 0.02, result += 0.5) {
-            PetrolPrices dayObject = new PetrolPrices();
-            dayObject.setDate(LocalDate.of(2016, month, 1));
-            dayObject.setDieselPrice(value);
-            listTest9.add(dayObject);
-            expectedResult9.put(month - 1, result);
-        }
-
-        // test 10
-        for (int year = 2016; year < 2020; year++) {
-            value = 4.0;
-            result = 0.0;
-            for (int month = 1; month <= 12; month++, value += 0.02, result += 0.5) {
-                PetrolPrices dayObject = new PetrolPrices();
-                dayObject.setDate(LocalDate.of(2016, month, 1));
-                dayObject.setDieselPrice(value);
-                listTest10.add(dayObject);
-                expectedResult10.putIfAbsent(month - 1, result);
-            }
-        }
+    public void setupCurrencyData() throws Exception {
+        createCurrencyDataFor5Years();
     }
 
-    @Test // test 1
+    @After
+    public void setOff() throws Exception{
+        listOfCurrencyObjects.clear();
+        expectedResultsForCurrencyData.clear();
+    }
+
+    @Test
     public void CURRENCY_TEST_for_empty_parameter_should_return_empty_map() throws Exception {
-        assertEquals(new HashMap<>(), trendy.calculateMonthPercentageDeviationsForCurrency(listTest1));
+        //given
+        List<CurrencyHistoryDayValue> emptyList = new ArrayList<>();
+        Map<Integer, Double> emptyMap = new HashMap<>();
+
+        //when
+        Map<Integer, Double> result = trendy.calculateMonthPercentageDeviationsForCurrency(emptyList);
+
+        //then
+        assertThat(emptyMap, equalTo(result));
     }
 
-    @Test // test2
+    @Test
     public void CURRENCY_TEST_should_return_percentage_deviation_for_first_month() {
-        // CURRENCY TRENDY
-        // test 2
-        List<CurrencyHistoryDayValue> listTest2 = new ArrayList<>();
-        CurrencyHistoryDayValue dayCurrencyObject1 = new CurrencyHistoryDayValue();
-        dayCurrencyObject1.setDate(LocalDate.of(2016, 1, 1));
-        dayCurrencyObject1.setClose(4.0);
-        listTest2.add(dayCurrencyObject1);
+        //given
+        List<CurrencyHistoryDayValue> listOfOneObject = new ArrayList<>();
+        CurrencyHistoryDayValue dayCurrencyObject = new CurrencyHistoryDayValue();
+        dayCurrencyObject.setDate(LocalDate.of(2016, 1, 1));
+        dayCurrencyObject.setClose(4.0);
+        listOfOneObject.add(dayCurrencyObject);
+        Map expectedResult = ImmutableMap.of(0, 0.0);
 
-        assertEquals(ImmutableMap.of(0, 0.0), trendy.calculateMonthPercentageDeviationsForCurrency(listTest2));
+        //when
+        Map<Integer, Double> result = trendy.calculateMonthPercentageDeviationsForCurrency(listOfOneObject);
+
+        //then
+        assertThat(expectedResult, equalTo(result));
     }
 
-    @Test // test 3
+    @Test
     public void CURRENCY_TEST_should_return_percentage_deviations_for_all_months() {
-        assertEquals(expectedResult3,
-                trendy.calculateMonthPercentageDeviationsForCurrency(listTest3));
+        //given
+        List<CurrencyHistoryDayValue> listOfObjectsOf12Months = listOfCurrencyObjects.stream()
+                .filter(s -> (s.getDate().getYear() == EXEMPLARY_YEAR))
+                .collect(Collectors.toList());
+
+        Map<Integer, Double> expectedResult = expectedResultsForCurrencyData;
+
+        //when
+        Map<Integer, Double> result = trendy.calculateMonthPercentageDeviationsForCurrency(listOfObjectsOf12Months);
+
+        //then
+        assertThat(expectedResult, equalTo(result));
     }
 
-    @Test // test 4
+    @Test
     public void CURRENCY_TEST_should_return_percentage_deviations_for_6_months() {
-        assertEquals(expectedResult4,
-                trendy.calculateMonthPercentageDeviationsForCurrency(listTest4));
+        //given
+        List<CurrencyHistoryDayValue> listOfObjectsOf6Months = listOfCurrencyObjects.stream()
+                .filter(s -> (s.getDate().getYear() == EXEMPLARY_YEAR && s.getDate().getMonthValue() % 2 == 1))
+                .collect(Collectors.toList());
+
+        Map<Integer, Double> expectedResult = expectedResultsForCurrencyData.entrySet().stream()
+                .filter(s -> s.getKey() % 2 == 0)
+                .collect(Collectors.toMap(k -> k.getKey(), Map.Entry::getValue));
+
+        //when
+        Map<Integer, Double> result = trendy.calculateMonthPercentageDeviationsForCurrency(listOfObjectsOf6Months);
+
+        //then
+        assertEquals(expectedResult, result);
     }
 
-    @Test // test 5
-    public void CURRENCY_TEST_should_return_percentage_deviations_for_all_months_in_4_years() {
-        assertEquals(expectedResult5,
-                trendy.calculateMonthPercentageDeviationsForCurrency(listTest5));
+    @Test
+    public void CURRENCY_TEST_should_return_percentage_deviations_for_all_months_in_5_years() {
+
+        //given
+        List<CurrencyHistoryDayValue> listOfObjectsOf5Years = listOfCurrencyObjects;
+
+        Map<Integer, Double> expectedResult = expectedResultsForCurrencyData;
+
+        //when
+        Map<Integer, Double> result = trendy.calculateMonthPercentageDeviationsForCurrency(listOfObjectsOf5Years);
+
+        //then
+        assertEquals(expectedResult, result);
     }
 
-    @Test // test6
+    @Before
+    public void setupPetrolData() throws Exception {
+
+        createPetrolDataFor5Years();
+    }
+
+    @Test
     public void PETROL_TEST_for_empty_parameter_should_return_empty_map() throws Exception {
-        assertEquals(new HashMap<>(), trendy.calculateMonthPercentageDeviationsForPetrol(listTest6, "diesel"));
+        //given
+        List<PetrolPrices> emptyList = new ArrayList<>();
+        Map<Integer, Double> emptyMap = new HashMap<>();
+
+        //when
+        Map<Integer, Double> result = trendy.calculateMonthPercentageDeviationsForPetrol(emptyList, "diesel");
+
+        //then
+        assertThat(emptyMap, equalTo(result));
     }
 
-    @Test // test7
+    @Test
     public void PETROL_TEST_should_return_percentage_deviation_for_first_month() {
-        assertEquals(ImmutableMap.of(0, 0.0), trendy.calculateMonthPercentageDeviationsForPetrol(listTest7, "diesel"));
+        //given
+        List<PetrolPrices> listOfOneObject = new ArrayList<>();
+        PetrolPrices dayPetrolObject = new PetrolPrices();
+        dayPetrolObject.setDate(LocalDate.of(2016, 1, 1));
+        dayPetrolObject.setDieselPrice(4.0);
+        listOfOneObject.add(dayPetrolObject);
+        Map expectedResult = ImmutableMap.of(0, 0.0);
+
+        //when
+        Map<Integer, Double> result = trendy.calculateMonthPercentageDeviationsForPetrol(listOfOneObject, "diesel");
+
+        //then
+        assertThat(expectedResult, equalTo(result));
     }
 
-    @Test // test 8
+    @Test
     public void PETROL_TEST_should_return_percentage_deviations_for_all_months() {
-        assertEquals(expectedResult8,
-                trendy.calculateMonthPercentageDeviationsForPetrol(listTest8, "diesel"));
+        //given
+        List<PetrolPrices> listOfObjectsOf12Months = listOfPetrolObjects.stream()
+                .filter(s -> (s.getDate().getYear() == EXEMPLARY_YEAR))
+                .collect(Collectors.toList());
+
+        Map<Integer, Double> expectedResult = expectedResultsForCurrencyData;
+
+        //when
+        Map<Integer, Double> result = trendy.calculateMonthPercentageDeviationsForPetrol(listOfObjectsOf12Months, "diesel");
+
+        //then
+        assertEquals(expectedResult, result);
     }
 
-    @Test // test 9
+    @Test
     public void PETROL_TEST_should_return_percentage_deviations_for_6_months() {
-        assertEquals(expectedResult9,
-                trendy.calculateMonthPercentageDeviationsForPetrol(listTest9, "diesel"));
-    }
+            //given
+            List<PetrolPrices> listOfObjectsOf6Months = listOfPetrolObjects.stream()
+                    .filter(s -> (s.getDate().getYear() == EXEMPLARY_YEAR && s.getDate().getMonthValue() % 2 == 1))
+                    .collect(Collectors.toList());
 
-    @Test // test 10
-    public void should_return_percentage_deviations_for_all_months_in_4_years() {
-        assertEquals(expectedResult10,
-                trendy.calculateMonthPercentageDeviationsForPetrol(listTest10, "diesel"));
+            Map<Integer, Double> expectedResult = expectedResultsForPetrolData.entrySet().stream()
+                    .filter(s -> s.getKey() % 2 == 0)
+                    .collect(Collectors.toMap(k -> k.getKey(), Map.Entry::getValue));
+
+            //when
+            Map<Integer, Double> result = trendy.calculateMonthPercentageDeviationsForPetrol(listOfObjectsOf6Months, "diesel");
+
+            //then
+            assertEquals(expectedResult, result);
+        }
+
+    @Test
+    public void PETROL_PRICES_should_return_percentage_deviations_for_all_months_in_5_years() {
+
+        //given
+        List<PetrolPrices> listOfObjectsOf5Years = listOfPetrolObjects;
+
+        Map<Integer, Double> expectedResult = expectedResultsForCurrencyData;
+
+        //when
+        Map<Integer, Double> result = trendy.calculateMonthPercentageDeviationsForPetrol(listOfObjectsOf5Years, "diesel");
+
+        //then
+        assertEquals(expectedResult, result);
     }
 }

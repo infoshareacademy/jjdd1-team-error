@@ -67,9 +67,9 @@ public class Trendy {
         monthValuesForOneYearList.forEach(
                 monthRates -> monthRates.getMonthDeviations().entrySet()
                 .forEach( monthRate -> {
-                    LocalDate date = (LocalDate)monthRate.getKey();
+                    LocalDate date = monthRate.getKey();
                     monthValuesForAllYearsList.putIfAbsent(date.getMonthValue()-1, new MonthValuesForAllYears());
-                    monthValuesForAllYearsList.get(date.getMonthValue()-1).setMonthDeviation((Double)monthRate.getValue());
+                    monthValuesForAllYearsList.get(date.getMonthValue()-1).setMonthDeviation(monthRate.getValue());
                 }));
         LOGGER.debug("Currency month ratio values for all years calculated");
         Map<Integer, Double> averageValuesForSingleMonths = monthValuesForAllYearsList.entrySet().stream()
