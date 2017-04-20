@@ -30,7 +30,7 @@ public class TripFullCost {
     private final CurrencyNames currencyNames;
 
     //basic constructor
-    private TripFullCost(PetrolFileFilter filter, CurrencyFileFilter currencyFileFilter, CountryNames countryNames, CurrencyNames currencyNames) {
+    public TripFullCost(PetrolFileFilter filter, CurrencyFileFilter currencyFileFilter, CountryNames countryNames, CurrencyNames currencyNames) {
         this.petrolFileFilter = filter;
         this.currencyFileFilter = currencyFileFilter;
         this.countryNames = countryNames;

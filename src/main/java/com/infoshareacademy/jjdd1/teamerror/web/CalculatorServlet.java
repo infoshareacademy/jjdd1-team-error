@@ -55,7 +55,7 @@ public class CalculatorServlet extends HttpServlet {
 //            System.out.println(w);
 //        }
 
-        System.out.println(menu.hashCode());
+//        System.out.println(menu.hashCode());
 
         req.setAttribute("currency", currency);
         req.setAttribute("country", country);
