@@ -23,8 +23,6 @@ public class TerminalMenu {
         FilesContent filesContent = new OnDemandFilesContent();
         TerminalMenu menu = new TerminalMenu(filesContent);
         menu.menu();
-
-//        System.out.println(CountryAndCurrency.getCountriesAndCurrency());
     }
 
     public void menu() {
@@ -34,7 +32,8 @@ public class TerminalMenu {
 
         Scanner input = new Scanner(System.in);
         TripFullCost cost = TripFullCost.createTripCostObject(filesContent);
-        CountryAndCurrency countryAndCurrency = new CountryAndCurrency(filesContent);
+        CountryAndCurrency countryAndCurrency = new CountryAndCurrency();
+        countryAndCurrency.setFilesContent(filesContent);
 
         int badAnswerCountry = 1;
         for (int i = 0; i < badAnswerCountry; i++) {

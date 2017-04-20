@@ -32,8 +32,11 @@ public class TrendyTest {
     public static final int FIRST_DAY_OF_MONTH = 1;
     public static final int EXEMPLARY_YEAR = 2016;
 
-    private Trendy trendy = new Trendy(new PetrolFileFilter(new OnDemandFilesContent()),
-            new CurrencyFileFilter(new OnDemandFilesContent()));
+//    private Trendy trendy = new Trendy(new PetrolFileFilter(new OnDemandFilesContent()),
+//            new CurrencyFileFilter(new OnDemandFilesContent()));
+    private Trendy trendy = new Trendy();
+
+
 
     private static List<CurrencyHistoryDayValue> listOfCurrencyObjects = new ArrayList<>();
     private static List<PetrolPrices> listOfPetrolObjects = new ArrayList();

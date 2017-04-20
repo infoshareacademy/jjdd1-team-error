@@ -24,9 +24,9 @@ public class Trendy {
     public static final int DECIMAL_PLACES = 2;
     public static final int NUMBER_OF_MONTHS_IN_YEAR = 12;
 
-    @Inject
+
     private PetrolFileFilter petrolFileFilter;
-    @Inject
+
     private CurrencyFileFilter currencyFileFilter;
 
     public void setPetrolFileFilter(PetrolFileFilter petrolFileFilter) {

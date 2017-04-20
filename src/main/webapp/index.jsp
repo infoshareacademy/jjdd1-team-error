@@ -20,6 +20,7 @@
             <li> ${country}</li>
             <li> ${currency}</li>
             <li> ${kindOfFuel}</li>
+            <p> ${trendForTrip}</p>
 
         </div>
 </body>

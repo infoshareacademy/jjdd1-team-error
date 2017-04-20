@@ -10,11 +10,15 @@ import java.util.Map;
  */
 public class CountryAndCurrency {
 
-    private final FilesContent filesContent;
+    private FilesContent filesContent;
     private Map<String, String> countriesAndCurrency = new LinkedHashMap<>();
     private String currency;
 
-    public CountryAndCurrency(FilesContent filesContent) {
+    public CountryAndCurrency() {
+    }
+
+
+    public void setFilesContent(FilesContent filesContent) {
         this.filesContent = filesContent;
     }
 

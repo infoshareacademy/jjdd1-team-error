@@ -1,5 +1,10 @@
 package com.infoshareacademy.jjdd1.teamerror.web;
 
+import com.infoshareacademy.jjdd1.teamerror.TripFullCost;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.CountryAndCurrency;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.CurrencyFileFilter;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.PetrolFileFilter;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 
 import javax.inject.Inject;
@@ -21,14 +26,28 @@ public class CalculatorServlet extends HttpServlet {
 
     @Inject
     Trendy trendy;
+    FilesContent filesContent;
+    CurrencyFileFilter currencyFileFilter;
+    PetrolFileFilter petrolFileFilter;
+//    TripFullCost cost;
+    CountryAndCurrency countryAndCurrency;
 
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println(trendy.hashCode());
+
+        currencyFileFilter.setFilesContent(filesContent);
+        petrolFileFilter.setFilesContent(filesContent);
+        trendy.setCurrencyFileFilter(currencyFileFilter);
+        trendy.setPetrolFileFilter(petrolFileFilter);
+//        cost = TripFullCost.createTripCostObject(filesContent);
+
         String country = req.getParameter("country");
         String currency = req.getParameter("currency");
         String kindOfFuel = req.getParameter("kindOfFuel");
+
+
+        String trendForTrip = trendy.optimalTimeForTrip(currency, kindOfFuel, country);
 
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
@@ -37,6 +56,7 @@ public class CalculatorServlet extends HttpServlet {
         req.setAttribute("country", country);
         req.setAttribute("currency", currency);
         req.setAttribute("kindOfFuel", kindOfFuel);
+        req.setAttribute("trendy", trendForTrip);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
         dispatcher.forward(req, resp);
