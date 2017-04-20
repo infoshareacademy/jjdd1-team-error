@@ -2,30 +2,21 @@ package com.infoshareacademy.jjdd1.teamerror;
 
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.CurrencyHistoryDayValue;
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.PetrolPrices;
-import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
-import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.CurrencyFileFilter;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.DateParser;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.PetrolFileFilter;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import java.time.LocalDate;
 import java.util.List;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.MONTHS;
 import static org.junit.Assert.*;
 
 /**
  * Created by Krystian on 2017-04-20.
  */
-@RunWith(Arquillian.class)
 public class TripFullCostTest {
 
     private FilesContent filesContent;
@@ -101,14 +92,14 @@ public class TripFullCostTest {
                     }
 
 //                    if (cost.getFuelType().equalsIgnoreCase("gasoline")) {
-                        if (dateParser.DateFromString("20160303").getMonth() == o2.getDate().getMonth()) {
-                            fuelPriceDate1 += o2.getGasolinePrice();
-                            iterator3++;
-                        }
-                        if (dateParser.DateFromString("20160403").getMonth() == o2.getDate().getMonth()) {
-                            fuelPriceDate2 += o2.getGasolinePrice();
-                            iterator4++;
-                        }
+                    if (dateParser.DateFromString("20160303").getMonth() == o2.getDate().getMonth()) {
+                        fuelPriceDate1 += o2.getGasolinePrice();
+                        iterator3++;
+                    }
+                    if (dateParser.DateFromString("20160403").getMonth() == o2.getDate().getMonth()) {
+                        fuelPriceDate2 += o2.getGasolinePrice();
+                        iterator4++;
+                    }
 //                    }
 //                    if (cost.getFuelType().equalsIgnoreCase("diesel")) {
 //                        if (cost.getDate1().getMonth() == o2.getDate().getMonth()) {
@@ -132,16 +123,8 @@ public class TripFullCostTest {
 
         double d = ((currencyPriceDate1 + currencyPriceDate2) / 2) *
                 ((fuelPriceDate1 + fuelPriceDate2) / 2) *
-                (cost.getDistance() / 100) * cost.getFuelUsage();
-        assertEquals(4665,d);
+                (1000 / 100) * 5;
+        assertEquals(133.68,d);
 
     }
-
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addClass(TripFullCost.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-    }
-
 }
