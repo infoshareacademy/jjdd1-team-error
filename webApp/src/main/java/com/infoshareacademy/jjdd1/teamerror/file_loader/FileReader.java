@@ -38,14 +38,16 @@ public class FileReader {
             LOGGER.info("File successfully loaded, path: {}", path);
         } catch (IOException e) {
             LOGGER.error("Loading file failed, path: {}", path);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
         }
         return lines;
     }
 
-    public static Path createURI(String path) throws URISyntaxException {
-        URI uri = FileReader.class.getResource(path).toURI();
+    public static Path createURI(String path){
+        URI uri = null;
+        try {
+            uri = FileReader.class.getResource(path).toURI();
+        } catch (URISyntaxException e) {
+        }
         Path rootPath = Paths.get(uri);
         try {
             if (uri.getScheme().equals("jar")) {
@@ -56,7 +58,7 @@ public class FileReader {
                 rootPath = Paths.get(uri);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
         return rootPath;
     }
@@ -72,8 +74,6 @@ public class FileReader {
             LOGGER.info("Files successfully extracted, source: {}, destination: {}", source, UNZIP_FOLDER);
         } catch (ZipException e) {
             LOGGER.error("Extracting files failed, source: {}, destination: {}", source, UNZIP_FOLDER);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
         }
     }
 
