@@ -24,11 +24,11 @@ public class CalculatorServlet extends HttpServlet {
 
     @Inject
     Trendy trendy;
-//    FilesContent filesContent;
-//    CurrencyFileFilter currencyFileFilter;
-//    PetrolFileFilter petrolFileFilter;
-//    TripFullCost cost;
-//    CountryAndCurrency countryAndCurrency;
+    FilesContent filesContent;
+    CurrencyFileFilter currencyFileFilter;
+    PetrolFileFilter petrolFileFilter;
+    TripFullCost cost;
+    CountryAndCurrency countryAndCurrency;
 
 
     @Override
@@ -38,46 +38,46 @@ public class CalculatorServlet extends HttpServlet {
 
 
 
+//
+//        String numberToRound = req.getParameter("number");
+//
+//        numberToRound = String.valueOf(Trendy.round(Double.valueOf(numberToRound), 2));
+//
+//        resp.setCharacterEncoding("UTF-8");
+//        resp.setContentType("text/plain;charset=UTF-8");
+//
+//        req.setAttribute("number", numberToRound);
+//
+//        RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
+//        dispatcher.forward(req, resp);
 
-        String numberToRound = req.getParameter("number");
 
-        numberToRound = String.valueOf(Trendy.round(Double.valueOf(numberToRound), 2));
+
+
+        filesContent = new OnDemandFilesContent();
+        currencyFileFilter = new CurrencyFileFilter();
+        petrolFileFilter = new PetrolFileFilter();
+        currencyFileFilter.setFilesContent(filesContent);
+        petrolFileFilter.setFilesContent(filesContent);
+        trendy.setCurrencyFileFilter(currencyFileFilter);
+        trendy.setPetrolFileFilter(petrolFileFilter);
+        cost = TripFullCost.createTripCostObject(filesContent);
+
+        String country = req.getParameter("country");
+        String currency = req.getParameter("currency");
+        String kindOfFuel = req.getParameter("kindOfFuel");
+
+        String trendForTrip = trendy.optimalTimeForTrip(currency, kindOfFuel, country);
 
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
 
-        req.setAttribute("number", numberToRound);
-
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
-        dispatcher.forward(req, resp);
 
 
-
-
-//        filesContent = new OnDemandFilesContent();
-//        currencyFileFilter = new CurrencyFileFilter();
-//        petrolFileFilter = new PetrolFileFilter();
-//        currencyFileFilter.setFilesContent(filesContent);
-//        petrolFileFilter.setFilesContent(filesContent);
-//        trendy.setCurrencyFileFilter(currencyFileFilter);
-//        trendy.setPetrolFileFilter(petrolFileFilter);
-//        cost = TripFullCost.createTripCostObject(filesContent);
-
-//        String currency = req.getParameter("country");
-//        String currency = req.getParameter("currency");
-//        String kindOfFuel = req.getParameter("kindOfFuel");
-
-//        String trendForTrip = trendy.optimalTimeForTrip(currency, kindOfFuel, country);
-
-//        resp.setCharacterEncoding("UTF-8");
-//        resp.setContentType("text/plain;charset=UTF-8");
-
-
-
-//        req.setAttribute("country", country);
-//        req.setAttribute("currency", currency);
-//        req.setAttribute("kindOfFuel", kindOfFuel);
-//        req.setAttribute("trendy", trendForTrip);
+        req.setAttribute("country", country);
+        req.setAttribute("currency", currency);
+        req.setAttribute("kindOfFuel", kindOfFuel);
+        req.setAttribute("trendy", trendForTrip);
 
 
 
