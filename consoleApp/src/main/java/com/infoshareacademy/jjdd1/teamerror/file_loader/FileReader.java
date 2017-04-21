@@ -7,9 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,7 +20,7 @@ import java.util.List;
 public class FileReader {
 
     public static final String CURRENCY_FILE_WITH_GENERAL_DATA = "omeganbp.lst.txt";
-    public static final String PATH_TO_FILES = "webApp/src/main/resources/files/";
+    public static final String PATH_TO_FILES = "/files/";
     public static final String PETROL_FILE_NAME = "iSA-PetrolPrices.csv";
     public static final String ZIP_CURRENCY_FILE = "omeganbp.zip";
     public static final String UNZIP_FOLDER = PATH_TO_FILES + "unzip/";
@@ -29,10 +31,10 @@ public class FileReader {
     public static List<String> loadContent(String path) {
         // file's content
         List<String> lines = new ArrayList<>();
-        // iterate over all currency names
+
         try {
             LOGGER.debug("Loading file content, path: {}", path);
-            lines = Files.readAllLines(Paths.get(path));
+            lines = Files.readAllLines(createURI(path));
             LOGGER.info("File successfully loaded, path: {}", path);
         } catch (IOException e) {
             LOGGER.error("Loading file failed, path: {}", path);
@@ -40,14 +42,35 @@ public class FileReader {
         return lines;
     }
 
+    public static Path createURI(String path){
+        URI uri = null;
+        try {
+            uri = FileReader.class.getResource(path).toURI();
+        } catch (URISyntaxException e) {
+        }
+        Path rootPath = Paths.get(uri);
+        try {
+            if (uri.getScheme().equals("jar")) {
+                FileSystem fileSystem = null;
+                fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap());
+                rootPath = fileSystem.getPath("/");
+            } else { //filesystem
+                rootPath = Paths.get(uri);
+            }
+        } catch (IOException e) {
+
+        }
+        return rootPath;
+    }
+
     // unzip the file from and to given location
     public static void unzipFile() {
         String source = PATH_TO_FILES + ZIP_CURRENCY_FILE;
         try {
             LOGGER.debug("Extracting files, source: {}, destination: {}", source, UNZIP_FOLDER);
-            ZipFile file = new ZipFile(source);
+            ZipFile file = new ZipFile(createURI(source).toString());
             // extract file
-            file.extractAll(UNZIP_FOLDER);
+            file.extractAll(createURI(UNZIP_FOLDER).toString());
             LOGGER.info("Files successfully extracted, source: {}, destination: {}", source, UNZIP_FOLDER);
         } catch (ZipException e) {
             LOGGER.error("Extracting files failed, source: {}, destination: {}", source, UNZIP_FOLDER);
@@ -56,31 +79,18 @@ public class FileReader {
 
     // delete extracted files
     public static void removeExtractedFiles() {
-        try {
-            Files.delete(Paths.get(UNZIP_FOLDER));
-        } catch (IOException e) {
-            LOGGER.warn("Removing extracted files failed, path: {}", UNZIP_FOLDER);
-        }
+//        try {
+//            String path = createURI(UNZIP_FOLDER).toString();
+//            Files.delete(Paths.get(path));
+//        } catch (IOException e) {
+//            LOGGER.warn("Removing extracted files failed, path: {}", UNZIP_FOLDER);
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
     }
 
     // create path
     public static String createPath(String fileName) {
         return UNZIP_FOLDER + fileName + ".txt";
     }
-
-    // do all
-//    public static List<CurrencyHistoryDayValue> loadCurrencyFile (String symbol) {
-//        if (CurrencyNames.getCurrencies().isEmpty()) {
-//            CurrencyNames.loadCurrencies();
-//        }
-//        unzipFile(PATH_TO_FILES + ZIP_CURRENCY_FILE, PATH_TO_FILES);
-//        List<CurrencyHistoryDayValue> result = CurrencyFileFilter.getListOfCurrencyDataObjects(symbol);
-//        removeExtractedFiles();
-//        return result;
-//    }
-
-//    // do all
-//    public static List<PetrolPrices> loadPetrolFiles (String country) {
-//        return PetrolFileFilter.getListOfPetrolDataObjects(country);
-//    }
 }
