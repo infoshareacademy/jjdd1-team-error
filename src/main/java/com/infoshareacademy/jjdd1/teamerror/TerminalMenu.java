@@ -23,13 +23,23 @@ public class TerminalMenu {
     public static void main(String[] arg) {
         FilesContent filesContent = new OnDemandFilesContent();
         TerminalMenu menu = new TerminalMenu(filesContent);
-
+//
         CountryNames countryNames = new CountryNames(filesContent);
         System.out.println(countryNames.getCountryNames() );
 
         CurrencyNames currencyNames = new CurrencyNames(filesContent);
         System.out.println(currencyNames.getCurrencies());
 
+        CountryAndCurrency countryAndCurrency = new CountryAndCurrency(filesContent);
+        System.out.println(countryAndCurrency.getCountriesAndCurrency());
+
+        System.out.println(currencyNames.getCurrencies().keySet());
+
+        if (countryAndCurrency.getCountriesAndCurrency().containsValue(currencyNames.getCurrencies().keySet()))
+            System.out.println("tak");
+        else
+            System.out.println("nie");
+//
         menu.menu();
 
 //        System.out.println(CountryAndCurrency.getCountriesAndCurrency());
