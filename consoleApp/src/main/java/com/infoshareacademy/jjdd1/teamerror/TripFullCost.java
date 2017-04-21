@@ -37,6 +37,17 @@ public class TripFullCost {
         this.currencyNames = currencyNames;
     }
 
+//    private TripFullCost(LocalDate date1, LocalDate date2, String country, String currency, String fuellType,
+//                         double distance, double fuelUsage){
+//        this.date1 = date1;
+//        this.date2 = date2;
+//        this.country = country;
+//        this.currency = currency;
+//        this.fuelType = fuellType;
+//        this.distance = distance;
+//        this.fuelUsage = fuelUsage;
+//    }
+
     String getFuelType() {
         return fuelType;
     }
