@@ -3,6 +3,8 @@ package com.infoshareacademy.jjdd1.teamerror;
 import com.infoshareacademy.jjdd1.teamerror.TripFullCost;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 import javax.inject.Inject;
@@ -22,7 +24,8 @@ import java.io.PrintWriter;
 @WebServlet(urlPatterns = "/roundNumber")
 public class CalculatorServlet extends HttpServlet {
 
-    @Inject
+    private final Logger LOGGER = LoggerFactory.getLogger(CalculatorServlet.class);
+
     Trendy trendy;
     FilesContent filesContent;
     CurrencyFileFilter currencyFileFilter;
@@ -30,13 +33,26 @@ public class CalculatorServlet extends HttpServlet {
     TripFullCost cost;
     CountryAndCurrency countryAndCurrency;
 
-
-    @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public CalculatorServlet() {
+        super();
+        LOGGER.info("CalculatorServlet initialisation");
 
         trendy = new Trendy();
 
+        filesContent = new OnDemandFilesContent();
+        currencyFileFilter = new CurrencyFileFilter();
+        petrolFileFilter = new PetrolFileFilter();
+        currencyFileFilter.setFilesContent(filesContent);
+        petrolFileFilter.setFilesContent(filesContent);
+        trendy.setCurrencyFileFilter(currencyFileFilter);
+        trendy.setPetrolFileFilter(petrolFileFilter);
+        LOGGER.info("CalculatorServlet initialised");
 
+    }
+
+    @Override
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        LOGGER.debug("servlet request");
 
 //
 //        String numberToRound = req.getParameter("number");
@@ -48,27 +64,21 @@ public class CalculatorServlet extends HttpServlet {
 //
 //        req.setAttribute("number", numberToRound);
 //
-//        RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
-//        dispatcher.forward(req, resp);
 
 
 
 
-        filesContent = new OnDemandFilesContent();
-        currencyFileFilter = new CurrencyFileFilter();
-        petrolFileFilter = new PetrolFileFilter();
-        currencyFileFilter.setFilesContent(filesContent);
-        petrolFileFilter.setFilesContent(filesContent);
-        trendy.setCurrencyFileFilter(currencyFileFilter);
-        trendy.setPetrolFileFilter(petrolFileFilter);
-        cost = TripFullCost.createTripCostObject(filesContent);
+//        cost = TripFullCost.createTripCostObject(filesContent);
 
         String country = req.getParameter("country");
         String currency = req.getParameter("currency");
         String kindOfFuel = req.getParameter("kindOfFuel");
 
+        LOGGER.info("servlet req params: {} {} {}", country, currency, kindOfFuel);
+
         String trendForTrip = trendy.optimalTimeForTrip(currency, kindOfFuel, country);
 
+        LOGGER.info("calculated trend for trip: {}", trendForTrip);
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
 
@@ -77,9 +87,11 @@ public class CalculatorServlet extends HttpServlet {
         req.setAttribute("country", country);
         req.setAttribute("currency", currency);
         req.setAttribute("kindOfFuel", kindOfFuel);
-        req.setAttribute("trendy", trendForTrip);
+        req.setAttribute("trendForTrip", trendForTrip);
 
 
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
+        dispatcher.forward(req, resp);
 
     }
 }

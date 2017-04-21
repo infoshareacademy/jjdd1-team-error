@@ -1,6 +1,7 @@
 package com.infoshareacademy.jjdd1.teamerror.file_loader;
 
-import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
+//import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
+import  com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import org.slf4j.Logger;
@@ -20,7 +21,7 @@ import java.util.List;
 public class FileReader {
 
     public static final String CURRENCY_FILE_WITH_GENERAL_DATA = "omeganbp.lst.txt";
-    public static final String PATH_TO_FILES = "/files/";
+    public static final String PATH_TO_FILES = System.getProperty("java.io.tmpdir")+"/files/";
     public static final String PETROL_FILE_NAME = "iSA-PetrolPrices.csv";
     public static final String ZIP_CURRENCY_FILE = "omeganbp.zip";
     public static final String UNZIP_FOLDER = PATH_TO_FILES + "unzip/";
@@ -43,23 +44,26 @@ public class FileReader {
     }
 
     public static Path createURI(String path){
-        URI uri = null;
-        try {
-            uri = FileReader.class.getResource(path).toURI();
-        } catch (URISyntaxException e) {
-        }
-        Path rootPath = Paths.get(uri);
-        try {
-            if (uri.getScheme().equals("jar")) {
-                FileSystem fileSystem = null;
-                fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap());
-                rootPath = fileSystem.getPath("/");
-            } else { //filesystem
-                rootPath = Paths.get(uri);
-            }
-        } catch (IOException e) {
-
-        }
+        System.out.println("loading path for file or folder: " + path);
+//        URI uri = null;
+//        try {
+////            uri = FileReader.class.getResource(path).toURI();
+//            uri = new URI(path);
+//        } catch (URISyntaxException e) {
+//            System.out.println("URI syntax");
+//        }
+        Path rootPath = Paths.get(path);
+//        try {
+//            if (uri.getScheme().equals("jar")) {
+//                FileSystem fileSystem = null;
+//                fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap());
+//                rootPath = fileSystem.getPath("/");
+//            } else { //filesystem
+//                rootPath = Paths.get(uri);
+//            }
+//        } catch (IOException e) {
+//
+//        }
         return rootPath;
     }
 
