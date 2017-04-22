@@ -2,6 +2,7 @@ package com.infoshareacademy.jjdd1.teamerror;
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.CurrencyHistoryDayValue;
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.PetrolPrices;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
+import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -16,7 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 /**
  * Created by Krystian on 2017-04-20.
  */
