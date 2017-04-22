@@ -5,7 +5,7 @@ import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by igafalkowska on 31.03.17.
@@ -33,14 +33,66 @@ public class TerminalMenu {
         CountryAndCurrency countryAndCurrency = new CountryAndCurrency(filesContent);
         System.out.println(countryAndCurrency.getCountriesAndCurrency());
 
-        System.out.println(currencyNames.getCurrencies().keySet());
+//        System.out.println(currencyNames.getCurrencies().keySet());
 
-        if (countryAndCurrency.getCountriesAndCurrency().containsValue(currencyNames.getCurrencies().keySet()))
-            System.out.println("tak");
-        else
-            System.out.println("nie");
+//        currencyNames.getCurrencies().forEach((String key, String value) -> currencyNames.getCurrencies());
+
+        Map<String, String> mapaZCzteremaPanstwami = countryAndCurrency.getCountriesAndCurrency();
+        Map<String, String> mapaZWalutamiIRozwinieciami = currencyNames.getCurrencies();
+
+        List<String> listaNPanstw = new ArrayList<String>(mapaZCzteremaPanstwami.keySet());
+        List<String> listaNSkrotow = new ArrayList<String>(mapaZCzteremaPanstwami.values());
+
+        for(int i = 0; i < listaNPanstw.size(); i++)
+            if((mapaZWalutamiIRozwinieciami.get(listaNSkrotow.get(i)) == null))
+                mapaZCzteremaPanstwami.remove(listaNPanstw.get(i), listaNSkrotow.get(i));
+
+        List<String> countries = new ArrayList<>(mapaZCzteremaPanstwami.keySet());
+//        mapaZCzteremaPanstwami.
+        System.out.println(mapaZCzteremaPanstwami);
+        System.out.println(countries);
+
+
+
+////        for(String m : map)
+//        List<String> listka = new ArrayList<>();
+//        mapka.forEach((String key, String value) -> listka.add(mapka.get(key)));
+//        System.out.println(listka);
+
+////        najnowsze rozw. Igi
+//        List<String> list = new ArrayList<>();
+//        currencyNames.getCurrencies().forEach((key, value) -> {
+//            if ((countryAndCurrency.getCountriesAndCurrency().containsValue(key)))
+//            list.add(key);
+//                }
+//        );
+//        System.out.println(list);
 //
-        menu.menu();
+//        for(String m: countryAndCurrency.getCountriesAndCurrency())
+
+//        for (int i = 0; i < currencyNames.getCurrencies().size(); i++) {
+////            String [] currencyKey = new String[currencyNames.getCurrencies().size()];
+//            currencyNames.getCurrencies().forEach((key, value) ->
+//                    {
+//                        List<String> currencyKey = new ArrayList<>();
+//                        currencyKey.add(key);
+//                    });
+//            System.out.println();
+//        }
+//        currencyNames.getCurrencies().forEach((key, value) ->
+//
+//
+//                System.out.println(key);
+//    });
+
+// (currencyNames.getCurrencies().forEach((key,value) -> System.out.println(key)));
+//        if (countryAndCurrency.getCountriesAndCurrency().containsValue
+// (currencyNames.getCurrencies().forEach((key,value) -> System.out.println(key) ))
+//            System.out.println("tak");
+//        else
+//            System.out.println("nie");
+//
+//        menu.menu();
 
 //        System.out.println(CountryAndCurrency.getCountriesAndCurrency());
     }
