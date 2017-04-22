@@ -72,7 +72,7 @@ public class InitialServlet extends HttpServlet {
             cost.setFuelType(fuelType);
 
             LOGGER.info("servlet req params: {} {}", country, cost.getFuelType());
-
+            req.setAttribute("title", "Menu");
             req.setAttribute("country", cost.getCountry());
             req.setAttribute("currency", cost.getCurrency());
             req.setAttribute("fuelType", cost.getFuelType());
@@ -82,9 +82,11 @@ public class InitialServlet extends HttpServlet {
         }
         else if (req.getParameter("trendy") != null) {
 
+            req.setAttribute("title", "Optimal time for trip");
             req.setAttribute("country", cost.getCountry());
             req.setAttribute("currency", cost.getCurrency());
             req.setAttribute("fuelType", cost.getFuelType());
+
 
             String trendForTrip = trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
             LOGGER.info("calculated trend for trip: {}", trendForTrip);
@@ -109,6 +111,7 @@ public class InitialServlet extends HttpServlet {
             cost.setDistance(fullDistance);
 
             String fullCost = String.valueOf(cost.costCount());
+            req.setAttribute("title", "Menu");
             req.setAttribute("country", cost.getCountry());
             req.setAttribute("currency", cost.getCurrency());
             req.setAttribute("fuelType", cost.getFuelType());

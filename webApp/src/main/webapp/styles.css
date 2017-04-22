@@ -1,13 +1,11 @@
 body {
-    alignment: center;
     font-family: Calibri;
 }
+
 h1 {
-    alignment: center;
     color: darkred;
 }
 h2 {
-    alignment: center;
     color: darkblue;
 }
 pre {

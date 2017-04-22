@@ -3,11 +3,11 @@
 
 <html>
     <head>
-        <title>Trip calculator</title>
+        <title>Initial data</title>
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <h1>TRIP CALCULATOR</h1>
+        <img alt="Trip calculator" src="img/logo.png"/>
         <h2>Initial data</h2>
 
         <form method="get" action="/calc">
