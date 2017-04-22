@@ -3,25 +3,20 @@
 
 <html>
     <head>
-        <title>Trip calculator</title>
+        <title>Initial data</title>
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <h1>TRIP CALCULATOR</h1>
+        <img alt="Trip calculator" src="img/logo.png"/>
+        <h2>Initial data</h2>
 
-        <form method="get" action="/usa">
-            <div><label>Country:</label> <input type="text" name="country" value="${country}"></div>
-            <div><label>Currency:</label> <input type="text" name="currency" value="${currency}"></div>
-            <div><label>Kind of fuel:</label> <input type="text" name="kindOfFuel" value="${kindOfFuell}"></div>
-            <div><input type="submit"></div>
+        <form method="get" action="/calc">
+            <div><label>Country:</label> <input type="text" name="country"></div>
+            <br>
+            <div> <input type="radio" name="fuelType" value="1" checked>diesel</div>
+            <div> <input type="radio" name="fuelType" value="2">gasoline</div>
+            <br>
+            <div><button type="submit" name="initialization" value="">Submit</button></div>
         </form>
-
-        <div>
-
-            <li> ${country}</li>
-            <li> ${currency}</li>
-            <li> ${kindOfFuel}</li>
-            <p> ${trendForTrip}</p>
-
-        </div>
 </body>
 </html>

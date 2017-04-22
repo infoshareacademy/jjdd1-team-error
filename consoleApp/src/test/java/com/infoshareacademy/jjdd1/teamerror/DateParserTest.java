@@ -23,4 +23,8 @@ public class DateParserTest {
         LocalDate date = dateParser.DateFromString("2016", "February");
         Assert.assertEquals(LocalDate.of(2016, 02,01),date);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> develop
