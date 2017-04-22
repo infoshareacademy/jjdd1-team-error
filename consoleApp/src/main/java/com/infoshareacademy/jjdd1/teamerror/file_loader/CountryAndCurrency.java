@@ -17,7 +17,6 @@ public class CountryAndCurrency {
     public CountryAndCurrency() {
     }
 
-
     public void setFilesContent(FilesContent filesContent) {
         this.filesContent = filesContent;
     }

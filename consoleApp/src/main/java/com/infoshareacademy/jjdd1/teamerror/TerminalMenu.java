@@ -31,7 +31,14 @@ public class TerminalMenu {
         System.out.println("-----------------------------");
 
         Scanner input = new Scanner(System.in);
-        TripFullCost cost = TripFullCost.createTripCostObject(filesContent);
+
+        PetrolFileFilter petrolFileFilter = new PetrolFileFilter();
+        petrolFileFilter.setFilesContent(filesContent);
+        CurrencyFileFilter currencyFileFilter = new CurrencyFileFilter();
+        currencyFileFilter.setFilesContent(filesContent);
+
+        TripFullCost cost = new TripFullCost();
+        cost.setTripFullCost(filesContent, petrolFileFilter, currencyFileFilter);
         CountryAndCurrency countryAndCurrency = new CountryAndCurrency();
         countryAndCurrency.setFilesContent(filesContent);
 
@@ -97,11 +104,7 @@ public class TerminalMenu {
                         LOGGER.info("Fuel type: "+ cost.getFuelType());
 
                         Trendy trendy = new Trendy();
-                        CurrencyFileFilter currencyFileFilter = new CurrencyFileFilter();
-                        currencyFileFilter.setFilesContent(filesContent);
                         trendy.setCurrencyFileFilter(currencyFileFilter);
-                        PetrolFileFilter petrolFileFilter = new PetrolFileFilter();
-                        petrolFileFilter.setFilesContent(filesContent);
                         trendy.setPetrolFileFilter(petrolFileFilter);
                         String trendForTrip = trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
 
@@ -184,6 +187,6 @@ public class TerminalMenu {
         LOGGER.info("Fuel usage: "+ cost.getFuelUsage() + "l/100km");
         LOGGER.info("Distance: "+ cost.getDistance() + "km");
         System.out.println("------------------------------------------------------------------------------");
-        LOGGER.info("The cost of renting a car abroad (for the specified data) will be: " + "\n" + cost.costCount(cost) + " PLN" + "\n");
+        LOGGER.info("The cost of renting a car abroad (for the specified data) will be: " + "\n" + cost.costCount() + " PLN" + "\n");
     }
 }

@@ -8,11 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,10 +18,10 @@ import java.util.List;
 public class FileReader {
 
     public static final String CURRENCY_FILE_WITH_GENERAL_DATA = "omeganbp.lst.txt";
-    public static final String PATH_TO_FILES = System.getProperty("java.io.tmpdir")+"/files/";
+    public static final String PATH_TO_FILES = System.getProperty("java.io.tmpdir")+"files\\";
     public static final String PETROL_FILE_NAME = "iSA-PetrolPrices.csv";
     public static final String ZIP_CURRENCY_FILE = "omeganbp.zip";
-    public static final String UNZIP_FOLDER = PATH_TO_FILES + "unzip/";
+    public static final String UNZIP_FOLDER = PATH_TO_FILES + "unzip\\";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Trendy.class);
 
@@ -35,7 +32,7 @@ public class FileReader {
 
         try {
             LOGGER.debug("Loading file content, path: {}", path);
-            lines = Files.readAllLines(createURI(path));
+            lines = Files.readAllLines(createFullPath(path));
             LOGGER.info("File successfully loaded, path: {}", path);
         } catch (IOException e) {
             LOGGER.error("Loading file failed, path: {}", path);
@@ -43,27 +40,8 @@ public class FileReader {
         return lines;
     }
 
-    public static Path createURI(String path){
-        System.out.println("loading path for file or folder: " + path);
-//        URI uri = null;
-//        try {
-////            uri = FileReader.class.getResource(path).toURI();
-//            uri = new URI(path);
-//        } catch (URISyntaxException e) {
-//            System.out.println("URI syntax");
-//        }
+    public static Path createFullPath(String path){
         Path rootPath = Paths.get(path);
-//        try {
-//            if (uri.getScheme().equals("jar")) {
-//                FileSystem fileSystem = null;
-//                fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap());
-//                rootPath = fileSystem.getPath("/");
-//            } else { //filesystem
-//                rootPath = Paths.get(uri);
-//            }
-//        } catch (IOException e) {
-//
-//        }
         return rootPath;
     }
 
@@ -72,9 +50,9 @@ public class FileReader {
         String source = PATH_TO_FILES + ZIP_CURRENCY_FILE;
         try {
             LOGGER.debug("Extracting files, source: {}, destination: {}", source, UNZIP_FOLDER);
-            ZipFile file = new ZipFile(createURI(source).toString());
+            ZipFile file = new ZipFile(createFullPath(source).toString());
             // extract file
-            file.extractAll(createURI(UNZIP_FOLDER).toString());
+            file.extractAll(createFullPath(UNZIP_FOLDER).toString());
             LOGGER.info("Files successfully extracted, source: {}, destination: {}", source, UNZIP_FOLDER);
         } catch (ZipException e) {
             LOGGER.error("Extracting files failed, source: {}, destination: {}", source, UNZIP_FOLDER);
@@ -83,14 +61,12 @@ public class FileReader {
 
     // delete extracted files
     public static void removeExtractedFiles() {
-//        try {
-//            String path = createURI(UNZIP_FOLDER).toString();
-//            Files.delete(Paths.get(path));
-//        } catch (IOException e) {
-//            LOGGER.warn("Removing extracted files failed, path: {}", UNZIP_FOLDER);
-//        } catch (URISyntaxException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            String path = createFullPath(UNZIP_FOLDER).toString();
+            Files.delete(Paths.get(path));
+        } catch (IOException e) {
+            LOGGER.warn("Removing extracted files failed, path: {}", UNZIP_FOLDER);
+        }
     }
 
     // create path

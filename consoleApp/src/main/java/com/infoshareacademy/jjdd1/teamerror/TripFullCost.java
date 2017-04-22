@@ -24,17 +24,36 @@ public class TripFullCost {
     private double distance, fuelUsage;
     private static final Logger LOGGER = LoggerFactory.getLogger(TripFullCost.class);
 
-    private final PetrolFileFilter petrolFileFilter;
-    private final CurrencyFileFilter currencyFileFilter;
-    private final CountryNames countryNames;
-    private final CurrencyNames currencyNames;
+    private PetrolFileFilter petrolFileFilter;
+    private CurrencyFileFilter currencyFileFilter;
+
+    private CountryNames countryNames;
+    private CurrencyNames currencyNames;
+    private FilesContent fileContent;
+
+    public void setCountryNames(CountryNames countryNames) {
+        this.countryNames = countryNames;
+    }
+
+    public void setCurrencyNames(CurrencyNames currencyNames) {
+        this.currencyNames = currencyNames;
+    }
+
+    public void setFileContent(FilesContent fileContent) {
+        this.fileContent = fileContent;
+    }
 
     //basic constructor
-    private TripFullCost(PetrolFileFilter filter, CurrencyFileFilter currencyFileFilter, CountryNames countryNames, CurrencyNames currencyNames) {
-        this.petrolFileFilter = filter;
+    public TripFullCost() {
+
+    }
+
+    public void setTripFullCost(FilesContent filesContent, PetrolFileFilter petrolFileFilter, CurrencyFileFilter currencyFileFilter) {
+        this.fileContent = filesContent;
+        this.petrolFileFilter = petrolFileFilter;
         this.currencyFileFilter = currencyFileFilter;
-        this.countryNames = countryNames;
-        this.currencyNames = currencyNames;
+        countryNames = new CountryNames(filesContent);
+        currencyNames = new CurrencyNames(filesContent);
     }
 
     String getFuelType() {
@@ -200,16 +219,16 @@ public class TripFullCost {
     }
 
     //method which will count the trip's entire cost depending on different variables
-    public double costCount(TripFullCost tripData) {
+    public double costCount() {
         double currencyPriceDate1 = 0;
         double currencyPriceDate2 = 0;
         double fuelPriceDate1 = 0;
         double fuelPriceDate2 = 0;
-        double days = DAYS.between(tripData.getDate1(), tripData.getDate2());
+        double days = DAYS.between(getDate1(), getDate2());
 
         //creating lists from files, so that they can be searched through
-        List<CurrencyHistoryDayValue> currencyObjectsList = currencyFileFilter.getListOfCurrencyDataObjects(tripData.getCurrency());
-        List<PetrolPrices> petrolObjectsList = petrolFileFilter.getListOfPetrolDataObjects(tripData.getCountry());
+        List<CurrencyHistoryDayValue> currencyObjectsList = currencyFileFilter.getListOfCurrencyDataObjects(getCurrency());
+        List<PetrolPrices> petrolObjectsList = petrolFileFilter.getListOfPetrolDataObjects(getCountry());
 
 
         //getting average currency values for the specified months of travel if years match in files (lists)
@@ -226,32 +245,32 @@ public class TripFullCost {
                     LOGGER.debug("The o2 year is: [{}] ", o2.getDate().getYear());
 
                     //getting average currency price values for the specified months of travel
-                    if (tripData.getDate1().getMonth() == o1.getDate().getMonth()) {
+                    if (getDate1().getMonth() == o1.getDate().getMonth()) {
                         currencyPriceDate1 += o1.getClose();
                         iterator1++;
                     }
-                    if (tripData.getDate2().getMonth() == o1.getDate().getMonth()) {
+                    if (getDate2().getMonth() == o1.getDate().getMonth()) {
                         currencyPriceDate2 += o1.getClose();
                         iterator2++;
                     }
 
                     //getting average fuel price values for the specified months of travel and specified type of fuel
-                    if (tripData.getFuelType().equalsIgnoreCase("gasoline")) {
-                        if (tripData.getDate1().getMonth() == o2.getDate().getMonth()) {
+                    if (getFuelType().equalsIgnoreCase("gasoline")) {
+                        if (getDate1().getMonth() == o2.getDate().getMonth()) {
                             fuelPriceDate1 += o2.getGasolinePrice();
                             iterator3++;
                         }
-                        if (tripData.getDate2().getMonth() == o2.getDate().getMonth()) {
+                        if (getDate2().getMonth() == o2.getDate().getMonth()) {
                             fuelPriceDate2 += o2.getGasolinePrice();
                             iterator4++;
                         }
                     }
-                    if (tripData.getFuelType().equalsIgnoreCase("diesel")) {
-                        if (tripData.getDate1().getMonth() == o2.getDate().getMonth()) {
+                    if (getFuelType().equalsIgnoreCase("diesel")) {
+                        if (getDate1().getMonth() == o2.getDate().getMonth()) {
                             fuelPriceDate1 += o2.getDieselPrice();
                             iterator3++;
                         }
-                        if (tripData.getDate2().getMonth() == o2.getDate().getMonth()) {
+                        if (getDate2().getMonth() == o2.getDate().getMonth()) {
                             fuelPriceDate2 += o2.getDieselPrice();
                             iterator4++;
                         }
@@ -273,17 +292,7 @@ public class TripFullCost {
         //counting the trip cost using all the necessary data
         return Trendy.round(((currencyPriceDate1 + currencyPriceDate2) / 2) *
                 ((fuelPriceDate1 + fuelPriceDate2) / 2) *
-                (tripData.getDistance() / 100) * tripData.getFuelUsage(), 2);
-    }
+                (getDistance() / 100) * getFuelUsage(), 2);
 
-    public static TripFullCost createTripCostObject(FilesContent filesContent) {
-        PetrolFileFilter petrolFileFilter = new PetrolFileFilter();
-        petrolFileFilter.setFilesContent(filesContent);
-        CurrencyFileFilter currencyFileFilter = new CurrencyFileFilter();
-        currencyFileFilter.setFilesContent(filesContent);
-        return new TripFullCost(petrolFileFilter,
-                currencyFileFilter,
-                new CountryNames(filesContent),
-                new CurrencyNames(filesContent));
     }
 }
