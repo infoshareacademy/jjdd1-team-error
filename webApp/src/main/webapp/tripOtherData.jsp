@@ -8,15 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page pageEncoding="UTF-8" %>
 
-<html>
-    <head>
-        <title>Additional data</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
-        <img alt="Trip calculator" src="img/logo.png"/>
-        <h2>Additional data</h2>
+<%@ include file="headersAndStyle.jsp" %>
 
+<html>
+    <body>
+        <h2>Additional data</h2>
         <form method="get" action="/calc">
             <div><label>Enter a date of departure in the format YYYYMMDD:</label> <input type="text" name="date1"></div>
             <div><label>Enter a date of return in the format YYYYMMDD:</label> <input type="text" name="date2"></div>

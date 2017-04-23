@@ -2,15 +2,11 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<html>
-<head>
-    <title>Initial data</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-<img alt="Trip calculator" src="img/logo.png"/>
-<h2>Initial data</h2>
+<%@ include file="headersAndStyle.jsp" %>
 
+<html>
+<body>
+<h2>Initial data</h2>
 <form method="get" action="/calc">
     <select name="country">
         <c:forEach items="${countriesAndCurrencies}" var="country">

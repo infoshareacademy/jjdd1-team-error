@@ -8,7 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page pageEncoding="UTF-8" %>
 
-<%@ include file="header.jsp" %>
+<%@ include file="headersAndStyle.jsp" %>
+<%@ include file="headerOptions.jsp" %>
 
 <div>
     <br>
@@ -21,6 +22,5 @@
     <li>Distance:  ${fullDistance}</li>
     <br>
     <h3>The cost of renting a car abroad (for the specified data) will be: ${fullCost}PLN</h3>
-
 </div>
 <%@ include file="footer.jsp" %>
