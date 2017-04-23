@@ -25,87 +25,6 @@ public class TerminalMenu {
     public static void main(String[] arg) {
         FilesContent filesContent = new OnDemandFilesContent();
         TerminalMenu menu = new TerminalMenu(filesContent);
-////
-//        CountryNames countryNames = new CountryNames(filesContent);
-//        System.out.println(countryNames.getCountryNames() );
-//
-        CurrencyNames currencyNames = new CurrencyNames(filesContent);
-//        System.out.println(currencyNames.getCurrencies());
-//
-        CountryAndCurrency countryAndCurrency = new CountryAndCurrency();
-        countryAndCurrency.setFilesContent(filesContent);
-//        countryAndCurrency.setFilesContent(filesContent);
-        System.out.println(countryAndCurrency.getCountriesAndCurrency());
-
-//        CountryAndCurrencySelected countryAndCurrencySelected = new CountryAndCurrencySelected();
-//        countryAndCurrencySelected.setCountryAndCurrencySelected(filesContent);
-//        System.out.println(countryAndCurrencySelected.getCountriesAndCurrencySelected());
-
-//        System.out.println(currencyNames.getCurrencies().keySet());
-
-//        currencyNames.getCurrencies().forEach((String key, String value) -> currencyNames.getCurrencies());
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        Map<String, String> mapaZCzteremaPanstwami = countryAndCurrency.getCountriesAndCurrency();
-        Map<String, String> mapaZWalutamiIRozwinieciami = currencyNames.getCurrencies();
-
-        List<String> listaNPanstw = new ArrayList<String>(mapaZCzteremaPanstwami.keySet());
-        List<String> listaNSkrotow = new ArrayList<String>(mapaZCzteremaPanstwami.values());
-
-        for(int i = 0; i < listaNPanstw.size(); i++)
-            if((mapaZWalutamiIRozwinieciami.get(listaNSkrotow.get(i)) == null))
-                mapaZCzteremaPanstwami.remove(listaNPanstw.get(i), listaNSkrotow.get(i));
-
-        List<String> countriesAfterSorting = new ArrayList<>(mapaZCzteremaPanstwami.keySet());
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//        mapaZCzteremaPanstwami.
-//        System.out.println(mapaZCzteremaPanstwami);
-//        System.out.println(countries);
-
-
-
-////        for(String m : map)
-//        List<String> listka = new ArrayList<>();
-//        mapka.forEach((String key, String value) -> listka.add(mapka.get(key)));
-//        System.out.println(listka);
-
-////        najnowsze rozw. Igi
-//        List<String> list = new ArrayList<>();
-//        currencyNames.getCurrencies().forEach((key, value) -> {
-//            if ((countryAndCurrency.getCountriesAndCurrency().containsValue(key)))
-//            list.add(key);
-//                }
-//        );
-//        System.out.println(list);
-//
-//        for(String m: countryAndCurrency.getCountriesAndCurrency())
-
-//        for (int i = 0; i < currencyNames.getCurrencies().size(); i++) {
-////            String [] currencyKey = new String[currencyNames.getCurrencies().size()];
-//            currencyNames.getCurrencies().forEach((key, value) ->
-//                    {
-//                        List<String> currencyKey = new ArrayList<>();
-//                        currencyKey.add(key);
-//                    });
-//            System.out.println();
-//        }
-//        currencyNames.getCurrencies().forEach((key, value) ->
-//
-//
-//                System.out.println(key);
-//    });
-
-// (currencyNames.getCurrencies().forEach((key,value) -> System.out.println(key)));
-//        if (countryAndCurrency.getCountriesAndCurrency().containsValue
-// (currencyNames.getCurrencies().forEach((key,value) -> System.out.println(key) ))
-//            System.out.println("tak");
-//        else
-//            System.out.println("nie");
-//
-//        menu.menu();
-
-//        System.out.println(CountryAndCurrency.getCountriesAndCurrency());
         menu.menu();
     }
 
@@ -125,10 +44,12 @@ public class TerminalMenu {
         cost.setTripFullCost(filesContent, petrolFileFilter, currencyFileFilter);
         CountryAndCurrency countryAndCurrency = new CountryAndCurrency();
         countryAndCurrency.setFilesContent(filesContent);
+        PromotedCountries promotedCountries = new PromotedCountries();
+        promotedCountries.setFilesContent(filesContent);
 
         int badAnswerCountry = 1;
         for (int i = 0; i < badAnswerCountry; i++) {
-            LOGGER.info("Enter a country of the trip (e.g. Croatia, USA, France): ");
+            LOGGER.info("Enter a country of the trip({}): ", promotedCountries.getOrderedPromotedCountries());
             String country = input.nextLine();
             cost.setCountry(country.toUpperCase());
             if (cost.getCountry() == null) {
