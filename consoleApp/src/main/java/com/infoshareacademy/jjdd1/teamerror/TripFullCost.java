@@ -179,6 +179,20 @@ public class TripFullCost {
         return currency;
     }
 
+    //data check added to standard SET method
+    void setCurrency(String currency){
+        try {
+            if(currencyNames.getCurrencies().containsKey(currency)){
+                this.currency = currency;
+            }
+            else{
+                throw new Exception();
+            }
+        } catch (Exception e) {
+            LOGGER.error("Currency [{}] is not accepted", currency);
+        }
+    }
+
     Double getDistance() {
         return distance;
     }
@@ -204,7 +218,7 @@ public class TripFullCost {
         double currencyPriceDate2 = 0;
         double fuelPriceDate1 = 0;
         double fuelPriceDate2 = 0;
-//        double days = DAYS.between(getDate1(), getDate2());
+        double days = DAYS.between(getDate1(), getDate2());
 
         //creating lists from files, so that they can be searched through
         List<CurrencyHistoryDayValue> currencyObjectsList = currencyFileFilter.getListOfCurrencyDataObjects(getCurrency());

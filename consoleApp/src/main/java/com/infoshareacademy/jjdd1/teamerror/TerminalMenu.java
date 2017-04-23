@@ -5,6 +5,9 @@ import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -43,10 +46,14 @@ public class TerminalMenu {
         cost.setTripFullCost(filesContent, petrolFileFilter, currencyFileFilter);
         cost.setCountryAndCurrency(new CountryAndCurrency());
 
+        CountryAndCurrency countryAndCurrency = new CountryAndCurrency();
+        countryAndCurrency.setFilesContent(filesContent);
+        PromotedCountries promotedCountries = new PromotedCountries();
+        promotedCountries.setFilesContent(filesContent);
 
         int badAnswerCountry = 1;
         for (int i = 0; i < badAnswerCountry; i++) {
-            LOGGER.info("Enter a country of the trip (e.g. Croatia, USA, France): ");
+            LOGGER.info("Enter a country of the trip({}): ", promotedCountries.getOrderedPromotedCountries());
             String country = input.nextLine();
             cost.setCountry(country.toUpperCase());
             if (cost.getCountry() == null) {
