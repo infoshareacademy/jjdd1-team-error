@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by krystianskrzyszewski on 19.04.17.
@@ -29,6 +30,7 @@ public class InitialServlet extends HttpServlet {
     PetrolFileFilter petrolFileFilter;
     TripFullCost cost;
     CountryAndCurrency countryAndCurrency;
+    Map<String, String> countryAndCurrencyList;
 
     public InitialServlet() {
         super();
@@ -47,6 +49,7 @@ public class InitialServlet extends HttpServlet {
         trendy.setPetrolFileFilter(petrolFileFilter);
         countryAndCurrency = new CountryAndCurrency();
         countryAndCurrency.setFilesContent(filesContent);
+        countryAndCurrencyList = countryAndCurrency.getCountriesAndCurrency();
         LOGGER.info("InitialServlet initialised");
 
     }
@@ -56,14 +59,17 @@ public class InitialServlet extends HttpServlet {
         LOGGER.debug("servlet request");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
+        req.setAttribute("countriesAndCurrencies", countryAndCurrencyList);
 
-        if (req.getParameter("initialData") != null) {
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
+        if (req.getParameter("start") != null || req.getParameter("initialData") != null) {
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
             dispatcher.forward(req, resp);
         }
         else if (req.getParameter("initialization") != null) {
             String country = req.getParameter("country").toUpperCase();
             String fuelType = req.getParameter("fuelType");
+
+            countryAndCurrency.getCountriesAndCurrency();
 
             cost.setCountry(country);
 
