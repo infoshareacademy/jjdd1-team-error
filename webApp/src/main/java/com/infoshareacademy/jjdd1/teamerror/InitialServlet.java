@@ -12,9 +12,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,10 +29,8 @@ public class InitialServlet extends HttpServlet {
     private final Logger LOGGER = LoggerFactory.getLogger(InitialServlet.class);
 
     Trendy trendy;
-//    FilesContent filesContent;
-//    CurrencyFileFilter currencyFileFilter;
-//    PetrolFileFilter petrolFileFilter;
     TripFullCost cost;
+    FilesContent filesContent;
     CountryAndCurrency countryAndCurrency;
     Map<String, String> countryAndCurrencyList;
 
@@ -40,7 +40,7 @@ public class InitialServlet extends HttpServlet {
 
         trendy = new Trendy();
 
-        FilesContent filesContent = new OnDemandFilesContent();
+        filesContent = new OnDemandFilesContent();
         CurrencyFileFilter currencyFileFilter = new CurrencyFileFilter();
         PetrolFileFilter petrolFileFilter = new PetrolFileFilter();
         currencyFileFilter.setFilesContent(filesContent);
@@ -51,8 +51,6 @@ public class InitialServlet extends HttpServlet {
         trendy.setCurrencyFileFilter(currencyFileFilter);
         trendy.setPetrolFileFilter(petrolFileFilter);
         countryAndCurrency = new CountryAndCurrency();
-        countryAndCurrency.setFilesContent(filesContent);
-        countryAndCurrencyList = countryAndCurrency.getCountriesAndCurrency();
         LOGGER.info("InitialServlet initialised");
 
     }
@@ -62,11 +60,24 @@ public class InitialServlet extends HttpServlet {
         LOGGER.debug("servlet request");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
+        filesContent.getPetrolDataFile();
+        filesContent.getCurrencyInfoFile();
 
-        req.setAttribute("countriesAndCurrencies", countryAndCurrencyList);
+        countryAndCurrency.setFilesContent(filesContent);
+        countryAndCurrencyList = countryAndCurrency.getCountriesAndCurrency();
+
+        File petrolFile = new File(System.getProperty("java.io.tmpdir")+"files\\" + "iSA-PetrolPrices.csv");
+        File currencyInfoFile = new File(System.getProperty("java.io.tmpdir")+"files\\" + "omeganbp.lst.txt");
+        File currencyZipFile = new File(System.getProperty("java.io.tmpdir")+"files\\" + "omeganbp.zip");
+        if(!petrolFile.exists() || !currencyInfoFile.exists() || !currencyZipFile.exists()) {
+            req.setAttribute("missingFile",  "yes");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
+            dispatcher.forward(req, resp);
+        }
 
         if (req.getParameter("start") != null || req.getParameter("initialData") != null) {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
+            req.setAttribute("countriesAndCurrencies", countryAndCurrencyList);
             dispatcher.forward(req, resp);
         }
         else if (req.getParameter("initialization") != null) {
@@ -94,9 +105,11 @@ public class InitialServlet extends HttpServlet {
             req.setAttribute("fuelType", cost.getFuelType());
 
 
-            String trendForTrip = trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
-            LOGGER.info("calculated trend for trip: {}", trendForTrip);
-            req.setAttribute("trendForTrip", trendForTrip);
+            trendy.setTrendy(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
+            LOGGER.info("calculated trend for trip: {},{},{}", cost.getCountry(), cost.getCurrency(), cost.getFuelType());
+            req.setAttribute("petrolTrendy", trendy.getPetrolTrendy());
+            req.setAttribute("currencyTrendy", trendy.getCurrencyTrendy());
+            req.setAttribute("conclusion", trendy.getConclusion());
 
             RequestDispatcher dispatcher = req.getRequestDispatcher("/trendy.jsp");
             dispatcher.forward(req, resp);
@@ -187,15 +200,6 @@ public class InitialServlet extends HttpServlet {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/tripCost.jsp");
                 dispatcher.forward(req, resp);
 
-//            req.setAttribute("title", "Menu");
-//            req.setAttribute("currency", cost.getCurrency());
-//            req.setAttribute("currency", cost.getCurrency());
-//            req.setAttribute("fuelType", cost.getFuelType());
-//            req.setAttribute("date1", cost.getDate1());
-//            req.setAttribute("date2", cost.getDate2());
-//            req.setAttribute("fuelUsage", cost.getFuelUsage());
-//            req.setAttribute("fullDistance", cost.getDistance());
-//            req.setAttribute("fullCost", fullCost);
             }catch(Exception e){
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/exceptionHandling.jsp");
                 dispatcher.forward(req, resp);

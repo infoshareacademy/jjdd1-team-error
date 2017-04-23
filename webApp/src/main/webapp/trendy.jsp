@@ -17,9 +17,28 @@
 </div>
 <div class="result">
     <br>
-    <p><pre> ${trendForTrip}</pre></p>
+    <table id="trendy_table">
+        <tr>
+            <th>Month</th>
+            <c:forEach items="${currencyTrendy}" var="monthValue">
+                <td>${monthValue.key}</td>
+            </c:forEach>
+        </tr>
+        <tr>
+            <th>Currency deviations &#91;&#37;&#93;</th>
+            <c:forEach items="${currencyTrendy}" var="monthValue">
+                <td>${monthValue.value}</td>
+            </c:forEach>
+        </tr>
+        <tr>
+            <th>Petrol deviations &#91;&#37;&#93;</th>
+            <c:forEach items="${petrolTrendy}" var="monthValue">
+                <td>${monthValue.value}</td>
+            </c:forEach>
+        </tr>
+    </table>
 </div>
 
-
+<h3>${conclusion}</h3>
 
 <%@ include file="footer.jsp" %>

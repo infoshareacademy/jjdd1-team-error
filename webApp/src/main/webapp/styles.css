@@ -25,6 +25,25 @@ body {
 .result {
     text-align: center;
 }
+.error {
+    color: red;
+}
+table {
+    border: 1px solid #ddd;
+    display: inline-block;
+    margin:0 auto;
+    border-collapse: collapse;
+}
+th {
+    border: 1px solid #ddd;
+    text-align: right;
+    padding: 10px;
+}
+td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
 h1 {
     color: darkred;
     text-align: center;
