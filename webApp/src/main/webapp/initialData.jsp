@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@ include file="headersAndStyle.jsp" %>
+<%@ page errorPage="exceptionHandling.jsp" %>
 
 <html>
 <body>

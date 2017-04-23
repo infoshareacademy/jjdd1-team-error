@@ -10,6 +10,7 @@
 
 <%@ include file="headersAndStyle.jsp" %>
 <%@ include file="headerOptions.jsp" %>
+<%@ page errorPage="exceptionHandling.jsp" %>
 
 <div>
     <br>

@@ -224,7 +224,7 @@ public class TripFullCost {
         double currencyPriceDate2 = 0;
         double fuelPriceDate1 = 0;
         double fuelPriceDate2 = 0;
-        double days = DAYS.between(getDate1(), getDate2());
+//        double days = DAYS.between(getDate1(), getDate2());
 
         //creating lists from files, so that they can be searched through
         List<CurrencyHistoryDayValue> currencyObjectsList = currencyFileFilter.getListOfCurrencyDataObjects(getCurrency());
