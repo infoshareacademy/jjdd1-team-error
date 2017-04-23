@@ -1,9 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror.file_loader;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by samulilaine on 19/04/2017.
@@ -13,21 +10,24 @@ public class CountryAndCurrency {
     private FilesContent filesContent;
     private Map<String, String> countriesAndCurrency = new LinkedHashMap<>();
     private String currency;
+    private  CurrencyNames currencyNames;
 
     public CountryAndCurrency() {
+
     }
 
     public void setFilesContent(FilesContent filesContent) {
         this.filesContent = filesContent;
+        currencyNames = new CurrencyNames(filesContent);
     }
 
     public Map<String, String> getCountriesAndCurrency() {
         if (countriesAndCurrency.isEmpty()) {
             loadCountriesAndCurrency();
+            selectCountriesAndCurrency();
         }
         return countriesAndCurrency;
     }
-    // single elements of given line as object
 
     public void loadCountriesAndCurrency() {
         List<String> lines = filesContent.getPetrolDataFile();
@@ -39,6 +39,15 @@ public class CountryAndCurrency {
         }
     }
 
+    // select countries which are available for petrol and currencies
+    public void selectCountriesAndCurrency(){
+        List<String> countries= new ArrayList<String>(countriesAndCurrency.keySet());
+        List<String> currencies = new ArrayList<String>(countriesAndCurrency.values());
+
+        for(int i = 0; i < countries.size(); i++)
+            if((currencyNames.getCurrencies().get(currencies.get(i)) == null))
+                countriesAndCurrency.remove(countries.get(i), currencies.get(i));
+    }
 
     public String getCurrency() {
         return currency;

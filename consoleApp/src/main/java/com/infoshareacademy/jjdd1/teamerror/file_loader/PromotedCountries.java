@@ -21,21 +21,21 @@ public class PromotedCountries {
 //
 //    if (currencyNames.getCurrencies())
 
-    private final FilesContent filesContent;
-    public PromotedCountries(FilesContent filesContent) {
-        this.filesContent = filesContent;
-    }
-    public static void da(){
-        FilesContent filesContent = new OnDemandFilesContent();
-        PromotedCountries promotedCountries = new PromotedCountries(filesContent);
-        CountryAndCurrency countryAndCurrency = new CountryAndCurrency(filesContent);
-        CurrencyNames currencyNames = new CurrencyNames(filesContent);
-
-        if (countryAndCurrency.getCountriesAndCurrency().containsKey(currencyNames.getCurrencies()))
-            System.out.println("tak");
-
-
-        }
+//    private final FilesContent filesContent;
+//    public PromotedCountries(FilesContent filesContent) {
+//        this.filesContent = filesContent;
+//    }
+//    public static void da(){
+//        FilesContent filesContent = new OnDemandFilesContent();
+//        PromotedCountries promotedCountries = new PromotedCountries(filesContent);
+//        CountryAndCurrency countryAndCurrency = CountryAndCurrency();
+//        CurrencyNames currencyNames = new CurrencyNames(filesContent);
+//
+//        if (countryAndCurrency.getCountriesAndCurrency().containsKey(currencyNames.getCurrencies()))
+//            System.out.println("tak");
+//
+//
+//        }
 
 
 }

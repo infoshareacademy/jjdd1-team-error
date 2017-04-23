@@ -5,6 +5,9 @@ import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -22,20 +25,27 @@ public class TerminalMenu {
     public static void main(String[] arg) {
         FilesContent filesContent = new OnDemandFilesContent();
         TerminalMenu menu = new TerminalMenu(filesContent);
+////
+//        CountryNames countryNames = new CountryNames(filesContent);
+//        System.out.println(countryNames.getCountryNames() );
 //
-        CountryNames countryNames = new CountryNames(filesContent);
-        System.out.println(countryNames.getCountryNames() );
-
         CurrencyNames currencyNames = new CurrencyNames(filesContent);
-        System.out.println(currencyNames.getCurrencies());
-
-        CountryAndCurrency countryAndCurrency = new CountryAndCurrency(filesContent);
+//        System.out.println(currencyNames.getCurrencies());
+//
+        CountryAndCurrency countryAndCurrency = new CountryAndCurrency();
+        countryAndCurrency.setFilesContent(filesContent);
+//        countryAndCurrency.setFilesContent(filesContent);
         System.out.println(countryAndCurrency.getCountriesAndCurrency());
+
+//        CountryAndCurrencySelected countryAndCurrencySelected = new CountryAndCurrencySelected();
+//        countryAndCurrencySelected.setCountryAndCurrencySelected(filesContent);
+//        System.out.println(countryAndCurrencySelected.getCountriesAndCurrencySelected());
 
 //        System.out.println(currencyNames.getCurrencies().keySet());
 
 //        currencyNames.getCurrencies().forEach((String key, String value) -> currencyNames.getCurrencies());
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         Map<String, String> mapaZCzteremaPanstwami = countryAndCurrency.getCountriesAndCurrency();
         Map<String, String> mapaZWalutamiIRozwinieciami = currencyNames.getCurrencies();
 
@@ -46,10 +56,12 @@ public class TerminalMenu {
             if((mapaZWalutamiIRozwinieciami.get(listaNSkrotow.get(i)) == null))
                 mapaZCzteremaPanstwami.remove(listaNPanstw.get(i), listaNSkrotow.get(i));
 
-        List<String> countries = new ArrayList<>(mapaZCzteremaPanstwami.keySet());
+        List<String> countriesAfterSorting = new ArrayList<>(mapaZCzteremaPanstwami.keySet());
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //        mapaZCzteremaPanstwami.
-        System.out.println(mapaZCzteremaPanstwami);
-        System.out.println(countries);
+//        System.out.println(mapaZCzteremaPanstwami);
+//        System.out.println(countries);
 
 
 
