@@ -33,6 +33,7 @@ public class InitialServlet extends HttpServlet {
     FilesContent filesContent;
     CountryAndCurrency countryAndCurrency;
     Map<String, String> countryAndCurrencyList;
+    PromotedCountries promotedCountries;
 
     public InitialServlet() {
         super();
@@ -52,6 +53,9 @@ public class InitialServlet extends HttpServlet {
         trendy.setPetrolFileFilter(petrolFileFilter);
         countryAndCurrency = new CountryAndCurrency();
         LOGGER.info("InitialServlet initialised");
+        promotedCountries = new PromotedCountries();
+        promotedCountries.setFilesContent(filesContent);
+
 
     }
 
@@ -77,14 +81,13 @@ public class InitialServlet extends HttpServlet {
 
         if (req.getParameter("start") != null || req.getParameter("initialData") != null) {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
-            req.setAttribute("countriesAndCurrencies", countryAndCurrencyList);
+            req.setAttribute("countryList", promotedCountries.getOrderedPromotedCountries());
             dispatcher.forward(req, resp);
         }
         else if (req.getParameter("initialization") != null) {
             String country = req.getParameter("country").toUpperCase();
             String fuelType = req.getParameter("fuelType");
 
-            countryAndCurrency.getCountriesAndCurrency();
             cost.setCountry(country);
             cost.setFuelType(fuelType);
 

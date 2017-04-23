@@ -2,8 +2,8 @@
 
 <form method="get" action="/calc">
     <select name="country" >
-        <c:forEach items="${countriesAndCurrencies}" var="country">
-            <option value="${country.key}">${country.key}</option>
+        <c:forEach items="${countryList}" var="country">
+            <option value="${country}">${country}</option>
         </c:forEach>
     </select>
     <br>

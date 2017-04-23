@@ -52,7 +52,7 @@ public class PromotedCountries {
 
     public void setOrderedPromotedCountries() {
         List<String> availableCountries = new ArrayList<>(countryAndCurrency.getCountriesAndCurrency().keySet());
-
+        orderedPromotedCountries.clear();
         for (int i = 0; i < getPromotedCountries().size(); i++) {
             orderedPromotedCountries.add(getPromotedCountries().get(i).toUpperCase());
         }
