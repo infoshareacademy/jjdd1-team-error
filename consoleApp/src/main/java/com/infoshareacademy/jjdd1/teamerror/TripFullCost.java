@@ -29,6 +29,7 @@ public class TripFullCost {
 
     private CountryNames countryNames;
     private CurrencyNames currencyNames;
+    private CountryAndCurrency countryAndCurrency;
     private FilesContent fileContent;
 
     public void setCountryNames(CountryNames countryNames) {
@@ -37,6 +38,10 @@ public class TripFullCost {
 
     public void setCurrencyNames(CurrencyNames currencyNames) {
         this.currencyNames = currencyNames;
+    }
+
+    public void setCountryAndCurrency(CountryAndCurrency countryAndCurrency) {
+        this.countryAndCurrency = countryAndCurrency;
     }
 
     public void setFileContent(FilesContent fileContent) {
@@ -54,6 +59,8 @@ public class TripFullCost {
         this.currencyFileFilter = currencyFileFilter;
         countryNames = new CountryNames(filesContent);
         currencyNames = new CurrencyNames(filesContent);
+        countryAndCurrency = new CountryAndCurrency();
+        countryAndCurrency.setFilesContent(filesContent);
     }
 
     String getFuelType() {
@@ -171,7 +178,7 @@ public class TripFullCost {
     //data check added to standard SET method
     void setCountry(String country){
         try{
-            if (countryNames.getCountryNames().contains(country)) {
+            if (countryAndCurrency.getCountriesAndCurrency().containsKey(country)) {
                 this.country = country;
             } else {
                 throw new Exception();
