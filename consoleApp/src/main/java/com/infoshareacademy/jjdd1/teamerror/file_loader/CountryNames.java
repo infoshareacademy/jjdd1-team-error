@@ -24,15 +24,14 @@ public class CountryNames {
         return countryNames;
     }
 
+    // load evailable countries from petrol file
     public void loadAvailableCountries() {
 
         List<String> lines = filesContent.getPetrolDataFile();
 
-        // single elements of given line as object
         Set<String> countries = new LinkedHashSet<>();
         String[] parts;
 
-        // iterate over all lines
         for (int i = 1; i < lines.size(); i++) {
             parts = lines.get(i).split(";");
             // read only countries

@@ -27,20 +27,13 @@ public class TripFullCost {
     private PetrolFileFilter petrolFileFilter;
     private CurrencyFileFilter currencyFileFilter;
 
-    private CountryNames countryNames;
+    private CountryAndCurrency countryAndCurrency;
     private CurrencyNames currencyNames;
     private FilesContent fileContent;
 
-    public void setCountryNames(CountryNames countryNames) {
-        this.countryNames = countryNames;
-    }
-
-    public void setCurrencyNames(CurrencyNames currencyNames) {
-        this.currencyNames = currencyNames;
-    }
-
-    public void setFileContent(FilesContent fileContent) {
-        this.fileContent = fileContent;
+    public void setCountryAndCurrency(CountryAndCurrency countryAndCurrency) {
+        this.countryAndCurrency = countryAndCurrency;
+        countryAndCurrency.setFilesContent(fileContent);
     }
 
     //basic constructor
@@ -52,7 +45,7 @@ public class TripFullCost {
         this.fileContent = filesContent;
         this.petrolFileFilter = petrolFileFilter;
         this.currencyFileFilter = currencyFileFilter;
-        countryNames = new CountryNames(filesContent);
+
         currencyNames = new CurrencyNames(filesContent);
     }
 
@@ -171,8 +164,9 @@ public class TripFullCost {
     //data check added to standard SET method
     void setCountry(String country){
         try{
-            if (countryNames.getCountryNames().contains(country)) {
+            if (countryAndCurrency.getCountriesAndCurrency().containsKey(country)) {
                 this.country = country;
+                this.currency = countryAndCurrency.getCountriesAndCurrency().get(country);
             } else {
                 throw new Exception();
             }
@@ -183,20 +177,6 @@ public class TripFullCost {
 
     String getCurrency() {
         return currency;
-    }
-
-    //data check added to standard SET method
-    void setCurrency(String currency){
-        try {
-            if(currencyNames.getCurrencies().containsKey(currency)){
-                this.currency = currency;
-            }
-            else{
-                throw new Exception();
-            }
-        } catch (Exception e) {
-            LOGGER.error("Currency [{}] is not accepted", currency);
-        }
     }
 
     Double getDistance() {

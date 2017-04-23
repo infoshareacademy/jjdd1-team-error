@@ -20,7 +20,9 @@ public class TerminalMenu {
     }
 
     public static void main(String[] arg) {
-        FilesContent filesContent = new OnDemandFilesContent();
+        FilesContent filesContent = new CachedFilesContent();
+        filesContent.getPetrolDataFile();
+        filesContent.getCurrencyInfoFile();
         TerminalMenu menu = new TerminalMenu(filesContent);
         menu.menu();
     }
@@ -39,8 +41,8 @@ public class TerminalMenu {
 
         TripFullCost cost = new TripFullCost();
         cost.setTripFullCost(filesContent, petrolFileFilter, currencyFileFilter);
-        CountryAndCurrency countryAndCurrency = new CountryAndCurrency();
-        countryAndCurrency.setFilesContent(filesContent);
+        cost.setCountryAndCurrency(new CountryAndCurrency());
+
 
         int badAnswerCountry = 1;
         for (int i = 0; i < badAnswerCountry; i++) {
@@ -51,16 +53,7 @@ public class TerminalMenu {
                 badAnswerCountry++;
             }
         }
-
-        int badAnswerCurrency = 1;
-        for (int i = 0; i < badAnswerCurrency; i++) {
-            countryAndCurrency.setCurrency(cost.getCountry());
-            cost.setCurrency(countryAndCurrency.getCurrency());
-            LOGGER.info("Currency in chosen country is " + cost.getCurrency());
-            if(cost.getCurrency() == null){
-                badAnswerCurrency++;
-            }
-        }
+        LOGGER.info("Currency in chosen country is " + cost.getCurrency());
 
         int badAnswerFuelType = 1;
         for (int i = 0; i < badAnswerFuelType; i++) {

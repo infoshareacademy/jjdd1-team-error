@@ -47,6 +47,7 @@ public class InitialServlet extends HttpServlet {
         petrolFileFilter.setFilesContent(filesContent);
         cost = new TripFullCost();
         cost.setTripFullCost(filesContent, petrolFileFilter, currencyFileFilter);
+        cost.setCountryAndCurrency(new CountryAndCurrency());
         trendy.setCurrencyFileFilter(currencyFileFilter);
         trendy.setPetrolFileFilter(petrolFileFilter);
         countryAndCurrency = new CountryAndCurrency();
@@ -74,8 +75,6 @@ public class InitialServlet extends HttpServlet {
 
             countryAndCurrency.getCountriesAndCurrency();
             cost.setCountry(country);
-            countryAndCurrency.setCurrency(cost.getCountry());
-            cost.setCurrency(countryAndCurrency.getCurrency());
             cost.setFuelType(fuelType);
 
             LOGGER.info("servlet req params: {} {}", country, cost.getFuelType());

@@ -8,13 +8,18 @@
 <%@ include file="headersAndStyle.jsp" %>
 <%@ include file="headerOptions.jsp" %>
 
-<div>
+<div class="data">
     <br>
+    <label><b>Given data:</b></label>
     <li>Country: ${country}</li>
     <li>Currency:  ${currency}</li>
     <li>Fuel type:  ${fuelType}</li>
+</div>
+<div class="result">
     <br>
     <p><pre> ${trendForTrip}</pre></p>
 </div>
+
+
 
 <%@ include file="footer.jsp" %>
