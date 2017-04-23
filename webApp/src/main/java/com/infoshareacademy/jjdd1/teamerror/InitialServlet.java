@@ -114,13 +114,12 @@ public class InitialServlet extends HttpServlet {
                 String fuelUsage = req.getParameter("fuelUsage");
                 String fullDistance = req.getParameter("fullDistance");
 
-                System.out.println("Basic fuel usage (no input) is: " + fuelUsage);
                 String fuelUsageString;
                 try{
                     if(fuelUsage.toString().equals("")){
                         fuelUsageString = "No input recorded";
                     }
-                    else{
+                    else {
                         cost.setFuelUsage(fuelUsage);
                         fuelUsageString = cost.getFuelUsage().toString();
                     }
@@ -188,15 +187,6 @@ public class InitialServlet extends HttpServlet {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/tripCost.jsp");
                 dispatcher.forward(req, resp);
 
-//            req.setAttribute("title", "Menu");
-//            req.setAttribute("currency", cost.getCurrency());
-//            req.setAttribute("currency", cost.getCurrency());
-//            req.setAttribute("fuelType", cost.getFuelType());
-//            req.setAttribute("date1", cost.getDate1());
-//            req.setAttribute("date2", cost.getDate2());
-//            req.setAttribute("fuelUsage", cost.getFuelUsage());
-//            req.setAttribute("fullDistance", cost.getDistance());
-//            req.setAttribute("fullCost", fullCost);
             }catch(Exception e){
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/exceptionHandling.jsp");
                 dispatcher.forward(req, resp);

@@ -22,6 +22,6 @@
     <li>Fuel usage:  ${fuelUsage}</li>
     <li>Distance:  ${fullDistance}</li>
     <br>
-    <h3>The cost of renting a car abroad (for the specified data) will be: ${fullCost}PLN</h3>
+    <h3>The cost of renting a car abroad (for the specified data) will be: ${fullCost}</h3>
 </div>
 <%@ include file="footer.jsp" %>
