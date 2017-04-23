@@ -113,49 +113,70 @@ public class InitialServlet extends HttpServlet {
                 String fuelUsage = req.getParameter("fuelUsage");
                 String fullDistance = req.getParameter("fullDistance");
 
+                System.out.println("Basic fuel usage (no input) is: " + fuelUsage);
                 String fuelUsageString;
                 try{
-                    cost.setFuelUsage(fuelUsage);
-                    fuelUsageString = cost.getFuelUsage().toString();
+                    if(fuelUsage.toString().equals("")){
+                        fuelUsageString = "No input recorded";
+                    }
+                    else{
+                        cost.setFuelUsage(fuelUsage);
+                        fuelUsageString = cost.getFuelUsage().toString();
+                    }
                 }catch(Exception e){
-                    fuelUsageString = fuelUsage + " is a wrong fuel usage input... ";
+                    fuelUsageString = fuelUsage + " is a wrong fuel usage input. ";
                 }
 
                 String fullDistanceString;
                 try{
-                    cost.setDistance(fullDistance);
-                    fullDistanceString = cost.getDistance().toString();
+                    if(fullDistance.toString().equals("")){
+                        fullDistanceString = "No input recorded";
+                    }
+                    else{
+                        cost.setDistance(fullDistance);
+                        fullDistanceString = cost.getDistance().toString();
+                    }
                 }catch(Exception e){
-                    fullDistanceString = fullDistance + " is a wrong distance input... ";
+                    fullDistanceString = fullDistance + " is a wrong distance input. ";
                 }
 
                 String date1String;
                 try{
-                    cost.setDate1(date1);
-                    date1String = cost.getDate1().toString();
+                    if(date1.toString().equals("")){
+                        date1String = "No input recorded";
+                    }
+                    else {
+                        cost.setDate1(date1);
+                        date1String = cost.getDate1().toString();
+                    }
                 }catch(Exception e){
-                    date1String = date1 + " is a wrong date. Duuuuh...";
+                    date1String = date1 + " is a wrong date.";
                 }
 
                 String date2String;
                 try{
-                    cost.setDate2(date2);
-                    date2String = cost.getDate2().toString();
+                    if(date2.toString().equals("")){
+                        date2String = "No input recorded";
+                    }
+                    else {
+                        cost.setDate2(date2);
+                        date2String = cost.getDate1().toString();
+                    }
                 }catch(Exception e){
-                    date2String = date2 + " is a wrong date. Duuuuh...";
+                    date2String = date2 + " is a wrong date.";
                 }
 
                 String fullCostString;
                 try{
                     Double costCount = cost.costCount();
-                    fullCostString = String.valueOf(costCount);
+                    fullCostString = String.valueOf(costCount) + " PLN";
                 }catch(Exception e){
                     fullCostString = "Something went wrong. Please check your input (above)";
                 }
 
                 req.setAttribute("title", "Menu");
                 req.setAttribute("currency", cost.getCurrency());
-                req.setAttribute("currency", cost.getCurrency());
+                req.setAttribute("country", cost.getCountry());
                 req.setAttribute("fuelType", cost.getFuelType());
                 req.setAttribute("date1", date1String);
                 req.setAttribute("date2", date2String);
