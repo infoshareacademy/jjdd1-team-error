@@ -1,8 +1,5 @@
 package com.infoshareacademy.jjdd1.teamerror.file_loader;
 
-import com.infoshareacademy.jjdd1.teamerror.file_loader.CurrencyNames;
-import com.infoshareacademy.jjdd1.teamerror.file_loader.FileReader;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +13,7 @@ import java.util.List;
 public class CachedFilesContent implements FilesContent {
 
     private List<String> currencyInfoFile = new ArrayList<>();
-    private List<String> curreancyDataFile = new ArrayList<>();
+    private List<String> currencyDataFile = new ArrayList<>();
     private List<String> petrolDataFile = new ArrayList<>();
 
     public CachedFilesContent() {
@@ -24,7 +21,7 @@ public class CachedFilesContent implements FilesContent {
     }
 
     public List<String> getCurrencyInfoFile() {
-        if (curreancyDataFile.isEmpty()) {
+        if (currencyInfoFile.isEmpty()) {
             setCurrencyInfoFile();
         }
         return currencyInfoFile;
@@ -35,14 +32,14 @@ public class CachedFilesContent implements FilesContent {
     }
 
     public List<String> getCurrencyDataFile(String currencySymbol) {
-        if (curreancyDataFile.isEmpty() || !curreancyDataFile.get(0).equalsIgnoreCase(currencySymbol)) {
-            setCurreancyDataFile(currencySymbol);
+        if (currencyDataFile.isEmpty() || !currencyDataFile.get(0).equalsIgnoreCase(currencySymbol)) {
+            setCurrencyDataFile(currencySymbol);
         }
-        return curreancyDataFile;
+        return currencyDataFile;
     }
 
-    public void setCurreancyDataFile(String currencySymbol) {
-        curreancyDataFile = FileReader.loadContent(FileReader.createPath(currencySymbol));
+    public void setCurrencyDataFile(String currencySymbol) {
+        currencyDataFile = FileReader.loadContent(FileReader.createPath(currencySymbol));
     }
 
     @Override

@@ -5,6 +5,9 @@ import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -20,8 +23,9 @@ public class TerminalMenu {
     }
 
     public static void main(String[] arg) {
-        String tmpdir = System.getProperty("java.io.tmpdir");
-        FilesContent filesContent = new OnDemandFilesContent();
+        FilesContent filesContent = new CachedFilesContent();
+        filesContent.getPetrolDataFile();
+        filesContent.getCurrencyInfoFile();
         TerminalMenu menu = new TerminalMenu(filesContent);
         menu.menu();
     }
@@ -40,28 +44,23 @@ public class TerminalMenu {
 
         TripFullCost cost = new TripFullCost();
         cost.setTripFullCost(filesContent, petrolFileFilter, currencyFileFilter);
+        cost.setCountryAndCurrency(new CountryAndCurrency());
+
         CountryAndCurrency countryAndCurrency = new CountryAndCurrency();
         countryAndCurrency.setFilesContent(filesContent);
+        PromotedCountries promotedCountries = new PromotedCountries();
+        promotedCountries.setFilesContent(filesContent);
 
         int badAnswerCountry = 1;
         for (int i = 0; i < badAnswerCountry; i++) {
-            LOGGER.info("Enter a country of the trip (e.g. Croatia, USA, France): ");
+            LOGGER.info("Enter a country of the trip({}): ", promotedCountries.getOrderedPromotedCountries());
             String country = input.nextLine();
             cost.setCountry(country.toUpperCase());
             if (cost.getCountry() == null) {
                 badAnswerCountry++;
             }
         }
-
-        int badAnswerCurrency = 1;
-        for (int i = 0; i < badAnswerCurrency; i++) {
-            countryAndCurrency.setCurrency(cost.getCountry());
-            cost.setCurrency(countryAndCurrency.getCurrency());
-            LOGGER.info("Currency in chosen country is " + cost.getCurrency());
-            if(cost.getCurrency() == null){
-                badAnswerCurrency++;
-            }
-        }
+        LOGGER.info("Currency in chosen country is " + cost.getCurrency());
 
         int badAnswerFuelType = 1;
         for (int i = 0; i < badAnswerFuelType; i++) {

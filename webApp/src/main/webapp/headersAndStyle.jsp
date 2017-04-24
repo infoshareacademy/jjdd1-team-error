@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html>
 <head>
@@ -15,10 +16,9 @@
 </head>
 <body>
     <div>
-        <img alt="Trip calculator" src="img/logo.png"/>
+        <img id="logo" alt="Trip calculator" src="img/logo.png"/>
         <h2>${title}</h2>
     </div>
-</body>
-</html>
+
 
 
