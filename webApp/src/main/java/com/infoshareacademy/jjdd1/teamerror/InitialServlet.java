@@ -70,9 +70,9 @@ public class InitialServlet extends HttpServlet {
         countryAndCurrency.setFilesContent(filesContent);
         countryAndCurrencyList = countryAndCurrency.getCountriesAndCurrency();
 
-        File petrolFile = new File(System.getProperty("java.io.tmpdir")+"files\\" + "iSA-PetrolPrices.csv");
-        File currencyInfoFile = new File(System.getProperty("java.io.tmpdir")+"files\\" + "omeganbp.lst.txt");
-        File currencyZipFile = new File(System.getProperty("java.io.tmpdir")+"files\\" + "omeganbp.zip");
+        File petrolFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "iSA-PetrolPrices.csv");
+        File currencyInfoFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "omeganbp.lst.txt");
+        File currencyZipFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "omeganbp.zip");
         if(!petrolFile.exists() || !currencyInfoFile.exists() || !currencyZipFile.exists()) {
             req.setAttribute("missingFile",  "yes");
             RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");

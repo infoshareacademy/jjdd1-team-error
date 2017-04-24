@@ -23,7 +23,7 @@
 </div>
 <div class="result">
     <br>
-    <h3>The cost of renting a car abroad (for the specified data) will be: ${fullCost}PLN</h3>
+    <h3>The cost of renting a car abroad (for the specified data) will be: ${fullCost}</h3>
 </div>
 
 
