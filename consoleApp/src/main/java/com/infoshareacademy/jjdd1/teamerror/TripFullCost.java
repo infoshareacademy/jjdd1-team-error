@@ -41,6 +41,18 @@ public class TripFullCost {
 
     }
 
+    public static TripFullCost reset(TripFullCost other) {
+        TripFullCost newCostObject = new TripFullCost();
+        newCostObject.setTripFullCost(other.fileContent, other.petrolFileFilter, other.currencyFileFilter);
+        newCostObject.setCountryAndCurrency(new CountryAndCurrency());
+
+        newCostObject.setCurrency(other.currency);
+        newCostObject.setCountry(other.country);
+        newCostObject.fuelType = other.fuelType;
+
+        return newCostObject;
+    }
+
     public void setTripFullCost(FilesContent filesContent, PetrolFileFilter petrolFileFilter, CurrencyFileFilter currencyFileFilter) {
         this.fileContent = filesContent;
         this.petrolFileFilter = petrolFileFilter;
@@ -288,5 +300,19 @@ public class TripFullCost {
                 ((fuelPriceDate1 + fuelPriceDate2) / 2) *
                 (getDistance() / 100) * getFuelUsage(), 2);
 
+    }
+
+    @Override
+    public String toString() {
+        return "TripFullCost{" +
+                "date1=" + date1 +
+                ", date2=" + date2 +
+                ", country='" + country + '\'' +
+                ", currency='" + currency + '\'' +
+                ", fuelType='" + fuelType + '\'' +
+                ", distance=" + distance +
+                ", fuelUsage=" + fuelUsage +
+                ", currencyNames=" + currencyNames +
+                '}';
     }
 }
