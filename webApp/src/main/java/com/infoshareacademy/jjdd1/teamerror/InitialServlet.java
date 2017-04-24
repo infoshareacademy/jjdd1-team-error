@@ -77,7 +77,6 @@ public class InitialServlet extends HttpServlet {
             session.setAttribute(TRIP_FULL_COST_SESSION_ATTR, cost);
         }
 
-
         LOGGER.debug("servlet request");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
@@ -260,13 +259,8 @@ public class InitialServlet extends HttpServlet {
 
                 String fullCostString;
                 try{
-//                    if(cost.getDate1().equals(null) || cost.getDate2().equals(null) || cost.getFuelUsage()==0.0 || cost.getDistance()==0.0){
-//                        fullCostString = "Something went wrong. Please check your input (above)";
-//                    }
-//                    else{
-                        cost.costCount();
-                        fullCostString = String.valueOf(cost.costCount()) + " PLN";
-//                    }
+                    cost.costCount();
+                    fullCostString = String.valueOf(cost.costCount()) + " PLN";
                 }catch(Exception e){
                     LOGGER.error("Something went wrong. Please check your input (above)", e);
                     fullCostString = "Something went wrong. Please check your input (above)";
