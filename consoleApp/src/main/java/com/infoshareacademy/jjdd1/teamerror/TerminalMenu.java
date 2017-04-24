@@ -20,6 +20,7 @@ public class TerminalMenu {
     }
 
     public static void main(String[] arg) {
+        String tmpdir = System.getProperty("java.io.tmpdir");
         FilesContent filesContent = new OnDemandFilesContent();
         TerminalMenu menu = new TerminalMenu(filesContent);
         menu.menu();

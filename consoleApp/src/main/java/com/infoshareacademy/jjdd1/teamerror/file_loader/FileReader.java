@@ -18,7 +18,7 @@ import java.util.List;
 public class FileReader {
 
     public static final String CURRENCY_FILE_WITH_GENERAL_DATA = "omeganbp.lst.txt";
-    public static final String PATH_TO_FILES = System.getProperty("java.io.tmpdir")+"files\\";
+    public static final String PATH_TO_FILES = System.getProperty("java.io.tmpdir")+"/files/";
     public static final String PETROL_FILE_NAME = "iSA-PetrolPrices.csv";
     public static final String ZIP_CURRENCY_FILE = "omeganbp.zip";
     public static final String UNZIP_FOLDER = PATH_TO_FILES + "unzip\\";

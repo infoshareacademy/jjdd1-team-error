@@ -14,7 +14,7 @@
     <body>
         <h2>Additional data</h2>
         <form method="get" action="/calc">
-            <div><label>Enter a date of departure in the format YYYYMMDD:</label> <input type="text" name="date1"></div>
+            <div><label>Enter a date of departure in the format YYYYMMDD:</label> <input type="text" name="date1" value="${date1}"></div>
             <div><label>Enter a date of return in the format YYYYMMDD:</label> <input type="text" name="date2"></div>
             <div><label>Enter fuel usage in liters per 100 km:</label> <input type="text" name="fuelUsage"></div>
             <div><label>Enter the full distance (counted in km) you want to travel during your trip:</label> <input type="text" name="fullDistance"></div>
