@@ -2,10 +2,12 @@ package com.infoshareacademy.jjdd1.teamerror;
 
 import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,9 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,13 +34,14 @@ public class InitialServlet extends HttpServlet {
     Map<String, String> countryAndCurrencyList;
     PromotedCountries promotedCountries;
 
+
     public InitialServlet() {
         super();
         LOGGER.info("InitialServlet initialisation");
 
         trendy = new Trendy();
 
-        filesContent = new OnDemandFilesContent();
+        filesContent = new CachedFilesContent();
 
         CurrencyFileFilter currencyFileFilter = new CurrencyFileFilter();
         currencyFileFilter.setFilesContent(filesContent);
@@ -59,6 +59,7 @@ public class InitialServlet extends HttpServlet {
 
         promotedCountries = new PromotedCountries();
         promotedCountries.setFilesContent(filesContent);
+
         LOGGER.info("InitialServlet initialised");
     }
 
@@ -147,7 +148,6 @@ public class InitialServlet extends HttpServlet {
                 LOGGER.info("servlet req params: date1-{} date2-{} fuel usage-{} " +
                         "full distance-{}", date1, date2, fuelUsage, fullDistance);
 
-                System.out.println("Basic fuel usage (no input) is: " + fuelUsage);
                 String fuelUsageString;
                 try{
                     if(fuelUsage.toString().equals("")){

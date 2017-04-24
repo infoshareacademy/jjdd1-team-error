@@ -1,14 +1,14 @@
 package com.infoshareacademy.jjdd1.teamerror.dataBase;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
  * Created by sebastianlos on 23.04.2017.
  */
-//@Entity
-//@Table
+@Entity
 public class PromotedCountry {
 
     @Id
@@ -18,11 +18,15 @@ public class PromotedCountry {
     @Column
     private String name;
 
-    public void setName(String name) {
-        this.name = name;
+    public PromotedCountry() {
     }
 
     public PromotedCountry(String name) {
         this.name = name;
     }
+
+    public String getName() {
+        return this.name;
+    }
+
 }

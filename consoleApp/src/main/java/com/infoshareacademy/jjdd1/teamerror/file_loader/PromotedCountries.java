@@ -20,11 +20,13 @@ public class PromotedCountries {
     private CountryAndCurrency countryAndCurrency;
     private FilesContent filesContent;
     List<String> orderedPromotedCountries = new ArrayList<>();
-    static List<String> promotedCountries = new ArrayList<>();
+
+    private static List<String> promotedCountries = new ArrayList<>();
 
     public PromotedCountries() {
 
     }
+
 
     public void setFilesContent(FilesContent filesContent) {
         this.filesContent = filesContent;
@@ -47,7 +49,9 @@ public class PromotedCountries {
     }
 
     public List<String> getPromotedCountries(){
+
         loadPromotedCountries();
+
         return promotedCountries;
     }
 
