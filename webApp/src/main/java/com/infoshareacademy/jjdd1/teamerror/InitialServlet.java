@@ -49,12 +49,10 @@ public class InitialServlet extends HttpServlet {
 
         trendy = new Trendy();
 
-        filesContent = new OnDemandFilesContent();
+        filesContent = new CachedFilesContent();
         currencyFileFilter = new CurrencyFileFilter();
         petrolFileFilter = new PetrolFileFilter();
         currencyFileFilter.setFilesContent(filesContent);
-
-        PetrolFileFilter petrolFileFilter = new PetrolFileFilter();
         petrolFileFilter.setFilesContent(filesContent);
 
         trendy.setCurrencyFileFilter(currencyFileFilter);

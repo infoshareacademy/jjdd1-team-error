@@ -312,7 +312,6 @@ public class TripFullCost {
                 ", fuelType='" + fuelType + '\'' +
                 ", distance=" + distance +
                 ", fuelUsage=" + fuelUsage +
-                ", currencyNames=" + currencyNames +
                 '}';
     }
 }
