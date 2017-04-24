@@ -42,26 +42,29 @@ public class InitialServlet extends HttpServlet {
         trendy = new Trendy();
 
         filesContent = new OnDemandFilesContent();
+
         CurrencyFileFilter currencyFileFilter = new CurrencyFileFilter();
-        PetrolFileFilter petrolFileFilter = new PetrolFileFilter();
         currencyFileFilter.setFilesContent(filesContent);
+
+        PetrolFileFilter petrolFileFilter = new PetrolFileFilter();
         petrolFileFilter.setFilesContent(filesContent);
+
         cost = new TripFullCost();
         cost.setTripFullCost(filesContent, petrolFileFilter, currencyFileFilter);
         cost.setCountryAndCurrency(new CountryAndCurrency());
+
         trendy.setCurrencyFileFilter(currencyFileFilter);
         trendy.setPetrolFileFilter(petrolFileFilter);
         countryAndCurrency = new CountryAndCurrency();
-        LOGGER.info("InitialServlet initialised");
+
         promotedCountries = new PromotedCountries();
         promotedCountries.setFilesContent(filesContent);
-
-
+        LOGGER.info("InitialServlet initialised");
     }
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        LOGGER.debug("servlet request");
+        LOGGER.debug("Servlet request");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
         filesContent.getPetrolDataFile();
@@ -70,20 +73,26 @@ public class InitialServlet extends HttpServlet {
         countryAndCurrency.setFilesContent(filesContent);
         countryAndCurrencyList = countryAndCurrency.getCountriesAndCurrency();
 
+        LOGGER.debug("Checking existence of resource files");
         File petrolFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "iSA-PetrolPrices.csv");
         File currencyInfoFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "omeganbp.lst.txt");
         File currencyZipFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "omeganbp.zip");
+
         if(!petrolFile.exists() || !currencyInfoFile.exists() || !currencyZipFile.exists()) {
             req.setAttribute("missingFile",  "yes");
             RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
             dispatcher.forward(req, resp);
+            LOGGER.error("At least one source file is missing");
         }
 
+        // proceed initialData.jsp
         if (req.getParameter("start") != null || req.getParameter("initialData") != null) {
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
             req.setAttribute("countryList", promotedCountries.getOrderedPromotedCountries());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
             dispatcher.forward(req, resp);
         }
+
+        // proceed menu.jsp
         else if (req.getParameter("initialization") != null) {
             String country = req.getParameter("country").toUpperCase();
             String fuelType = req.getParameter("fuelType");
@@ -91,7 +100,7 @@ public class InitialServlet extends HttpServlet {
             cost.setCountry(country);
             cost.setFuelType(fuelType);
 
-            LOGGER.info("servlet req params: {} {}", country, cost.getFuelType());
+            LOGGER.info("servlet req params: country-{} fuel type-{}", country, fuelType);
             req.setAttribute("title", "Menu");
             req.setAttribute("country", cost.getCountry());
             req.setAttribute("currency", cost.getCurrency());
@@ -100,6 +109,8 @@ public class InitialServlet extends HttpServlet {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/menu.jsp");
             dispatcher.forward(req, resp);
         }
+
+        // proceed trendy.jsp
         else if (req.getParameter("trendy") != null) {
 
             req.setAttribute("title", "Optimal time for trip");
@@ -109,7 +120,8 @@ public class InitialServlet extends HttpServlet {
 
 
             trendy.setTrendy(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
-            LOGGER.info("calculated trend for trip: {},{},{}", cost.getCountry(), cost.getCurrency(), cost.getFuelType());
+            LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}",
+                    cost.getCountry(), cost.getCurrency(), cost.getFuelType());
             req.setAttribute("petrolTrendy", trendy.getPetrolTrendy());
             req.setAttribute("currencyTrendy", trendy.getCurrencyTrendy());
             req.setAttribute("conclusion", trendy.getConclusion());
@@ -117,10 +129,14 @@ public class InitialServlet extends HttpServlet {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/trendy.jsp");
             dispatcher.forward(req, resp);
         }
+
+        // proceed tripOtherData.jsp
         else if (req.getParameter("additionalData") != null) {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/tripOtherData.jsp");
             dispatcher.forward(req, resp);
         }
+
+        // proceed tripCost.jsp
         else if (req.getParameter("tripCost") != null) {
 
             try {
@@ -128,6 +144,8 @@ public class InitialServlet extends HttpServlet {
                 String date2 = req.getParameter("date2");
                 String fuelUsage = req.getParameter("fuelUsage");
                 String fullDistance = req.getParameter("fullDistance");
+                LOGGER.info("servlet req params: date1-{} date2-{} fuel usage-{} " +
+                        "full distance-{}", date1, date2, fuelUsage, fullDistance);
 
                 System.out.println("Basic fuel usage (no input) is: " + fuelUsage);
                 String fuelUsageString;

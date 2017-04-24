@@ -20,11 +20,8 @@
         <property name="connection.pool_size">1</property>
         <property name="current_session_context_class">thread</property>
 
-        <mapping class="com.infoshareacademy.domain.Employee" />
-        <mapping class="com.infoshareacademy.domain.Department" />
-        <mapping class="com.infoshareacademy.studentsExample.Student" />
-        <mapping class="com.infoshareacademy.studentsExample.Lecture" />
-        <mapping class="com.infoshareacademy.studentsExample.Computer" />
+        <mapping class="com.infoshareacademy.jjdd1.teamerror.dataBase.PromotedCountry" />
+
 
     </session-factory>
 </hibernate-configuration>

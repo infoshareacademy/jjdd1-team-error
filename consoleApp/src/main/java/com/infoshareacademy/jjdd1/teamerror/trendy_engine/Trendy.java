@@ -21,6 +21,7 @@ public class Trendy {
     public static final int FIRST_DAY_OF_MONTH = 1;
     public static final int DECIMAL_PLACES = 2;
     public static final int NUMBER_OF_MONTHS_IN_YEAR = 12;
+    public static final int FIRST_ELEMENT = 0;
 
     private String conclusion = "";
     // month and percentage value
@@ -58,7 +59,7 @@ public class Trendy {
         }
         List<DayValues> dayValuesList = new ArrayList<>();
         List<MonthValuesForOneYear> monthValuesForOneYearList = new ArrayList<>();
-        LocalDate currentDate =  currencyRatesList.get(0).getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);;
+        LocalDate currentDate =  currencyRatesList.get(FIRST_ELEMENT).getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);;
         dayValuesList.add(new DayValues(currentDate));
         for (CurrencyHistoryDayValue dailyRate : currencyRatesList) {
             if (!dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH).equals(currentDate) && dailyRate.getDate().getYear() == currentDate.getYear()) {
@@ -243,10 +244,11 @@ public class Trendy {
             returnStatement.append("The best time for cheap travel is in: ");
             returnStatement.append(symbols.getMonths()[numberOfMonthWithOptimalRates].toUpperCase());
         }
+        LOGGER.info("Trendy analysis in string created");
         return returnStatement.toString();
     }
 
-    // print differences in currencies and fuel rates in each month and the best time for cheap travel
+    // set trendy values for petrol and currency to maps and conclusion
     public void setTrendy(String currencySymbol, String fuelType, String country) {
         Map<Integer, Double> currencyList = new HashMap<>();
         List<CurrencyHistoryDayValue> currencyDataList = currencyFileFilter.getListOfCurrencyDataObjects(currencySymbol);
@@ -297,6 +299,7 @@ public class Trendy {
         else {
             conclusion = "The best time for cheap travel is in: " + symbols.getMonths()[numberOfMonthWithOptimalRates].toUpperCase();
         }
+        LOGGER.info("Trendy values and conclusion set");
     }
 
 

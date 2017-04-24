@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * Created by sebas on 23.04.2017.
+ * Created by sebastianlos on 23.04.2017.
  */
 public class SavingClass {
     @PersistenceContext
@@ -15,9 +15,9 @@ public class SavingClass {
 //        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("example");
 //        entityManager = entityManagerFactory.createEntityManager();
 //
-//        Query q = entityManager.createQuery("SELECT name from PromotedCountry s");
+//        Query q = entityManager.createQuery("SELECT name from PromotedCountries s");
 //
-//        List<String> promotedCountries = q.getResultList();
+//        return q.getResultList();
 //    }
 
     public void setCountries() {

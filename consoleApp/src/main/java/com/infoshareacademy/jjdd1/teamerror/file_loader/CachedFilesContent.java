@@ -39,7 +39,12 @@ public class CachedFilesContent implements FilesContent {
     }
 
     public void setCurrencyDataFile(String currencySymbol) {
-        currencyDataFile = FileReader.loadContent(FileReader.createPath(currencySymbol));
+        FileReader.unzipFile();
+        try {
+            currencyDataFile = FileReader.loadContent(FileReader.createPath(currencySymbol));
+        } finally {
+            FileReader.removeExtractedFiles();
+        }
     }
 
     @Override
