@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 /**
- * Created by sebas on 13.04.2017.
+ * Created by sebastianlos on 13.04.2017.
  */
 public class DayValues {
 

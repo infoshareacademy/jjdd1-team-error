@@ -15,17 +15,16 @@ public class MonthValuesForOneYear {
     }
 
     public Double getMinValue() {
-        Double min = Collections.min(monthValues.values());
-        return min;
+        return Collections.min(monthValues.values());
+
     }
 
     public Map<LocalDate, Double> getMonthDeviations() {
 
-        Map <LocalDate, Double> result = monthValues.entrySet().stream()
+        return  monthValues.entrySet().stream()
                 .collect(Collectors.toMap(
                         s -> s.getKey(),
                         s -> s.getValue() / getMinValue()));
-        return result;
     }
 
 

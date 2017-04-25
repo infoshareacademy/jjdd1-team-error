@@ -27,25 +27,13 @@ public class TripFullCost {
     private PetrolFileFilter petrolFileFilter;
     private CurrencyFileFilter currencyFileFilter;
 
-    private CountryNames countryNames;
-    private CurrencyNames currencyNames;
     private CountryAndCurrency countryAndCurrency;
+    private CurrencyNames currencyNames;
     private FilesContent fileContent;
-
-    public void setCountryNames(CountryNames countryNames) {
-        this.countryNames = countryNames;
-    }
-
-    public void setCurrencyNames(CurrencyNames currencyNames) {
-        this.currencyNames = currencyNames;
-    }
 
     public void setCountryAndCurrency(CountryAndCurrency countryAndCurrency) {
         this.countryAndCurrency = countryAndCurrency;
-    }
-
-    public void setFileContent(FilesContent fileContent) {
-        this.fileContent = fileContent;
+        countryAndCurrency.setFilesContent(fileContent);
     }
 
     //basic constructor
@@ -53,14 +41,24 @@ public class TripFullCost {
 
     }
 
+    public static TripFullCost reset(TripFullCost other) {
+        TripFullCost newCostObject = new TripFullCost();
+        newCostObject.setTripFullCost(other.fileContent, other.petrolFileFilter, other.currencyFileFilter);
+        newCostObject.setCountryAndCurrency(new CountryAndCurrency());
+
+        newCostObject.setCurrency(other.currency);
+        newCostObject.setCountry(other.country);
+        newCostObject.fuelType = other.fuelType;
+
+        return newCostObject;
+    }
+
     public void setTripFullCost(FilesContent filesContent, PetrolFileFilter petrolFileFilter, CurrencyFileFilter currencyFileFilter) {
         this.fileContent = filesContent;
         this.petrolFileFilter = petrolFileFilter;
         this.currencyFileFilter = currencyFileFilter;
-        countryNames = new CountryNames(filesContent);
+
         currencyNames = new CurrencyNames(filesContent);
-        countryAndCurrency = new CountryAndCurrency();
-        countryAndCurrency.setFilesContent(filesContent);
     }
 
     String getFuelType() {
@@ -180,6 +178,7 @@ public class TripFullCost {
         try{
             if (countryAndCurrency.getCountriesAndCurrency().containsKey(country)) {
                 this.country = country;
+                this.currency = countryAndCurrency.getCountriesAndCurrency().get(country);
             } else {
                 throw new Exception();
             }
@@ -231,7 +230,7 @@ public class TripFullCost {
         double currencyPriceDate2 = 0;
         double fuelPriceDate1 = 0;
         double fuelPriceDate2 = 0;
-        double days = DAYS.between(getDate1(), getDate2());
+        //double days = DAYS.between(getDate1(), getDate2());
 
         //creating lists from files, so that they can be searched through
         List<CurrencyHistoryDayValue> currencyObjectsList = currencyFileFilter.getListOfCurrencyDataObjects(getCurrency());
@@ -251,37 +250,40 @@ public class TripFullCost {
                     LOGGER.debug("The o1 year is: [{}] ", o1.getDate().getYear());
                     LOGGER.debug("The o2 year is: [{}] ", o2.getDate().getYear());
 
-                    //getting average currency price values for the specified months of travel
-                    if (getDate1().getMonth() == o1.getDate().getMonth()) {
-                        currencyPriceDate1 += o1.getClose();
-                        iterator1++;
-                    }
-                    if (getDate2().getMonth() == o1.getDate().getMonth()) {
-                        currencyPriceDate2 += o1.getClose();
-                        iterator2++;
+                    if(date1!=null && date2!=null){
+                        //getting average currency price values for the specified months of travel
+                        if (date1.getMonth() == o1.getDate().getMonth()) {
+                            currencyPriceDate1 += o1.getClose();
+                            iterator1++;
+                        }
+                        if (date2.getMonth() == o1.getDate().getMonth()) {
+                            currencyPriceDate2 += o1.getClose();
+                            iterator2++;
+                        }
+
+                        //getting average fuel price values for the specified months of travel and specified type of fuel
+                        if (getFuelType().equalsIgnoreCase("gasoline")) {
+                            if (date1.getMonth() == o2.getDate().getMonth()) {
+                                fuelPriceDate1 += o2.getGasolinePrice();
+                                iterator3++;
+                            }
+                            if (date2.getMonth() == o2.getDate().getMonth()) {
+                                fuelPriceDate2 += o2.getGasolinePrice();
+                                iterator4++;
+                            }
+                        }
+                        if (getFuelType().equalsIgnoreCase("diesel")) {
+                            if (date1.getMonth() == o2.getDate().getMonth()) {
+                                fuelPriceDate1 += o2.getDieselPrice();
+                                iterator3++;
+                            }
+                            if (date2.getMonth() == o2.getDate().getMonth()) {
+                                fuelPriceDate2 += o2.getDieselPrice();
+                                iterator4++;
+                            }
+                        }
                     }
 
-                    //getting average fuel price values for the specified months of travel and specified type of fuel
-                    if (getFuelType().equalsIgnoreCase("gasoline")) {
-                        if (getDate1().getMonth() == o2.getDate().getMonth()) {
-                            fuelPriceDate1 += o2.getGasolinePrice();
-                            iterator3++;
-                        }
-                        if (getDate2().getMonth() == o2.getDate().getMonth()) {
-                            fuelPriceDate2 += o2.getGasolinePrice();
-                            iterator4++;
-                        }
-                    }
-                    if (getFuelType().equalsIgnoreCase("diesel")) {
-                        if (getDate1().getMonth() == o2.getDate().getMonth()) {
-                            fuelPriceDate1 += o2.getDieselPrice();
-                            iterator3++;
-                        }
-                        if (getDate2().getMonth() == o2.getDate().getMonth()) {
-                            fuelPriceDate2 += o2.getDieselPrice();
-                            iterator4++;
-                        }
-                    }
                 }
             }
         }
@@ -301,5 +303,18 @@ public class TripFullCost {
                 ((fuelPriceDate1 + fuelPriceDate2) / 2) *
                 (getDistance() / 100) * getFuelUsage(), 2);
 
+    }
+
+    @Override
+    public String toString() {
+        return "TripFullCost{" +
+                "date1=" + date1 +
+                ", date2=" + date2 +
+                ", country='" + country + '\'' +
+                ", currency='" + currency + '\'' +
+                ", fuelType='" + fuelType + '\'' +
+                ", distance=" + distance +
+                ", fuelUsage=" + fuelUsage +
+                '}';
     }
 }
