@@ -230,7 +230,7 @@ public class TripFullCost {
         double currencyPriceDate2 = 0;
         double fuelPriceDate1 = 0;
         double fuelPriceDate2 = 0;
-        double days = DAYS.between(getDate1(), getDate2());
+        //double days = DAYS.between(getDate1(), getDate2());
 
         //creating lists from files, so that they can be searched through
         List<CurrencyHistoryDayValue> currencyObjectsList = currencyFileFilter.getListOfCurrencyDataObjects(getCurrency());
@@ -250,37 +250,40 @@ public class TripFullCost {
                     LOGGER.debug("The o1 year is: [{}] ", o1.getDate().getYear());
                     LOGGER.debug("The o2 year is: [{}] ", o2.getDate().getYear());
 
-                    //getting average currency price values for the specified months of travel
-                    if (getDate1().getMonth() == o1.getDate().getMonth()) {
-                        currencyPriceDate1 += o1.getClose();
-                        iterator1++;
-                    }
-                    if (getDate2().getMonth() == o1.getDate().getMonth()) {
-                        currencyPriceDate2 += o1.getClose();
-                        iterator2++;
+                    if(date1!=null && date2!=null){
+                        //getting average currency price values for the specified months of travel
+                        if (date1.getMonth() == o1.getDate().getMonth()) {
+                            currencyPriceDate1 += o1.getClose();
+                            iterator1++;
+                        }
+                        if (date2.getMonth() == o1.getDate().getMonth()) {
+                            currencyPriceDate2 += o1.getClose();
+                            iterator2++;
+                        }
+
+                        //getting average fuel price values for the specified months of travel and specified type of fuel
+                        if (getFuelType().equalsIgnoreCase("gasoline")) {
+                            if (date1.getMonth() == o2.getDate().getMonth()) {
+                                fuelPriceDate1 += o2.getGasolinePrice();
+                                iterator3++;
+                            }
+                            if (date2.getMonth() == o2.getDate().getMonth()) {
+                                fuelPriceDate2 += o2.getGasolinePrice();
+                                iterator4++;
+                            }
+                        }
+                        if (getFuelType().equalsIgnoreCase("diesel")) {
+                            if (date1.getMonth() == o2.getDate().getMonth()) {
+                                fuelPriceDate1 += o2.getDieselPrice();
+                                iterator3++;
+                            }
+                            if (date2.getMonth() == o2.getDate().getMonth()) {
+                                fuelPriceDate2 += o2.getDieselPrice();
+                                iterator4++;
+                            }
+                        }
                     }
 
-                    //getting average fuel price values for the specified months of travel and specified type of fuel
-                    if (getFuelType().equalsIgnoreCase("gasoline")) {
-                        if (getDate1().getMonth() == o2.getDate().getMonth()) {
-                            fuelPriceDate1 += o2.getGasolinePrice();
-                            iterator3++;
-                        }
-                        if (getDate2().getMonth() == o2.getDate().getMonth()) {
-                            fuelPriceDate2 += o2.getGasolinePrice();
-                            iterator4++;
-                        }
-                    }
-                    if (getFuelType().equalsIgnoreCase("diesel")) {
-                        if (getDate1().getMonth() == o2.getDate().getMonth()) {
-                            fuelPriceDate1 += o2.getDieselPrice();
-                            iterator3++;
-                        }
-                        if (getDate2().getMonth() == o2.getDate().getMonth()) {
-                            fuelPriceDate2 += o2.getDieselPrice();
-                            iterator4++;
-                        }
-                    }
                 }
             }
         }
