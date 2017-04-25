@@ -21,21 +21,36 @@ public class Trendy {
     public static final int FIRST_DAY_OF_MONTH = 1;
     public static final int DECIMAL_PLACES = 2;
     public static final int NUMBER_OF_MONTHS_IN_YEAR = 12;
+    public static final int FIRST_ELEMENT = 0;
 
+    private String conclusion = "";
+    // month and percentage value
+    private Map<String, String> petrolTrendy = new LinkedHashMap();
+    private Map<String, String> currencyTrendy = new LinkedHashMap();
 
     private PetrolFileFilter petrolFileFilter;
-
     private CurrencyFileFilter currencyFileFilter;
 
     public void setPetrolFileFilter(PetrolFileFilter petrolFileFilter) {
         this.petrolFileFilter = petrolFileFilter;
     }
-
     public void setCurrencyFileFilter(CurrencyFileFilter currencyFileFilter) {
         this.currencyFileFilter = currencyFileFilter;
     }
 
     public Trendy() {
+    }
+
+    public String getConclusion() {
+        return conclusion;
+    }
+
+    public Map<String, String> getPetrolTrendy() {
+        return petrolTrendy;
+    }
+
+    public Map<String, String> getCurrencyTrendy() {
+        return currencyTrendy;
     }
 
     public Map<Integer, Double> calculateMonthPercentageDeviationsForCurrency(List<CurrencyHistoryDayValue> currencyRatesList) {
@@ -44,7 +59,7 @@ public class Trendy {
         }
         List<DayValues> dayValuesList = new ArrayList<>();
         List<MonthValuesForOneYear> monthValuesForOneYearList = new ArrayList<>();
-        LocalDate currentDate =  currencyRatesList.get(0).getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);;
+        LocalDate currentDate =  currencyRatesList.get(FIRST_ELEMENT).getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);;
         dayValuesList.add(new DayValues(currentDate));
         for (CurrencyHistoryDayValue dailyRate : currencyRatesList) {
             if (!dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH).equals(currentDate) && dailyRate.getDate().getYear() == currentDate.getYear()) {
@@ -229,7 +244,62 @@ public class Trendy {
             returnStatement.append("The best time for cheap travel is in: ");
             returnStatement.append(symbols.getMonths()[numberOfMonthWithOptimalRates].toUpperCase());
         }
+        LOGGER.info("Trendy analysis in string created");
         return returnStatement.toString();
+    }
+
+    // set trendy values for petrol and currency to maps and conclusion
+    public void setTrendy(String currencySymbol, String fuelType, String country) {
+        Map<Integer, Double> currencyList = new HashMap<>();
+        List<CurrencyHistoryDayValue> currencyDataList = currencyFileFilter.getListOfCurrencyDataObjects(currencySymbol);
+        if (!currencyDataList.isEmpty()) {
+            currencyList = calculateMonthPercentageDeviationsForCurrency(currencyDataList);
+        }
+        Map<Integer, Double> petrolList = new HashMap<>();
+        List <PetrolPrices> petrolDataList = petrolFileFilter.getListOfPetrolDataObjects(country);
+        if (!petrolDataList.isEmpty()) {
+            petrolList = calculateMonthPercentageDeviationsForPetrol(petrolDataList, fuelType);
+        }
+        Double sum = null;
+        Integer numberOfMonthWithOptimalRates = null;
+        StringBuilder returnStatement = new StringBuilder();
+        DateFormatSymbols symbols = new DateFormatSymbols(Locale.US);
+        returnStatement.append("Optimal time for trip analysis: \n\n");
+        for (int i = 0; i < NUMBER_OF_MONTHS_IN_YEAR; i++) {
+            String month = symbols.getMonths()[i].toUpperCase();
+            returnStatement.append("\n");
+            if (!currencyList.containsKey(i)) {
+                currencyTrendy.put(month, "NO DATA");
+            }
+            if (!petrolList.containsKey(i)) {
+                petrolTrendy.put(month, "NO DATA");
+            }
+            if (currencyList.containsKey(i) && currencyList.get(i).equals(0.0)) {
+                currencyTrendy.put(month, "THE LOWEST");
+            }
+            else if (currencyList.containsKey(i)) {
+                currencyTrendy.put(month, currencyList.get(i).toString());
+            }
+            if (petrolList.containsKey(i) && petrolList.get(i).equals(0.0)) {
+                petrolTrendy.put(month, "THE LOWEST");
+            }
+            else if (petrolList.containsKey(i)) {
+                petrolTrendy.put(month, petrolList.get(i).toString());
+            }
+            // determine the lowest sum of currency and petrol percentage rates
+            if ((currencyList.containsKey(i) || petrolList.containsKey(i)) &&
+                    (sum == null || (currencyList.getOrDefault(i, 0.0) + petrolList.getOrDefault(i, 0.0)) < sum)) {
+                sum = (currencyList.getOrDefault(i, 0.0) + petrolList.getOrDefault(i, 0.0));
+                numberOfMonthWithOptimalRates = i;
+            }
+        }
+        if (numberOfMonthWithOptimalRates == null) {
+            conclusion = "The best time for cheap travel is in: NO DATA";
+        }
+        else {
+            conclusion = "The best time for cheap travel is in: " + symbols.getMonths()[numberOfMonthWithOptimalRates].toUpperCase();
+        }
+        LOGGER.info("Trendy values and conclusion set");
     }
 
 

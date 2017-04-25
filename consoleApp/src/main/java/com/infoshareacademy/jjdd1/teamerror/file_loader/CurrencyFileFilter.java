@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by sebastianlos on 06.04.17.
+ * Created by SebastianLos on 06.04.17.
  */
 public class CurrencyFileFilter {
 
@@ -32,10 +32,10 @@ public class CurrencyFileFilter {
     // divide content of Currency File and put this information as objects
     public void putCurrencyFileContentToClass(String currencySymbol) {
 
-        // single elements of given line
         List<String> lines = filesContent.getCurrencyDataFile(currencySymbol);
         String[] parts;
 
+        // iterate over all lines excepts the first one
         for (int i = 1; i < lines.size(); i++) {
             parts = lines.get(i).split(",");
             if (!lines.get(i).isEmpty() && parts.length == NUMBER_OF_ELEMENTS_IN_LINE) {
