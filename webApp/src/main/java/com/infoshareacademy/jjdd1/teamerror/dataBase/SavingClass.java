@@ -26,7 +26,7 @@ public class SavingClass {
     public void setCountries() {
         PromotedCountries france = new PromotedCountries("Croatia");
         entityManager.persist(france);
-        PromotedCountries croatia = new PromotedCountries("USA");
+        PromotedCountries croatia = new PromotedCountries("France");
         entityManager.persist(croatia);
     }
 }

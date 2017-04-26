@@ -308,15 +308,4 @@ public class InitialServlet extends HttpServlet {
             }
         }
     }
-
-    @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Part filePart = req.getPart("file");
-        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        InputStream contentOfFile = filePart.getInputStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(contentOfFile));
-        String allContent = "";
-        br.lines().
-
-    }
 }
