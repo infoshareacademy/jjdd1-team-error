@@ -1,24 +1,22 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -42,6 +40,9 @@ public class InitialServlet extends HttpServlet {
     CountryAndCurrency countryAndCurrency;
     Map<String, String> countryAndCurrencyList;
     PromotedCountries promotedCountries;
+
+    @Inject
+    SavingClass savingClass;
 
     public InitialServlet() {
         super();
@@ -67,6 +68,12 @@ public class InitialServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        LOGGER.debug("Reading data from database");
+        List<String> ret = savingClass.getPromotedCountries();
+        LOGGER.debug("List of promoted countries from database: {}", ret);
+        promotedCountries.setPromotedCountries(ret);
+        LOGGER.info("Data from database successfully loaded");
 
         HttpSession session = req.getSession(true);
         TripFullCost cost = (TripFullCost) session.getAttribute(TRIP_FULL_COST_SESSION_ATTR);
@@ -300,5 +307,16 @@ public class InitialServlet extends HttpServlet {
                 dispatcher.forward(req, resp);
             }
         }
+    }
+
+    @Override
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Part filePart = req.getPart("file");
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        InputStream contentOfFile = filePart.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(contentOfFile));
+        String allContent = "";
+        br.lines().
+
     }
 }
