@@ -18,10 +18,10 @@
     <div id="header">
         <div id="logo">
         TRIP CALCULATOR
-        <h2>${title}</h2>
+        <%--<h2>${title}</h2>--%>
         </div>
         <div id="car">
-            <img src="img/car.png" alt="car" style="width: 200px; height: 200px">
+            <img  class="car" src="img/car.png" alt="car" style="width: 100px; height: 100px">
         </div>
     </div>
 
