@@ -8,28 +8,27 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by krystianskrzyszewski on 19.04.17.
  */
 
 @WebServlet(urlPatterns = "/calc")
+@MultipartConfig
 public class InitialServlet extends HttpServlet {
 
     private final String TRIP_FULL_COST_SESSION_ATTR = "fripFullCost";
@@ -300,5 +299,21 @@ public class InitialServlet extends HttpServlet {
                 dispatcher.forward(req, resp);
             }
         }
+    }
+
+    @Override
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        LOGGER.debug("Getting file as request parameter");
+        Part filePart = req.getPart("file");
+//        LOGGER.debug("Getting name of the file");
+//        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        LOGGER.debug("Converting file part into stream");
+        InputStream contentOfFile = filePart.getInputStream();
+        LOGGER.debug("Creating Bufferedreader from of InputStream");
+        BufferedReader br = new BufferedReader(new InputStreamReader(contentOfFile));
+        LOGGER.debug("Parsing Bufferedreader into lines");
+        List<String> contentInLines = br.lines().collect(Collectors.toList());
+        contentInLines.forEach(System.out::println);
+
     }
 }
