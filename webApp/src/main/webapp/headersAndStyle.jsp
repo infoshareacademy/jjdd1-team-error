@@ -15,9 +15,14 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div>
-        <img id="logo" alt="Trip calculator" src="img/logo.png"/>
+    <div id="header">
+        <div id="logo">
+        TRIP CALCULATOR
         <h2>${title}</h2>
+        </div>
+        <div id="car">
+            <img src="img/car.png" alt="car" style="width: 200px; height: 200px">
+        </div>
     </div>
 
 
