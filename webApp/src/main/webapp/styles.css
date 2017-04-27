@@ -1,40 +1,80 @@
 body {
     font-family: Calibri;
     text-align: center;
-    background: url(img/fabric_of_squares_gray.png);/* Background pattern from Subtle Patterns */
+    background: url(img/pinstripe.png);/* Background pattern from Subtle Patterns */
     margin: 0px;
+    positon: relative;
 }
 
 #header{
     background-color: #222;
     text-align: center;
-    color: papayawhip;
-    font-size: 60px;
+    color: #b9def0;
+    font-size: 40px;
     font-weight: 800;
     margin: 0;
     padding: 0;
-    height: 200px;
+    height: 120px;
+    border-bottom: 2px black dotted;
+    /*font-family: 'Indie Flower', cursive;*/
+    font-family: 'Gloria Hallelujah', cursive;
+    /*font-family: 'Shadows Into Light', cursive;*/
 }
 
 #logo{
-    height: 100px;
-}
-
-#car{
-    width:100px;
-    height: 100px;
+    height: 50px;
 }
 
 .car{
-    position: absolute;
-    left: 10px;
-    right: 10px;
-    transition: transform 2s 0s ease-in;
+    width:100px;
+    height: 70px;
 }
 
-.car:hover{
+/*.photo{*/
+   /*float:left;*/
+    /*width:100px;*/
+/*}*/
+
+#content{
+    padding-top: 100px;
+    /*float:left;*/
+}
+
+#footer{
+    height: 100px;
+    background-color: #222;
+    color: papayawhip;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-top: 2px black dotted;
+}
+
+#car{
+    position: absolute;
+    left: 10px;
+    transition: transform 2s 0s ease-in;
+    width:100px;
+    height: 70px;
+}
+
+#car:hover{
     transform: translateX(1700px);
 }
+
+#car-mirror{
+    position: absolute;
+    right: 10px;
+    transition: transform 2s 0s ease-in;
+    width:100px;
+    height: 70px;
+}
+
+#car-mirror:hover{
+    transform: translateX(-1700px);
+}
+
 
 .buttons, .radio_input {
     display: flex;
