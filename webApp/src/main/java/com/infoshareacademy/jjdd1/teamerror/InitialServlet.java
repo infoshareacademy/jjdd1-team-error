@@ -1,11 +1,13 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -42,6 +44,9 @@ public class InitialServlet extends HttpServlet {
     Map<String, String> countryAndCurrencyList;
     PromotedCountries promotedCountries;
 
+    @Inject
+    SavingClass savingClass;
+
     public InitialServlet() {
         super();
         LOGGER.info("InitialServlet initialisation");
@@ -66,6 +71,12 @@ public class InitialServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        LOGGER.debug("Reading data from database");
+        List<String> ret = savingClass.getPromotedCountries();
+        LOGGER.debug("List of promoted countries from database: {}", ret);
+        promotedCountries.setPromotedCountries(ret);
+        LOGGER.info("Data from database successfully loaded");
 
         HttpSession session = req.getSession(true);
         TripFullCost cost = (TripFullCost) session.getAttribute(TRIP_FULL_COST_SESSION_ATTR);
