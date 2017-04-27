@@ -1,25 +1,31 @@
 package com.infoshareacademy.jjdd1.teamerror.file_loader;
 
 //import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
-import  com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * Created by Sebastian Los on 02.04.2017.
  */
 public class FileReader {
 
+    public static final String PROMOTED_COUNTRIES = "promotedCountries.txt";
     public static final String CURRENCY_FILE_WITH_GENERAL_DATA = "omeganbp.lst.txt";
-    public static final String PATH_TO_FILES = System.getProperty("java.io.tmpdir")+"/files/";
+    public static final String PATH_TO_FILES = "/files/";
     public static final String PETROL_FILE_NAME = "iSA-PetrolPrices.csv";
     public static final String ZIP_CURRENCY_FILE = "omeganbp.zip";
     public static final String UNZIP_FOLDER = PATH_TO_FILES + "unzip/";
@@ -27,18 +33,30 @@ public class FileReader {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileReader.class);
 
     // load file's content
-    public static List<String> loadContent(String path) {
+    public static List<String> loadFile(String path) {
         // file's content
-        List<String> lines = new ArrayList<>();
+        InputStream inputStream = FileReader.class.getResourceAsStream(path);
+        return new BufferedReader(new InputStreamReader(inputStream)).lines()
+                .collect(Collectors.toList());
+    }
 
+    public static List<String> loadFileForZip(String filename) {
+        InputStream inputStream = FileReader.class.getResourceAsStream(PATH_TO_FILES + ZIP_CURRENCY_FILE);
+        ZipInputStream zip = new ZipInputStream(inputStream);
+
+        ZipEntry entry;
         try {
-            LOGGER.debug("Loading file content, path: {}", path);
-            lines = Files.readAllLines(convertStringToPathClass(path));
-            LOGGER.info("File successfully loaded, path: {}", path);
+            while ((entry = zip.getNextEntry()) != null) {
+                if (filename.equals(entry.getName())) {
+                    return new BufferedReader(new InputStreamReader(zip)).lines()
+                            .collect(Collectors.toList());
+                }
+            }
         } catch (IOException e) {
-            LOGGER.error("Loading file failed, path: {}", path);
+            LOGGER.error("Loading file from zip file failed: {}", filename);
         }
-        return lines;
+        LOGGER.error("Loading file from zip file failed. File: {} not found", filename);
+        return new ArrayList<String>();
     }
 
     public static Path convertStringToPathClass(String path){
@@ -46,19 +64,12 @@ public class FileReader {
         return rootPath;
     }
 
-    // unzip the file from and to given location
-    public static void unzipFile() {
-        String source = PATH_TO_FILES + ZIP_CURRENCY_FILE;
-        try {
-            LOGGER.debug("Extracting files, source: {}, destination: {}", source, UNZIP_FOLDER);
-            ZipFile file = new ZipFile(convertStringToPathClass(source).toString());
-            // extract file
-            file.extractAll(convertStringToPathClass(UNZIP_FOLDER).toString());
-            LOGGER.info("Files successfully extracted, source: {}, destination: {}", source, UNZIP_FOLDER);
-        } catch (ZipException e) {
-            LOGGER.error("Extracting files failed, source: {}, destination: {}", source, UNZIP_FOLDER);
-        }
+    public static String createPathToResourcesFiles(String fileName) {
+        return FileReader.class.getResource("files/" + fileName).getPath();
     }
+
+
+
 
     // delete extracted files
     public static void removeExtractedFiles() {
@@ -88,6 +99,6 @@ public class FileReader {
 
     // create String path
     public static String createPath(String fileName) {
-        return UNZIP_FOLDER + fileName + ".txt";
+        return fileName + ".txt";
     }
 }

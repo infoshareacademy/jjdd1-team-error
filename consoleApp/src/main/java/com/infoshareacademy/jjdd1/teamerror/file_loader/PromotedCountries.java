@@ -39,16 +39,7 @@ public class PromotedCountries {
 
     public static void loadPromotedCountries() {
 
-        String PROJECT_DIR = "files";
-        String PROMOTED_COUNTRIES = "promotedCountries.txt";
-        Path projectPath = Paths.get(System.getProperty("java.io.tmpdir")).resolve(PROJECT_DIR);
-        Path promotedListPath = projectPath.resolve(PROMOTED_COUNTRIES);
-
-        try {
-            promotedCountries = Files.readAllLines(promotedListPath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        promotedCountries = FileReader.loadFile(FileReader.PATH_TO_FILES + FileReader.PROMOTED_COUNTRIES);
     }
 
     public List<String> getPromotedCountries(){

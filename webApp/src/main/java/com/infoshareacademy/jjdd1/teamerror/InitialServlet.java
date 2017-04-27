@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -116,6 +117,7 @@ public class InitialServlet extends HttpServlet {
         }
         else if (req.getParameter("initialization") != null) {
             String country = req.getParameter("country").toUpperCase();
+
             String fuelType = req.getParameter("fuelType");
 
             cost.setCountry(country);
@@ -320,11 +322,15 @@ public class InitialServlet extends HttpServlet {
 //        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         LOGGER.debug("Converting file part into stream");
         InputStream contentOfFile = filePart.getInputStream();
+        String wholeFile = new Scanner(contentOfFile, "UTF-8").toString();
         LOGGER.debug("Creating Bufferedreader from of InputStream");
         BufferedReader br = new BufferedReader(new InputStreamReader(contentOfFile));
         LOGGER.debug("Parsing Bufferedreader into lines");
         List<String> contentInLines = br.lines().collect(Collectors.toList());
         contentInLines.forEach(System.out::println);
 
+        req.setAttribute("countryList", promotedCountries.getOrderedPromotedCountries());
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
+        dispatcher.forward(req, resp);
     }
 }

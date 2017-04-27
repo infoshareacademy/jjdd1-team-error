@@ -1,23 +1,25 @@
 package com.infoshareacademy.jjdd1.teamerror.file_loader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
-/**
-<<<<<<< HEAD
- * Created by sebas on 17.04.2017.
-=======
- * Created by Krystian on 17.04.2017.
->>>>>>> JD1TE-28
- */
+import static com.infoshareacademy.jjdd1.teamerror.file_loader.FileReader.*;
+
+
 public class CachedFilesContent implements FilesContent {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CachedFilesContent.class);
 
     private List<String> currencyInfoFile = new ArrayList<>();
     private List<String> currencyDataFile = new ArrayList<>();
     private List<String> petrolDataFile = new ArrayList<>();
 
     public CachedFilesContent() {
-        this.petrolDataFile = FileReader.loadContent(FileReader.PATH_TO_FILES + FileReader.PETROL_FILE_NAME);
+        LOGGER.debug("Creating path and loading file: {}", PETROL_FILE_NAME);
+        this.petrolDataFile = loadFile(PATH_TO_FILES + PETROL_FILE_NAME);
     }
 
     public List<String> getCurrencyInfoFile() {
@@ -28,7 +30,8 @@ public class CachedFilesContent implements FilesContent {
     }
 
     public void setCurrencyInfoFile() {
-        currencyInfoFile = FileReader.loadContent(FileReader.PATH_TO_FILES + FileReader.CURRENCY_FILE_WITH_GENERAL_DATA);
+        LOGGER.debug("Creating path and loading file: {}", CURRENCY_FILE_WITH_GENERAL_DATA);
+        currencyInfoFile = loadFile(createPathToResourcesFiles(CURRENCY_FILE_WITH_GENERAL_DATA));
     }
 
     public List<String> getCurrencyDataFile(String currencySymbol) {
@@ -39,12 +42,8 @@ public class CachedFilesContent implements FilesContent {
     }
 
     public void setCurrencyDataFile(String currencySymbol) {
-        FileReader.unzipFile();
-        try {
-            currencyDataFile = FileReader.loadContent(FileReader.createPath(currencySymbol));
-        } finally {
-            FileReader.removeExtractedFiles();
-        }
+
+        currencyDataFile = loadFileForZip(createPath(currencySymbol));
     }
 
     @Override
