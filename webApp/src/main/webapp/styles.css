@@ -1,11 +1,17 @@
 body {
     font-family: Calibri;
-    text-align: left;
+    text-align: center;
 }
 #logo {
     display: block;
     margin: auto;
     width: 30%;
+}
+
+#success_message{ display: none;}
+
+.dropdown, .btn, .btn-default, .dropdown-toggle{
+    text-align: center;
 }
 
 .buttons, .radio_input {

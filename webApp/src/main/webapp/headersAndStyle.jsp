@@ -15,7 +15,10 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="vendor/bootstrap-3.3.7-dist/css/bootstrap.css"/>
     <link rel="stylesheet" href="vendor/bootstrap-3.3.7-dist/css/bootstrap-theme.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="vendor/bootstrap-select-1.12.2/js/bootstrap-select.js"/>
+    <%--<link rel="stylesheet" href="vendor/Boostrap-Form-Validation-with-BootstrapValidator/js/validate-me.js"/>--%>
+    <%--<script src="https://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>--%>
+
 </head>
 <body>
     <div>

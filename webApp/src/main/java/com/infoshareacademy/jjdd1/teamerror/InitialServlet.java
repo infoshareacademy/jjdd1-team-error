@@ -1,6 +1,5 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
@@ -12,16 +11,11 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validator;
 import java.io.*;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by krystianskrzyszewski on 19.04.17.
@@ -114,15 +108,28 @@ public class InitialServlet extends HttpServlet {
         else if (req.getParameter("initialization") != null) {
             String country = req.getParameter("country").toUpperCase();
             String fuelType = req.getParameter("fuelType");
+            String date1 = req.getParameter("date1");
+            String date2 = req.getParameter("date2");
+            String fuelUsage = req.getParameter("fuelUsage");
+            String fullDistance = req.getParameter("fullDistance");
 
             cost.setCountry(country);
             cost.setFuelType(fuelType);
+            cost.setDate1(date1);
+            cost.setDate2(date2);
+            cost.setFuelUsage(fuelUsage);
+            cost.setDistance(fullDistance);
 
             LOGGER.info("servlet req params: country-{} fuel type-{}", country, fuelType);
             req.setAttribute("title", "Menu");
             req.setAttribute("country", cost.getCountry());
             req.setAttribute("currency", cost.getCurrency());
             req.setAttribute("fuelType", cost.getFuelType());
+            req.setAttribute("date1", date1);
+            req.setAttribute("date2", date2);
+            req.setAttribute("fuelUsage", fuelUsage);
+            req.setAttribute("fullDistance", fullDistance);
+            req.setAttribute("fullCost", cost.costCount());
 
             RequestDispatcher dispatcher = req.getRequestDispatcher("/menu.jsp");
             dispatcher.forward(req, resp);
