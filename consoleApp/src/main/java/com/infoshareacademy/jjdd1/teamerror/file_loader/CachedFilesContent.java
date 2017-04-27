@@ -31,7 +31,7 @@ public class CachedFilesContent implements FilesContent {
 
     public void setCurrencyInfoFile() {
         LOGGER.debug("Creating path and loading file: {}", CURRENCY_FILE_WITH_GENERAL_DATA);
-        currencyInfoFile = loadFile(createPathToResourcesFiles(CURRENCY_FILE_WITH_GENERAL_DATA));
+        currencyInfoFile = loadFile(PATH_TO_FILES + CURRENCY_FILE_WITH_GENERAL_DATA);
     }
 
     public List<String> getCurrencyDataFile(String currencySymbol) {
@@ -43,8 +43,9 @@ public class CachedFilesContent implements FilesContent {
 
     public void setCurrencyDataFile(String currencySymbol) {
 
-        currencyDataFile = loadFileForZip(createPath(currencySymbol));
+        currencyDataFile = loadFileForDefaultZip(createPath(currencySymbol));
     }
+
 
     @Override
     public List<String> getPetrolDataFile() {

@@ -1,8 +1,5 @@
 package com.infoshareacademy.jjdd1.teamerror.file_loader;
 
-//import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
-import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +22,7 @@ public class FileReader {
 
     public static final String PROMOTED_COUNTRIES = "promotedCountries.txt";
     public static final String CURRENCY_FILE_WITH_GENERAL_DATA = "omeganbp.lst.txt";
-    public static final String PATH_TO_FILES = "/files/";
+    public static final String PATH_TO_FILES = "files/";
     public static final String PETROL_FILE_NAME = "iSA-PetrolPrices.csv";
     public static final String ZIP_CURRENCY_FILE = "omeganbp.zip";
     public static final String UNZIP_FOLDER = PATH_TO_FILES + "unzip/";
@@ -40,16 +37,19 @@ public class FileReader {
                 .collect(Collectors.toList());
     }
 
-    public static List<String> loadFileForZip(String filename) {
+    public static List<String> loadFileForDefaultZip(String fileName) {
         InputStream inputStream = FileReader.class.getResourceAsStream(PATH_TO_FILES + ZIP_CURRENCY_FILE);
-        ZipInputStream zip = new ZipInputStream(inputStream);
+        return loadFileForZip(inputStream, fileName);
+    }
 
-        ZipEntry entry;
+    public static List<String> loadFileForZip(InputStream stream, String filename) {
+        ZipInputStream zip = new ZipInputStream(stream);
+
         try {
+            ZipEntry entry;
             while ((entry = zip.getNextEntry()) != null) {
                 if (filename.equals(entry.getName())) {
-                    return new BufferedReader(new InputStreamReader(zip)).lines()
-                            .collect(Collectors.toList());
+                    return loadStream(zip);
                 }
             }
         } catch (IOException e) {
@@ -57,6 +57,11 @@ public class FileReader {
         }
         LOGGER.error("Loading file from zip file failed. File: {} not found", filename);
         return new ArrayList<String>();
+    }
+
+    public static List<String> loadStream(InputStream inputStream) {
+        return new BufferedReader(new InputStreamReader(inputStream)).lines()
+                .collect(Collectors.toList());
     }
 
     public static Path convertStringToPathClass(String path){

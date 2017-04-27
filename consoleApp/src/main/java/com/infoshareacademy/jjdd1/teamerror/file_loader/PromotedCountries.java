@@ -45,6 +45,7 @@ public class PromotedCountries {
     public List<String> getPromotedCountries(){
 
         if (promotedCountries.isEmpty()) {
+            LOGGER.debug("Loading promoted countries from a file");
             loadPromotedCountries();
         }
         return promotedCountries;

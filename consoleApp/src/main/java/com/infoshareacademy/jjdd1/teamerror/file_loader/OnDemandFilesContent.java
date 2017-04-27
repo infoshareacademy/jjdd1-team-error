@@ -18,17 +18,17 @@ public class OnDemandFilesContent implements FilesContent {
     @Override
     public List<String> getPetrolDataFile() {
         LOGGER.debug("Creating path and loading file: {}", PETROL_FILE_NAME);
-        return loadFile(createPathToResourcesFiles(PETROL_FILE_NAME));
+        return loadFile(PATH_TO_FILES + PETROL_FILE_NAME);
     }
 
     @Override
     public List<String> getCurrencyInfoFile() {
         LOGGER.debug("Creating path and loading file: {}", CURRENCY_FILE_WITH_GENERAL_DATA);
-        return loadFile(createPathToResourcesFiles(CURRENCY_FILE_WITH_GENERAL_DATA));
+        return loadFile(PATH_TO_FILES + CURRENCY_FILE_WITH_GENERAL_DATA);
     }
 
     @Override
     public List<String> getCurrencyDataFile(String currencySymbol) {
-        return loadFileForZip(createPath(currencySymbol));
+        return loadFileForDefaultZip(createPath(currencySymbol));
     }
 }
