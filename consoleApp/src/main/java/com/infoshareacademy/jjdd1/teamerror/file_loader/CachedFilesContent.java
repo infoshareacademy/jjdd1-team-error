@@ -39,7 +39,7 @@ public class CachedFilesContent implements FilesContent {
     }
 
     public void setCurrencyDataFile(String currencySymbol) {
-        currencyDataFile = FileReader.loadFileForZip(FileReader.createPath(currencySymbol));
+        currencyDataFile = FileReader.loadFileForDefaultZip(FileReader.createPath(currencySymbol));
     }
 
     @Override

@@ -22,7 +22,7 @@ public class FileReader {
 
     public static final String PROMOTED_COUNTRIES = "promotedCountries.txt";
     public static final String CURRENCY_FILE_WITH_GENERAL_DATA = "omeganbp.lst.txt";
-    public static final String PATH_TO_FILES = "/files/"; 
+    public static final String PATH_TO_FILES = "/files/";
     public static final String PETROL_FILE_NAME = "iSA-PetrolPrices.csv";
     public static final String ZIP_CURRENCY_FILE = "omeganbp.zip";
     public static final String UNZIP_FOLDER = PATH_TO_FILES + "unzip/";
@@ -33,22 +33,23 @@ public class FileReader {
     public static List<String> loadFile(String path) {
         // file's content
         InputStream inputStream = FileReader.class.getResourceAsStream(path);
-
-        return new BufferedReader(new InputStreamReader(inputStream)).lines()
-                .collect(Collectors.toList());
+        return loadStream(inputStream);
     }
 
-    public static List<String> loadFileForZip(String filename) {
 
+    public static List<String> loadFileForDefaultZip(String filename) {
         InputStream inputStream = FileReader.class.getResourceAsStream(PATH_TO_FILES + ZIP_CURRENCY_FILE);
-        ZipInputStream zip = new ZipInputStream(inputStream);
+        return loadFileForZip(inputStream, filename);
+    }
+
+    public static List<String> loadFileForZip(InputStream stream, String filename) {
+        ZipInputStream zip = new ZipInputStream(stream);
 
         try {
             ZipEntry entry;
             while ((entry = zip.getNextEntry()) != null) {
                 if (filename.equals(entry.getName())) {
-                    return new BufferedReader(new InputStreamReader(zip)).lines()
-                            .collect(Collectors.toList());
+                    return loadStream(zip);
                 }
             }
         } catch (IOException e) {
@@ -56,6 +57,13 @@ public class FileReader {
         }
 
         throw new RuntimeException(new FileNotFoundException("No file in zip"));
+
+    }
+
+    public static List<String> loadStream(InputStream inputStream) {
+        // file's content
+        return new BufferedReader(new InputStreamReader(inputStream)).lines()
+                .collect(Collectors.toList());
     }
 
     // create String path

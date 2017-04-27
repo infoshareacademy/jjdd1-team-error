@@ -21,6 +21,6 @@ public class OnDemandFilesContent implements FilesContent {
 
     @Override
     public List<String> getCurrencyDataFile(String currencySymbol) {
-        return FileReader.loadFileForZip(FileReader.createPath(currencySymbol));
+        return FileReader.loadFileForDefaultZip(FileReader.createPath(currencySymbol));
     }
 }
