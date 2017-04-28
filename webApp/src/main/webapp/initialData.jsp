@@ -4,6 +4,14 @@
     <!-- Select Basic -->
 
     <div class="form-group">
+        <label class="col-md-4 control-label">Input File</label>
+        <div class="col-md-6 selectContainer">
+            <input type="file" class="form-control" name="uploadfile" />
+            <asp:Label ID="Label3" runat="server" Text="Navigate to the file you wish to upload" CssClass="label_under_text"></asp:Label>
+        </div>
+    </div>
+
+    <div class="form-group">
         <label class="col-md-4 control-label">Country</label>
         <div class="col-md-6 selectContainer">
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
@@ -55,21 +63,31 @@
     </div>
 
     <!-- Text input-->
+    <%--<div class="form-group">--%>
+        <%--<label class="col-md-4 control-label">Departure Date</label>--%>
+        <%--<div class="col-md-6  inputGroupContainer">--%>
+            <%--<div class="input-group" ><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>--%>
+                <%--<input  id="embeddingDatePicker1" name="date1" type="text" placeholder="yyyy-mm-dd" class="form-control">--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+
     <div class="form-group">
         <label class="col-md-4 control-label">Departure Date</label>
-        <div class="col-md-6  inputGroupContainer">
-            <div class="input-group" ><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                <input  id="embeddingDatePicker1" name="date1" type="text" placeholder="yyyy-mm-dd" class="form-control">
+        <div class="col-md-6 inputGroupContainer">
+            <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                <input type="text" id="date1" name="date1" class="form-control date-picker1" />
             </div>
         </div>
     </div>
 
     <!-- Text input-->
     <div class="form-group">
-        <label class="col-xs-3 control-label">Date</label>
-        <div class="col-xs-5 date">
-            <div id="embeddingDatePicker"></div>
-            <input type="hidden" id="selectedDate" name="selectedDate" />
+        <label class="col-md-4 control-label">Return Date</label>
+        <div class="col-md-6 inputGroupContainer">
+            <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                <input type="text" id="date2" name="date2" class="form-control date-picker2" />
+            </div>
         </div>
     </div>
 
@@ -129,59 +147,38 @@
             </div>
         </div>
 
+
+
+
     <%--</fieldset>--%>
 
 
-    <div class="form-group">
-        <label class="col-xs-3 control-label">Country</label>
-        <div class="col-xs-5 selectContainer">
-            <select class="form-control" name="country" multiple title="Choose 2-4 colors">
-                <c:forEach items="${countryList}" var="country">
-                    <option value="${country}">${country}</option>
-                </c:forEach>
-            </select>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-xs-3 control-label">Language</label>
-        <div class="col-xs-5 selectContainer">
-            <select class="form-control" name="fuelType" >
-                <option value="1">diesel</option>
-                <option value="2">gasoline</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-xs-5 col-xs-offset-3">
-            <button type="submit" class="btn btn-default" name="initialization" value="">Submit</button>
-        </div>
-    </div>
-
-
-    <%--<br>--%>
-    <%--<div class="form-group" data-live-search="true">Country--%>
-        <%--<select class="form-control" name="country" >--%>
-            <%--<c:forEach items="${countryList}" var="country">--%>
-                <%--<option value="${country}">${country}</option>--%>
-            <%--</c:forEach>--%>
-        <%--</select>--%>
+    <%--<div class="form-group">--%>
+        <%--<label class="col-xs-3 control-label">Country</label>--%>
+        <%--<div class="col-xs-5 selectContainer">--%>
+            <%--<select class="form-control" name="country" multiple title="Choose 2-4 colors">--%>
+                <%--<c:forEach items="${countryList}" var="country">--%>
+                    <%--<option value="${country}">${country}</option>--%>
+                <%--</c:forEach>--%>
+            <%--</select>--%>
+        <%--</div>--%>
     <%--</div>--%>
-
-    <%--<br>--%>
 
     <%--<div class="form-group">--%>
-        <%--<select class="form-control" name="fuelType" >--%>
-            <%--<option value="1">diesel</option>--%>
-            <%--<option value="2">gasoline</option>--%>
-        <%--</select>--%>
+        <%--<label class="col-xs-3 control-label">Language</label>--%>
+        <%--<div class="col-xs-5 selectContainer">--%>
+            <%--<select class="form-control" name="fuelType" >--%>
+                <%--<option value="1">diesel</option>--%>
+                <%--<option value="2">gasoline</option>--%>
+            <%--</select>--%>
+        <%--</div>--%>
     <%--</div>--%>
 
-    <%--&lt;%&ndash;<div class="radio_input"> <input type="radio" name="fuelType" value="1" checked>diesel</div>&ndash;%&gt;--%>
-    <%--&lt;%&ndash;<div class="radio_input"> <input type="radio" name="fuelType" value="2">gasoline</div>&ndash;%&gt;--%>
-    <%--<br>--%>
-    <%--<div class="buttons"><button type="submit" name="initialization" value="">Submit</button></div>--%>
+    <%--<div class="form-group">--%>
+        <%--<div class="col-xs-5 col-xs-offset-3">--%>
+            <%--<button type="submit" class="btn btn-default" name="initialization" value="">Submit</button>--%>
+        <%--</div>--%>
+    <%--</div>--%>
 </form>
 
 
