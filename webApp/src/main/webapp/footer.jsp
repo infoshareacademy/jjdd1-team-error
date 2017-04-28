@@ -11,6 +11,21 @@
 <script src="vendor/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+<script>
+    $( "#date1" ).datepicker({
+        dateFormat:"yy-mm-dd",
+        altField: "#date11",
+        altFormat: "yymmdd"
+    });
+    $( "#date1" ).datepicker("setDate", "#date11");
+</script>
+<script>
+    $( "#date2" ).datepicker();
+    $( "#date2" ).datepicker("getDate");
+</script>
+
 <script type="text/javascript">
 
     $(document).ready(function() {
@@ -22,67 +37,11 @@
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
-                date1: {
-                    validators: {
-                        stringLength: {
-                            min: 8,
-                            max: 8,
-                            message: 'Wrong length of input'
-                        },
-                        notEmpty: {
-                            message: 'Please state a departure date'
-                        },
-                    }
-                },
-                date2: {
-                    validators: {
-                        stringLength: {
-                            min: 8,
-                            max: 8,
-                            message: 'Wrong length of input'
-                        },
-                        notEmpty: {
-                            message: 'Please state a return date'
-                        },
-                    }
-                },
-
-                fuelUsage: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please state your car`s fuel usage'
-                        },
-                        phone: {
-                            country: 'US',
-                            message: 'Please supply a vaild phone number with area code'
-                        }
-                    }
-                },
-                address: {
-                    validators: {
-                        stringLength: {
-                            min: 8,
-                        },
-                        notEmpty: {
-                            message: 'Please supply your street address'
-                        }
-                    }
-                },
-                city: {
-                    validators: {
-                        stringLength: {
-                            min: 4,
-                        },
-                        notEmpty: {
-                            message: 'Please supply your city'
-                        }
-                    }
-                },
                 country: {
                     validators: {
                         notEmpty: {
                             message: 'Please select your destination country'
-                        },
+                        }
                     }
                 },
                 fuelType: {
@@ -92,56 +51,63 @@
                         }
                     }
                 },
-                zip: {
+                fuelUsage: {
                     validators: {
-                        date1: {
-                            message: 'Please supply your zip code'
-                        },
-                        zipCode: {
-                            country: 'US',
-                            message: 'Please supply a vaild zip code'
+                        notEmpty: {
+
+                            message: 'Please state your car`s fuel usage'
                         }
                     }
                 },
-                comment: {
+                fullDistance: {
                     validators: {
-                        stringLength: {
-                            min: 10,
-                            max: 200,
-                            message:'Please enter at least 10 characters and no more than 200'
-                        },
                         notEmpty: {
-                            message: 'Please supply a description about yourself'
+                            message: 'Please state the distance you wish to travel'
                         }
                     }
                 },
-                email: {
+                date1: {
                     validators: {
                         notEmpty: {
-                            message: 'Please supply your email address'
-                        },
-                        emailAddress: {
-                            message: 'Please supply a valid email address'
+                            message: 'Please state a departure date'
+                        }
+                    }
+                },
+                date2: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please state a return date'
                         }
                     }
                 },
 
-                password: {
-                    validators: {
-                        identical: {
-                            field: 'confirmPassword',
-                            message: 'Confirm your password below - type same password please'
-                        }
-                    }
-                },
-                confirmPassword: {
-                    validators: {
-                        identical: {
-                            field: 'password',
-                            message: 'The password and its confirm are not the same'
-                        }
-                    }
-                },
+//                email: {
+//                    validators: {
+//                        notEmpty: {
+//                            message: 'Please supply your email address'
+//                        },
+//                        emailAddress: {
+//                            message: 'Please supply a valid email address'
+//                        }
+//                    }
+//                },
+//
+//                password: {
+//                    validators: {
+//                        identical: {
+//                            field: 'confirmPassword',
+//                            message: 'Confirm your password below - type same password please'
+//                        }
+//                    }
+//                },
+//                confirmPassword: {
+//                    validators: {
+//                        identical: {
+//                            field: 'password',
+//                            message: 'The password and its confirm are not the same'
+//                        }
+//                    }
+//                },
 
 
             }
@@ -157,7 +123,6 @@
 
                 // Get the form instance
                 var $form = $(e.target);
-
                 // Get the BootstrapValidator instance
                 var bv = $form.data('bootstrapValidator');
 
@@ -169,6 +134,7 @@
     });
 
 </script>
+
 
 </body>
 </html>

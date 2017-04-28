@@ -35,10 +35,32 @@
     <!-- Text input-->
 
     <div class="form-group">
+        <label class="col-md-4 control-label">Fuel Usage</label>
+        <div class="col-md-6  inputGroupContainer">
+            <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
+                <input name="fuelUsage" placeholder="6.9" class="form-control" type="number" step="0.01">
+            </div>
+        </div>
+    </div>
+
+    <!-- Text input-->
+
+    <div class="form-group">
+        <label class="col-md-4 control-label">Distance Traveled</label>
+        <div class="col-md-6  inputGroupContainer">
+            <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
+                <input name="fullDistance" placeholder="666" class="form-control" type="number" min=1>
+            </div>
+        </div>
+    </div>
+
+    <!-- Text input-->
+
+    <div class="form-group">
         <label class="col-md-4 control-label">Departure Date</label>
         <div class="col-md-6  inputGroupContainer">
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                <input  name="date1" placeholder="YYYYMMDD" class="form-control"  type="date">
+                <input  id="date1" type="text" placeholder="yyyy-mm-dd" class="form-control">
             </div>
         </div>
     </div>
@@ -49,113 +71,56 @@
         <label class="col-md-4 control-label" >Return Date</label>
         <div class="col-md-6  inputGroupContainer">
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                <input name="date2" placeholder="YYYYMMDD" class="form-control"  type="date">
+                <input id="date2" type="text" placeholder="yyyy-mm-dd" class="form-control">
             </div>
         </div>
     </div>
 
-
-    <!-- Text input-->
-
-    <div class="form-group">
-        <label class="col-md-4 control-label">Fuel Usage</label>
-        <div class="col-md-6  inputGroupContainer">
-            <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
-                <input name="fuelUsage" placeholder="6.7" class="form-control" type="text">
-            </div>
-        </div>
-    </div>
-
-    <!-- Text input-->
-
-    <div class="form-group">
-        <label class="col-md-4 control-label">Address</label>
-        <div class="col-md-6  inputGroupContainer">
-            <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                <input name="address" placeholder="Address" class="form-control" type="text">
-            </div>
-        </div>
-    </div>
-
-    <!-- Text input-->
-
-    <div class="form-group">
-        <label class="col-md-4 control-label">City</label>
-        <div class="col-md-6  inputGroupContainer">
-            <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                <input name="city" placeholder="city" class="form-control"  type="text">
-            </div>
-        </div>
-    </div>
-
-    <!-- Text input-->
-
-    <div class="form-group">
-        <label class="col-md-4 control-label">Zip Code</label>
-        <div class="col-md-6  inputGroupContainer">
-            <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                <input name="zip" placeholder="Zip Code" class="form-control"  type="text">
-            </div>
-        </div>
-    </div>
-
-    <!-- Text area -->
-
-    <div class="form-group">
-        <label class="col-md-4 control-label">About </label>
-        <div class="col-md-6  inputGroupContainer">
-            <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                <textarea class="form-control" name="comment" placeholder="About "></textarea>
-            </div>
-        </div>
-    </div>
+    <%--</fieldset>--%>
+    <%--<legend> Account information </legend>--%>
+    <%--<fieldset>--%>
+        <%--<!-- Text input-->--%>
+        <%--<div class="form-group">--%>
+            <%--<label class="col-md-4 control-label">E-Mail</label>--%>
+            <%--<div class="col-md-6  inputGroupContainer">--%>
+                <%--<div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>--%>
+                    <%--<input name="email" placeholder="E-Mail Address" class="form-control"  type="text">--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
 
 
-    </fieldset>
-    <legend> Account information </legend>
-    <fieldset>
-        <!-- Text input-->
-        <div class="form-group">
-            <label class="col-md-4 control-label">E-Mail</label>
-            <div class="col-md-6  inputGroupContainer">
-                <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                    <input name="email" placeholder="E-Mail Address" class="form-control"  type="text">
-                </div>
-            </div>
-        </div>
+        <%--<div class="form-group has-feedback">--%>
+            <%--<label for="password"  class="col-md-4 control-label">--%>
+                <%--Password--%>
+            <%--</label>--%>
+            <%--<div class="col-md-6  inputGroupContainer">--%>
+                <%--<div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>--%>
+                    <%--<input class="form-control" id="userPw" type="password" placeholder="password"--%>
+                           <%--name="password" data-minLength="5"--%>
+                           <%--data-error="some error"--%>
+                           <%--required/>--%>
+                    <%--<span class="glyphicon form-control-feedback"></span>--%>
+                    <%--<span class="help-block with-errors"></span>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
 
-
-        <div class="form-group has-feedback">
-            <label for="password"  class="col-md-4 control-label">
-                Password
-            </label>
-            <div class="col-md-6  inputGroupContainer">
-                <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                    <input class="form-control" id="userPw" type="password" placeholder="password"
-                           name="password" data-minLength="5"
-                           data-error="some error"
-                           required/>
-                    <span class="glyphicon form-control-feedback"></span>
-                    <span class="help-block with-errors"></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group has-feedback">
-            <label for="confirmPassword"  class="col-md-4 control-label">
-                Confirm Password
-            </label>
-            <div class="col-md-6  inputGroupContainer">
-                <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                    <input class="form-control {$borderColor}" id="userPw2" type="password" placeholder="Confirm password"
-                           name="confirmPassword" data-match="#confirmPassword" data-minLength="5"
-                           data-match-error="some error 2"
-                           required/>
-                    <span class="glyphicon form-control-feedback"></span>
-                    <span class="help-block with-errors"></span>
-                </div>
-            </div>
-        </div>
+        <%--<div class="form-group has-feedback">--%>
+            <%--<label for="confirmPassword"  class="col-md-4 control-label">--%>
+                <%--Confirm Password--%>
+            <%--</label>--%>
+            <%--<div class="col-md-6  inputGroupContainer">--%>
+                <%--<div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>--%>
+                    <%--<input class="form-control {$borderColor}" id="userPw2" type="password" placeholder="Confirm password"--%>
+                           <%--name="confirmPassword" data-match="#confirmPassword" data-minLength="5"--%>
+                           <%--data-match-error="some error 2"--%>
+                           <%--required/>--%>
+                    <%--<span class="glyphicon form-control-feedback"></span>--%>
+                    <%--<span class="help-block with-errors"></span>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
 
 
         <!-- Button -->
@@ -166,7 +131,7 @@
             </div>
         </div>
 
-    </fieldset>
+    <%--</fieldset>--%>
 
 
     <div class="form-group">
