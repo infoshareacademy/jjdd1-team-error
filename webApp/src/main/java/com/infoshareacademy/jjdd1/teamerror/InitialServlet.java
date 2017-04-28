@@ -13,17 +13,12 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validator;
 import java.io.*;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -40,7 +35,7 @@ public class InitialServlet extends HttpServlet {
     CurrencyFileFilter currencyFileFilter;
     PetrolFileFilter petrolFileFilter;
     Trendy trendy;
-    FilesContent filesContent;
+    CachedFilesContent filesContent;
     CountryAndCurrency countryAndCurrency;
     Map<String, String> countryAndCurrencyList;
     PromotedCountries promotedCountries;
@@ -63,11 +58,9 @@ public class InitialServlet extends HttpServlet {
         trendy.setCurrencyFileFilter(currencyFileFilter);
         trendy.setPetrolFileFilter(petrolFileFilter);
         countryAndCurrency = new CountryAndCurrency();
-        LOGGER.info("InitialServlet initialised");
         promotedCountries = new PromotedCountries();
         promotedCountries.setFilesContent(filesContent);
-
-
+        LOGGER.info("InitialServlet initialised");
     }
 
     @Override
@@ -96,7 +89,7 @@ public class InitialServlet extends HttpServlet {
         filesContent.getCurrencyInfoFile();
 
         countryAndCurrency.setFilesContent(filesContent);
-        countryAndCurrencyList = countryAndCurrency.getCountriesAndCurrency();
+        countryAndCurrencyList = countryAndCurrency.getCountryAndCurrency();
 
         LOGGER.debug("Checking existence of resource files");
         File petrolFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "iSA-PetrolPrices.csv");
@@ -322,7 +315,8 @@ public class InitialServlet extends HttpServlet {
 //        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         LOGGER.debug("Converting file part into stream");
         InputStream contentOfFile = filePart.getInputStream();
-        String wholeFile = new Scanner(contentOfFile, "UTF-8").toString();
+        filesContent.setPetrolDataFile(contentOfFile);
+//        String wholeFile = new Scanner(contentOfFile, "UTF-8").toString();
         LOGGER.debug("Creating Bufferedreader from of InputStream");
         BufferedReader br = new BufferedReader(new InputStreamReader(contentOfFile));
         LOGGER.debug("Parsing Bufferedreader into lines");

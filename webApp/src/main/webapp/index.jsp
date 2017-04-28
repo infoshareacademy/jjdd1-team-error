@@ -7,7 +7,7 @@
     <input type="submit" />
 </form>
 
-<form method="get" action="/calc">
+<form action="/calc" method="get" >
     <div class="buttons">
         <button type="submit" name="start" value="">Start your calculation</button>
     </div>

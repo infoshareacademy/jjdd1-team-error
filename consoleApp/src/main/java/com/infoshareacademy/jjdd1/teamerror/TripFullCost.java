@@ -11,8 +11,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-
 /**
  * Created by krystianskrzyszewski on 07.04.17.
  */
@@ -176,9 +174,9 @@ public class TripFullCost {
     //data check added to standard SET method
     void setCountry(String country){
         try{
-            if (countryAndCurrency.getCountriesAndCurrency().containsKey(country)) {
+            if (countryAndCurrency.getCountryAndCurrency().containsKey(country)) {
                 this.country = country;
-                this.currency = countryAndCurrency.getCountriesAndCurrency().get(country);
+                this.currency = countryAndCurrency.getCountryAndCurrency().get(country);
             } else {
                 throw new Exception();
             }

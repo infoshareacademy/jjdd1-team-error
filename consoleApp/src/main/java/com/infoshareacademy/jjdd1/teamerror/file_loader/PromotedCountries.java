@@ -3,10 +3,6 @@ package com.infoshareacademy.jjdd1.teamerror.file_loader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +15,7 @@ public class PromotedCountries {
 
     private CountryAndCurrency countryAndCurrency;
     private FilesContent filesContent;
-    List<String> orderedPromotedCountries = new ArrayList<>();
+    private List<String> orderedPromotedCountries = new ArrayList<>();
 
     private static List<String> promotedCountries = new ArrayList<>();
 
@@ -58,7 +54,8 @@ public class PromotedCountries {
 
     public void setOrderedPromotedCountries() {
         LOGGER.debug("Preparing list of countries according to promoted countries");
-        List<String> availableCountries = new ArrayList<>(countryAndCurrency.getCountriesAndCurrency().keySet());
+        List<String> availableCountries = new ArrayList<>(countryAndCurrency.getCountryAndCurrency().keySet());
+        LOGGER.debug("Available countries: {}", availableCountries);
         orderedPromotedCountries.clear();
         for (int i = 0; i < getPromotedCountries().size(); i++) {
             orderedPromotedCountries.add(getPromotedCountries().get(i).toUpperCase());

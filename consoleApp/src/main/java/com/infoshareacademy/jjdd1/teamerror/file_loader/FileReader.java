@@ -42,64 +42,26 @@ public class FileReader {
         return loadFileForZip(inputStream, fileName);
     }
 
-    public static List<String> loadFileForZip(InputStream stream, String filename) {
+    public static List<String> loadFileForZip(InputStream stream, String fileName) {
         ZipInputStream zip = new ZipInputStream(stream);
 
         try {
             ZipEntry entry;
             while ((entry = zip.getNextEntry()) != null) {
-                if (filename.equals(entry.getName())) {
+                if (fileName.equals(entry.getName())) {
                     return loadStream(zip);
                 }
             }
         } catch (IOException e) {
-            LOGGER.error("Loading file from zip file failed: {}", filename);
+            LOGGER.error("Loading file from zip file failed: {}", fileName);
         }
-        LOGGER.error("Loading file from zip file failed. File: {} not found", filename);
+        LOGGER.error("Loading file from zip file failed. File: {} not found", fileName);
         return new ArrayList<String>();
     }
 
     public static List<String> loadStream(InputStream inputStream) {
         return new BufferedReader(new InputStreamReader(inputStream)).lines()
                 .collect(Collectors.toList());
-    }
-
-    public static Path convertStringToPathClass(String path){
-        Path rootPath = Paths.get(path);
-        return rootPath;
-    }
-
-    public static String createPathToResourcesFiles(String fileName) {
-        return FileReader.class.getResource("files/" + fileName).getPath();
-    }
-
-
-
-
-    // delete extracted files
-    public static void removeExtractedFiles() {
-        try {
-            String path = convertStringToPathClass(UNZIP_FOLDER).toString();
-            LOGGER.debug("Start removing extracted files, path: {}", path);
-            Files.walkFileTree(Paths.get(path), new SimpleFileVisitor<Path>() {
-                @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    LOGGER.debug("Removing file, path: {}", file);
-                    Files.delete(file);
-                    return FileVisitResult.CONTINUE;
-                }
-
-                @Override
-                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                    LOGGER.debug("Removing directory, path: {}", dir);
-                    Files.delete(dir);
-                    return FileVisitResult.CONTINUE;
-                }
-            });
-
-        } catch (IOException e) {
-            LOGGER.warn("Removing extracted files failed, path: {}", UNZIP_FOLDER);
-        }
     }
 
     // create String path
