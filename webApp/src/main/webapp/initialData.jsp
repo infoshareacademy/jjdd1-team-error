@@ -55,26 +55,24 @@
     </div>
 
     <!-- Text input-->
-
     <div class="form-group">
         <label class="col-md-4 control-label">Departure Date</label>
         <div class="col-md-6  inputGroupContainer">
-            <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                <input  id="date1" type="text" placeholder="yyyy-mm-dd" class="form-control">
+            <div class="input-group" ><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                <input  id="embeddingDatePicker1" name="date1" type="text" placeholder="yyyy-mm-dd" class="form-control">
             </div>
         </div>
     </div>
 
     <!-- Text input-->
-
     <div class="form-group">
-        <label class="col-md-4 control-label" >Return Date</label>
-        <div class="col-md-6  inputGroupContainer">
-            <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                <input id="date2" type="text" placeholder="yyyy-mm-dd" class="form-control">
-            </div>
+        <label class="col-xs-3 control-label">Date</label>
+        <div class="col-xs-5 date">
+            <div id="embeddingDatePicker"></div>
+            <input type="hidden" id="selectedDate" name="selectedDate" />
         </div>
     </div>
+
 
     <%--</fieldset>--%>
     <%--<legend> Account information </legend>--%>

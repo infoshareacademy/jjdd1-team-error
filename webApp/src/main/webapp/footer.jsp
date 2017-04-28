@@ -11,25 +11,31 @@
 <script src="vendor/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
 <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 
-<script>
-    $( "#date1" ).datepicker({
-        dateFormat:"yy-mm-dd",
-        altField: "#date11",
-        altFormat: "yymmdd"
-    });
-    $( "#date1" ).datepicker("setDate", "#date11");
-</script>
-<script>
-    $( "#date2" ).datepicker();
-    $( "#date2" ).datepicker("getDate");
-</script>
-
 <script type="text/javascript">
-
     $(document).ready(function() {
+        $('#embeddingDatePicker1').datepicker({
+            format: 'yyyymmdd'
+        })
+            .on('changeDate', function(e) {
+                // Revalidate the date when user change it
+                $('#reg_form').bootstrapValidator('revalidateField', 'embeddingDatePicker1');
+            });
+        $('#embeddingDatePicker')
+            .datepicker({
+                format: 'mm/dd/yyyy'
+            })
+            .on('changeDate', function(e) {
+                // Set the value for the date input
+                $("#selectedDate").val($("#embeddingDatePicker").datepicker('getFormattedDate'));
+
+                // Revalidate it
+                $('#reg_form').bootstrapValidator('revalidateField', 'selectedDate');
+            });
+
         $('#reg_form').bootstrapValidator({
             // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
             feedbackIcons: {
@@ -68,19 +74,38 @@
                     }
                 },
                 date1: {
+                    // The hidden input will not be ignored
+                    excluded: false,
                     validators: {
                         notEmpty: {
-                            message: 'Please state a departure date'
+                            message: 'The date is required'
+                        },
+                        date: {
+                            format: 'YYYYMMDD',
+                            message: 'The date is not a valid format'
                         }
                     }
                 },
-                date2: {
+                date11: {
                     validators: {
                         notEmpty: {
-                            message: 'Please state a return date'
-                        }
+                            message: 'The date is required'
+                        },
                     }
                 },
+                selectedDate: {
+                    // The hidden input will not be ignored
+                    excluded: false,
+                    validators: {
+                        notEmpty: {
+                            message: 'The date is required'
+                        },
+                        date: {
+                            format: 'MM/DD/YYYY',
+                            message: 'The date is not a valid'
+                        }
+                    }
+                }
 
 //                email: {
 //                    validators: {
@@ -110,10 +135,8 @@
 //                    }
 //                },
 
-
             }
         })
-
 
             .on('success.form.bv', function(e) {
                 $('#success_message').slideDown({ opacity: "show" }, "slow") // Do something ...
@@ -132,6 +155,9 @@
                     console.log(result);
                 }, 'json');
             });
+        $('#date1').on('dp.change dp.show', function(e) {
+            $('#reg_form').bootstrapValidator('revalidateField', 'date1');
+        });
     });
 
 </script>
