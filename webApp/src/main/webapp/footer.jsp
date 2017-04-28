@@ -13,6 +13,7 @@
 <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
 <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
+
 <script>
     $( "#date1" ).datepicker({
         dateFormat:"yy-mm-dd",
