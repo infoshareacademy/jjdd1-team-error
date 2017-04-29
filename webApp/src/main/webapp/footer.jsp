@@ -17,10 +17,22 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $(".date-picker1").datepicker(
-//            {dateFormat: 'yymmdd'}
+
+        $(".date-picker2").datepicker(
+            {dateFormat: 'yy/mm/dd'}
         );
-        $(".date-picker2").datepicker();
+        $(".date-picker1").datepicker(
+            {
+                dateFormat: 'yy/mm/dd', minDate: 0,
+                onSelect: function (date) {
+                    var date1 = $('.date-picker1').datepicker('getDate');
+                    var date = new Date(Date.parse(date1));
+                    date.setDate(date.getDate() + 1);
+                    var newDate = date.toDateString();
+                    newDate = new Date(Date.parse(newDate));
+                    $('.date-picker2').datepicker("option","minDate",newDate);
+                }
+            });
 
         $('#reg_form').bootstrapValidator({
             feedbackIcons: {
@@ -75,8 +87,8 @@
                             message: 'The Departure Date is required and cannot be empty'
                         },
                         date: {
-                            format: 'MM/DD/YYYY',
-                            message: 'The format is YYMMDD'
+                            format: 'YYYY/MM/DD',
+                            message: 'The format is YYYY/MM/DD'
                         }
                     }
                 },
@@ -86,8 +98,8 @@
                             message: 'The Return Date is required and cannot be empty'
                         },
                         date: {
-                            format: 'MM/DD/YYYY',
-                            message: 'The format is MM/DD/YYYY'
+                            format: 'YYYY/MM/DD',
+                            message: 'The format is YYYY/MM/DD'
                         }
                     }
                 }
@@ -137,6 +149,7 @@
 //                    console.log(result);
 //                }, 'json');
 //            });
+
         $('.date-picker1').on('changeDate show', function(e) {
             $('#reg_form').bootstrapValidator('revalidateField', 'date1');
         });

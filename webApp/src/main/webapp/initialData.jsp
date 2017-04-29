@@ -3,17 +3,17 @@
 
     <!-- Select Basic -->
 
-    <div class="form-group">
-        <label class="col-md-4 control-label">Input File</label>
-        <div class="col-md-6 selectContainer">
-            <input type="file" class="form-control" name="uploadfile" />
-            <asp:Label ID="Label3" runat="server" Text="Navigate to the file you wish to upload" CssClass="label_under_text"></asp:Label>
-        </div>
-    </div>
+    <%--<div class="form-group">--%>
+        <%--<label class="col-md-4 control-label">Input File</label>--%>
+        <%--<div class="col-md-6 selectContainer">--%>
+            <%--<input type="file" class="form-control" name="uploadfile" />--%>
+            <%--<asp:Label ID="Label3" runat="server" Text="Navigate to the file you wish to upload" CssClass="label_under_text"></asp:Label>--%>
+        <%--</div>--%>
+    <%--</div>--%>
 
     <div class="form-group">
         <label class="col-md-4 control-label">Country</label>
-        <div class="col-md-6 selectContainer">
+        <div class="col-md-5 selectContainer">
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
                 <select name="country" class="form-control selectpicker" >
                     <option value=" " >Please select your destination</option>
@@ -29,12 +29,12 @@
 
     <div class="form-group">
         <label class="col-md-4 control-label">Fuel Type</label>
-        <div class="col-md-6 selectContainer">
+        <div class="col-md-5 selectContainer">
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
                 <select name="fuelType" class="form-control selectpicker" >
-                    <option value=" " >Please select your destination</option>
-                    <option value="diesel">diesel</option>
-                    <option value="gasoline">gasoline</option>
+                    <option value=" " >Please select your fuel type</option>
+                    <option value="1">Diesel</option>
+                    <option value="2">Gasoline</option>
                 </select>
             </div>
         </div>
@@ -44,9 +44,9 @@
 
     <div class="form-group">
         <label class="col-md-4 control-label">Fuel Usage</label>
-        <div class="col-md-6  inputGroupContainer">
+        <div class="col-md-5  inputGroupContainer">
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
-                <input name="fuelUsage" placeholder="6.9" class="form-control" type="number" step="0.01">
+                <input name="fuelUsage" placeholder="6.9" class="form-control" type="number" step="0.1" min="1">
             </div>
         </div>
     </div>
@@ -55,9 +55,9 @@
 
     <div class="form-group">
         <label class="col-md-4 control-label">Distance Traveled</label>
-        <div class="col-md-6  inputGroupContainer">
+        <div class="col-md-5  inputGroupContainer">
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
-                <input name="fullDistance" placeholder="666" class="form-control" type="number" min=1>
+                <input name="fullDistance" placeholder="666" class="form-control" type="number" min="1">
             </div>
         </div>
     </div>
@@ -74,7 +74,7 @@
 
     <div class="form-group">
         <label class="col-md-4 control-label">Departure Date</label>
-        <div class="col-md-6 inputGroupContainer">
+        <div class="col-md-5 inputGroupContainer">
             <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 <input type="text" id="date1" name="date1" class="form-control date-picker1" />
             </div>
@@ -84,7 +84,7 @@
     <!-- Text input-->
     <div class="form-group">
         <label class="col-md-4 control-label">Return Date</label>
-        <div class="col-md-6 inputGroupContainer">
+        <div class="col-md-5 inputGroupContainer">
             <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 <input type="text" id="date2" name="date2" class="form-control date-picker2" />
             </div>
@@ -142,8 +142,11 @@
         <!-- Button -->
         <div class="form-group">
             <label class="col-md-4 control-label"></label>
-            <div class="col-md-4">
-                <button type="submit" class="btn btn-warning" >Send <span class="glyphicon glyphicon-send"></span></button>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-warning" name="action" value="Initialization">Price Trends <span class="glyphicon glyphicon-send"></span></button>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-danger" name="action" value="TripCost">Count Full Cost <span class="glyphicon glyphicon-send"></span></button>
             </div>
         </div>
 

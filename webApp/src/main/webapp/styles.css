@@ -8,6 +8,12 @@ body {
     width: 30%;
 }
 
+#reg_form .inputGroupContainer .form-control-feedback,
+#reg_form .selectContainer .form-control-feedback {
+    top: 0;
+    right: -30px;
+}
+
 #success_message{ display: none;}
 
 .dropdown, .btn, .btn-default, .dropdown-toggle{
