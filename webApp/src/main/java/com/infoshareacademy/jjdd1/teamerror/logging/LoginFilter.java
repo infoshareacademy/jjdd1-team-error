@@ -11,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,10 +18,10 @@ import java.io.IOException;
 /**
  * Created by igafalkowska on 28.04.17.
  */
-@WebFilter(urlPatterns = "/calc/initialData")
-public class LoggingFilter implements Filter {
+@WebFilter(urlPatterns = "/calc")
+public class LoginFilter implements Filter {
 
-    private static Logger logger = LoggerFactory.getLogger(LoggingFilter.class);
+    private static Logger logger = LoggerFactory.getLogger(LoginFilter.class);
 
     @Inject
     SessionData sessionData;
@@ -45,7 +44,7 @@ public class LoggingFilter implements Filter {
                     .append("?")
                     .append(httpServletRequest.getQueryString())
                     .toString();
-            httpServletResponse.sendRedirect("/logging?url=" + referrer);
+            httpServletResponse.sendRedirect("/login?url=" + referrer);
             return;
         }
         logger.debug("User {} already logged in", sessionData.getUsername());

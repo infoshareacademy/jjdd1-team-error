@@ -15,9 +15,9 @@ import java.util.Objects;
 /**
  * Created by igafalkowska on 28.04.17.
  */
-@WebServlet(urlPatterns = "/logging")
-public class LoggingServlet extends HttpServlet{
-    private static Logger logger = LoggerFactory.getLogger(LoggingServlet.class);
+@WebServlet(urlPatterns = "/login")
+public class LoginServlet extends HttpServlet{
+    private static Logger logger = LoggerFactory.getLogger(LoginServlet.class);
 
     @Inject
     SessionData session;
@@ -37,11 +37,11 @@ public class LoggingServlet extends HttpServlet{
             return;
         }
 
-        resp.sendRedirect("/logging?msg=Logging error");
+        resp.sendRedirect("/login?msg=Login error");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/logging.jsp").forward(req, resp);
+        req.getRequestDispatcher("/login.jsp").forward(req, resp);
     }
 }
