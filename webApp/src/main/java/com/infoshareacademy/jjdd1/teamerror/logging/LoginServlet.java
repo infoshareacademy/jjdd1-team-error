@@ -18,30 +18,12 @@ import java.util.Objects;
  * Created by igafalkowska on 28.04.17.
  */
 @WebServlet(urlPatterns = "/login")
-public class LoginServlet extends HttpServlet{
+public class LoginServlet extends HttpServlet {
     private static Logger logger = LoggerFactory.getLogger(LoginServlet.class);
 
-//    @Inject
-//    SessionData session;
-//
-//    @Override
-//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        String username = req.getParameter("username");
-//        try {
-//            String idToken = req.getParameter("id_token");
-//            GoogleIdToken.Payload payLoad = IdTokenVerifierAndParser.getPayload(idToken);
-//            String name = (String) payLoad.get("name");
-//            String email = payLoad.getEmail();
-//            System.out.println("User name: " + name);
-//            System.out.println("User email: " + email);
-//
-//
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
     @Override
-    protected void doPost (HttpServletRequest req,
-                           HttpServletResponse resp)
+    protected void doPost(HttpServletRequest req,
+                          HttpServletResponse resp)
             throws ServletException, IOException {
 
         resp.setContentType("text/html");
@@ -57,28 +39,11 @@ public class LoginServlet extends HttpServlet{
             HttpSession session = req.getSession(true);
             session.setAttribute("userName", name);
             req.getServletContext()
-                    .getRequestDispatcher("/login.jsp").forward(req, resp);
+                    .getRequestDispatcher("/index.jsp").forward(req, resp);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-
-
-
-
-
-
-//        resp.sendRedirect("/login?msg=Login error");
-
-
-
-    }
-
-
-//    @Override
-//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        req.getRequestDispatcher("/login.jsp").forward(req, resp);
-//    }
-
+}
