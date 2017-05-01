@@ -7,22 +7,22 @@ import java.io.Serializable;
 /**
  * Created by igafalkowska on 28.04.17.
  */
-@Named
-@SessionScoped
-public class SessionData implements Serializable{
-    private boolean logged = false;
-    private String username;
-
-    public void logUser(String username) {
-        this.username = username;
-        this.logged = true;
-    }
-
-    public boolean isLogged() {
-        return logged;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-}
+//@Named
+//@SessionScoped
+//public class SessionData implements Serializable{
+//    private boolean logged = false;
+//    private String username;
+//
+//    public void logUser(String username) {
+//        this.username = username;
+//        this.logged = true;
+//    }
+//
+//    public boolean isLogged() {
+//        return logged;
+//    }
+//
+//    public String getUsername() {
+//        return username;
+//    }
+//}
