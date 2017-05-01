@@ -1,22 +1,21 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: igafalkowska
-  Date: 28.04.17
-  Time: 15:24
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Login</title>
-</head>
-<body>
-<h3>You need to log in to start your calculation</h3>
-<form action="/login" method="post">
-    <div>Login: <input type="text" name="username"></div>
-    <div>Password: <input type="password" name="password"></div>
-    <input type="hidden" name="referrer" value="${param.url}">
-    <div><input type="submit" value="Log in"></div>
+
+
+<%@ include file="headersAndStyle.jsp" %>
+
+
+
+<!--  forward to index page for login if user info is not in session  -->
+<% if (session.getAttribute("userName") == null) {%>
+<jsp:forward page="/index.jsp"/>
+<% } %>
+
+<h3>Welcome  ${userName}</h3>
+</br>
+
+<form method="get" action="/calc">
+    <div class="buttons">
+        <button type="submit" name="start" value="">Start your calculation</button>
+    </div>
 </form>
-</body>
-</html>
+
+<%@ include file="footer.jsp" %>

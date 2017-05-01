@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror.logging;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -19,29 +21,64 @@ import java.util.Objects;
 public class LoginServlet extends HttpServlet{
     private static Logger logger = LoggerFactory.getLogger(LoginServlet.class);
 
-    @Inject
-    SessionData session;
-
+//    @Inject
+//    SessionData session;
+//
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        String username = req.getParameter("username");
+//        try {
+//            String idToken = req.getParameter("id_token");
+//            GoogleIdToken.Payload payLoad = IdTokenVerifierAndParser.getPayload(idToken);
+//            String name = (String) payLoad.get("name");
+//            String email = payLoad.getEmail();
+//            System.out.println("User name: " + name);
+//            System.out.println("User email: " + email);
+//
+//
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
+    protected void doPost (HttpServletRequest req,
+                           HttpServletResponse resp)
+            throws ServletException, IOException {
 
-        if (Objects.nonNull(username) && Objects.nonNull(password) &&
-                username.equals("username") && password.equals("password")) {
+        resp.setContentType("text/html");
 
-            logger.debug("{} is logged", username);
-            session.logUser(username);
-            resp.sendRedirect(req.getParameter("referrer"));
+        try {
+            String idToken = req.getParameter("id_token");
+            GoogleIdToken.Payload payLoad = IdTokenVerifierAndParser.getPayload(idToken);
+            String name = (String) payLoad.get("name");
+            String email = payLoad.getEmail();
+            System.out.println("User name: " + name);
+            System.out.println("User email: " + email);
 
-            return;
+            HttpSession session = req.getSession(true);
+            session.setAttribute("userName", name);
+            req.getServletContext()
+                    .getRequestDispatcher("/login.jsp").forward(req, resp);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-
-        resp.sendRedirect("/login?msg=Login error");
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/login.jsp").forward(req, resp);
+
+
+
+
+
+
+//        resp.sendRedirect("/login?msg=Login error");
+
+
+
     }
-}
+
+
+//    @Override
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        req.getRequestDispatcher("/login.jsp").forward(req, resp);
+//    }
+
