@@ -15,8 +15,8 @@
         <label class="col-md-4 control-label">Country</label>
         <div class="col-md-5 selectContainer">
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-                <select name="country" class="form-control selectpicker" >
-                    <option value=" " >Please select your destination</option>
+                <select name="country" class="form-control selectpicker"  >
+                    <option value="" >Please select your destination</option>
                     <c:forEach items="${countryList}" var="country">
                         <option value="${country}">${country}</option>
                     </c:forEach>
@@ -32,7 +32,7 @@
         <div class="col-md-5 selectContainer">
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
                 <select name="fuelType" class="form-control selectpicker" >
-                    <option value=" " >Please select your fuel type</option>
+                    <option value="" >Please select your fuel type</option>
                     <option value="1">Diesel</option>
                     <option value="2">Gasoline</option>
                 </select>
@@ -46,7 +46,7 @@
         <label class="col-md-4 control-label">Fuel Usage</label>
         <div class="col-md-5  inputGroupContainer">
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
-                <input name="fuelUsage" placeholder="6.9" class="form-control" type="number" step="0.1" min="1">
+                <input name="fuelUsage" placeholder="6.9" class="form-control" type="number" step="0.1" min="1" >
             </div>
         </div>
     </div>
@@ -128,50 +128,18 @@
             <%--</div>--%>
         <%--</div>--%>
 
-
-        <!-- Button -->
+        <!-- Submit buttons -->
         <div class="form-group">
             <label class="col-md-4 control-label"></label>
             <div class="col-md-2">
-                <button type="submit" class="btn btn-warning" name="action" value="Initialization">Price Trends <span class="glyphicon glyphicon-send"></span></button>
+                <button type="submit" class="btn btn-warning" name="trendy" value="">Price Trends <span class="glyphicon glyphicon-send"></span></button>
             </div>
             <div class="col-md-2">
-                <button type="submit" class="btn btn-danger" name="action" value="TripCost">Count Full Cost <span class="glyphicon glyphicon-send"></span></button>
+                <button type="submit" class="btn btn-danger" name="tripCost" value="">Trip Cost <span class="glyphicon glyphicon-send"></span></button>
             </div>
         </div>
 
-
-
-
     <%--</fieldset>--%>
-
-
-    <%--<div class="form-group">--%>
-        <%--<label class="col-xs-3 control-label">Country</label>--%>
-        <%--<div class="col-xs-5 selectContainer">--%>
-            <%--<select class="form-control" name="country" multiple title="Choose 2-4 colors">--%>
-                <%--<c:forEach items="${countryList}" var="country">--%>
-                    <%--<option value="${country}">${country}</option>--%>
-                <%--</c:forEach>--%>
-            <%--</select>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-
-    <%--<div class="form-group">--%>
-        <%--<label class="col-xs-3 control-label">Language</label>--%>
-        <%--<div class="col-xs-5 selectContainer">--%>
-            <%--<select class="form-control" name="fuelType" >--%>
-                <%--<option value="1">diesel</option>--%>
-                <%--<option value="2">gasoline</option>--%>
-            <%--</select>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-
-    <%--<div class="form-group">--%>
-        <%--<div class="col-xs-5 col-xs-offset-3">--%>
-            <%--<button type="submit" class="btn btn-default" name="initialization" value="">Submit</button>--%>
-        <%--</div>--%>
-    <%--</div>--%>
 </form>
 
 

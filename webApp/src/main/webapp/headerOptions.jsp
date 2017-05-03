@@ -6,9 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-<form style="display: inline" method="get" action="/calc">
+<form style="display: inline" method="post" action="/calc">
     <div class="buttons">
-        <button type="submit" name="additionalData" value="">Trip cost</button>
+        <%--<button type="submit" name="additionalData" value="">Trip cost</button>--%>
+        <button type="submit" name="tripCost" value="">Trip cost</button>
 
         <button type="submit" name="trendy" value="">Optimal time for trip</button>
 
