@@ -1,5 +1,5 @@
 <%@ include file="headersAndStyle.jsp" %>
-<form method="get" action="/calc" class="form-horizontal" id="reg_form">
+<form method="post" action="/calc" class="form-horizontal" id="reg_form">
 
     <!-- Select Basic -->
 
@@ -61,16 +61,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Text input-->
-    <%--<div class="form-group">--%>
-        <%--<label class="col-md-4 control-label">Departure Date</label>--%>
-        <%--<div class="col-md-6  inputGroupContainer">--%>
-            <%--<div class="input-group" ><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>--%>
-                <%--<input  id="embeddingDatePicker1" name="date1" type="text" placeholder="yyyy-mm-dd" class="form-control">--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</div>--%>
 
     <div class="form-group">
         <label class="col-md-4 control-label">Departure Date</label>

@@ -8,7 +8,7 @@
 <%@ include file="headersAndStyle.jsp" %>
 <%@ include file="headerOptions.jsp" %>
 
-<form method="get" action="/calc" class="form-horizontal" id="trendy_form">
+<form method="post" action="/calc" class="form-horizontal" id="trendy_form">
 <div class="data">
     <br>
     <label><b>Given data:</b></label>
