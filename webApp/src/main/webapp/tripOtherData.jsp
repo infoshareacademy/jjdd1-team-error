@@ -11,14 +11,14 @@
     <h2>Additional data</h2>
     <form method="get" action="/calc">
         <div class="text_input">
-            <span><label>Enter a date of departure in the format YYYYMMDD:</label> <input type="text" currencyCode="date1"></span>
+            <span><label>Enter a date of departure in the format YYYYMMDD:</label> <input type="text" name="date1"></span>
             <br>
-            <span><label>Enter a date of return in the format YYYYMMDD:</label> <input type="text" currencyCode="date2"></span>
+            <span><label>Enter a date of return in the format YYYYMMDD:</label> <input type="text" name="date2"></span>
             <br>
-            <span><label>Enter fuel usage in liters per 100 km:</label> <input type="text" currencyCode="fuelUsage"></span>
+            <span><label>Enter fuel usage in liters per 100 km:</label> <input type="text" name="fuelUsage"></span>
             <br>
-            <span><label>Enter the full distance (counted in km) you want to travel during your trip:</label> <input type="text" currencyCode="fullDistance"></span>
-            <span class="buttons"><button type="submit" currencyCode="tripCost" value="">Submit</button></span>
+            <span><label>Enter the full distance (counted in km) you want to travel during your trip:</label> <input type="text" name="fullDistance"></span>
+            <span class="buttons"><button type="submit" name="tripCost" value="">Submit</button></span>
         </div>
 
     </form>

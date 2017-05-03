@@ -8,11 +8,11 @@
 
 <form style="display: inline" method="get" action="/calc">
     <div class="buttons">
-        <button type="submit" currencyCode="additionalData" value="">Trip cost</button>
+        <button type="submit" name="additionalData" value="">Trip cost</button>
 
-        <button type="submit" currencyCode="trendy" value="">Optimal time for trip</button>
+        <button type="submit" name="trendy" value="">Optimal time for trip</button>
 
-        <button type="submit" currencyCode="initialData" value="">Change initial data</button>
+        <button type="submit" name="initialData" value="">Change initial data</button>
     </div>
 </form>
 
