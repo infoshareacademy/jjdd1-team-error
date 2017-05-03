@@ -78,32 +78,90 @@ public class Trendy {
         if (ratesList.isEmpty()) {
             return new HashMap<>();
         }
-        List<DayValues> dayValuesList = new ArrayList<>();
+        List<DayValuesForOneMonth> dayValuesForOneMonthList = new ArrayList<>();
         List<MonthValuesForOneYear> monthValuesForOneYearList = new ArrayList<>();
         LocalDate currentDate =  ratesList.get(FIRST_ELEMENT).getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);
-        dayValuesList.add(new DayValues(currentDate));
+        dayValuesForOneMonthList.add(new DayValuesForOneMonth(currentDate));
         for (RatesInfo dailyRate : ratesList) {
             if (!dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH).equals(currentDate) && dailyRate.getDate().getYear() == currentDate.getYear()) {
                 currentDate = dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);
-                dayValuesList.add(new DayValues(currentDate));
+                dayValuesForOneMonthList.add(new DayValuesForOneMonth(currentDate));
             }
             else if (!dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH).equals(currentDate) &&
                     dailyRate.getDate().getYear() != currentDate.getYear()) {
                 MonthValuesForOneYear monthValues = new MonthValuesForOneYear();
-                dayValuesList.forEach(monthValues::setMonthValue);
+                dayValuesForOneMonthList.forEach(monthValues::setMonthValue);
                 monthValuesForOneYearList.add(monthValues);
                 LOGGER.debug("Month average currency rates for year {} calculated.", currentDate.getYear());
-                dayValuesList.clear();
+                dayValuesForOneMonthList.clear();
                 currentDate = dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);
-                dayValuesList.add(new DayValues(currentDate));
+                dayValuesForOneMonthList.add(new DayValuesForOneMonth(currentDate));
 
             }
             if (dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH).equals(currentDate)) {
-                dayValuesList.get(dayValuesList.size()-1).setDayValue(dailyRate.getRate());
+                dayValuesForOneMonthList.get(dayValuesForOneMonthList.size()-1).setDayValue(dailyRate.getRate());
             }
         }
         MonthValuesForOneYear monthValues = new MonthValuesForOneYear();
-        dayValuesList.forEach(monthValues::setMonthValue);
+        dayValuesForOneMonthList.forEach(monthValues::setMonthValue);
+        monthValuesForOneYearList.add(monthValues);
+
+
+        Map<Integer, MonthValuesForAllYears> monthValuesForAllYearsList = new HashMap<>();
+        monthValuesForOneYearList.forEach(
+                monthRates -> monthRates.getMonthDeviations().forEach((date, value) -> {
+                    monthValuesForAllYearsList.putIfAbsent(date.getMonthValue() - 1, new MonthValuesForAllYears());
+                    monthValuesForAllYearsList.get(date.getMonthValue() - 1).setMonthDeviation(value);
+                }));
+        LOGGER.debug("Currency month ratio values for all years calculated");
+        Map<Integer, Double> averageValuesForSingleMonths = monthValuesForAllYearsList.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        s -> s.getValue().getAverageMonthValue()
+                ));
+        LOGGER.debug("Currency month average ratio values for all years calculated");
+
+        Double min = Collections.min(averageValuesForSingleMonths.values());
+
+        Map<Integer, Double> results =  averageValuesForSingleMonths.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        s -> round(((s.getValue() - min) * 100), DECIMAL_PLACES)
+                ));
+        LOGGER.info("Currency month average deviations for all years calculated");
+        return results;
+    }
+
+    public Map<Integer, Double> calculateDayPercentageDeviations(List<RatesInfo> ratesList) {
+        if (ratesList.isEmpty()) {
+            return new HashMap<>();
+        }
+        List<DayValuesForOneMonth> dayValuesForOneMonthList = new ArrayList<>();
+        List<MonthValuesForOneYear> monthValuesForOneYearList = new ArrayList<>();
+        LocalDate currentDate =  ratesList.get(FIRST_ELEMENT).getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);
+        dayValuesForOneMonthList.add(new DayValuesForOneMonth(currentDate));
+        for (RatesInfo dailyRate : ratesList) {
+            if (!dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH).equals(currentDate) && dailyRate.getDate().getYear() == currentDate.getYear()) {
+                currentDate = dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);
+                dayValuesForOneMonthList.add(new DayValuesForOneMonth(currentDate));
+            }
+            else if (!dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH).equals(currentDate) &&
+                    dailyRate.getDate().getYear() != currentDate.getYear()) {
+                MonthValuesForOneYear monthValues = new MonthValuesForOneYear();
+                dayValuesForOneMonthList.forEach(monthValues::setMonthValue);
+                monthValuesForOneYearList.add(monthValues);
+                LOGGER.debug("Month average currency rates for year {} calculated.", currentDate.getYear());
+                dayValuesForOneMonthList.clear();
+                currentDate = dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);
+                dayValuesForOneMonthList.add(new DayValuesForOneMonth(currentDate));
+
+            }
+            if (dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH).equals(currentDate)) {
+                dayValuesForOneMonthList.get(dayValuesForOneMonthList.size()-1).setDayValue(dailyRate.getRate());
+            }
+        }
+        MonthValuesForOneYear monthValues = new MonthValuesForOneYear();
+        dayValuesForOneMonthList.forEach(monthValues::setMonthValue);
         monthValuesForOneYearList.add(monthValues);
 
 
@@ -266,7 +324,7 @@ public class Trendy {
         return (double) tmp / factor;
     }
 
-    public List<RatesInfo> filtrateDataByDate(List<RatesInfo> ratesData) {
+    private List<RatesInfo> filtrateDataByDate(List<RatesInfo> ratesData) {
 
         if (startDate != null) {
             ratesData = ratesData.stream()
