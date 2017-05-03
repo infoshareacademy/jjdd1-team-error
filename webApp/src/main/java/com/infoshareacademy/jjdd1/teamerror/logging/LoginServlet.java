@@ -33,8 +33,8 @@ public class LoginServlet extends HttpServlet {
             GoogleIdToken.Payload payLoad = IdTokenVerifierAndParser.getPayload(idToken);
             String name = (String) payLoad.get("name");
             String email = payLoad.getEmail();
-            System.out.println("User name: " + name);
-            System.out.println("User email: " + email);
+            logger.debug("User name: " + name);
+            logger.debug("User email: " + email);
 
             HttpSession session = req.getSession(true);
             session.setAttribute("userName", name);
