@@ -7,11 +7,12 @@
 --%>
 <div id="footer">
     <div class="car">
-        <img  id="car-mirror" src="img/car-mirror.png" alt="car">
+        <img  id="car-mirror" src="img/moving-car.png" alt="car">
     </div>
-    <div id="footer content" >infoShare Academy, Team ERROR</div>
+    <div id="footercontent" >infoShare Academy, Team ERROR</div>
 </div>
 <script src="/vendor/js/bootstrap.js"></script>
-</body>
+</div>
+</body
 </html>
 

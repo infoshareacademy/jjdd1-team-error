@@ -20,12 +20,13 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<div id="container">
     <div id="header">
         <div id="logo">
-        TRIP CALCULATOR
+            <p>Trip Calculator</p>
         </div>
         <div class="car">
-            <img  id="car" src="img/car.png" alt="car">
+            <img  id="car" src="img/moving-car-mirror.png" alt="car">
         </div>
     </div>
 

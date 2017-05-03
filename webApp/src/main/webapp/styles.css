@@ -3,26 +3,27 @@ body {
     text-align: center;
     background: url(img/pinstripe.png);/* Background pattern from Subtle Patterns */
     margin: 0px;
-    positon: relative;
+    padding:0;
+    /*position: relative;*/
 }
 
 #header{
-    background-color: #222;
     text-align: center;
-    color: #b9def0;
+    color: white;
     font-size: 40px;
     font-weight: 800;
     margin: 0;
     padding: 0;
-    height: 120px;
-    border-bottom: 2px black dotted;
+    height: 130px;
     /*font-family: 'Indie Flower', cursive;*/
     font-family: 'Gloria Hallelujah', cursive;
     /*font-family: 'Shadows Into Light', cursive;*/
 }
 
 #logo{
-    height: 50px;
+    height: 60px;
+    background-color: #333;
+    border-bottom: 2px black dotted;
 }
 
 .car{
@@ -30,24 +31,22 @@ body {
     height: 70px;
 }
 
-/*.photo{*/
-   /*float:left;*/
-    /*width:100px;*/
-/*}*/
-
 #content{
     padding-top: 100px;
-    /*float:left;*/
 }
 
 #footer{
     height: 100px;
-    background-color: #222;
     color: papayawhip;
     position: absolute;
     right: 0;
     bottom: 0;
     left: 0;
+}
+
+#footercontent{
+    height: 30px;
+    background-color: #222;
     border-top: 2px black dotted;
 }
 
@@ -75,6 +74,18 @@ body {
     transform: translateX(-1700px);
 }
 
+.photo{
+    margin-top:50px;
+    width:250px;
+    height:150px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 40px 5px rgba(0,0,0,0.68);
+    -moz-box-shadow: 0px 0px 40px 5px rgba(0,0,0,0.68);
+    box-shadow: 0px 0px 40px 5px rgba(0,0,0,0.68);
+    margin-left:20px;
+
+
+}
 
 .buttons, .radio_input {
     display: flex;
