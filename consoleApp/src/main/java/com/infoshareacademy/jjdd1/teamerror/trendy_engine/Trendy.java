@@ -30,8 +30,8 @@ public class Trendy {
     private PetrolFileFilter petrolFileFilter;
     private CurrencyFileFilter currencyFileFilter;
     private TripFullCost tripFullCost = new TripFullCost();
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate startDate = LocalDate.of(2005,1,1);
+    private LocalDate endDate = LocalDate.of(2017, 12, 30);
 
     public Trendy() {
     }
@@ -44,6 +44,22 @@ public class Trendy {
     }
     public void setTripFullCost(TripFullCost tripFullCost) {
         this.tripFullCost = tripFullCost;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
     public String getConclusion() {
@@ -116,28 +132,80 @@ public class Trendy {
         return results;
     }
 
-    // round value to given number of decimal places
-    public static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-        long factor = (long) Math.pow(10, places);
-        value = value * factor;
-        long tmp = Math.round(value);
-        return (double) tmp / factor;
-    }
-
-    // print differences in currencies and fuel rates in each month and the best time for cheap travel
-    public String getTrendyAsString() {
+    // set trendy values for petrol and currency to maps and conclusion
+    public void setTrendy() {
         String currencySymbol = tripFullCost.getCurrency();
         String fuelType = tripFullCost.getFuelType();
         String country = tripFullCost.getCountry();
         Map<Integer, Double> currencyList = new HashMap<>();
+        Map<Integer, Double> petrolList = new HashMap<>();
         List<RatesInfo> currencyDataList = currencyFileFilter.getListOfCurrencyDataObjects(currencySymbol);
+        List <RatesInfo> petrolDataList = petrolFileFilter.getListOfPetrolDataObjects(country, fuelType);
         if (!currencyDataList.isEmpty()) {
+            currencyDataList = filtrateDataByDate(currencyDataList);
             currencyList = calculateMonthPercentageDeviations(currencyDataList);
         }
-        Map<Integer, Double> petrolList = new HashMap<>();
-        List <RatesInfo> petrolDataList = petrolFileFilter.getListOfPetrolDataObjects(country, fuelType);
         if (!petrolDataList.isEmpty()) {
+            petrolDataList = filtrateDataByDate(petrolDataList);
+            petrolList = calculateMonthPercentageDeviations(petrolDataList);
+        }
+        Double sum = null;
+        Integer numberOfMonthWithOptimalRates = null;
+        StringBuilder returnStatement = new StringBuilder();
+        DateFormatSymbols symbols = new DateFormatSymbols(Locale.US);
+        returnStatement.append("Optimal time for trip analysis: \n\n");
+        for (int i = 0; i < NUMBER_OF_MONTHS_IN_YEAR; i++) {
+            String month = symbols.getMonths()[i].toUpperCase();
+            returnStatement.append("\n");
+            if (!currencyList.containsKey(i)) {
+                currencyTrendy.put(month, "NO DATA");
+            }
+            if (!petrolList.containsKey(i)) {
+                petrolTrendy.put(month, "NO DATA");
+            }
+            if (currencyList.containsKey(i) && currencyList.get(i).equals(0.0)) {
+                currencyTrendy.put(month, "THE LOWEST");
+            }
+            else if (currencyList.containsKey(i)) {
+                currencyTrendy.put(month, currencyList.get(i).toString());
+            }
+            if (petrolList.containsKey(i) && petrolList.get(i).equals(0.0)) {
+                petrolTrendy.put(month, "THE LOWEST");
+            }
+            else if (petrolList.containsKey(i)) {
+                petrolTrendy.put(month, petrolList.get(i).toString());
+            }
+            // determine the lowest sum of currency and petrol percentage rates
+            if ((currencyList.containsKey(i) || petrolList.containsKey(i)) &&
+                    (sum == null || (currencyList.getOrDefault(i, 0.0) + petrolList.getOrDefault(i, 0.0)) < sum)) {
+                sum = (currencyList.getOrDefault(i, 0.0) + petrolList.getOrDefault(i, 0.0));
+                numberOfMonthWithOptimalRates = i;
+            }
+        }
+        if (numberOfMonthWithOptimalRates == null) {
+            conclusion = "The best time for cheap travel is in: NO DATA";
+        }
+        else {
+            conclusion = "The best time for cheap travel is in: " + symbols.getMonths()[numberOfMonthWithOptimalRates].toUpperCase();
+        }
+        LOGGER.info("Trendy values and conclusion set");
+    }
+
+    // print differences in currencies and fuel rates in each month and the best month for cheap travel
+    public String getMonthTrendyAsString() {
+        String currencySymbol = tripFullCost.getCurrency();
+        String fuelType = tripFullCost.getFuelType();
+        String country = tripFullCost.getCountry();
+        Map<Integer, Double> currencyList = new HashMap<>();
+        Map<Integer, Double> petrolList = new HashMap<>();
+        List<RatesInfo> currencyDataList = currencyFileFilter.getListOfCurrencyDataObjects(currencySymbol);
+        List <RatesInfo> petrolDataList = petrolFileFilter.getListOfPetrolDataObjects(country, fuelType);
+        if (!currencyDataList.isEmpty()) {
+            currencyDataList = filtrateDataByDate(currencyDataList);
+            currencyList = calculateMonthPercentageDeviations(currencyDataList);
+        }
+        if (!petrolDataList.isEmpty()) {
+            petrolDataList = filtrateDataByDate(petrolDataList);
             petrolList = calculateMonthPercentageDeviations(petrolDataList);
         }
         Double sum = null;
@@ -189,62 +257,27 @@ public class Trendy {
         return returnStatement.toString();
     }
 
-    // set trendy values for petrol and currency to maps and conclusion
-    public void setTrendy() {
-        String currencySymbol = tripFullCost.getCurrency();
-        String fuelType = tripFullCost.getFuelType();
-        String country = tripFullCost.getCountry();
-        Map<Integer, Double> currencyList = new HashMap<>();
-        List<RatesInfo> currencyDataList = currencyFileFilter.getListOfCurrencyDataObjects(currencySymbol);
-        if (!currencyDataList.isEmpty()) {
-            currencyList = calculateMonthPercentageDeviations(currencyDataList);
-        }
-        Map<Integer, Double> petrolList = new HashMap<>();
-        List <RatesInfo> petrolDataList = petrolFileFilter.getListOfPetrolDataObjects(country, fuelType);
-        if (!petrolDataList.isEmpty()) {
-            petrolList = calculateMonthPercentageDeviations(petrolDataList);
-        }
-        Double sum = null;
-        Integer numberOfMonthWithOptimalRates = null;
-        StringBuilder returnStatement = new StringBuilder();
-        DateFormatSymbols symbols = new DateFormatSymbols(Locale.US);
-        returnStatement.append("Optimal time for trip analysis: \n\n");
-        for (int i = 0; i < NUMBER_OF_MONTHS_IN_YEAR; i++) {
-            String month = symbols.getMonths()[i].toUpperCase();
-            returnStatement.append("\n");
-            if (!currencyList.containsKey(i)) {
-                currencyTrendy.put(month, "NO DATA");
-            }
-            if (!petrolList.containsKey(i)) {
-                petrolTrendy.put(month, "NO DATA");
-            }
-            if (currencyList.containsKey(i) && currencyList.get(i).equals(0.0)) {
-                currencyTrendy.put(month, "THE LOWEST");
-            }
-            else if (currencyList.containsKey(i)) {
-                currencyTrendy.put(month, currencyList.get(i).toString());
-            }
-            if (petrolList.containsKey(i) && petrolList.get(i).equals(0.0)) {
-                petrolTrendy.put(month, "THE LOWEST");
-            }
-            else if (petrolList.containsKey(i)) {
-                petrolTrendy.put(month, petrolList.get(i).toString());
-            }
-            // determine the lowest sum of currency and petrol percentage rates
-            if ((currencyList.containsKey(i) || petrolList.containsKey(i)) &&
-                    (sum == null || (currencyList.getOrDefault(i, 0.0) + petrolList.getOrDefault(i, 0.0)) < sum)) {
-                sum = (currencyList.getOrDefault(i, 0.0) + petrolList.getOrDefault(i, 0.0));
-                numberOfMonthWithOptimalRates = i;
-            }
-        }
-        if (numberOfMonthWithOptimalRates == null) {
-            conclusion = "The best time for cheap travel is in: NO DATA";
-        }
-        else {
-            conclusion = "The best time for cheap travel is in: " + symbols.getMonths()[numberOfMonthWithOptimalRates].toUpperCase();
-        }
-        LOGGER.info("Trendy values and conclusion set");
+    // round value to given number of decimal places
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 
+    public List<RatesInfo> filtrateDataByDate(List<RatesInfo> ratesData) {
 
+        if (startDate != null) {
+            ratesData = ratesData.stream()
+                    .filter(dayObject -> dayObject.getDate().isAfter(startDate) || dayObject.getDate().isEqual(startDate))
+                    .collect(Collectors.toList());
+        }
+        if (endDate != null) {
+            ratesData = ratesData.stream()
+                    .filter(dayObject -> dayObject.getDate().isBefore(endDate) || dayObject.getDate().isEqual(endDate))
+                    .collect(Collectors.toList());
+        }
+        return ratesData;
+    }
 }

@@ -104,7 +104,7 @@ public class TerminalMenu {
                         trendy.setCurrencyFileFilter(currencyFileFilter);
                         trendy.setPetrolFileFilter(petrolFileFilter);
                         trendy.setTripFullCost(cost);
-                        String trendForTrip = trendy.getTrendyAsString();
+                        String trendForTrip = trendy.getMonthTrendyAsString();
 
                         System.out.println("");
                         System.out.println(trendForTrip);
