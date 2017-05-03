@@ -5,17 +5,18 @@ import java.time.LocalDate;
 /**
  * Created by krystianskrzyszewski on 05.04.17.
  */
-public class CurrencyHistoryDayValue {
-    String name;
-    LocalDate date;
-    double open, high, low, close, volume;
+public class CurrencyHistoryDayValue extends RatesInfo {
+    private String currencyCode;
+    private LocalDate date;
+    private String rateType;
+    private Double rate;
 
-    public String getName() {
-        return name;
+    public String getCurrencyCode() {
+        return currencyCode;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCurrencyCode(String currencyCode) {
+        this.currencyCode = currencyCode;
     }
 
     public LocalDate getDate() {
@@ -26,44 +27,19 @@ public class CurrencyHistoryDayValue {
         this.date = date;
     }
 
-    public double getOpen() {
-        return open;
+    public String getRateType() {
+        return rateType;
     }
 
-    public void setOpen(double open) {
-        this.open = open;
+    public void setRateType(String rateType) {
+        this.rateType = rateType;
     }
 
-    public double getHigh() {
-        return high;
+    public Double getRate() {
+        return rate;
     }
 
-    public void setHigh(double high) {
-        this.high = high;
+    public void setRate(Double rate) {
+        this.rate = rate;
     }
-
-    public double getLow() {
-        return low;
-    }
-
-    public void setLow(double low) {
-        this.low = low;
-    }
-
-    public double getClose() {
-        return close;
-    }
-
-    public void setClose(double close) {
-        this.close = close;
-    }
-
-    public double getVolume() {
-        return volume;
-    }
-
-    public void setVolume(double volume) {
-        this.volume = volume;
-    }
-
 }

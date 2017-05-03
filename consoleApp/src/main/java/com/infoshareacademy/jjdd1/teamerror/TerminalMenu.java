@@ -5,9 +5,6 @@ import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -106,7 +103,8 @@ public class TerminalMenu {
                         Trendy trendy = new Trendy();
                         trendy.setCurrencyFileFilter(currencyFileFilter);
                         trendy.setPetrolFileFilter(petrolFileFilter);
-                        String trendForTrip = trendy.optimalTimeForTrip(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
+                        trendy.setTripFullCost(cost);
+                        String trendForTrip = trendy.getTrendyAsString();
 
                         System.out.println("");
                         System.out.println(trendForTrip);

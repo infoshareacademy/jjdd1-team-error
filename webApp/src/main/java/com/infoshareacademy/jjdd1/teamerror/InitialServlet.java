@@ -18,7 +18,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -54,7 +53,6 @@ public class InitialServlet extends HttpServlet {
         petrolFileFilter = new PetrolFileFilter();
         currencyFileFilter.setFilesContent(filesContent);
         petrolFileFilter.setFilesContent(filesContent);
-
         trendy.setCurrencyFileFilter(currencyFileFilter);
         trendy.setPetrolFileFilter(petrolFileFilter);
         countryAndCurrency = new CountryAndCurrency();
@@ -134,8 +132,8 @@ public class InitialServlet extends HttpServlet {
             req.setAttribute("currency", cost.getCurrency());
             req.setAttribute("fuelType", cost.getFuelType());
 
-
-            trendy.setTrendy(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
+            trendy.setTripFullCost(cost);
+            trendy.setTrendy();
             LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}",
                     cost.getCountry(), cost.getCurrency(), cost.getFuelType());
             req.setAttribute("petrolTrendy", trendy.getPetrolTrendy());

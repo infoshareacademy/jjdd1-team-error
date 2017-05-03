@@ -1,10 +1,10 @@
 <!--<?xml version="1.0" encoding="UTF-8"?>-->
-<!--<suite name="example suite 1" verbose="1" >-->
-    <!--<test name="Testing, testing, 1,2,3..." >-->
+<!--<sucurrencyCodename="example suite 1" verbose="1" >-->
+    <!--<tcurrencyCodename="Testing, testing, 1,2,3..." >-->
         <!--<classes>-->
-            <!--<class name="com.infoshareacademy.jjdd1.teamerror.TripFullCostTest"/>-->
-            <!--<class name="com.infoshareacademy.jjdd1.teamerror.TrendyTest"/>-->
-            <!--<class name="com.infoshareacademy.jjdd1.teamerror.DateParserTest"/>-->
+            <!--<clcurrencyCodename="com.infoshareacademy.jjdd1.teamerror.TripFullCostTest"/>-->
+            <!--<clcurrencyCodename="com.infoshareacademy.jjdd1.teamerror.TrendyTest"/>-->
+            <!--<clcurrencyCodename="com.infoshareacademy.jjdd1.teamerror.DateParserTest"/>-->
         <!--</classes>-->
     <!--</test>-->
 <!--</suite>-->
