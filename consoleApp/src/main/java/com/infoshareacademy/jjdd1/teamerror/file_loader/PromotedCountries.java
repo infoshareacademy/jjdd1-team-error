@@ -27,6 +27,9 @@ public class PromotedCountries {
 
     }
 
+    public void setPromotedCountries(List<String> promotedCountries) {
+        PromotedCountries.promotedCountries = promotedCountries;
+    }
 
     public void setFilesContent(FilesContent filesContent) {
         this.filesContent = filesContent;
@@ -50,8 +53,9 @@ public class PromotedCountries {
 
     public List<String> getPromotedCountries(){
 
-        loadPromotedCountries();
-
+        if (promotedCountries.isEmpty()) {
+            loadPromotedCountries();
+        }
         return promotedCountries;
     }
 
