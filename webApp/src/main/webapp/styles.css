@@ -1,10 +1,16 @@
+html {
+    height:100%;
+}
+
 body {
     font-family: Calibri;
     text-align: center;
     background: url(img/pinstripe.png);/* Background pattern from Subtle Patterns */
-    margin: 0px;
+    margin: 0;
     padding:0;
-    /*position: relative;*/
+    min-height: 100%;
+    position: relative;
+    width:100%;
 }
 
 #header{
@@ -15,9 +21,7 @@ body {
     margin: 0;
     padding: 0;
     height: 130px;
-    /*font-family: 'Indie Flower', cursive;*/
     font-family: 'Gloria Hallelujah', cursive;
-    /*font-family: 'Shadows Into Light', cursive;*/
 }
 
 #logo{
@@ -42,6 +46,7 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
+    margin-top: -100px;
 }
 
 #footercontent{
@@ -76,14 +81,14 @@ body {
 
 .photo{
     margin-top:50px;
-    width:250px;
-    height:150px;
+    width:300px;
+    height:200px;
     border-radius: 5px;
     -webkit-box-shadow: 0px 0px 40px 5px rgba(0,0,0,0.68);
     -moz-box-shadow: 0px 0px 40px 5px rgba(0,0,0,0.68);
     box-shadow: 0px 0px 40px 5px rgba(0,0,0,0.68);
     margin-left:20px;
-
+    margin-right:20px;
 
 }
 
