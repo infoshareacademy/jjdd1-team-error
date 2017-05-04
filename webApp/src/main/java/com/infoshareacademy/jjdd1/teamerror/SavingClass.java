@@ -1,4 +1,6 @@
-package com.infoshareacademy.jjdd1.teamerror.dataBase;
+package com.infoshareacademy.jjdd1.teamerror;
+
+import com.infoshareacademy.jjdd1.teamerror.dataBase.PromotedCountries;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -24,7 +26,7 @@ public class SavingClass {
 
     @PostConstruct
     public void setCountries() {
-        PromotedCountries france = new PromotedCountries("Croatia");
+        PromotedCountries france = new PromotedCountries("USA");
         entityManager.persist(france);
         PromotedCountries croatia = new PromotedCountries("France");
         entityManager.persist(croatia);
