@@ -11,12 +11,12 @@
         <img class="photo" src="img/photo2.jpg" alt="car">
     </div>
     <div class="col-md-4" style="padding:0;">
-<h3>Welcome  ${userName}</h3>
+<h1>Welcome  ${userName}!</h1>
 </br>
 
 <form method="post" action="/calc">
     <div class="buttons">
-        <button type="submit" name="start" value="">Start your calculation</button>
+        <button type="submit" name="start" value="" class="btn btn-primary btn-lg">Start your calculation</button>
     </div>
 </form>
 </div>
