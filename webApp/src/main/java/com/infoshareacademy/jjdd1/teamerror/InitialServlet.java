@@ -35,6 +35,8 @@ public class InitialServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        int switcher = 0;
+
         LOGGER.debug("Reading data from database");
         List<String> ret = savingClass.getPromotedCountries();
         LOGGER.debug("List of promoted countries from database: {}", ret);
@@ -83,39 +85,44 @@ public class InitialServlet extends HttpServlet {
         // proceed trendy.jsp or tripCost.jsp
         else if (req.getParameter("trendy") != null || req.getParameter("tripCost") != null) {
 
-            String country = req.getParameter("country").toUpperCase();
-            String fuelType = req.getParameter("fuelType");
-            String date1 = req.getParameter("date1");
-            String date2 = req.getParameter("date2");
-            String fuelUsage = req.getParameter("fuelUsage");
-            String fullDistance = req.getParameter("fullDistance");
-            String fullCostString;
+            if(initialData.getCountry()==null){
 
-            LOGGER.info("servlet req params: date1-{} date2-{} fuel usage-{} " +
-                    "full distance-{}", date1, date2, fuelUsage, fullDistance);
+                cost.setCountry(req.getParameter("country").toUpperCase());
+                cost.setFuelType(req.getParameter("fuelType"));
+                cost.setDate1(req.getParameter("date1").replaceAll("/",""));
+                cost.setDate2(req.getParameter("date2").replaceAll("/",""));
+                cost.setFuelUsage(req.getParameter("fuelUsage"));
+                cost.setDistance(req.getParameter("fullDistance"));
+                try{
+                    cost.costCount();
+                }catch(Exception e){
+                    LOGGER.error("Something went wrong. Please check your input (above)", e);
+                }
 
-            cost.setCountry(country);
-            cost.setFuelType(fuelType);
-            cost.setDate1(date1.replaceAll("/",""));
-            cost.setDate2(date2.replaceAll("/",""));
-            cost.setFuelUsage(fuelUsage);
-            cost.setDistance(fullDistance);
-            try{
-                cost.costCount();
-                fullCostString = String.valueOf(cost.costCount()) + " PLN";
-            }catch(Exception e){
-                LOGGER.error("Something went wrong. Please check your input (above)", e);
-                fullCostString = "Something went wrong. Please check your input (above)";
+                LOGGER.info("servlet req params: date1-{} date2-{} fuel usage-{} " +
+                        "full distance-{}", cost.getDate1(), cost.getDate2(), cost.getFuelUsage(), cost.getDistance());
+                LOGGER.info(cost.toString());
+
+                initialData.trendy.setTrendy(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
+
+                LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}",
+                        cost.getCountry(), cost.getCurrency(), cost.getFuelType());
+
+                initialData.setCountry(req.getParameter("country").toUpperCase());
+                initialData.setFuelType(req.getParameter("fuelType"));
+                initialData.setDate1(req.getParameter("date1"));
+                initialData.setDate2(req.getParameter("date2"));
+                initialData.setFuelUsage(req.getParameter("fuelUsage"));
+                initialData.setFullDistance(req.getParameter("fullDistance"));
+
+                LOGGER.info("initialData trip atributes set:{} {} {} {} {} {}",
+                        initialData.getCountry(), initialData.getFuelType(), initialData.getDate1(),
+                        initialData.getDate2(), initialData.getFuelUsage(), initialData.getFullDistance());
             }
-            LOGGER.info(cost.toString());
 
-            initialData.trendy.setTrendy(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
-            LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}",
-                    cost.getCountry(), cost.getCurrency(), cost.getFuelType());
             req.setAttribute("petrolTrendy", initialData.trendy.getPetrolTrendy());
             req.setAttribute("currencyTrendy", initialData.trendy.getCurrencyTrendy());
             req.setAttribute("conclusion", initialData.trendy.getConclusion());
-
             req.setAttribute("country", cost.getCountry());
             req.setAttribute("currency", cost.getCurrency());
             req.setAttribute("fuelType", cost.getFuelType());
@@ -123,7 +130,7 @@ public class InitialServlet extends HttpServlet {
             req.setAttribute("date2", cost.getDate2());
             req.setAttribute("fuelUsage", cost.getFuelUsage());
             req.setAttribute("fullDistance", cost.getDistance());
-            req.setAttribute("fullCost", fullCostString);
+            req.setAttribute("fullCost", cost.costCount());
 
             if(req.getParameter("trendy") != null){
                 req.setAttribute("title", "Optimal time for trip");
@@ -136,31 +143,5 @@ public class InitialServlet extends HttpServlet {
                 dispatcher.forward(req, resp);
             }
         }
-        else if (req.getParameter("trendyFromMenu") != null){
-            req.setAttribute("country", cost.getCountry());
-            req.setAttribute("currency", cost.getCurrency());
-            req.setAttribute("fuelType", cost.getFuelType());
-            req.setAttribute("title", "Optimal time for trip");
-            req.setAttribute("petrolTrendy", initialData.trendy.getPetrolTrendy());
-            req.setAttribute("currencyTrendy", initialData.trendy.getCurrencyTrendy());
-            req.setAttribute("conclusion", initialData.trendy.getConclusion());
-
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/trendy.jsp");
-            dispatcher.forward(req, resp);
-        }
-        else if (req.getParameter("tripCostFromMenu") != null){
-            req.setAttribute("country", cost.getCountry());
-            req.setAttribute("currency", cost.getCurrency());
-            req.setAttribute("fuelType", cost.getFuelType());
-            req.setAttribute("date1", cost.getDate1());
-            req.setAttribute("date2", cost.getDate2());
-            req.setAttribute("fuelUsage", cost.getFuelUsage());
-            req.setAttribute("fullDistance", cost.getDistance());
-            req.setAttribute("fullCost", cost.costCount() + " PLN");
-
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/tripCost.jsp");
-            dispatcher.forward(req, resp);
-        }
-
     }
 }
