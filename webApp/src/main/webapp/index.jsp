@@ -10,7 +10,7 @@
 <h3>Welcome  ${userName}</h3>
 </br>
 
-<form method="get" action="/calc">
+<form method="post" action="/calc">
     <div class="buttons">
         <button type="submit" name="start" value="">Start your calculation</button>
     </div>
