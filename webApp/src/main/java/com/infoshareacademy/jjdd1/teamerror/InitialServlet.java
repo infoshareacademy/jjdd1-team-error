@@ -77,6 +77,7 @@ public class InitialServlet extends HttpServlet {
 
         // starting servlet work
         if (req.getParameter("start") != null || req.getParameter("initialData") != null) {
+            cost.setCountry(null);
             req.setAttribute("countryList", initialData.promotedCountries.getOrderedPromotedCountries());
             RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
             dispatcher.forward(req, resp);
@@ -85,7 +86,7 @@ public class InitialServlet extends HttpServlet {
         // proceed trendy.jsp or tripCost.jsp
         else if (req.getParameter("trendy") != null || req.getParameter("tripCost") != null) {
 
-            if(initialData.getCountry()==null){
+            if(cost.getCountry()==null){
 
                 cost.setCountry(req.getParameter("country").toUpperCase());
                 cost.setFuelType(req.getParameter("fuelType"));
@@ -108,16 +109,16 @@ public class InitialServlet extends HttpServlet {
                 LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}",
                         cost.getCountry(), cost.getCurrency(), cost.getFuelType());
 
-                initialData.setCountry(req.getParameter("country").toUpperCase());
-                initialData.setFuelType(req.getParameter("fuelType"));
-                initialData.setDate1(req.getParameter("date1"));
-                initialData.setDate2(req.getParameter("date2"));
-                initialData.setFuelUsage(req.getParameter("fuelUsage"));
-                initialData.setFullDistance(req.getParameter("fullDistance"));
-
-                LOGGER.info("initialData trip atributes set:{} {} {} {} {} {}",
-                        initialData.getCountry(), initialData.getFuelType(), initialData.getDate1(),
-                        initialData.getDate2(), initialData.getFuelUsage(), initialData.getFullDistance());
+//                initialData.setCountry(req.getParameter("country").toUpperCase());
+//                initialData.setFuelType(req.getParameter("fuelType"));
+//                initialData.setDate1(req.getParameter("date1"));
+//                initialData.setDate2(req.getParameter("date2"));
+//                initialData.setFuelUsage(req.getParameter("fuelUsage"));
+//                initialData.setFullDistance(req.getParameter("fullDistance"));
+//
+//                LOGGER.info("initialData trip atributes set:{} {} {} {} {} {}",
+//                        initialData.getCountry(), initialData.getFuelType(), initialData.getDate1(),
+//                        initialData.getDate2(), initialData.getFuelUsage(), initialData.getFullDistance());
             }
 
             req.setAttribute("petrolTrendy", initialData.trendy.getPetrolTrendy());
@@ -142,6 +143,9 @@ public class InitialServlet extends HttpServlet {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/tripCost.jsp");
                 dispatcher.forward(req, resp);
             }
+        }
+        else if(req.getParameter("initialData") != null || req.getParameter("tripCost") != null) {
+
         }
     }
 }

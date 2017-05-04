@@ -30,4 +30,5 @@ public class SessionData implements Serializable {
     public boolean isLogged(){
         return logged;
     }
+
 }
