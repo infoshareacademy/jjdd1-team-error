@@ -17,7 +17,7 @@ public class CachedFilesContent implements FilesContent {
     private List<String> petrolDataFile = new ArrayList<>();
 
     public CachedFilesContent() {
-        this.petrolDataFile = FileReader.loadContent(FileReader.PATH_TO_FILES + FileReader.PETROL_FILE_NAME);
+        this.petrolDataFile = FileReader.loadFile(FileReader.PATH_TO_FILES + FileReader.PETROL_FILE_NAME);
     }
 
     public List<String> getCurrencyInfoFile() {
@@ -28,7 +28,7 @@ public class CachedFilesContent implements FilesContent {
     }
 
     public void setCurrencyInfoFile() {
-        currencyInfoFile = FileReader.loadContent(FileReader.PATH_TO_FILES + FileReader.CURRENCY_FILE_WITH_GENERAL_DATA);
+        currencyInfoFile = FileReader.loadFile(FileReader.PATH_TO_FILES + FileReader.CURRENCY_FILE_WITH_GENERAL_DATA);
     }
 
     public List<String> getCurrencyDataFile(String currencySymbol) {
@@ -39,12 +39,7 @@ public class CachedFilesContent implements FilesContent {
     }
 
     public void setCurrencyDataFile(String currencySymbol) {
-        FileReader.unzipFile();
-        try {
-            currencyDataFile = FileReader.loadContent(FileReader.createPath(currencySymbol));
-        } finally {
-            FileReader.removeExtractedFiles();
-        }
+        currencyDataFile = FileReader.loadFileForDefaultZip(FileReader.createPath(currencySymbol));
     }
 
     @Override
