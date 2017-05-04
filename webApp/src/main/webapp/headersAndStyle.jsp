@@ -8,10 +8,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<!DOCTYPE html>
+<html lang="en">
 <html>
 <head>
-    <title>${title}</title>
+    <meta charset="UTF-8">
+    <title>Trip calculator</title>
+    <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Gloria+Hallelujah|Indie+Flower|Pacifico|Shadows+Into+Light" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/css/bootstrap.css">
+    <link rel="stylesheet" href="vendor/css/bootstrap-theme.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="vendor/bootstrap-3.3.7-dist/css/bootstrap.css"/>
     <link rel="stylesheet" href="vendor/bootstrap-3.3.7-dist/css/bootstrap-theme.css"/>
@@ -29,9 +34,13 @@
           content="447589672882-lon09s9eq542cpusfm4njbkjcuhpgif7.apps.googleusercontent.com">
 </head>
 <body>
-    <div>
-        <img id="logo" alt="Trip calculator" src="img/logo.png"/>
-        <h2>${title}</h2>
+    <div id="header">
+        <div id="logo">
+            <p>Trip Calculator</p>
+        </div>
+        <div class="car">
+            <img  id="car" src="img/moving-car-mirror.png" alt="car">
+        </div>
     </div>
 
 
