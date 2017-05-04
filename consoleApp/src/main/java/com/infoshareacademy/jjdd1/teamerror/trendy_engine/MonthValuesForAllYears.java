@@ -22,10 +22,9 @@ public class MonthValuesForAllYears {
     }
 
     Double getAverageMonthValue() {
-        DoubleSummaryStatistics stats = monthDeviations.stream()
+        return monthDeviations.stream()
                 .mapToDouble(s -> s)
-                .summaryStatistics();
-        return stats.getAverage();
+                .summaryStatistics().getAverage();
     }
 }
 

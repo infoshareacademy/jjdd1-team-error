@@ -133,7 +133,7 @@ public class InitialServlet extends HttpServlet {
             req.setAttribute("fuelType", cost.getFuelType());
 
             trendy.setTripFullCost(cost);
-            trendy.setTrendy();
+            trendy.setTrendy("optimalDay");
             LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}",
                     cost.getCountry(), cost.getCurrency(), cost.getFuelType());
             req.setAttribute("petrolTrendy", trendy.getPetrolTrendy());
@@ -305,24 +305,24 @@ public class InitialServlet extends HttpServlet {
         }
     }
 
-    @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        LOGGER.debug("Getting file as request parameter");
-        Part filePart = req.getPart("file");
-//        LOGGER.debug("Getting name of the file");
-//        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        LOGGER.debug("Converting file part into stream");
-        InputStream contentOfFile = filePart.getInputStream();
-        filesContent.setPetrolDataFile(contentOfFile);
-//        String wholeFile = new Scanner(contentOfFile, "UTF-8").toString();
-        LOGGER.debug("Creating Bufferedreader from of InputStream");
-        BufferedReader br = new BufferedReader(new InputStreamReader(contentOfFile));
-        LOGGER.debug("Parsing Bufferedreader into lines");
-        List<String> contentInLines = br.lines().collect(Collectors.toList());
-        contentInLines.forEach(System.out::println);
-
-        req.setAttribute("countryList", promotedCountries.getOrderedPromotedCountries());
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
-        dispatcher.forward(req, resp);
-    }
+//    @Override
+//    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        LOGGER.debug("Getting file as request parameter");
+//        Part filePart = req.getPart("file");
+////        LOGGER.debug("Getting name of the file");
+////        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+//        LOGGER.debug("Converting file part into stream");
+//        InputStream contentOfFile = filePart.getInputStream();
+//        filesContent.setPetrolDataFile(contentOfFile);
+////        String wholeFile = new Scanner(contentOfFile, "UTF-8").toString();
+//        LOGGER.debug("Creating Bufferedreader from of InputStream");
+//        BufferedReader br = new BufferedReader(new InputStreamReader(contentOfFile));
+//        LOGGER.debug("Parsing Bufferedreader into lines");
+//        List<String> contentInLines = br.lines().collect(Collectors.toList());
+//        contentInLines.forEach(System.out::println);
+//
+//        req.setAttribute("countryList", promotedCountries.getOrderedPromotedCountries());
+//        RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
+//        dispatcher.forward(req, resp);
+//    }
 }

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.text.DateFormatSymbols;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -22,16 +23,19 @@ public class Trendy {
     private static final int DECIMAL_PLACES = 2;
     private static final int NUMBER_OF_MONTHS_IN_YEAR = 12;
     private static final int FIRST_ELEMENT = 0;
+    private static final int ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS = 1904;
 
     private String conclusion = "";
-    private Map<String, String> petrolTrendy = new LinkedHashMap();
-    private Map<String, String> currencyTrendy = new LinkedHashMap();
+    private Map<String, String> petrolTrendy = new LinkedHashMap<>();
+    private Map<String, String> currencyTrendy = new LinkedHashMap<>();
 
     private PetrolFileFilter petrolFileFilter;
     private CurrencyFileFilter currencyFileFilter;
     private TripFullCost tripFullCost = new TripFullCost();
-    private LocalDate startDate = LocalDate.of(2005,1,1);
-    private LocalDate endDate = LocalDate.of(2017, 12, 30);
+    private LocalDate startDate; //= LocalDate.of(2005,1,1);
+    private LocalDate endDate; //= LocalDate.of(2017, 12, 30);
+    private LocalDate startMonthDay; //= LocalDate.of(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS, 4, 10);
+    private LocalDate endMonthDay; //= LocalDate.of(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS, 6, 15);
 
     public Trendy() {
     }
@@ -62,6 +66,22 @@ public class Trendy {
         this.endDate = endDate;
     }
 
+    public LocalDate getStartMonthDay() {
+        return startMonthDay;
+    }
+
+    public void setStartMonthDay(LocalDate startMonthDay) {
+        this.startMonthDay = startMonthDay;
+    }
+
+    public LocalDate getEndMonthDay() {
+        return endMonthDay;
+    }
+
+    public void setEndMonthDay(LocalDate endMonthDay) {
+        this.endMonthDay = endMonthDay;
+    }
+
     public String getConclusion() {
         return conclusion;
     }
@@ -74,7 +94,7 @@ public class Trendy {
         return currencyTrendy;
     }
 
-    public Map<Integer, Double> calculateMonthPercentageDeviations(List<RatesInfo> ratesList) {
+    private Map<LocalDate, Double> calculateMonthPercentageDeviations(List<RatesInfo> ratesList) {
         if (ratesList.isEmpty()) {
             return new HashMap<>();
         }
@@ -107,14 +127,16 @@ public class Trendy {
         monthValuesForOneYearList.add(monthValues);
 
 
-        Map<Integer, MonthValuesForAllYears> monthValuesForAllYearsList = new HashMap<>();
+        Map<LocalDate, MonthValuesForAllYears> monthValuesForAllYearsList = new HashMap<>();
         monthValuesForOneYearList.forEach(
                 monthRates -> monthRates.getMonthDeviations().forEach((date, value) -> {
-                    monthValuesForAllYearsList.putIfAbsent(date.getMonthValue() - 1, new MonthValuesForAllYears());
-                    monthValuesForAllYearsList.get(date.getMonthValue() - 1).setMonthDeviation(value);
+                    monthValuesForAllYearsList.putIfAbsent(date.withDayOfMonth(FIRST_DAY_OF_MONTH)
+                            .withYear(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS), new MonthValuesForAllYears());
+                    monthValuesForAllYearsList.get(date.withDayOfMonth(FIRST_DAY_OF_MONTH)
+                            .withYear(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS)).setMonthDeviation(value);
                 }));
         LOGGER.debug("Currency month ratio values for all years calculated");
-        Map<Integer, Double> averageValuesForSingleMonths = monthValuesForAllYearsList.entrySet().stream()
+        Map<LocalDate, Double> averageValuesForSingleMonths = monthValuesForAllYearsList.entrySet().stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         s -> s.getValue().getAverageMonthValue()
@@ -123,104 +145,112 @@ public class Trendy {
 
         Double min = Collections.min(averageValuesForSingleMonths.values());
 
-        Map<Integer, Double> results =  averageValuesForSingleMonths.entrySet().stream()
+        Map<LocalDate, Double> results = new TreeMap<>();
+        results.putAll(averageValuesForSingleMonths.entrySet().stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         s -> round(((s.getValue() - min) * 100), DECIMAL_PLACES)
-                ));
+                )));
         LOGGER.info("Currency month average deviations for all years calculated");
         return results;
     }
 
-    public Map<Integer, Double> calculateDayPercentageDeviations(List<RatesInfo> ratesList) {
+    private Map<LocalDate, Double> calculateDayPercentageDeviations(List<RatesInfo> ratesList) {
         if (ratesList.isEmpty()) {
             return new HashMap<>();
         }
-        List<DayValuesForAllYearsGroupedByYear> dayValuesByYear = new ArrayList<>();
+        Map<Integer, DayValuesForAllYearsGroupedByYear> dayValuesByYear = new LinkedHashMap<>();
         Integer currentYear = ratesList.get(0).getDate().getYear();
-        dayValuesByYear.add(new DayValuesForAllYearsGroupedByYear(currentYear));
+        dayValuesByYear.put(currentYear, new DayValuesForAllYearsGroupedByYear(currentYear));
         for (RatesInfo dayData : ratesList) {
-
-            Integer currentIndex = dayValuesByYear.size() - 1;
-            if (dayValuesByYear.get(currentIndex).getYear().equals(dayData.getDate().getYear())) {
-                dayValuesByYear.get(currentIndex).setDayDeviations(dayData.getDate(), dayData.getRate());
-            }
-            else {
-                currentYear = dayData.getDate().getYear();
-                dayValuesByYear.add(new DayValuesForAllYearsGroupedByYear(currentYear));
-                dayValuesByYear.get(currentIndex).setDayDeviations(dayData.getDate(), dayData.getRate());
-            }
+            currentYear = dayData.getDate().getYear();
+            dayValuesByYear.putIfAbsent(currentYear, new DayValuesForAllYearsGroupedByYear(currentYear));
+            dayValuesByYear.get(currentYear).setDayDeviations(dayData.getDate(), dayData.getRate());
         }
 
-        Map<Integer, DayValuesForAllYearsGroupedByDay> dayValuesByDay = new LinkedHashMap<>();
-        dayValuesByYear.forEach(oneYearValues ->{
-            oneYearValues.getDayPercentageDeviations().entrySet().forEach(s -> {
-                Integer dayOfYear = s.getKey().getDayOfYear();
-                if (!dayValuesByDay.containsKey(s.getKey().getDayOfYear())) {
-                    dayValuesByDay.put(dayOfYear, new DayValuesForAllYearsGroupedByDay(dayOfYear));
-                }
-                dayValuesByDay.get(dayOfYear).setDayPercentageDeviations(s.getValue());
-            });
-        });
+        Map<LocalDate, DayValuesForAllYearsGroupedByDay> dayValuesByDay = new LinkedHashMap<>();
+        dayValuesByYear.forEach((key, value) -> value.getDayPercentageDeviations().forEach((key1, value1) -> {
+            LocalDate dayOfYear = key1.withYear(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS);
+            dayValuesByDay.putIfAbsent(dayOfYear, new DayValuesForAllYearsGroupedByDay(dayOfYear));
+            dayValuesByDay.get(dayOfYear).setDayPercentageDeviations(value1);
+        }));
 
-        return new HashMap<>();
+
+        Map<LocalDate, Double> averageDeviations = dayValuesByDay.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, s -> s.getValue().getAverageDeviation()));
+
+        Double minVal = Collections.min(averageDeviations.values());
+
+        Map<LocalDate, Double> result = new TreeMap<>();
+        result.putAll(averageDeviations.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, s -> round(s.getValue() - minVal, DECIMAL_PLACES))));
+
+        return result;
     }
 
     // set trendy values for petrol and currency to maps and conclusion
-    public void setTrendy() {
+    public void setTrendy(String analysisType) {
         String currencySymbol = tripFullCost.getCurrency();
         String fuelType = tripFullCost.getFuelType();
         String country = tripFullCost.getCountry();
-        Map<Integer, Double> currencyList = new HashMap<>();
-        Map<Integer, Double> petrolList = new HashMap<>();
+        Map<LocalDate, Double> currencyTrendyList = new TreeMap<>();
+        Map<LocalDate, Double> petrolTrendyList = new TreeMap<>();
         List<RatesInfo> currencyDataList = currencyFileFilter.getListOfCurrencyDataObjects(currencySymbol);
         List <RatesInfo> petrolDataList = petrolFileFilter.getListOfPetrolDataObjects(country, fuelType);
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
         if (!currencyDataList.isEmpty()) {
-            currencyDataList = filtrateDataByDate(currencyDataList);
-            currencyList = calculateMonthPercentageDeviations(currencyDataList);
+            currencyDataList = filtrateDataByDates(currencyDataList);
+            switch (analysisType) {
+                case "optimalMonth":
+                    currencyTrendyList = calculateMonthPercentageDeviations(currencyDataList);
+                    formatter = DateTimeFormatter.ofPattern("MMMM");
+                    break;
+
+                case "optimalDay":
+                    currencyTrendyList = calculateDayPercentageDeviations(currencyDataList);
+                    formatter = DateTimeFormatter.ofPattern("d MMM");
+                    break;
+
+            }
         }
         if (!petrolDataList.isEmpty()) {
-            petrolDataList = filtrateDataByDate(petrolDataList);
-            petrolList = calculateMonthPercentageDeviations(petrolDataList);
+            petrolDataList = filtrateDataByDates(petrolDataList);
+            petrolTrendyList = calculateMonthPercentageDeviations(petrolDataList);
         }
         Double sum = null;
-        Integer numberOfMonthWithOptimalRates = null;
-        StringBuilder returnStatement = new StringBuilder();
-        DateFormatSymbols symbols = new DateFormatSymbols(Locale.US);
-        returnStatement.append("Optimal time for trip analysis: \n\n");
-        for (int i = 0; i < NUMBER_OF_MONTHS_IN_YEAR; i++) {
-            String month = symbols.getMonths()[i].toUpperCase();
-            returnStatement.append("\n");
-            if (!currencyList.containsKey(i)) {
-                currencyTrendy.put(month, "NO DATA");
+        LocalDate optimalDate = null;
+
+        for (Map.Entry currencyValue : currencyTrendyList.entrySet()) {
+            String date = ((LocalDate)currencyValue.getKey()).format(formatter);
+            LocalDate petrolDate = ((LocalDate) currencyValue.getKey()).withDayOfMonth(FIRST_DAY_OF_MONTH);
+            if (currencyValue.getValue().equals(0.0)) {
+                currencyTrendy.put(date, "THE LOWEST");
             }
-            if (!petrolList.containsKey(i)) {
-                petrolTrendy.put(month, "NO DATA");
+            else {
+                currencyTrendy.put(date, currencyValue.getValue().toString());
             }
-            if (currencyList.containsKey(i) && currencyList.get(i).equals(0.0)) {
-                currencyTrendy.put(month, "THE LOWEST");
+            if (!petrolTrendyList.containsKey(petrolDate)) {
+                petrolTrendy.put(date, "NO DATA");
             }
-            else if (currencyList.containsKey(i)) {
-                currencyTrendy.put(month, currencyList.get(i).toString());
+            if (petrolTrendyList.containsKey(petrolDate) &&
+                    petrolTrendyList.get(petrolDate).equals(0.0)) {
+                petrolTrendy.put(date, "THE LOWEST");
             }
-            if (petrolList.containsKey(i) && petrolList.get(i).equals(0.0)) {
-                petrolTrendy.put(month, "THE LOWEST");
-            }
-            else if (petrolList.containsKey(i)) {
-                petrolTrendy.put(month, petrolList.get(i).toString());
+            else {
+                petrolTrendy.put(date, petrolTrendyList.get(petrolDate).toString());
             }
             // determine the lowest sum of currency and petrol percentage rates
-            if ((currencyList.containsKey(i) || petrolList.containsKey(i)) &&
-                    (sum == null || (currencyList.getOrDefault(i, 0.0) + petrolList.getOrDefault(i, 0.0)) < sum)) {
-                sum = (currencyList.getOrDefault(i, 0.0) + petrolList.getOrDefault(i, 0.0));
-                numberOfMonthWithOptimalRates = i;
+            if (petrolTrendyList.containsKey(petrolDate) &&
+                    (sum == null || (Double)currencyValue.getValue() + petrolTrendyList.getOrDefault(petrolDate, 0.0) < sum)) {
+                sum = ((Double)currencyValue.getValue() + petrolTrendyList.getOrDefault(petrolDate, 0.0));
+                optimalDate = (LocalDate)currencyValue.getKey();
             }
         }
-        if (numberOfMonthWithOptimalRates == null) {
+        if (optimalDate == null) {
             conclusion = "The best time for cheap travel is in: NO DATA";
         }
         else {
-            conclusion = "The best time for cheap travel is in: " + symbols.getMonths()[numberOfMonthWithOptimalRates].toUpperCase();
+            conclusion = "The best time for cheap travel is in: " + optimalDate.format(formatter);
         }
         LOGGER.info("Trendy values and conclusion set");
     }
@@ -230,16 +260,16 @@ public class Trendy {
         String currencySymbol = tripFullCost.getCurrency();
         String fuelType = tripFullCost.getFuelType();
         String country = tripFullCost.getCountry();
-        Map<Integer, Double> currencyList = new HashMap<>();
-        Map<Integer, Double> petrolList = new HashMap<>();
+        Map<LocalDate, Double> currencyList = new HashMap<>();
+        Map<LocalDate, Double> petrolList = new HashMap<>();
         List<RatesInfo> currencyDataList = currencyFileFilter.getListOfCurrencyDataObjects(currencySymbol);
         List <RatesInfo> petrolDataList = petrolFileFilter.getListOfPetrolDataObjects(country, fuelType);
         if (!currencyDataList.isEmpty()) {
-            currencyDataList = filtrateDataByDate(currencyDataList);
+            currencyDataList = filtrateDataByDates(currencyDataList);
             currencyList = calculateMonthPercentageDeviations(currencyDataList);
         }
         if (!petrolDataList.isEmpty()) {
-            petrolDataList = filtrateDataByDate(petrolDataList);
+            petrolDataList = filtrateDataByDates(petrolDataList);
             petrolList = calculateMonthPercentageDeviations(petrolDataList);
         }
         Double sum = null;
@@ -247,36 +277,37 @@ public class Trendy {
         StringBuilder returnStatement = new StringBuilder();
         DateFormatSymbols symbols = new DateFormatSymbols(Locale.US);
         returnStatement.append("Optimal time for trip analysis: \n\n");
-        for (int i = 0; i < NUMBER_OF_MONTHS_IN_YEAR; i++) {
-            returnStatement.append(symbols.getMonths()[i].toUpperCase());
+        for (int i = 1; i <= NUMBER_OF_MONTHS_IN_YEAR; i++) {
+            LocalDate currentDate = LocalDate.of(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS, i, FIRST_DAY_OF_MONTH);
+            returnStatement.append(symbols.getMonths()[i-1].toUpperCase());
             returnStatement.append("\n");
-            if (!currencyList.containsKey(i)) {
+            if (!currencyList.containsKey(currentDate)) {
                 returnStatement.append( "Currency --> NO DATA \t\t");
             }
-            if (!petrolList.containsKey(i)) {
-                returnStatement.append("Petrol --> NO DATA \n");
-            }
-            if (currencyList.containsKey(i) && currencyList.get(i).equals(0.0)) {
+            if (currencyList.containsKey(currentDate) && currencyList.get(currentDate).equals(0.0)) {
                 returnStatement.append("Currency --> THE LOWEST \t\t");
             }
-            else if (currencyList.containsKey(i)) {
+            else if (currencyList.containsKey(currentDate)) {
                 returnStatement.append("Currency --> ");
-                returnStatement.append(currencyList.get(i));
+                returnStatement.append(currencyList.get(currentDate));
                 returnStatement.append("% higher \t\t");
             }
-            if (petrolList.containsKey(i) && petrolList.get(i).equals(0.0)) {
+            if (!petrolList.containsKey(currentDate)) {
+                returnStatement.append("Petrol --> NO DATA \n");
+            }
+            if (petrolList.containsKey(currentDate) && petrolList.get(currentDate).equals(0.0)) {
                 returnStatement.append("Petrol --> THE LOWEST \n");
             }
-            else if (petrolList.containsKey(i)) {
+            else if (petrolList.containsKey(currentDate)) {
                 returnStatement.append("Petrol --> ");
-                returnStatement.append(petrolList.get(i));
+                returnStatement.append(petrolList.get(currentDate));
                 returnStatement.append("% higher. \n");
             }
             // determine the lowest sum of currency and petrol percentage rates
-            if ((currencyList.containsKey(i) || petrolList.containsKey(i)) &&
-                    (sum == null || (currencyList.getOrDefault(i, 0.0) + petrolList.getOrDefault(i, 0.0)) < sum)) {
-                sum = (currencyList.getOrDefault(i, 0.0) + petrolList.getOrDefault(i, 0.0));
-                numberOfMonthWithOptimalRates = i;
+            if ((currencyList.containsKey(currentDate) || petrolList.containsKey(currentDate)) &&
+                    (sum == null || (currencyList.getOrDefault(currentDate, 0.0) + petrolList.getOrDefault(currentDate, 0.0)) < sum)) {
+                sum = (currencyList.getOrDefault(currentDate, 0.0) + petrolList.getOrDefault(currentDate, 0.0));
+                numberOfMonthWithOptimalRates = i-1;
             }
             returnStatement.append("\n");
         }
@@ -288,6 +319,10 @@ public class Trendy {
             returnStatement.append(symbols.getMonths()[numberOfMonthWithOptimalRates].toUpperCase());
         }
         LOGGER.info("Trendy analysis in string created");
+
+        calculateDayPercentageDeviations(currencyDataList).forEach((key, value) -> {
+            System.out.println(key + " " + value);
+        });
         return returnStatement.toString();
     }
 
@@ -300,7 +335,7 @@ public class Trendy {
         return (double) tmp / factor;
     }
 
-    private List<RatesInfo> filtrateDataByDate(List<RatesInfo> ratesData) {
+    private List<RatesInfo> filtrateDataByDates(List<RatesInfo> ratesData) {
 
         if (startDate != null) {
             ratesData = ratesData.stream()
@@ -312,6 +347,19 @@ public class Trendy {
                     .filter(dayObject -> dayObject.getDate().isBefore(endDate) || dayObject.getDate().isEqual(endDate))
                     .collect(Collectors.toList());
         }
+        if (startMonthDay != null) {
+            ratesData = ratesData.stream()
+                    .filter(dayObject -> dayObject.getDate().withYear(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS).isAfter(startMonthDay) ||
+                            dayObject.getDate().withYear(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS).isEqual(startMonthDay))
+                    .collect(Collectors.toList());
+        }
+        if (endMonthDay != null) {
+            ratesData = ratesData.stream()
+                    .filter(dayObject -> dayObject.getDate().withYear(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS).isBefore(endMonthDay) ||
+                            dayObject.getDate().withYear(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS).isEqual(endMonthDay))
+                    .collect(Collectors.toList());
+        }
         return ratesData;
     }
+
 }
