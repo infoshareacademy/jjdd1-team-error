@@ -136,58 +136,34 @@ public class Trendy {
         if (ratesList.isEmpty()) {
             return new HashMap<>();
         }
-        List<DayValuesForOneMonth> dayValuesForOneMonthList = new ArrayList<>();
-        List<MonthValuesForOneYear> monthValuesForOneYearList = new ArrayList<>();
-        LocalDate currentDate =  ratesList.get(FIRST_ELEMENT).getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);
-        dayValuesForOneMonthList.add(new DayValuesForOneMonth(currentDate));
-        for (RatesInfo dailyRate : ratesList) {
-            if (!dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH).equals(currentDate) && dailyRate.getDate().getYear() == currentDate.getYear()) {
-                currentDate = dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);
-                dayValuesForOneMonthList.add(new DayValuesForOneMonth(currentDate));
-            }
-            else if (!dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH).equals(currentDate) &&
-                    dailyRate.getDate().getYear() != currentDate.getYear()) {
-                MonthValuesForOneYear monthValues = new MonthValuesForOneYear();
-                dayValuesForOneMonthList.forEach(monthValues::setMonthValue);
-                monthValuesForOneYearList.add(monthValues);
-                LOGGER.debug("Month average currency rates for year {} calculated.", currentDate.getYear());
-                dayValuesForOneMonthList.clear();
-                currentDate = dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH);
-                dayValuesForOneMonthList.add(new DayValuesForOneMonth(currentDate));
+        List<DayValuesForAllYearsGroupedByYear> dayValuesByYear = new ArrayList<>();
+        Integer currentYear = ratesList.get(0).getDate().getYear();
+        dayValuesByYear.add(new DayValuesForAllYearsGroupedByYear(currentYear));
+        for (RatesInfo dayData : ratesList) {
 
+            Integer currentIndex = dayValuesByYear.size() - 1;
+            if (dayValuesByYear.get(currentIndex).getYear().equals(dayData.getDate().getYear())) {
+                dayValuesByYear.get(currentIndex).setDayDeviations(dayData.getDate(), dayData.getRate());
             }
-            if (dailyRate.getDate().withDayOfMonth(FIRST_DAY_OF_MONTH).equals(currentDate)) {
-                dayValuesForOneMonthList.get(dayValuesForOneMonthList.size()-1).setDayValue(dailyRate.getRate());
+            else {
+                currentYear = dayData.getDate().getYear();
+                dayValuesByYear.add(new DayValuesForAllYearsGroupedByYear(currentYear));
+                dayValuesByYear.get(currentIndex).setDayDeviations(dayData.getDate(), dayData.getRate());
             }
         }
-        MonthValuesForOneYear monthValues = new MonthValuesForOneYear();
-        dayValuesForOneMonthList.forEach(monthValues::setMonthValue);
-        monthValuesForOneYearList.add(monthValues);
 
+        Map<Integer, DayValuesForAllYearsGroupedByDay> dayValuesByDay = new LinkedHashMap<>();
+        dayValuesByYear.forEach(oneYearValues ->{
+            oneYearValues.getDayPercentageDeviations().entrySet().forEach(s -> {
+                Integer dayOfYear = s.getKey().getDayOfYear();
+                if (!dayValuesByDay.containsKey(s.getKey().getDayOfYear())) {
+                    dayValuesByDay.put(dayOfYear, new DayValuesForAllYearsGroupedByDay(dayOfYear));
+                }
+                dayValuesByDay.get(dayOfYear).setDayPercentageDeviations(s.getValue());
+            });
+        });
 
-        Map<Integer, MonthValuesForAllYears> monthValuesForAllYearsList = new HashMap<>();
-        monthValuesForOneYearList.forEach(
-                monthRates -> monthRates.getMonthDeviations().forEach((date, value) -> {
-                    monthValuesForAllYearsList.putIfAbsent(date.getMonthValue() - 1, new MonthValuesForAllYears());
-                    monthValuesForAllYearsList.get(date.getMonthValue() - 1).setMonthDeviation(value);
-                }));
-        LOGGER.debug("Currency month ratio values for all years calculated");
-        Map<Integer, Double> averageValuesForSingleMonths = monthValuesForAllYearsList.entrySet().stream()
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        s -> s.getValue().getAverageMonthValue()
-                ));
-        LOGGER.debug("Currency month average ratio values for all years calculated");
-
-        Double min = Collections.min(averageValuesForSingleMonths.values());
-
-        Map<Integer, Double> results =  averageValuesForSingleMonths.entrySet().stream()
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        s -> round(((s.getValue() - min) * 100), DECIMAL_PLACES)
-                ));
-        LOGGER.info("Currency month average deviations for all years calculated");
-        return results;
+        return new HashMap<>();
     }
 
     // set trendy values for petrol and currency to maps and conclusion

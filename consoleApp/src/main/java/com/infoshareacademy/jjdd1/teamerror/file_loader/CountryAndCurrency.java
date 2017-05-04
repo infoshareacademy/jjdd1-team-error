@@ -22,10 +22,8 @@ public class CountryAndCurrency {
     }
 
     public Map<String, String> getCountryAndCurrency() {
-//        if (countryAndCurrency.isEmpty()) {
-            loadCountryAndCurrency();
-            selectCountriesAndCurrency();
-//        }
+        loadCountryAndCurrency();
+        selectCountriesAndCurrency();
         return countryAndCurrency;
     }
 
