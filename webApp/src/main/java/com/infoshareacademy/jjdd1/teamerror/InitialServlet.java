@@ -62,7 +62,7 @@ public class InitialServlet extends HttpServlet {
         initialData.filesContent.getPetrolDataFile();
         initialData.filesContent.getCurrencyInfoFile();
         initialData.countryAndCurrency.setFilesContent(initialData.filesContent);
-        initialData.countryAndCurrencyList = initialData.countryAndCurrency.getCountriesAndCurrency();
+        initialData.countryAndCurrencyList = initialData.countryAndCurrency.getCountryAndCurrency();
 
 //        LOGGER.debug("Checking existence of resource files");
 //        File petrolFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "iSA-PetrolPrices.csv");

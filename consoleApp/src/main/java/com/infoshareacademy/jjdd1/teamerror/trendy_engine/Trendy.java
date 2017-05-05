@@ -322,9 +322,9 @@ public class Trendy {
         }
         LOGGER.info("Trendy analysis in string created");
 
-        calculateDayPercentageDeviations(currencyDataList).forEach((key, value) -> {
-            System.out.println(key + " " + value);
-        });
+//        calculateDayPercentageDeviations(currencyDataList).forEach((key, value) -> {
+//            System.out.println(key + " " + value);
+//        });
         return returnStatement.toString();
     }
 

@@ -233,7 +233,7 @@ public class TripFullCost {
 
         //creating lists from files, so that they can be searched through
         List<RatesInfo> currencyObjectsList = currencyFileFilter.getListOfCurrencyDataObjects(currency);
-        List<RatesInfo> petrolObjectsList = petrolFileFilter.getListOfPetrolDataObjects(currency, country);
+        List<RatesInfo> petrolObjectsList = petrolFileFilter.getListOfPetrolDataObjects(country, fuelType);
 
 
         //getting average currency values for the specified months of travel if years match in files (lists)
