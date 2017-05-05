@@ -32,6 +32,8 @@ public class CurrencyFileFilter {
     // divide content of Currency File and put this information as objects
     public void putCurrencyFileContentToClass(String currencySymbol) {
 
+        listOfCurrencyDataObjects.clear();
+
         List<String> lines = filesContent.getCurrencyDataFile(currencySymbol);
         String[] parts;
 

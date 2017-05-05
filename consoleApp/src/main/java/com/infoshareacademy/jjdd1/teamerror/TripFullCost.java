@@ -299,9 +299,9 @@ public class TripFullCost {
                 fuelPriceDate1, fuelPriceDate2);
 
         //counting the trip cost using all the necessary data
-        return Trendy.round(((currencyPriceDate1 + currencyPriceDate2) / 2) *
+        return ((currencyPriceDate1 + currencyPriceDate2) / 2) *
                 ((fuelPriceDate1 + fuelPriceDate2) / 2) *
-                (getDistance() / 100) * getFuelUsage(), 2);
+                (getDistance() / 100) * getFuelUsage();
 
     }
 

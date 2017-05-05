@@ -31,7 +31,7 @@ public class PetrolFileFilter {
 
     // divide content of Currency File and put this information as objects
     public void putPetrolFileContentToClass(String country) {
-
+        listOfPetrolDataObjects.clear();
         List<String> lines = filesContent.getPetrolDataFile();
         String[] parts;
 

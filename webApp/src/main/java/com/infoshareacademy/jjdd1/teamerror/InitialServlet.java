@@ -26,6 +26,7 @@ public class InitialServlet extends HttpServlet {
 
     private final String TRIP_FULL_COST_SESSION_ATTR = "fripFullCost";
     private final Logger LOGGER = LoggerFactory.getLogger(InitialServlet.class);
+    int switcher = 0;
 
     @Inject
     SavingClass savingClass;
@@ -35,7 +36,9 @@ public class InitialServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        int switcher = 0;
+        LOGGER.debug("servlet request");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/plain;charset=UTF-8");
 
         LOGGER.debug("Reading data from database");
         List<String> ret = savingClass.getPromotedCountries();
@@ -55,12 +58,8 @@ public class InitialServlet extends HttpServlet {
         }
 
         // countries/currencies check
-        LOGGER.debug("servlet request");
-        resp.setCharacterEncoding("UTF-8");
-        resp.setContentType("text/plain;charset=UTF-8");
         initialData.filesContent.getPetrolDataFile();
         initialData.filesContent.getCurrencyInfoFile();
-
         initialData.countryAndCurrency.setFilesContent(initialData.filesContent);
         initialData.countryAndCurrencyList = initialData.countryAndCurrency.getCountriesAndCurrency();
 
@@ -77,7 +76,7 @@ public class InitialServlet extends HttpServlet {
 
         // starting servlet work
         if (req.getParameter("start") != null || req.getParameter("initialData") != null) {
-            cost.setCountry(null);
+            switcher = 0;
             req.setAttribute("countryList", initialData.promotedCountries.getOrderedPromotedCountries());
             RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
             dispatcher.forward(req, resp);
@@ -86,7 +85,8 @@ public class InitialServlet extends HttpServlet {
         // proceed trendy.jsp or tripCost.jsp
         else if (req.getParameter("trendy") != null || req.getParameter("tripCost") != null) {
 
-            if(cost.getCountry()==null){
+            if(switcher == 0){
+                switcher++;
 
                 cost.setCountry(req.getParameter("country").toUpperCase());
                 cost.setFuelType(req.getParameter("fuelType"));
@@ -108,17 +108,6 @@ public class InitialServlet extends HttpServlet {
 
                 LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}",
                         cost.getCountry(), cost.getCurrency(), cost.getFuelType());
-
-//                initialData.setCountry(req.getParameter("country").toUpperCase());
-//                initialData.setFuelType(req.getParameter("fuelType"));
-//                initialData.setDate1(req.getParameter("date1"));
-//                initialData.setDate2(req.getParameter("date2"));
-//                initialData.setFuelUsage(req.getParameter("fuelUsage"));
-//                initialData.setFullDistance(req.getParameter("fullDistance"));
-//
-//                LOGGER.info("initialData trip atributes set:{} {} {} {} {} {}",
-//                        initialData.getCountry(), initialData.getFuelType(), initialData.getDate1(),
-//                        initialData.getDate2(), initialData.getFuelUsage(), initialData.getFullDistance());
             }
 
             req.setAttribute("petrolTrendy", initialData.trendy.getPetrolTrendy());
@@ -133,6 +122,10 @@ public class InitialServlet extends HttpServlet {
             req.setAttribute("fullDistance", cost.getDistance());
             req.setAttribute("fullCost", cost.costCount());
 
+            LOGGER.info("initialData trip atributes set:{} {} {} {} {} {}",
+                    cost.getCountry(), cost.getFuelType(), cost.getDate1(),
+                    cost.getDate2(), cost.getFuelUsage(), cost.getDistance());
+
             if(req.getParameter("trendy") != null){
                 req.setAttribute("title", "Optimal time for trip");
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/trendy.jsp");
@@ -143,9 +136,6 @@ public class InitialServlet extends HttpServlet {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/tripCost.jsp");
                 dispatcher.forward(req, resp);
             }
-        }
-        else if(req.getParameter("initialData") != null || req.getParameter("tripCost") != null) {
-
         }
     }
 }
