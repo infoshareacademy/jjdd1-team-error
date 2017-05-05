@@ -190,6 +190,8 @@ public class Trendy {
 
     // set trendy values for petrol and currency to maps and conclusion
     public void setTrendy(String analysisType) {
+        currencyTrendy.clear();
+        petrolTrendy.clear();
         String currencySymbol = tripFullCost.getCurrency();
         String fuelType = tripFullCost.getFuelType();
         String country = tripFullCost.getCountry();
