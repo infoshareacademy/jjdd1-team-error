@@ -9,7 +9,7 @@
 <%@ include file="headersAndStyle.jsp" %>
 
     <h2>Additional data</h2>
-    <form method="get" action="/calc">
+    <form method="post" action="/calc">
         <div class="text_input">
             <span><label>Enter a date of departure in the format YYYYMMDD:</label> <input type="text" name="date1"></span>
             <br>
