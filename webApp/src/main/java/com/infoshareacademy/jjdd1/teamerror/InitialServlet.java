@@ -133,6 +133,9 @@ public class InitialServlet extends HttpServlet {
             req.setAttribute("fuelUsage", cost.getFuelUsage());
             req.setAttribute("fullDistance", cost.getDistance());
             req.setAttribute("fullCost", cost.costCount());
+            req.setAttribute("tripLength", initialData.trendy.getTripLength());
+            req.setAttribute("trendPeriodFrom", initialData.trendy.getTrendyPeriodFrom());
+            req.setAttribute("trendPeriodTill", initialData.trendy.getTrendyPeriodTill());
 
             LOGGER.info("initialData trip atributes set:{} {} {} {} {} {}",
                     cost.getCountry(), cost.getFuelType(), cost.getDate1(),
