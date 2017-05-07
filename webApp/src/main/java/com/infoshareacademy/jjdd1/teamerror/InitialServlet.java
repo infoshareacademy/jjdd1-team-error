@@ -11,7 +11,11 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -111,14 +115,17 @@ public class InitialServlet extends HttpServlet {
             if(req.getParameter("trendy") != null) {
                 String periodDateFrom = req.getParameter("periodDateFrom");
                 String periodDateTill = req.getParameter("periodDateTill");
+                String[] startingDays = req.getParameterValues("startingDays");
                 String tripLength = req.getParameter("tripLength");
-                LOGGER.debug("Trendy parameters - DateFrom: {} DateTill: {} TripLength: {}", periodDateFrom, periodDateTill, tripLength);
-                if (periodDateFrom != null && periodDateTill != null & tripLength != null) {
+                LOGGER.debug("Trendy parameters - DateFrom: {} DateTill: {} TripLength: {} WeekDays: {}", periodDateFrom, periodDateTill, tripLength, startingDays);
+                if (periodDateFrom != null && periodDateTill != null & tripLength != null && startingDays != null) {
                     periodDateFrom = periodDateFrom.replaceAll("/", "");
                     periodDateTill = periodDateTill.replaceAll("/", "");
                     initialData.trendy.setTrendyPeriodFrom(periodDateFrom);
                     initialData.trendy.setTrendyPeriodTill(periodDateTill);
                     initialData.trendy.setTripLength(tripLength);
+                    initialData.trendy.setStartingDays(new HashSet<>(Arrays.asList(startingDays)));
+
                     LOGGER.debug("Trendy parameters changed - DateFrom: {} DateTill: {} TripLength: {}", periodDateFrom, periodDateTill, tripLength);
                 }
             }
@@ -136,6 +143,7 @@ public class InitialServlet extends HttpServlet {
             req.setAttribute("tripLength", initialData.trendy.getTripLength());
             req.setAttribute("trendPeriodFrom", initialData.trendy.getTrendyPeriodFrom());
             req.setAttribute("trendPeriodTill", initialData.trendy.getTrendyPeriodTill());
+            req.setAttribute("startingDays", initialData.trendy.getStartingDays());
 
             LOGGER.info("initialData trip atributes set:{} {} {} {} {} {}",
                     cost.getCountry(), cost.getFuelType(), cost.getDate1(),

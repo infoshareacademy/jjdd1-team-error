@@ -18,30 +18,17 @@
     <li>Trip length:  ${tripLength}</li>
     <li>Date from:  ${trendPeriodFrom}</li>
     <li>Date till:  ${trendPeriodTill}</li>
+    <li>Starting days:
+        <c:forEach items="${startingDays}" var="trend">
+            ${trend}
+        </c:forEach>
+    </li>
     <br>
 </div>
 
 
 <div>
     <form method="post" action="/calc" class="form-horizontal" id="reg_form">
-
-        <!-- Select Basic -->
-
-        <%--<div class="form-group">--%>
-            <%--<label class="col-md-4 control-label">Fuel Type</label>--%>
-            <%--<div class="col-md-5 selectContainer">--%>
-                <%--<div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>--%>
-                    <%--<select name="fuelType" class="form-control selectpicker" >--%>
-                        <%--<option value="" >Please select your fuel type</option>--%>
-                        <%--<option value="1">Diesel</option>--%>
-                        <%--<option value="2">Gasoline</option>--%>
-                    <%--</select>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-
-        <!-- Text input-->
-
 
         <!-- Text input-->
 
@@ -73,6 +60,34 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label class="col-md-4 control-label">Starting days</label>
+        </div>
+        <div>
+            <label class="checkbox-inline">
+                <input type="checkbox" name="startingDays" value="1"> Monday
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" name="startingDays" value="2"> Tuesday
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" name="startingDays" value="3"> Wednesday
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" name="startingDays" value="4"> Thursday
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" name="startingDays"  value="5"> Friday
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" name="startingDays"  value="6"> Saturday
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" name="startingDays"  value="7"> Sunday
+            </label>
+        </div>
+
+        <br>
 
         <!-- Submit button -->
         <div class="form-group">
@@ -82,7 +97,6 @@
             </div>
         </div>
 
-        <%--</fieldset>--%>
     </form>
 
 </div>

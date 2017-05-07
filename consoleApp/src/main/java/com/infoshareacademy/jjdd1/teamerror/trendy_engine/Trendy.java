@@ -37,6 +37,7 @@ public class Trendy {
     private LocalDate trendyPeriodFrom = LocalDate.now();
     private LocalDate trendyPeriodTill = LocalDate.now().plusDays(60);
     private Integer tripLength = 7;
+    private Set<Integer> startingDays = new TreeSet<>(Collections.singleton(6));
 
     public Trendy() {
     }
@@ -98,6 +99,19 @@ public class Trendy {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM YYYY");
         return input.entrySet().stream()
                 .collect(Collectors.toMap(key -> key.getKey().format(formatter), value -> value.getValue().toString()));
+    }
+
+    public Set<String> getStartingDays() {
+        String[] weekDays = DateFormatSymbols.getInstance().getWeekdays();
+        return startingDays.stream()
+                .map(day -> weekDays[day + 1])
+                .collect(Collectors.toSet());
+    }
+
+    public void setStartingDays(Set<String> startingDays) {
+        this.startingDays = startingDays.stream()
+                .map(Integer::valueOf)
+                .collect(Collectors.toSet());
     }
 
     private Map<LocalDate, Double> calculateMonthPercentageDeviations(List<RatesInfo> ratesList) {
@@ -202,7 +216,6 @@ public class Trendy {
         Map<LocalDate, Double> petrolValuesAvgList = new LinkedHashMap<>();
         Map<LocalDate, List<Double>> results = new TreeMap<>();
         Map<LocalDate, Double> cheapestAveragesSums = new TreeMap<>();
-        LocalDate cheapestDate = null;
         for (int i = 0; i < daysNumber - tripLength; i++) {
             LocalDate currentDate = trendyPeriodFrom.plusDays(i);
             List<Double> currencyValues = new ArrayList<>();
@@ -226,41 +239,58 @@ public class Trendy {
                 petrolValuesAvgList.put(currentDate, petrolValuesAvg);
             }
         }
-        Map<LocalDate, Double> currencyValuesAvgListFinal = new TreeMap<>();
-                currencyValuesAvgListFinal.putAll(currencyValuesAvgList
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, a -> a.getValue() - Collections.min(currencyValuesAvgList.values()))));
-        Map<LocalDate, Double> petrolValuesAvgListFinal = petrolValuesAvgList
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, a -> a.getValue() - Collections.min(petrolValuesAvgList.values())));
 
-        for (Map.Entry dayValue : currencyValuesAvgListFinal.entrySet()) {
-            Double currencyValue = HelpfulMethods.round((Double)dayValue.getValue(), 2);
-            Double petrolValue = HelpfulMethods.round(petrolValuesAvgListFinal.getOrDefault(dayValue.getKey(), 0.0), 2);
-            Double currentSumOfAverages = HelpfulMethods.round(currencyValue + petrolValue, 2);
-            LocalDate currentDate = (LocalDate)dayValue.getKey();
+        Map<LocalDate, Double> currencyValuesAvgForStartingDays = new TreeMap<>();
+        currencyValuesAvgForStartingDays.putAll(currencyValuesAvgList
+                .entrySet()
+                .stream()
+                .filter(dayValue -> startingDays.contains(dayValue.getKey().getDayOfWeek().getValue()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+
+        Map<LocalDate, Double> petrolValuesAvgForStartingDays = new TreeMap<>();
+        petrolValuesAvgForStartingDays.putAll(petrolValuesAvgList
+                .entrySet()
+                .stream()
+                .filter(dayValue -> startingDays.contains(dayValue.getKey().getDayOfWeek().getValue()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+
+
+        Map<LocalDate, Double> currencyValuesAvgListFinal = new TreeMap<>();
+        currencyValuesAvgListFinal.putAll(currencyValuesAvgForStartingDays
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, a -> a.getValue() - Collections.min(currencyValuesAvgForStartingDays.values()))));
+        Map<LocalDate, Double> petrolValuesAvgListFinal = new TreeMap<>();
+        petrolValuesAvgListFinal.putAll(petrolValuesAvgForStartingDays
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, a -> a.getValue() - Collections.min(petrolValuesAvgForStartingDays.values()))));
+
+        for (Map.Entry tripValue : currencyValuesAvgListFinal.entrySet()) {
             List<Double> values = new ArrayList<>();
+            LocalDate currentDate = (LocalDate)tripValue.getKey();
+            Double currencyValue = HelpfulMethods.round((Double)tripValue.getValue(), 2);
+            Double petrolValue = HelpfulMethods.round(petrolValuesAvgListFinal.getOrDefault(currentDate, 0.0), 2);
+            Double currentSumOfAverages = HelpfulMethods.round(currencyValue + petrolValue, 2);
             values.add(currencyValue);
             values.add(petrolValue);
             values.add(currentSumOfAverages);
-            results.put((LocalDate)dayValue.getKey(), values);
-            if (cheapestAveragesSums.size() < 3 ) {
+            results.put(currentDate, values);
+
+            if (cheapestAveragesSums.size() < 3) {
                 cheapestAveragesSums.put(currentDate, currentSumOfAverages);
-            }
-            else if (Collections.max(cheapestAveragesSums.values()) > currentSumOfAverages) {
+            } else if (Collections.max(cheapestAveragesSums.values()) > currentSumOfAverages) {
                 LocalDate maxValueDate = null;
                 for (Map.Entry sum : cheapestAveragesSums.entrySet()) {
                     if (sum.getValue().equals(Collections.max(cheapestAveragesSums.values()))) {
-                        maxValueDate = (LocalDate)sum.getKey();
+                        maxValueDate = (LocalDate) sum.getKey();
                     }
                 }
                 cheapestAveragesSums.remove(maxValueDate);
-                cheapestDate = (LocalDate)dayValue.getKey();
                 cheapestAveragesSums.put(currentDate, currentSumOfAverages);
             }
         }
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM YYYY");
         if (!cheapestAveragesSums.isEmpty()) {
             conclusion = "The cheapest dates for trip are between: \n<br>";
