@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -9,11 +10,13 @@ import java.util.HashMap;
 public class CountryStatistics {
 
 
+    private Map<String,Long> statistics = new HashMap<>();
+
     public static void main(String args[]) {
 
        Map<String, Long> country;
 
-       String getCountry = new String("Croatia");
+       String getCountry = new String("USA");
 
         HashMap<String, Long> countCountry = new HashMap<String, Long>();
 
@@ -29,8 +32,36 @@ public class CountryStatistics {
 
            if(!countCountry.containsKey(getCountry)) {
                 System.out.println(getCountry);
+
             } else
                System.out.println(key);
+        }
+
+        for (Long value : countCountry.values()) {
+            System.out.println(value);
+        }
+
+    }
+
+    public Map<String, Long> getStatistics() {
+        return statistics;
+    }
+
+    public void selectedCountry(String countryCode) {
+        statistics.put(countryCode, 1l);
+
+
+        for (Map.Entry<String, Long> entry : getStatistics().entrySet()) {
+
+            if (getStatistics().containsKey(countryCode)) {
+
+                countryCode.
+
+            }
+
+
+            System.out.println(entry.getKey() + entry.getValue());
+
         }
 
 
@@ -38,20 +69,18 @@ public class CountryStatistics {
 
 
 
+//    public  void selectedCountryOne(String countryCode){
+//        statistics.put(countryCode,2l);
+//    }
+//
+//    public void selectedCountryTwo(String countryCode){
+//        statistics.put(countryCode, 1l);
+//    }
 
 
 
 
-
-
-
-
-
-
-
-
-
-
+    }
 
 
 
@@ -71,4 +100,4 @@ public class CountryStatistics {
 
 
 
-}
+
