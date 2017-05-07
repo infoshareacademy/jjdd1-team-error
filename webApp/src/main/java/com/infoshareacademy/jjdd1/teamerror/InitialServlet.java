@@ -1,7 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
 import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
-import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,10 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by krystianskrzyszewski on 19.04.17.
@@ -95,6 +91,7 @@ public class InitialServlet extends HttpServlet {
                 cost.setDate2(req.getParameter("date2").replaceAll("/",""));
                 cost.setFuelUsage(req.getParameter("fuelUsage"));
                 cost.setDistance(req.getParameter("fullDistance"));
+
                 try{
                     cost.costCount();
                 }catch(Exception e){
@@ -106,13 +103,27 @@ public class InitialServlet extends HttpServlet {
                 LOGGER.info(cost.toString());
 
                 initialData.trendy.setTripFullCost(cost);
-                initialData.trendy.setTrendy("optimalMonth");
+                initialData.trendy.setTrendy();
                 LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}",
                         cost.getCountry(), cost.getCurrency(), cost.getFuelType());
             }
 
-            req.setAttribute("petrolTrendy", initialData.trendy.getPetrolTrendy());
-            req.setAttribute("currencyTrendy", initialData.trendy.getCurrencyTrendy());
+            if(req.getParameter("trendy") != null) {
+                String periodDateFrom = req.getParameter("periodDateFrom");
+                String periodDateTill = req.getParameter("periodDateTill");
+                String tripLength = req.getParameter("tripLength");
+                LOGGER.debug("Trendy parameters - DateFrom: {} DateTill: {} TripLength: {}", periodDateFrom, periodDateTill, tripLength);
+                if (periodDateFrom != null && periodDateTill != null & tripLength != null) {
+                    periodDateFrom = periodDateFrom.replaceAll("/", "");
+                    periodDateTill = periodDateTill.replaceAll("/", "");
+                    initialData.trendy.setTrendyPeriodFrom(periodDateFrom);
+                    initialData.trendy.setTrendyPeriodTill(periodDateTill);
+                    initialData.trendy.setTripLength(tripLength);
+                    LOGGER.debug("Trendy parameters changed - DateFrom: {} DateTill: {} TripLength: {}", periodDateFrom, periodDateTill, tripLength);
+                }
+            }
+
+            req.setAttribute("periodTrendy", initialData.trendy.getPeriodTrendy());
             req.setAttribute("conclusion", initialData.trendy.getConclusion());
             req.setAttribute("country", cost.getCountry());
             req.setAttribute("currency", cost.getCurrency());

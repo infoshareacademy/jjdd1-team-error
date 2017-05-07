@@ -15,26 +15,100 @@
     <li>Country: ${country}</li>
     <li>Currency:  ${currency}</li>
     <li>Fuel type:  ${fuelType}</li>
+    <br>
 </div>
+
+
+<div>
+    <form method="post" action="/calc" class="form-horizontal" id="reg_form">
+
+        <!-- Select Basic -->
+
+        <%--<div class="form-group">--%>
+            <%--<label class="col-md-4 control-label">Fuel Type</label>--%>
+            <%--<div class="col-md-5 selectContainer">--%>
+                <%--<div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>--%>
+                    <%--<select name="fuelType" class="form-control selectpicker" >--%>
+                        <%--<option value="" >Please select your fuel type</option>--%>
+                        <%--<option value="1">Diesel</option>--%>
+                        <%--<option value="2">Gasoline</option>--%>
+                    <%--</select>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+
+        <!-- Text input-->
+
+
+        <!-- Text input-->
+
+        <div class="form-group">
+            <label class="col-md-4 control-label">Distance Traveled</label>
+            <div class="col-md-5  inputGroupContainer">
+                <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
+                    <input name="tripLength" placeholder="7" class="form-control" type="number" min="1">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label">Departure Date</label>
+            <div class="col-md-5 inputGroupContainer">
+                <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    <input type="text" id="periodDateFrom" name="periodDateFrom" class="form-control date-picker1" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label">Return Date</label>
+            <div class="col-md-5 inputGroupContainer">
+                <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    <input type="text" id="periodDateTill" name="periodDateTill" class="form-control date-picker2" />
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Submit button -->
+        <div class="form-group">
+            <label class="col-md-4 control-label"></label>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-warning" name="trendy" value="">Price Trends <span class="glyphicon glyphicon-send"></span></button>
+            </div>
+        </div>
+
+        <%--</fieldset>--%>
+    </form>
+
+</div>
+
 <div class="result">
     <br>
     <table id="trendy_table">
         <tr>
-            <th>Month</th>
-            <c:forEach items="${currencyTrendy}" var="monthValue">
-                <td>${monthValue.key}</td>
+            <th>Date</th>
+            <c:forEach items="${periodTrendy}" var="trend">
+                <td>${trend.key}</td>
             </c:forEach>
         </tr>
         <tr>
             <th>Currency deviations &#91;&#37;&#93;</th>
-            <c:forEach items="${currencyTrendy}" var="monthValue">
-                <td>${monthValue.value}</td>
+            <c:forEach items="${periodTrendy}" var="trend">
+                <td>${trend.value.get(0)}</td>
             </c:forEach>
         </tr>
         <tr>
             <th>Petrol deviations &#91;&#37;&#93;</th>
-            <c:forEach items="${petrolTrendy}" var="monthValue">
-                <td>${monthValue.value}</td>
+            <c:forEach items="${periodTrendy}" var="trend">
+                <td>${trend.value.get(1)}</td>
+            </c:forEach>
+        </tr>
+        <tr>
+            <th>Sum &#91;&#37;&#93;</th>
+            <c:forEach items="${periodTrendy}" var="trend">
+                <td>${trend.value.get(2)}</td>
             </c:forEach>
         </tr>
     </table>

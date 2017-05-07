@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror.trendy_engine;
 
+import com.infoshareacademy.jjdd1.teamerror.HelpfulMethods;
 import com.infoshareacademy.jjdd1.teamerror.TripFullCost;
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.RatesInfo;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.CurrencyFileFilter;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.text.DateFormatSymbols;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,16 +28,15 @@ public class Trendy {
     private static final int ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS = 1904;
 
     private String conclusion = "";
-    private Map<String, String> petrolTrendy = new LinkedHashMap<>();
-    private Map<String, String> currencyTrendy = new LinkedHashMap<>();
+    private Map<LocalDate, Double> petrolTrendy = new LinkedHashMap<>();
+    private Map<LocalDate, Double> currencyDayTrendy = new LinkedHashMap<>();
 
     private PetrolFileFilter petrolFileFilter;
     private CurrencyFileFilter currencyFileFilter;
     private TripFullCost tripFullCost = new TripFullCost();
-    private LocalDate startDate; //= LocalDate.of(2005,1,1);
-    private LocalDate endDate; //= LocalDate.of(2017, 12, 30);
-    private LocalDate startMonthDay; //= LocalDate.of(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS, 4, 10);
-    private LocalDate endMonthDay; //= LocalDate.of(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS, 6, 15);
+    private LocalDate trendyPeriodFrom = LocalDate.now();
+    private LocalDate trendyPeriodTill = LocalDate.now().plusDays(60);
+    private Integer tripLength = 7;
 
     public Trendy() {
     }
@@ -50,36 +51,35 @@ public class Trendy {
         this.tripFullCost = tripFullCost;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
+    public LocalDate getTrendyPeriodFrom() {
+        return trendyPeriodFrom;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
+    public void setTrendyPeriodFrom(String trendyPeriodFrom) {
+        LocalDate date = LocalDate.parse(trendyPeriodFrom, DateTimeFormatter.ofPattern("yyyyMMdd"));
+        if(date.toString().substring(8).equals(trendyPeriodFrom.substring(6))){
+            this.trendyPeriodFrom = date;
+        }
+
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
+    public LocalDate getTrendyPeriodTill() {
+        return trendyPeriodTill;
     }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public void setTrendyPeriodTill(String trendyPeriodTill) {
+        LocalDate date = LocalDate.parse(trendyPeriodTill, DateTimeFormatter.ofPattern("yyyyMMdd"));
+        if(date.toString().substring(8).equals(trendyPeriodTill.substring(6))){
+            this.trendyPeriodTill = date;
+        }
     }
 
-    public LocalDate getStartMonthDay() {
-        return startMonthDay;
+    public Integer getTripLength() {
+        return tripLength;
     }
 
-    public void setStartMonthDay(LocalDate startMonthDay) {
-        this.startMonthDay = startMonthDay;
-    }
-
-    public LocalDate getEndMonthDay() {
-        return endMonthDay;
-    }
-
-    public void setEndMonthDay(LocalDate endMonthDay) {
-        this.endMonthDay = endMonthDay;
+    public void setTripLength(String tripLength) {
+        this.tripLength = Integer.valueOf(tripLength);
     }
 
     public String getConclusion() {
@@ -87,11 +87,17 @@ public class Trendy {
     }
 
     public Map<String, String> getPetrolTrendy() {
-        return petrolTrendy;
+        return transformToStringValues(petrolTrendy);
     }
 
-    public Map<String, String> getCurrencyTrendy() {
-        return currencyTrendy;
+    public Map<String, String> getCurrencyDayTrendy() {
+        return transformToStringValues(currencyDayTrendy);
+    }
+
+    private Map<String, String> transformToStringValues(Map<LocalDate, Double> input) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM YYYY");
+        return input.entrySet().stream()
+                .collect(Collectors.toMap(key -> key.getKey().format(formatter), value -> value.getValue().toString()));
     }
 
     private Map<LocalDate, Double> calculateMonthPercentageDeviations(List<RatesInfo> ratesList) {
@@ -149,7 +155,7 @@ public class Trendy {
         results.putAll(averageValuesForSingleMonths.entrySet().stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
-                        s -> round(((s.getValue() - min) * 100), DECIMAL_PLACES)
+                        s -> HelpfulMethods.round(((s.getValue() - 1) * 100), DECIMAL_PLACES)
                 )));
         LOGGER.info("Currency month average deviations for all years calculated");
         return results;
@@ -183,79 +189,117 @@ public class Trendy {
 
         Map<LocalDate, Double> result = new TreeMap<>();
         result.putAll(averageDeviations.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, s -> round(s.getValue() - minVal, DECIMAL_PLACES))));
+                .collect(Collectors.toMap(Map.Entry::getKey, s -> HelpfulMethods.round(s.getValue() - minVal, DECIMAL_PLACES))));
 
         return result;
     }
 
+    public Map<LocalDate, List<Double>> getPeriodTrendy() {
+
+        LOGGER.debug("Calculating trendy for parameters - DateFrom: {} DateTill: {} TripLength: {}", trendyPeriodFrom, trendyPeriodTill, tripLength);
+        Long daysNumber = trendyPeriodFrom.until(trendyPeriodTill, ChronoUnit.DAYS);
+        Map<LocalDate, Double> currencyValuesAvgList = new LinkedHashMap<>();
+        Map<LocalDate, Double> petrolValuesAvgList = new LinkedHashMap<>();
+        Map<LocalDate, List<Double>> results = new TreeMap<>();
+        Map<LocalDate, Double> cheapestAveragesSums = new TreeMap<>();
+        LocalDate cheapestDate = null;
+        for (int i = 0; i < daysNumber - tripLength; i++) {
+            LocalDate currentDate = trendyPeriodFrom.plusDays(i);
+            List<Double> currencyValues = new ArrayList<>();
+            List<Double> petrolValues = new ArrayList<>();
+
+            for (int j = 0; j < tripLength; j++) {
+                currentDate.plusDays(j);
+                if (currencyDayTrendy.containsKey(currentDate.withYear(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS))) {
+                    currencyValues.add(currencyDayTrendy.get(currentDate.withYear(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS)));
+                }
+                if (petrolTrendy.containsKey(currentDate.withYear(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS))) {
+                    petrolValues.add(petrolTrendy.get(currentDate.withYear(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS)));
+                }
+            }
+            if (!currencyValues.isEmpty() && !petrolValues.isEmpty()) {
+                Double currencyValuesAvg = HelpfulMethods.average(currencyValues);
+                Double petrolValuesAvg = HelpfulMethods.average(petrolValues);
+
+                currentDate.minusDays(tripLength);
+                currencyValuesAvgList.put(currentDate, currencyValuesAvg);
+                petrolValuesAvgList.put(currentDate, petrolValuesAvg);
+            }
+        }
+        Map<LocalDate, Double> currencyValuesAvgListFinal = new TreeMap<>();
+                currencyValuesAvgListFinal.putAll(currencyValuesAvgList
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, a -> a.getValue() - Collections.min(currencyValuesAvgList.values()))));
+        Map<LocalDate, Double> petrolValuesAvgListFinal = petrolValuesAvgList
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, a -> a.getValue() - Collections.min(petrolValuesAvgList.values())));
+
+        for (Map.Entry dayValue : currencyValuesAvgListFinal.entrySet()) {
+            Double currencyValue = HelpfulMethods.round((Double)dayValue.getValue(), 2);
+            Double petrolValue = HelpfulMethods.round(petrolValuesAvgListFinal.getOrDefault(dayValue.getKey(), 0.0), 2);
+            Double currentSumOfAverages = HelpfulMethods.round(currencyValue + petrolValue, 2);
+            LocalDate currentDate = (LocalDate)dayValue.getKey();
+            List<Double> values = new ArrayList<>();
+            values.add(currencyValue);
+            values.add(petrolValue);
+            values.add(currentSumOfAverages);
+            results.put((LocalDate)dayValue.getKey(), values);
+            if (cheapestAveragesSums.size() < 3 ) {
+                cheapestAveragesSums.put(currentDate, currentSumOfAverages);
+            }
+            else if (Collections.max(cheapestAveragesSums.values()) > currentSumOfAverages) {
+                LocalDate maxValueDate = null;
+                for (Map.Entry sum : cheapestAveragesSums.entrySet()) {
+                    if (sum.getValue().equals(Collections.max(cheapestAveragesSums.values()))) {
+                        maxValueDate = (LocalDate)sum.getKey();
+                    }
+                }
+                cheapestAveragesSums.remove(maxValueDate);
+                cheapestDate = (LocalDate)dayValue.getKey();
+                cheapestAveragesSums.put(currentDate, currentSumOfAverages);
+            }
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM YYYY");
+        if (!cheapestAveragesSums.isEmpty()) {
+            conclusion = "The cheapest dates for trip are between: \n<br>";
+            cheapestAveragesSums.forEach((key, value) -> {
+                conclusion += key.format(formatter) + " and " + key.plusDays(tripLength).format(formatter) + "\n<br>";
+            });
+        }
+        else {
+            conclusion = "No data for given parameters";
+        }
+        return results;
+    }
+
     // set trendy values for petrol and currency to maps and conclusion
-    public void setTrendy(String analysisType) {
-        currencyTrendy.clear();
+    public void setTrendy() {
+        currencyDayTrendy.clear();
         petrolTrendy.clear();
         String currencySymbol = tripFullCost.getCurrency();
         String fuelType = tripFullCost.getFuelType();
         String country = tripFullCost.getCountry();
-        Map<LocalDate, Double> currencyTrendyList = new TreeMap<>();
+        Map<LocalDate, Double> currencyDayTrendyList = new TreeMap<>();
         Map<LocalDate, Double> petrolTrendyList = new TreeMap<>();
         List<RatesInfo> currencyDataList = currencyFileFilter.getListOfCurrencyDataObjects(currencySymbol);
         List <RatesInfo> petrolDataList = petrolFileFilter.getListOfPetrolDataObjects(country, fuelType);
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
         if (!currencyDataList.isEmpty()) {
-            currencyDataList = filtrateDataByDates(currencyDataList);
-            switch (analysisType) {
-                case "optimalMonth":
-                    currencyTrendyList = calculateMonthPercentageDeviations(currencyDataList);
-                    formatter = DateTimeFormatter.ofPattern("MMMM");
-                    break;
-
-                case "optimalDay":
-                    currencyTrendyList = calculateDayPercentageDeviations(currencyDataList);
-                    formatter = DateTimeFormatter.ofPattern("d MMM");
-                    break;
-
-            }
+            currencyDayTrendyList = calculateDayPercentageDeviations(currencyDataList);
         }
         if (!petrolDataList.isEmpty()) {
-            petrolDataList = filtrateDataByDates(petrolDataList);
             petrolTrendyList = calculateMonthPercentageDeviations(petrolDataList);
         }
-        Double sum = null;
-        LocalDate optimalDate = null;
 
-        for (Map.Entry currencyValue : currencyTrendyList.entrySet()) {
-            String date = ((LocalDate)currencyValue.getKey()).format(formatter);
+        for (Map.Entry currencyValue : currencyDayTrendyList.entrySet()) {
+            LocalDate date = (LocalDate)currencyValue.getKey();
             LocalDate petrolDate = ((LocalDate) currencyValue.getKey()).withDayOfMonth(FIRST_DAY_OF_MONTH);
-            if (currencyValue.getValue().equals(0.0)) {
-                currencyTrendy.put(date, "THE LOWEST");
-            }
-            else {
-                currencyTrendy.put(date, currencyValue.getValue().toString());
-            }
-            if (!petrolTrendyList.containsKey(petrolDate)) {
-                petrolTrendy.put(date, "NO DATA");
-            }
-            if (petrolTrendyList.containsKey(petrolDate) &&
-                    petrolTrendyList.get(petrolDate).equals(0.0)) {
-                petrolTrendy.put(date, "THE LOWEST");
-            }
-            else {
-                petrolTrendy.put(date, petrolTrendyList.get(petrolDate).toString());
-            }
-            // determine the lowest sum of currency and petrol percentage rates
-            if (petrolTrendyList.containsKey(petrolDate) &&
-                    (sum == null || (Double)currencyValue.getValue() + petrolTrendyList.getOrDefault(petrolDate, 0.0) < sum)) {
-                sum = ((Double)currencyValue.getValue() + petrolTrendyList.getOrDefault(petrolDate, 0.0));
-                optimalDate = (LocalDate)currencyValue.getKey();
-            }
+            currencyDayTrendy.put(date, (Double)currencyValue.getValue());
+            petrolTrendy.put(date, petrolTrendyList.get(petrolDate));
         }
-        if (optimalDate == null) {
-            conclusion = "The best time for cheap travel is in: NO DATA";
-        }
-        else {
-            conclusion = "The best time for cheap travel is in: " + optimalDate.format(formatter);
-        }
-        LOGGER.info("Trendy values and conclusion set");
     }
+
 
     // print differences in currencies and fuel rates in each month and the best month for cheap travel
     public String getMonthTrendyAsString() {
@@ -267,11 +311,9 @@ public class Trendy {
         List<RatesInfo> currencyDataList = currencyFileFilter.getListOfCurrencyDataObjects(currencySymbol);
         List <RatesInfo> petrolDataList = petrolFileFilter.getListOfPetrolDataObjects(country, fuelType);
         if (!currencyDataList.isEmpty()) {
-            currencyDataList = filtrateDataByDates(currencyDataList);
             currencyList = calculateMonthPercentageDeviations(currencyDataList);
         }
         if (!petrolDataList.isEmpty()) {
-            petrolDataList = filtrateDataByDates(petrolDataList);
             petrolList = calculateMonthPercentageDeviations(petrolDataList);
         }
         Double sum = null;
@@ -322,46 +364,15 @@ public class Trendy {
         }
         LOGGER.info("Trendy analysis in string created");
 
-//        calculateDayPercentageDeviations(currencyDataList).forEach((key, value) -> {
-//            System.out.println(key + " " + value);
-//        });
+        setTrendy();
+
+        getPeriodTrendy()
+                .forEach((key, value) -> {
+                    System.out.println(key + " " + value.toString());
+                });
+        System.out.println(conclusion);
+
         return returnStatement.toString();
-    }
-
-    // round value to given number of decimal places
-    public static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-        long factor = (long) Math.pow(10, places);
-        value = value * factor;
-        long tmp = Math.round(value);
-        return (double) tmp / factor;
-    }
-
-    private List<RatesInfo> filtrateDataByDates(List<RatesInfo> ratesData) {
-
-        if (startDate != null) {
-            ratesData = ratesData.stream()
-                    .filter(dayObject -> dayObject.getDate().isAfter(startDate) || dayObject.getDate().isEqual(startDate))
-                    .collect(Collectors.toList());
-        }
-        if (endDate != null) {
-            ratesData = ratesData.stream()
-                    .filter(dayObject -> dayObject.getDate().isBefore(endDate) || dayObject.getDate().isEqual(endDate))
-                    .collect(Collectors.toList());
-        }
-        if (startMonthDay != null) {
-            ratesData = ratesData.stream()
-                    .filter(dayObject -> dayObject.getDate().withYear(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS).isAfter(startMonthDay) ||
-                            dayObject.getDate().withYear(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS).isEqual(startMonthDay))
-                    .collect(Collectors.toList());
-        }
-        if (endMonthDay != null) {
-            ratesData = ratesData.stream()
-                    .filter(dayObject -> dayObject.getDate().withYear(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS).isBefore(endMonthDay) ||
-                            dayObject.getDate().withYear(ANY_YEAR_WHERE_FEBRUAR_HAS_29_DAYS).isEqual(endMonthDay))
-                    .collect(Collectors.toList());
-        }
-        return ratesData;
     }
 
 }
