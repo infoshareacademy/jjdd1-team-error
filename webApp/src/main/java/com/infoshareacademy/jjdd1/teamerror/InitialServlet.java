@@ -14,8 +14,7 @@ import javax.servlet.http.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by krystianskrzyszewski on 19.04.17.
@@ -110,6 +109,16 @@ public class InitialServlet extends HttpServlet {
                         cost.getCountry(), cost.getCurrency(), cost.getFuelType());
             }
 
+            Collection<String> monthsTable = initialData.trendy.getCurrencyTrendy().keySet();
+            Collection<String> currencyTable = initialData.trendy.getCurrencyTrendy().values();
+            Collection<String> fuelTable = initialData.trendy.getPetrolTrendy().values();
+
+            LOGGER.info("MonthsTable: {} + CurrencyTable: {} + FuelTable: {}", monthsTable, currencyTable, fuelTable);
+
+            req.setAttribute("petrolValues", fuelTable);
+            req.setAttribute("currencyValues", currencyTable);
+            req.setAttribute("months", monthsTable);
+
             req.setAttribute("petrolTrendy", initialData.trendy.getPetrolTrendy());
             req.setAttribute("currencyTrendy", initialData.trendy.getCurrencyTrendy());
             req.setAttribute("conclusion", initialData.trendy.getConclusion());
@@ -120,7 +129,7 @@ public class InitialServlet extends HttpServlet {
             req.setAttribute("date2", cost.getDate2());
             req.setAttribute("fuelUsage", cost.getFuelUsage());
             req.setAttribute("fullDistance", cost.getDistance());
-            req.setAttribute("fullCost", cost.costCount());
+            req.setAttribute("fullCost", cost.costCount() + " PLN");
 
             LOGGER.info("initialData trip atributes set:{} {} {} {} {} {}",
                     cost.getCountry(), cost.getFuelType(), cost.getDate1(),

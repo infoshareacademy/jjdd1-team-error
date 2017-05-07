@@ -79,6 +79,11 @@ body {
     transform: translateX(-1700px);
 }
 
+.container {
+    width: 80%;
+    margin: 15px auto;
+}
+
 .photo{
     margin-top:50px;
     width:300px;
