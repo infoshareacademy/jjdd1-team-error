@@ -92,15 +92,7 @@ public class InitialServlet extends HttpServlet {
             String fullDistance = req.getParameter("fullDistance");
             String fullCostString;
 
-            if ("CROATIA".equals(country))
-                CountryStatistics.Croatia++;
-            LOGGER.info ("Croatia coosen {} times", CountryStatistics.Croatia);
-            if ("CROATIA".equals(country))
-                CountryStatistics.France++;
-            LOGGER.info ("France chosen {} times", CountryStatistics.France);
-            if ("CROATIA".equals(country))
-                CountryStatistics.USA++;
-            LOGGER.info ("USA chosen {} times", CountryStatistics.USA);
+
 
             LOGGER.info("servlet req params: date1-{} date2-{} fuel usage-{} " +
                     "full distance-{}", date1, date2, fuelUsage, fullDistance);
@@ -111,6 +103,17 @@ public class InitialServlet extends HttpServlet {
             cost.setDate2(date2.replaceAll("/",""));
             cost.setFuelUsage(fuelUsage);
             cost.setDistance(fullDistance);
+
+            if ("CROATIA".equals(cost.getCountry()))
+                CountryStatistics.Croatia++;
+            LOGGER.info ("Croatia chosen {} times", CountryStatistics.Croatia);
+            if ("FRANCE".equals(cost.getCountry()))
+                CountryStatistics.France++;
+            LOGGER.info ("France chosen {} times", CountryStatistics.France);
+            if ("USA".equals(cost.getCountry()))
+                CountryStatistics.USA++ ;
+            LOGGER.info ("USA chosen {} times", CountryStatistics.USA);
+
             try{
                 cost.costCount();
                 fullCostString = String.valueOf(cost.costCount()) + " PLN";
@@ -172,6 +175,10 @@ public class InitialServlet extends HttpServlet {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/tripCost.jsp");
             dispatcher.forward(req, resp);
         }
+
+        LOGGER.info ("Croatia chosen {} times", CountryStatistics.Croatia);
+        LOGGER.info ("France chosen {} times", CountryStatistics.France);
+        LOGGER.info ("USA chosen {} times", CountryStatistics.USA );
 
     }
 }
