@@ -74,4 +74,25 @@ public class CountryStatisticsTest {
 
     }
 
+    @Test
+    public void shouldAddDifferendCountriesAndValues() throws Exception {
+
+        //given
+
+        assertThat(sut.getStatistics()).isEmpty();
+
+        //when
+        sut.selectedCountry("USA");
+        sut.selectedCountry("France");
+        sut.selectedCountry("USA");
+        sut.selectedCountry("France");
+        sut.selectedCountry("USA");
+
+
+        //then
+        assertThat(sut.getStatistics()).containsKey("USA");
+        assertThat(sut.getStatistics().get("USA")).isEqualTo(3);
+        assertThat(sut.getStatistics()).containsKey("France");
+        assertThat(sut.getStatistics().get("France")).isEqualTo(2);
+    }
 }

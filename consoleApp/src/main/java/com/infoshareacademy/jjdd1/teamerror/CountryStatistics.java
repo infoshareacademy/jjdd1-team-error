@@ -48,22 +48,9 @@ public class CountryStatistics {
     }
 
     public void selectedCountry(String countryCode) {
-        statistics.put(countryCode, 1l);
 
-
-        for (Map.Entry<String, Long> entry : getStatistics().entrySet()) {
-
-            if (getStatistics().containsKey(countryCode)) {
-
-                countryCode.
-
-            }
-
-
-            System.out.println(entry.getKey() + entry.getValue());
-
-        }
-
+        Long countryCounter = statistics.getOrDefault(countryCode, 0l);
+        statistics.put(countryCode, countryCounter++);
 
     }
 
