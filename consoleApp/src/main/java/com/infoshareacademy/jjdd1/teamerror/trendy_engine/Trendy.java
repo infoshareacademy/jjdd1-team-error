@@ -57,11 +57,27 @@ public class Trendy {
     }
 
     public void setTrendyPeriodFrom(String trendyPeriodFrom) {
-        LocalDate date = LocalDate.parse(trendyPeriodFrom, DateTimeFormatter.ofPattern("yyyyMMdd"));
-        if(date.toString().substring(8).equals(trendyPeriodFrom.substring(6))){
-            this.trendyPeriodFrom = date;
+        try {
+            if(trendyPeriodFrom.length()==8){
+                int integerCheck = Integer.parseInt(trendyPeriodFrom);
+                LocalDate date = LocalDate.parse(trendyPeriodFrom, DateTimeFormatter.ofPattern("yyyyMMdd"));
+                if(date.toString().substring(8).equals(trendyPeriodFrom.substring(6))){
+                    this.trendyPeriodFrom = date;
+                }
+                else{
+                    LOGGER.error("No such day exists");
+                }
+            }
+            else{
+                LOGGER.error("Wrong date format");
+            }
         }
-
+        catch (NumberFormatException e){
+            LOGGER.error("Input contains letters");
+        }
+        catch( Exception e ) {
+            LOGGER.error("No such year/month/day exists");
+        }
     }
 
     public LocalDate getTrendyPeriodTill() {
@@ -69,6 +85,28 @@ public class Trendy {
     }
 
     public void setTrendyPeriodTill(String trendyPeriodTill) {
+        try {
+            if(trendyPeriodTill.length()==8){
+                int integerCheck = Integer.parseInt(trendyPeriodTill);
+                LocalDate date = LocalDate.parse(trendyPeriodTill, DateTimeFormatter.ofPattern("yyyyMMdd"));
+                if(date.toString().substring(8).equals(trendyPeriodTill.substring(6))){
+                    this.trendyPeriodTill = date;
+                }
+                else{
+                    LOGGER.error("No such day exists");
+                }
+            }
+            else{
+                LOGGER.error("Wrong date format");
+            }
+        }
+        catch (NumberFormatException e){
+            LOGGER.error("Input contains letters");
+        }
+        catch( Exception e ) {
+            LOGGER.error("No such year/month/day exists");
+        }
+
         LocalDate date = LocalDate.parse(trendyPeriodTill, DateTimeFormatter.ofPattern("yyyyMMdd"));
         if(date.toString().substring(8).equals(trendyPeriodTill.substring(6))){
             this.trendyPeriodTill = date;

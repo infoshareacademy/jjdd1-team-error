@@ -131,36 +131,127 @@
     </table>
 </div>
 
-<h3>${conclusion}</h3>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $(".date-picker2").datepicker(
+                {dateFormat: 'yy/mm/dd'}
+            );
+            $(".date-picker1").datepicker(
+                {
+                    dateFormat: 'yy/mm/dd', minDate: 0,
+                    onSelect: function (date) {
+                        var periodDateFrom = $('.date-picker1').datepicker('getDate');
+                        var date = new Date(Date.parse(periodDateFrom));
+                        date.setDate(date.getDate() + 1);
+                        var newDate = date.toDateString();
+                        newDate = new Date(Date.parse(newDate));
+                        $('.date-picker2').datepicker("option","minDate",newDate);
+                    }
+                });
+            $('#trendy_form').bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    tripLength: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please state the distance you wish to travel'
+                            }
+                        }
+                    },
+                    periodDateFrom: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The Departure Date is required and cannot be empty'
+                            },
+                            date: {
+                                format: 'YYYY/MM/DD',
+                                message: 'The format is YYYY/MM/DD'
+                            }
+                        }
+                    },
+                    periodDateTill: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The Return Date is required and cannot be empty'
+                            },
+                            date: {
+                                format: 'YYYY/MM/DD',
+                                message: 'The format is YYYY/MM/DD'
+                            }
+                        }
+                    }
+                }
+            });
+
+            $('.date-picker1').on('changeDate show', function(e) {
+                $('#reg_form').bootstrapValidator('revalidateField', 'periodDateFrom');
+            });
+            $('.date-picker2').on('changeDate show', function(e) {
+                $('#reg_form').bootstrapValidator('revalidateField', 'periodDateTill');
+            });
+        });
+    </script>
+
+
+
+    <div class="container">
+        <h2>Fuel and Currency Trends</h2>
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+
+    <h3>${conclusion}</h3>
 
     <script src="vendor/Chart.bundle.js"></script>
-    <canvas id="myChart" width="400" height="400"></canvas>
     <script>
         var ctx = document.getElementById("myChart");
+        var json1 = ${datesForTrends};
+        var json2 = ${valuesForTrends};
+        var chartjsData1 = [];
+        var chartjsData2 = [];
+        for (var i = 0; i < json1.length; i++) {
+            chartjsData1.push(json1[i].year + "-" +json1[i].day);
+        }
+        for (var i = 0; i < json2.length; i++) {
+            chartjsData2.push(json2[i][0]);
+        }
+
+
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                labels: chartjsData1,
+
+
+                <%--<c:forEach items="${currencyTrendy}" var="monthValue">--%>
+                    <%--${monthValue.key}--%>
+                <%--</c:forEach>,--%>
                 datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
+                    label: 'currency',
+                    data: chartjsData2,
+
+                    <%--${currencyValues},--%>
+
+                    <%--<c:forEach items="${currencyTrendy}" var="monthValue">--%>
+                        <%--${monthValue.value}--%>
+                    <%--</c:forEach>,--%>
+                    backgroundColor: "rgba(153,255,51,0.6)"
+                }, {
+                    label: 'fuel',
+                    data: [3, 2, 1],
+
+                    <%--${petrolValues},--%>
+
+                    <%--<c:forEach items="${petrolTrendy}" var="monthValue">--%>
+                        <%--${monthValue.value}--%>
+                    <%--</c:forEach>,--%>
+                    backgroundColor: "rgba(255,153,0,0.6)"
                 }]
             },
             options: {
@@ -174,6 +265,5 @@
             }
         });
     </script>
-
 
 <%@ include file="footer.jsp" %>
