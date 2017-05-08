@@ -1,4 +1,4 @@
-package com.infoshareacademy.jjdd1.teamerror.dataBase;
+package com.infoshareacademy.jjdd1.teamerror;
 
 import com.infoshareacademy.jjdd1.teamerror.dataBase.PromotedCountries;
 

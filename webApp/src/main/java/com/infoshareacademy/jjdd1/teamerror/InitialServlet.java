@@ -1,8 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
-import com.infoshareacademy.jjdd1.teamerror.file_loader.FileReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,8 +11,9 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
-import java.net.URL;
-import java.nio.file.Paths;
+import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -65,23 +64,16 @@ public class InitialServlet extends HttpServlet {
         initialData.countryAndCurrency.setFilesContent(initialData.filesContent);
         initialData.countryAndCurrencyList = initialData.countryAndCurrency.getCountryAndCurrency();
 
-        LOGGER.debug("Checking existence of resource files");
-        URL petrolFileURL = (FileReader.class.getResource(FileReader.PATH_TO_FILES +
-                FileReader.PETROL_FILE_NAME));
-
-        URL currencyInfoFileURL = (FileReader.class.getResource(FileReader.PATH_TO_FILES +
-                FileReader.CURRENCY_FILE_WITH_GENERAL_DATA));
-
-        URL currencyZipFileURL = (FileReader.class.getResource(FileReader.PATH_TO_FILES +
-                FileReader.ZIP_CURRENCY_FILE));
-
-        if(petrolFileURL == null || currencyInfoFileURL == null || currencyZipFileURL == null) {
-            req.setAttribute("missingFile",  "yes");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
-            dispatcher.forward(req, resp);
-            LOGGER.error("At least one source file is missing");
-            return;
-        }
+//        LOGGER.debug("Checking existence of resource files");
+//        File petrolFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "iSA-PetrolPrices.csv");
+//        File currencyInfoFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "omeganbp.lst.txt");
+//        File currencyZipFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "omeganbp.zip");
+//        if(!petrolFile.exists() || !currencyInfoFile.exists() || !currencyZipFile.exists()) {
+//            req.setAttribute("missingFile",  "yes");
+//            RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
+//            dispatcher.forward(req, resp);
+//            LOGGER.error("At least one source file is missing");
+//        }
 
         // starting servlet work
         if (req.getParameter("start") != null || req.getParameter("initialData") != null) {

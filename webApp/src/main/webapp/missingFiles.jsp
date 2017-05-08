@@ -8,7 +8,4 @@
 <%@ include file="headersAndStyle.jsp" %>
 <h1>Welcome to Trip Calculator</h1>
 <h2 class="error">Error. Unfortunately at least one source file is missing, therefore Trip Calculator is not available.</h2>
-
-
-
 <%@ include file="footer.jsp" %>
