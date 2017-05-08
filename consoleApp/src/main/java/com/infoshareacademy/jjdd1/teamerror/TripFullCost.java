@@ -2,6 +2,7 @@ package com.infoshareacademy.jjdd1.teamerror;
 
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.CurrencyHistoryDayValue;
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.PetrolPrices;
+import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.RatesInfo;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
@@ -10,8 +11,6 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
-import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
  * Created by krystianskrzyszewski on 07.04.17.
@@ -61,7 +60,7 @@ public class TripFullCost {
         currencyNames = new CurrencyNames(filesContent);
     }
 
-    String getFuelType() {
+    public String getFuelType() {
         return fuelType;
     }
 
@@ -169,16 +168,16 @@ public class TripFullCost {
         }
     }
 
-    String getCountry() {
+    public String getCountry() {
         return country;
     }
 
     //data check added to standard SET method
     void setCountry(String country){
         try{
-            if (countryAndCurrency.getCountriesAndCurrency().containsKey(country)) {
+            if (countryAndCurrency.getCountryAndCurrency().containsKey(country)) {
                 this.country = country;
-                this.currency = countryAndCurrency.getCountriesAndCurrency().get(country);
+                this.currency = countryAndCurrency.getCountryAndCurrency().get(country);
             } else {
                 throw new Exception();
             }
@@ -187,7 +186,7 @@ public class TripFullCost {
         }
     }
 
-    String getCurrency() {
+    public String getCurrency() {
         return currency;
     }
 
@@ -233,8 +232,8 @@ public class TripFullCost {
         //double days = DAYS.between(getDate1(), getDate2());
 
         //creating lists from files, so that they can be searched through
-        List<CurrencyHistoryDayValue> currencyObjectsList = currencyFileFilter.getListOfCurrencyDataObjects(getCurrency());
-        List<PetrolPrices> petrolObjectsList = petrolFileFilter.getListOfPetrolDataObjects(getCountry());
+        List<RatesInfo> currencyObjectsList = currencyFileFilter.getListOfCurrencyDataObjects(currency);
+        List<RatesInfo> petrolObjectsList = petrolFileFilter.getListOfPetrolDataObjects(country, fuelType);
 
 
         //getting average currency values for the specified months of travel if years match in files (lists)
@@ -242,43 +241,43 @@ public class TripFullCost {
         int iterator2 = 0;
         int iterator3 = 0;
         int iterator4 = 0;
-        for(PetrolPrices o2 : petrolObjectsList){
-            //LOGGER.debug("Inside petrol prices list");
-            for(CurrencyHistoryDayValue o1: currencyObjectsList) {
-                //LOGGER.debug("Inside currency prices list");
+        for(RatesInfo o2 : petrolObjectsList){
+//            LOGGER.debug("Inside petrol prices list");
+            for(RatesInfo o1: currencyObjectsList) {
+//                LOGGER.debug("Inside currency prices list");
                 if (o1.getDate().getYear() == o2.getDate().getYear()) {
-                    //LOGGER.debug("The o1 year is: [{}] ", o1.getDate().getYear());
-                    //LOGGER.debug("The o2 year is: [{}] ", o2.getDate().getYear());
+//                    LOGGER.debug("The o1 year is: [{}] ", o1.getDate().getYear());
+//                    LOGGER.debug("The o2 year is: [{}] ", o2.getDate().getYear());
 
                     if(date1!=null && date2!=null){
                         //getting average currency price values for the specified months of travel
                         if (date1.getMonth() == o1.getDate().getMonth()) {
-                            currencyPriceDate1 += o1.getClose();
+                            currencyPriceDate1 += o1.getRate();
                             iterator1++;
                         }
                         if (date2.getMonth() == o1.getDate().getMonth()) {
-                            currencyPriceDate2 += o1.getClose();
+                            currencyPriceDate2 += o1.getRate();
                             iterator2++;
                         }
 
                         //getting average fuel price values for the specified months of travel and specified type of fuel
                         if (getFuelType().equalsIgnoreCase("gasoline")) {
                             if (date1.getMonth() == o2.getDate().getMonth()) {
-                                fuelPriceDate1 += o2.getGasolinePrice();
+                                fuelPriceDate1 += o2.getRate();
                                 iterator3++;
                             }
                             if (date2.getMonth() == o2.getDate().getMonth()) {
-                                fuelPriceDate2 += o2.getGasolinePrice();
+                                fuelPriceDate2 += o2.getRate();
                                 iterator4++;
                             }
                         }
                         if (getFuelType().equalsIgnoreCase("diesel")) {
                             if (date1.getMonth() == o2.getDate().getMonth()) {
-                                fuelPriceDate1 += o2.getDieselPrice();
+                                fuelPriceDate1 += o2.getRate();
                                 iterator3++;
                             }
                             if (date2.getMonth() == o2.getDate().getMonth()) {
-                                fuelPriceDate2 += o2.getDieselPrice();
+                                fuelPriceDate2 += o2.getRate();
                                 iterator4++;
                             }
                         }
@@ -299,10 +298,9 @@ public class TripFullCost {
                 fuelPriceDate1, fuelPriceDate2);
 
         //counting the trip cost using all the necessary data
-        return Trendy.round(((currencyPriceDate1 + currencyPriceDate2) / 2) *
+        return HelpfulMethods.round(((currencyPriceDate1 + currencyPriceDate2) / 2) *
                 ((fuelPriceDate1 + fuelPriceDate2) / 2) *
-                (getDistance() / 100) * getFuelUsage() ,2);
-
+                (getDistance() / 100) * getFuelUsage(), 2);
     }
 
     @Override

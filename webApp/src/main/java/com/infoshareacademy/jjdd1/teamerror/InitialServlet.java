@@ -1,7 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
 import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
-import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,9 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by krystianskrzyszewski on 19.04.17.
@@ -60,18 +62,18 @@ public class InitialServlet extends HttpServlet {
         initialData.filesContent.getPetrolDataFile();
         initialData.filesContent.getCurrencyInfoFile();
         initialData.countryAndCurrency.setFilesContent(initialData.filesContent);
-        initialData.countryAndCurrencyList = initialData.countryAndCurrency.getCountriesAndCurrency();
+        initialData.countryAndCurrencyList = initialData.countryAndCurrency.getCountryAndCurrency();
 
-        LOGGER.debug("Checking existence of resource files");
-        File petrolFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "iSA-PetrolPrices.csv");
-        File currencyInfoFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "omeganbp.lst.txt");
-        File currencyZipFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "omeganbp.zip");
-        if(!petrolFile.exists() || !currencyInfoFile.exists() || !currencyZipFile.exists()) {
-            req.setAttribute("missingFile",  "yes");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
-            dispatcher.forward(req, resp);
-            LOGGER.error("At least one source file is missing");
-        }
+//        LOGGER.debug("Checking existence of resource files");
+//        File petrolFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "iSA-PetrolPrices.csv");
+//        File currencyInfoFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "omeganbp.lst.txt");
+//        File currencyZipFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "omeganbp.zip");
+//        if(!petrolFile.exists() || !currencyInfoFile.exists() || !currencyZipFile.exists()) {
+//            req.setAttribute("missingFile",  "yes");
+//            RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
+//            dispatcher.forward(req, resp);
+//            LOGGER.error("At least one source file is missing");
+//        }
 
         // starting servlet work
         if (req.getParameter("start") != null || req.getParameter("initialData") != null) {
@@ -93,6 +95,7 @@ public class InitialServlet extends HttpServlet {
                 cost.setDate2(req.getParameter("date2").replaceAll("/",""));
                 cost.setFuelUsage(req.getParameter("fuelUsage"));
                 cost.setDistance(req.getParameter("fullDistance"));
+
                 try{
                     cost.costCount();
                 }catch(Exception e){
@@ -103,24 +106,31 @@ public class InitialServlet extends HttpServlet {
                         "full distance-{}", cost.getDate1(), cost.getDate2(), cost.getFuelUsage(), cost.getDistance());
                 LOGGER.info(cost.toString());
 
-                initialData.trendy.setTrendy(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
-
+                initialData.trendy.setTripFullCost(cost);
+                initialData.trendy.setTrendy();
                 LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}",
                         cost.getCountry(), cost.getCurrency(), cost.getFuelType());
             }
 
-            Collection<String> monthsTable = initialData.trendy.getCurrencyTrendy().keySet();
-            Collection<String> currencyTable = initialData.trendy.getCurrencyTrendy().values();
-            Collection<String> fuelTable = initialData.trendy.getPetrolTrendy().values();
+            if(req.getParameter("trendy") != null) {
+                String periodDateFrom = req.getParameter("periodDateFrom");
+                String periodDateTill = req.getParameter("periodDateTill");
+                String[] startingDays = req.getParameterValues("startingDays");
+                String tripLength = req.getParameter("tripLength");
+                LOGGER.debug("Trendy parameters - DateFrom: {} DateTill: {} TripLength: {} WeekDays: {}", periodDateFrom, periodDateTill, tripLength, startingDays);
+                if (periodDateFrom != null && periodDateTill != null & tripLength != null && startingDays != null) {
+                    periodDateFrom = periodDateFrom.replaceAll("/", "");
+                    periodDateTill = periodDateTill.replaceAll("/", "");
+                    initialData.trendy.setTrendyPeriodFrom(periodDateFrom);
+                    initialData.trendy.setTrendyPeriodTill(periodDateTill);
+                    initialData.trendy.setTripLength(tripLength);
+                    initialData.trendy.setStartingDays(new HashSet<>(Arrays.asList(startingDays)));
 
-            LOGGER.info("MonthsTable: {} + CurrencyTable: {} + FuelTable: {}", monthsTable, currencyTable, fuelTable);
+                    LOGGER.debug("Trendy parameters changed - DateFrom: {} DateTill: {} TripLength: {}", periodDateFrom, periodDateTill, tripLength);
+                }
+            }
 
-            req.setAttribute("petrolValues", fuelTable);
-            req.setAttribute("currencyValues", currencyTable);
-            req.setAttribute("months", monthsTable);
-
-            req.setAttribute("petrolTrendy", initialData.trendy.getPetrolTrendy());
-            req.setAttribute("currencyTrendy", initialData.trendy.getCurrencyTrendy());
+            req.setAttribute("periodTrendy", initialData.trendy.getPeriodTrendy());
             req.setAttribute("conclusion", initialData.trendy.getConclusion());
             req.setAttribute("country", cost.getCountry());
             req.setAttribute("currency", cost.getCurrency());
@@ -129,7 +139,11 @@ public class InitialServlet extends HttpServlet {
             req.setAttribute("date2", cost.getDate2());
             req.setAttribute("fuelUsage", cost.getFuelUsage());
             req.setAttribute("fullDistance", cost.getDistance());
-            req.setAttribute("fullCost", cost.costCount() + " PLN");
+            req.setAttribute("fullCost", cost.costCount());
+            req.setAttribute("tripLength", initialData.trendy.getTripLength());
+            req.setAttribute("trendPeriodFrom", initialData.trendy.getTrendyPeriodFrom());
+            req.setAttribute("trendPeriodTill", initialData.trendy.getTrendyPeriodTill());
+            req.setAttribute("startingDays", initialData.trendy.getStartingDays());
 
             LOGGER.info("initialData trip atributes set:{} {} {} {} {} {}",
                     cost.getCountry(), cost.getFuelType(), cost.getDate1(),
@@ -147,4 +161,25 @@ public class InitialServlet extends HttpServlet {
             }
         }
     }
+
+//    @Override
+//    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        LOGGER.debug("Getting file as request parameter");
+//        Part filePart = req.getPart("file");
+////        LOGGER.debug("Getting name of the file");
+////        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+//        LOGGER.debug("Converting file part into stream");
+//        InputStream contentOfFile = filePart.getInputStream();
+//        filesContent.setPetrolDataFile(contentOfFile);
+////        String wholeFile = new Scanner(contentOfFile, "UTF-8").toString();
+//        LOGGER.debug("Creating Bufferedreader from of InputStream");
+//        BufferedReader br = new BufferedReader(new InputStreamReader(contentOfFile));
+//        LOGGER.debug("Parsing Bufferedreader into lines");
+//        List<String> contentInLines = br.lines().collect(Collectors.toList());
+//        contentInLines.forEach(System.out::println);
+//
+//        req.setAttribute("countryList", promotedCountries.getOrderedPromotedCountries());
+//        RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
+//        dispatcher.forward(req, resp);
+//    }
 }

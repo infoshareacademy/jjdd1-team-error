@@ -13,7 +13,7 @@ public class MonthValuesForAllYears {
 
     private List<Double> monthDeviations = new ArrayList<>();
 
-    public void setMonthDeviation(Double monthValue) {
+    void setMonthDeviation(Double monthValue) {
         this.monthDeviations.add(monthValue);
     }
 
@@ -21,11 +21,10 @@ public class MonthValuesForAllYears {
         return Collections.min(monthDeviations);
     }
 
-    public Double getAverageMonthValue() {
-        DoubleSummaryStatistics stats = monthDeviations.stream()
+    Double getAverageMonthValue() {
+        return monthDeviations.stream()
                 .mapToDouble(s -> s)
-                .summaryStatistics();
-        return stats.getAverage();
+                .summaryStatistics().getAverage();
     }
 }
 

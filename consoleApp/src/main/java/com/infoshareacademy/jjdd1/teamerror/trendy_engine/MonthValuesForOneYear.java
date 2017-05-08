@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 public class MonthValuesForOneYear {
     Map<LocalDate, Double> monthValues = new HashMap<>();
 
-    public void setMonthValue(DayValues dayValues) {
-        this.monthValues.put(dayValues.getDate(), dayValues.getAverageMonthValue());
+    public void setMonthValue(DayValuesForOneMonth dayValuesForOneMonth) {
+        this.monthValues.put(dayValuesForOneMonth.getDate(), dayValuesForOneMonth.getAverageMonthValue());
     }
 
     public Double getMinValue() {

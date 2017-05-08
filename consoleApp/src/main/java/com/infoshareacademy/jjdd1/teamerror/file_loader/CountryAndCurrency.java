@@ -8,7 +8,7 @@ import java.util.*;
 public class CountryAndCurrency {
 
     private FilesContent filesContent;
-    private Map<String, String> countriesAndCurrency = new LinkedHashMap<>();
+    private Map<String, String> countryAndCurrency;
     private String currency;
     private  CurrencyNames currencyNames;
 
@@ -21,15 +21,14 @@ public class CountryAndCurrency {
         currencyNames = new CurrencyNames(filesContent);
     }
 
-    public Map<String, String> getCountriesAndCurrency() {
-        if (countriesAndCurrency.isEmpty()) {
-            loadCountriesAndCurrency();
-            selectCountriesAndCurrency();
-        }
-        return countriesAndCurrency;
+    public Map<String, String> getCountryAndCurrency() {
+        loadCountryAndCurrency();
+        selectCountriesAndCurrency();
+        return countryAndCurrency;
     }
 
-    public void loadCountriesAndCurrency() {
+    public void loadCountryAndCurrency() {
+        countryAndCurrency = new LinkedHashMap<>();
         List<String> lines = filesContent.getPetrolDataFile();
         String[] parts;
 
@@ -39,19 +38,19 @@ public class CountryAndCurrency {
         for (int i = 1; i < lines.size(); i++) {
             parts = lines.get(i).split(";");
             if (currencyNames.getCurrencies().containsKey(parts[3])) {
-                countriesAndCurrency.put(parts[0].toUpperCase(), parts[3]);
+                countryAndCurrency.put(parts[0].toUpperCase(), parts[3]);
             }
         }
     }
 
     // select countries which are available for petrol and currencies
     public void selectCountriesAndCurrency(){
-        List<String> countries= new ArrayList<String>(countriesAndCurrency.keySet());
-        List<String> currencies = new ArrayList<String>(countriesAndCurrency.values());
+        List<String> countries= new ArrayList<String>(countryAndCurrency.keySet());
+        List<String> currencies = new ArrayList<String>(countryAndCurrency.values());
 
         for(int i = 0; i < countries.size(); i++)
             if((currencyNames.getCurrencies().get(currencies.get(i)) == null))
-                countriesAndCurrency.remove(countries.get(i), currencies.get(i));
+                countryAndCurrency.remove(countries.get(i), currencies.get(i));
     }
 
     public String getCurrency() {
@@ -59,6 +58,6 @@ public class CountryAndCurrency {
     }
 
     public void setCurrency(String country) {
-        this.currency = getCountriesAndCurrency().get(country);
+        this.currency = getCountryAndCurrency().get(country);
     }
 }

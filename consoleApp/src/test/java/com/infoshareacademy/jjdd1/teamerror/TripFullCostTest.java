@@ -55,7 +55,7 @@ public class TripFullCostTest {
                     currencyValue+=0.01;
                     CurrencyHistoryDayValue someObject = new CurrencyHistoryDayValue();
                     someObject.setDate(LocalDate.of(year, month, i));
-                    someObject.setClose(currencyValue);
+                    someObject.setRate(currencyValue);
                     currencyObjectsList.add(someObject);
                 }
             }
@@ -75,8 +75,8 @@ public class TripFullCostTest {
                 dieselValue += 0.5;
                 PetrolPrices someObject = new PetrolPrices();
                 someObject.setDate(LocalDate.of(year, month, FIRST_DAY_OF_MONTH));
-                someObject.setGasolinePrice(gasolineValue);
-                someObject.setDieselPrice(dieselValue);
+                someObject.setRate(gasolineValue);
+//                someObject.setDieselPrice(dieselValue);
                 petrolObjectsList.add(someObject);
             }
         }
@@ -101,33 +101,33 @@ public class TripFullCostTest {
             for(CurrencyHistoryDayValue o1: currencyObjectsList) {
                 if (o1.getDate().getYear() == o2.getDate().getYear()) {
                     if (START_DATE.getMonth() == o1.getDate().getMonth()) {
-                        currencyPriceDate1 += o1.getClose();
+                        currencyPriceDate1 += o1.getRate();
                         iterator1++;
                     }
                     if (END_DATE.getMonth() == o1.getDate().getMonth()) {
-                        currencyPriceDate2 += o1.getClose();
+                        currencyPriceDate2 += o1.getRate();
                         iterator2++;
                     }
                     if (FUEL_TYPE.equals("gasoline")){
                         if (START_DATE.getMonth() == o2.getDate().getMonth()) {
-                            fuelPriceDate1 += o2.getGasolinePrice();
+                            fuelPriceDate1 += o2.getRate();
                             iterator3++;
                         }
                         if (END_DATE.getMonth() == o2.getDate().getMonth()) {
-                            fuelPriceDate2 += o2.getGasolinePrice();
+                            fuelPriceDate2 += o2.getRate();
                             iterator4++;
                         }
                     }
-                    else{
-                        if (START_DATE.getMonth() == o2.getDate().getMonth()) {
-                            fuelPriceDate1 += o2.getDieselPrice();
-                            iterator3++;
-                        }
-                        if (END_DATE.getMonth() == o2.getDate().getMonth()) {
-                            fuelPriceDate2 += o2.getDieselPrice();
-                            iterator4++;
-                        }
-                    }
+//                    else{
+//                        if (START_DATE.getMonth() == o2.getDate().getMonth()) {
+//                            fuelPriceDate1 += o2.getDieselPrice();
+//                            iterator3++;
+//                        }
+//                        if (END_DATE.getMonth() == o2.getDate().getMonth()) {
+//                            fuelPriceDate2 += o2.getDieselPrice();
+//                            iterator4++;
+//                        }
+//                    }
                 }
             }
         }

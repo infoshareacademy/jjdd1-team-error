@@ -1,6 +1,11 @@
 <%@ include file="headersAndStyle.jsp" %>
 
 
+<%--<form action="/calc" method="post" enctype="multipart/form-data">--%>
+<%--<input type="text" name="description" />--%>
+<%--<input type="file" name="file" />--%>
+<%--<input type="submit" />--%>
+<%--</form>--%>
 
 <!--  forward to login page for login if user info is not in session  -->
 <% if (session.getAttribute("userName") == null) {%>

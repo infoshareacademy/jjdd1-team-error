@@ -1,5 +1,8 @@
 package com.infoshareacademy.jjdd1.teamerror.file_loader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
 import static com.infoshareacademy.jjdd1.teamerror.file_loader.FileReader.*;
@@ -9,23 +12,23 @@ import static com.infoshareacademy.jjdd1.teamerror.file_loader.FileReader.*;
  */
 
 public class OnDemandFilesContent implements FilesContent {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(OnDemandFilesContent.class);
+
     @Override
     public List<String> getPetrolDataFile() {
-        return FileReader.loadContent(PATH_TO_FILES + PETROL_FILE_NAME);
+        LOGGER.debug("Creating path and loading file: {}", PETROL_FILE_NAME);
+        return loadFile(PATH_TO_FILES + PETROL_FILE_NAME);
     }
 
     @Override
     public List<String> getCurrencyInfoFile() {
-        return FileReader.loadContent(PATH_TO_FILES + CURRENCY_FILE_WITH_GENERAL_DATA);
+        LOGGER.debug("Creating path and loading file: {}", CURRENCY_FILE_WITH_GENERAL_DATA);
+        return loadFile(PATH_TO_FILES + CURRENCY_FILE_WITH_GENERAL_DATA);
     }
 
     @Override
     public List<String> getCurrencyDataFile(String currencySymbol) {
-        FileReader.unzipFile();
-        try {
-            return FileReader.loadContent(FileReader.createPath(currencySymbol));
-        } finally {
-            FileReader.removeExtractedFiles();
-        }
+        return loadFileForDefaultZip(createPath(currencySymbol));
     }
 }
