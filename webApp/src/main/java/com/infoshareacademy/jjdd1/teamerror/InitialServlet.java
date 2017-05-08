@@ -1,7 +1,7 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
-import com.google.gson.Gson;
+//import com.google.gson.Gson;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.FileReader;
 import org.slf4j.Logger;
@@ -140,11 +140,11 @@ public class InitialServlet extends HttpServlet {
                 }
             }
 
-            Gson gson = new Gson();
-            String json1 = gson.toJson(initialData.trendy.getPeriodTrendy().keySet());
-            LOGGER.info("Map key set: {} ",json1);
-            String json2 = gson.toJson(initialData.trendy.getPeriodTrendy().values());
-            LOGGER.info("Values: {}", json2);
+//            Gson gson = new Gson();
+//            String json1 = gson.toJson(initialData.trendy.getPeriodTrendy().keySet());
+//            LOGGER.info("Map key set: {} ",json1);
+//            String json2 = gson.toJson(initialData.trendy.getPeriodTrendy().values());
+//            LOGGER.info("Values: {}", json2);
 
 
 
@@ -163,9 +163,9 @@ public class InitialServlet extends HttpServlet {
                     initialData.trendy.getTrendyPeriodFrom().toString().replaceAll("-", "/"));
             req.setAttribute("trendPeriodTill",
                     initialData.trendy.getTrendyPeriodTill().toString().replaceAll("-", "/"));
-            req.setAttribute("startingDays", initialData.trendy.getStartingDays());
-            req.setAttribute("datesForTrends", json1);
-            req.setAttribute("valuesForTrends", json2);
+            req.setAttribute("startingDays", initialData.trendy.getStartingDaysString());
+//            req.setAttribute("datesForTrends", json1);
+//            req.setAttribute("valuesForTrends", json2);
 
             LOGGER.info("initialData trip atributes set:{} {} {} {} {} {}",
                     cost.getCountry(), cost.getFuelType(), cost.getDate1(),

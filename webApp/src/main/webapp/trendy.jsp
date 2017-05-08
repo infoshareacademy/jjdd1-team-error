@@ -201,12 +201,11 @@
 
     <div class="container">
         <h2>Fuel and Currency Trends</h2>
+        <h3>${conclusion}</h3>
         <div>
             <canvas id="myChart"></canvas>
         </div>
     </div>
-
-    <h3>${conclusion}</h3>
 
     <script src="vendor/Chart.bundle.js"></script>
     <script>
