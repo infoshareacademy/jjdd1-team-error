@@ -50,9 +50,7 @@ public class PetrolFileFilter {
                     if (fuelType.equalsIgnoreCase("gasoline")) {
                         value.setRate(Double.parseDouble(changeComaToPoint(parts[4])));
                     }
-                    else {
-                        value.setRate(Double.parseDouble(changeComaToPoint(parts[5])));
-                    }
+                    value.setRate(Double.parseDouble(changeComaToPoint(parts[5])));
 
                     listOfPetrolDataObjects.add(value);
                 }
