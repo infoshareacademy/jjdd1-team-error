@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import com.infoshareacademy.jjdd1.teamerror.dataStatistics.CountryStatistics;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
@@ -90,6 +91,16 @@ public class InitialServlet extends HttpServlet {
             String fuelUsage = req.getParameter("fuelUsage");
             String fullDistance = req.getParameter("fullDistance");
             String fullCostString;
+
+            if ("CROATIA".equals(country))
+                CountryStatistics.Croatia++;
+            LOGGER.info ("Croatia coosen {} times", CountryStatistics.Croatia);
+            if ("CROATIA".equals(country))
+                CountryStatistics.France++;
+            LOGGER.info ("France chosen {} times", CountryStatistics.France);
+            if ("CROATIA".equals(country))
+                CountryStatistics.USA++;
+            LOGGER.info ("USA chosen {} times", CountryStatistics.USA);
 
             LOGGER.info("servlet req params: date1-{} date2-{} fuel usage-{} " +
                     "full distance-{}", date1, date2, fuelUsage, fullDistance);
