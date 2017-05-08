@@ -131,6 +131,73 @@
     </table>
 </div>
 
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $(".date-picker2").datepicker(
+                {dateFormat: 'yy/mm/dd'}
+            );
+            $(".date-picker1").datepicker(
+                {
+                    dateFormat: 'yy/mm/dd', minDate: 0,
+                    onSelect: function (date) {
+                        var periodDateFrom = $('.date-picker1').datepicker('getDate');
+                        var date = new Date(Date.parse(periodDateFrom));
+                        date.setDate(date.getDate() + 1);
+                        var newDate = date.toDateString();
+                        newDate = new Date(Date.parse(newDate));
+                        $('.date-picker2').datepicker("option","minDate",newDate);
+                    }
+                });
+            $('#trendy_form').bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    tripLength: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please state the distance you wish to travel'
+                            }
+                        }
+                    },
+                    periodDateFrom: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The Departure Date is required and cannot be empty'
+                            },
+                            date: {
+                                format: 'YYYY/MM/DD',
+                                message: 'The format is YYYY/MM/DD'
+                            }
+                        }
+                    },
+                    periodDateTill: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The Return Date is required and cannot be empty'
+                            },
+                            date: {
+                                format: 'YYYY/MM/DD',
+                                message: 'The format is YYYY/MM/DD'
+                            }
+                        }
+                    }
+                }
+            });
+
+            $('.date-picker1').on('changeDate show', function(e) {
+                $('#reg_form').bootstrapValidator('revalidateField', 'periodDateFrom');
+            });
+            $('.date-picker2').on('changeDate show', function(e) {
+                $('#reg_form').bootstrapValidator('revalidateField', 'periodDateTill');
+            });
+        });
+    </script>
+
+
 
     <div class="container">
         <h2>Fuel and Currency Trends</h2>
@@ -139,22 +206,27 @@
         </div>
     </div>
 
-
-
     <h3>${conclusion}</h3>
 
     <script src="vendor/Chart.bundle.js"></script>
     <script>
         var ctx = document.getElementById("myChart");
-        var monthsInfo = [];
-        <c:forEach items="${currencyTrendy}" var="monthValue">
-        monthsInfo.push(${monthValue.key});
-        </c:forEach>
+        var json1 = ${datesForTrends};
+        var json2 = ${valuesForTrends};
+        var chartjsData1 = [];
+        var chartjsData2 = [];
+        for (var i = 0; i < json1.length; i++) {
+            chartjsData1.push(json1[i].year + "-" +json1[i].day);
+        }
+        for (var i = 0; i < json2.length; i++) {
+            chartjsData2.push(json2[i][0]);
+        }
+
 
         var myChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: monthsInfo,
+                labels: chartjsData1,
 
 
                 <%--<c:forEach items="${currencyTrendy}" var="monthValue">--%>
@@ -162,7 +234,7 @@
                 <%--</c:forEach>,--%>
                 datasets: [{
                     label: 'currency',
-                    data: [1, 2, 3],
+                    data: chartjsData2,
 
                     <%--${currencyValues},--%>
 
@@ -193,6 +265,5 @@
             }
         });
     </script>
-
 
 <%@ include file="footer.jsp" %>

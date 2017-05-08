@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import com.google.gson.Gson;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -130,6 +131,14 @@ public class InitialServlet extends HttpServlet {
                 }
             }
 
+            Gson gson = new Gson();
+            String json1 = gson.toJson(initialData.trendy.getPeriodTrendy().keySet());
+            LOGGER.info("Map key set: {} ",json1);
+            String json2 = gson.toJson(initialData.trendy.getPeriodTrendy().values());
+            LOGGER.info("Values: {}", json2);
+
+
+
             req.setAttribute("periodTrendy", initialData.trendy.getPeriodTrendy());
             req.setAttribute("conclusion", initialData.trendy.getConclusion());
             req.setAttribute("country", cost.getCountry());
@@ -144,6 +153,8 @@ public class InitialServlet extends HttpServlet {
             req.setAttribute("trendPeriodFrom", initialData.trendy.getTrendyPeriodFrom());
             req.setAttribute("trendPeriodTill", initialData.trendy.getTrendyPeriodTill());
             req.setAttribute("startingDays", initialData.trendy.getStartingDays());
+            req.setAttribute("datesForTrends", json1);
+            req.setAttribute("valuesForTrends", json2);
 
             LOGGER.info("initialData trip atributes set:{} {} {} {} {} {}",
                     cost.getCountry(), cost.getFuelType(), cost.getDate1(),
