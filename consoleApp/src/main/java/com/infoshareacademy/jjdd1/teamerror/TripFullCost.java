@@ -43,7 +43,7 @@ public class TripFullCost {
     public static TripFullCost reset(TripFullCost other) {
         TripFullCost newCostObject = new TripFullCost();
         newCostObject.setTripFullCost(other.fileContent, other.petrolFileFilter, other.currencyFileFilter);
-        newCostObject.setCountryAndCurrency(new CountryAndCurrency());
+//        newCostObject.setCountryAndCurrency(new CountryAndCurrency());
 
         newCostObject.setCurrency(other.currency);
         newCostObject.setCountry(other.country);
@@ -175,6 +175,10 @@ public class TripFullCost {
     //data check added to standard SET method
     void setCountry(String country){
         try{
+            countryAndCurrency = new CountryAndCurrency();
+            countryAndCurrency.setFilesContent(new OnDemandFilesContent());
+            LOGGER.debug("Here I am");
+            LOGGER.debug(countryAndCurrency.getCountryAndCurrency().toString());
             if (countryAndCurrency.getCountryAndCurrency().containsKey(country)) {
                 this.country = country;
                 this.currency = countryAndCurrency.getCountryAndCurrency().get(country);
@@ -182,7 +186,7 @@ public class TripFullCost {
                 throw new Exception();
             }
         } catch (Exception e) {
-            LOGGER.error("Country [{}] is not accepted", country);
+            LOGGER.error("Country [{}] is not accepted --> {}", country, e);
         }
     }
 
@@ -230,11 +234,17 @@ public class TripFullCost {
         double fuelPriceDate1 = 0;
         double fuelPriceDate2 = 0;
         //double days = DAYS.between(getDate1(), getDate2());
-
+        LOGGER.debug("1 {} {} {}", currency, country, fuelType);
         //creating lists from files, so that they can be searched through
-        List<RatesInfo> currencyObjectsList = currencyFileFilter.getListOfCurrencyDataObjects(currency);
-        List<RatesInfo> petrolObjectsList = petrolFileFilter.getListOfPetrolDataObjects(country, fuelType);
+        currencyFileFilter = new CurrencyFileFilter();
+        currencyFileFilter.setFilesContent(new OnDemandFilesContent());
 
+        petrolFileFilter = new PetrolFileFilter();
+        petrolFileFilter.setFilesContent(new OnDemandFilesContent());
+        List<RatesInfo> currencyObjectsList = currencyFileFilter.getListOfCurrencyDataObjects(currency);
+        LOGGER.debug("2");
+        List<RatesInfo> petrolObjectsList = petrolFileFilter.getListOfPetrolDataObjects(country, fuelType);
+        LOGGER.debug("3");
 
         //getting average currency values for the specified months of travel if years match in files (lists)
         int iterator1 = 0;

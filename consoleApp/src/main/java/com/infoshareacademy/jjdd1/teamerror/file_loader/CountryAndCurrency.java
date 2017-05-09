@@ -1,5 +1,9 @@
 package com.infoshareacademy.jjdd1.teamerror.file_loader;
 
+import com.infoshareacademy.jjdd1.teamerror.TripFullCost;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.*;
 
 /**
@@ -8,9 +12,12 @@ import java.util.*;
 public class CountryAndCurrency {
 
     private FilesContent filesContent;
-    private Map<String, String> countryAndCurrency;
+    private Map<String, String> countryAndCurrency = new LinkedHashMap<>();
     private String currency;
     private  CurrencyNames currencyNames;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CountryAndCurrency.class);
+
 
     public CountryAndCurrency() {
 
@@ -22,16 +29,22 @@ public class CountryAndCurrency {
     }
 
     public Map<String, String> getCountryAndCurrency() {
-        loadCountryAndCurrency();
-        selectCountriesAndCurrency();
+        LOGGER.debug("Before if");
+        if (countryAndCurrency.isEmpty()) {
+            LOGGER.debug("loading country and currency");
+            loadCountryAndCurrency();
+            LOGGER.debug("selecting");
+            selectCountriesAndCurrency();
+            LOGGER.debug("Last stage {}", countryAndCurrency.toString());
+        }
         return countryAndCurrency;
     }
 
-    public void loadCountryAndCurrency() {
+    private void loadCountryAndCurrency() {
         countryAndCurrency = new LinkedHashMap<>();
         List<String> lines = filesContent.getPetrolDataFile();
         String[] parts;
-
+        LOGGER.debug("loadCountryAndCurrency lines: {}", lines);
         CurrencyNames currencyNames = new CurrencyNames(filesContent);
         currencyNames.loadCurrencies();
         // iterate over all lines
@@ -40,13 +53,14 @@ public class CountryAndCurrency {
             if (currencyNames.getCurrencies().containsKey(parts[3])) {
                 countryAndCurrency.put(parts[0].toUpperCase(), parts[3]);
             }
+            LOGGER.debug(countryAndCurrency.toString());
         }
     }
 
     // select countries which are available for petrol and currencies
     public void selectCountriesAndCurrency(){
-        List<String> countries= new ArrayList<String>(countryAndCurrency.keySet());
-        List<String> currencies = new ArrayList<String>(countryAndCurrency.values());
+        List<String> countries= new ArrayList<>(countryAndCurrency.keySet());
+        List<String> currencies = new ArrayList<>(countryAndCurrency.values());
 
         for(int i = 0; i < countries.size(); i++)
             if((currencyNames.getCurrencies().get(currencies.get(i)) == null))

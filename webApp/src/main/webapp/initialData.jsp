@@ -1,5 +1,5 @@
 <%@ include file="headersAndStyle.jsp" %>
-<form method="post" action="/calc" class="form-horizontal" id="reg_form">
+<form method="get" action="/calc" class="form-horizontal" id="reg_form">
 
     <!-- Select Basic -->
 

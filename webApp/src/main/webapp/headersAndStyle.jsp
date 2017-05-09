@@ -9,7 +9,6 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="en">
 <html>
 <head>
     <meta charset="UTF-8">
@@ -32,8 +31,12 @@
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id"
           content="447589672882-lon09s9eq542cpusfm4njbkjcuhpgif7.apps.googleusercontent.com">
+    <jsp:include page="sessionChecker.jsp" />
 </head>
 <body>
+    <%--<% if (session.getAttribute("userName") == null) {%>--%>
+<%--<jsp:forward page="/login.jsp"/>--%>
+    <%--<% } %>--%>
     <div id="header">
         <div id="logo">
             <p>Trip Calculator</p>
@@ -42,6 +45,7 @@
             <img  id="car" src="img/moving-car-mirror.png" alt="car">
         </div>
     </div>
+
 
 
 

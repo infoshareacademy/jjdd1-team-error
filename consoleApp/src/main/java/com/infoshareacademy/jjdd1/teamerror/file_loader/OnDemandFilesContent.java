@@ -23,12 +23,13 @@ public class OnDemandFilesContent implements FilesContent {
 
     @Override
     public List<String> getCurrencyInfoFile() {
-        LOGGER.debug("Creating path and loading file: {}", CURRENCY_FILE_WITH_GENERAL_DATA);
-        return loadFile(PATH_TO_FILES + CURRENCY_FILE_WITH_GENERAL_DATA);
+        LOGGER.debug("Creating path and loading file: {}", CURRENCY_INFO_FILE);
+        return loadFile(PATH_TO_FILES + CURRENCY_INFO_FILE);
     }
 
     @Override
     public List<String> getCurrencyDataFile(String currencySymbol) {
+        LOGGER.debug("Creating path and loading file: {}", CURRENCY_INFO_FILE);
         return loadFileForDefaultZip(createPath(currencySymbol));
     }
 }

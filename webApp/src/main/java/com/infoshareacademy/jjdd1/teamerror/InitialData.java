@@ -22,7 +22,6 @@ public class InitialData {
     FilesContent filesContent;
     CountryAndCurrency countryAndCurrency;
     Map<String, String> countryAndCurrencyList;
-    PromotedCountries promotedCountries;
 
     public InitialData() {
         super();
@@ -30,7 +29,7 @@ public class InitialData {
 
         trendy = new Trendy();
 
-        filesContent = new CachedFilesContent();
+        filesContent = new OnDemandFilesContent();
         currencyFileFilter = new CurrencyFileFilter();
         petrolFileFilter = new PetrolFileFilter();
         currencyFileFilter.setFilesContent(filesContent);
@@ -40,12 +39,10 @@ public class InitialData {
         trendy.setPetrolFileFilter(petrolFileFilter);
         countryAndCurrency = new CountryAndCurrency();
         LOGGER.info("InitialServlet initialised");
-        promotedCountries = new PromotedCountries();
-        promotedCountries.setFilesContent(filesContent);
 
         cost = new TripFullCost();
         cost.setTripFullCost(filesContent, petrolFileFilter, currencyFileFilter);
-        cost.setCountryAndCurrency(new CountryAndCurrency());
+//        cost.setCountryAndCurrency(countryAndCurrency);
     }
 }
 

@@ -2,7 +2,7 @@ package com.infoshareacademy.jjdd1.teamerror;
 
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
 //import com.google.gson.Gson;
-import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
+import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.FileReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -28,45 +27,25 @@ public class InitialServlet extends HttpServlet {
 
     private final String TRIP_FULL_COST_SESSION_ATTR = "fripFullCost";
     private final Logger LOGGER = LoggerFactory.getLogger(InitialServlet.class);
-    int switcher = 0;
+    private int switcher = 0;
 
     @Inject
     SavingClass savingClass;
 
-    InitialData initialData = new InitialData();
+    private InitialData initialData = new InitialData();
 
     @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         LOGGER.debug("servlet request");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
 
-        LOGGER.debug("Checking existence of resource files path: {}", FileReader.PATH_TO_FILES,
-                FileReader.PETROL_FILE_NAME);
-        File petrolFile = new File(FileReader.PATH_TO_FILES,
-                FileReader.PETROL_FILE_NAME);
-        LOGGER.debug("Checking existence of resource files path: {}", FileReader.PATH_TO_FILES);
-        File currencyInfoFile = new File(FileReader.PATH_TO_FILES,
-                FileReader.CURRENCY_FILE_WITH_GENERAL_DATA);
-        LOGGER.debug("Checking existence of resource files path: {}", FileReader.PATH_TO_FILES);
-        File currencyZipFile = new File(FileReader.PATH_TO_FILES,
-                FileReader.ZIP_CURRENCY_FILE);
-        LOGGER.debug("Checking existence of resource files path: {}", FileReader.PATH_TO_FILES);
-        if(!petrolFile.exists() || !currencyInfoFile.exists() || !currencyZipFile.exists()) {
-            req.setAttribute("missingFile",  "yes");
+        if (SourceFilesChecker.checkForSourceFiles(req, resp)) {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
-
             dispatcher.forward(req, resp);
-            LOGGER.error("At least one source file is missing");
             return;
         }
-
-        LOGGER.debug("Reading data from database");
-        List<String> ret = savingClass.getPromotedCountries();
-        LOGGER.debug("List of promoted countries from database: {}", ret);
-        initialData.promotedCountries.setPromotedCountries(ret);
-        LOGGER.info("Data from database successfully loaded");
 
         // session thingy
         HttpSession session = req.getSession(true);
@@ -86,16 +65,8 @@ public class InitialServlet extends HttpServlet {
         initialData.countryAndCurrencyList = initialData.countryAndCurrency.getCountryAndCurrency();
 
 
-        // starting servlet work
-        if (req.getParameter("start") != null || req.getParameter("initialData") != null) {
-            switcher = 0;
-            req.setAttribute("countryList", initialData.promotedCountries.getOrderedPromotedCountries());
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
-            dispatcher.forward(req, resp);
-        }
-
         // proceed trendy.jsp or tripCost.jsp
-        else if (req.getParameter("trendy") != null || req.getParameter("tripCost") != null) {
+        if (req.getParameter("trendy") != null || req.getParameter("tripCost") != null) {
 
             if(switcher == 0){
                 switcher++;
@@ -106,7 +77,11 @@ public class InitialServlet extends HttpServlet {
                 cost.setDate2(req.getParameter("date2").replaceAll("/",""));
                 cost.setFuelUsage(req.getParameter("fuelUsage"));
                 cost.setDistance(req.getParameter("fullDistance"));
-
+                LOGGER.debug("country-{} fuel type-{}", req.getParameter("country"), req.getParameter("fuelType"));
+                LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}",
+                        cost.getCountry(), cost.getCurrency(), cost.getFuelType());
+                LOGGER.info("servlet req params: date1-{} date2-{} fuel usage-{} " +
+                        "full distance-{}", cost.getDate1(), cost.getDate2(), cost.getFuelUsage(), cost.getDistance());
                 try{
                     cost.costCount();
                 }catch(Exception e){
@@ -114,7 +89,7 @@ public class InitialServlet extends HttpServlet {
                 }
 
                 LOGGER.info("servlet req params: date1-{} date2-{} fuel usage-{} " +
-                        "full distance-{}", cost.getDate1(), cost.getDate2(), cost.getFuelUsage(), cost.getDistance());
+                        "full distance-{} country-{} fuelType-{}", cost.getDate1(), cost.getDate2(), cost.getFuelUsage(), cost.getDistance());
                 LOGGER.info(cost.toString());
 
                 initialData.trendy.setTripFullCost(cost);
@@ -185,26 +160,16 @@ public class InitialServlet extends HttpServlet {
                 dispatcher.forward(req, resp);
             }
         }
-    }
-
-//    @Override
-//    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        LOGGER.debug("Getting file as request parameter");
-//        Part filePart = req.getPart("file");
-////        LOGGER.debug("Getting name of the file");
-////        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-//        LOGGER.debug("Converting file part into stream");
-//        InputStream contentOfFile = filePart.getInputStream();
-//        filesContent.setPetrolDataFile(contentOfFile);
-////        String wholeFile = new Scanner(contentOfFile, "UTF-8").toString();
-//        LOGGER.debug("Creating Bufferedreader from of InputStream");
-//        BufferedReader br = new BufferedReader(new InputStreamReader(contentOfFile));
-//        LOGGER.debug("Parsing Bufferedreader into lines");
-//        List<String> contentInLines = br.lines().collect(Collectors.toList());
-//        contentInLines.forEach(System.out::println);
-//
-//        req.setAttribute("countryList", promotedCountries.getOrderedPromotedCountries());
+//        req.setAttribute("countryList", initialData.promotedCountries.getOrderedPromotedCountries());
 //        RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
 //        dispatcher.forward(req, resp);
-//    }
+    }
+
+
+
+
+
+
+
+
 }

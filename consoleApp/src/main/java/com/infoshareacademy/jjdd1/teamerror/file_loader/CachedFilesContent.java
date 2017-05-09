@@ -31,8 +31,8 @@ public class CachedFilesContent implements FilesContent {
     }
 
     public void setCurrencyInfoFile() {
-        LOGGER.debug("Creating path and loading file: {}", CURRENCY_FILE_WITH_GENERAL_DATA);
-        currencyInfoFile = loadFile(PATH_TO_FILES + CURRENCY_FILE_WITH_GENERAL_DATA);
+        LOGGER.debug("Creating path and loading file: {}", CURRENCY_INFO_FILE);
+        currencyInfoFile = loadFile(PATH_TO_FILES + CURRENCY_INFO_FILE);
     }
 
     public void setCurrencyInfoFile(InputStream currencyInfoFile) {
