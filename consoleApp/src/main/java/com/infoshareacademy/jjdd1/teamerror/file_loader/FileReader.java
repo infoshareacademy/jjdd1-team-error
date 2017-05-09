@@ -31,7 +31,8 @@ public class FileReader {
 
     // load file's content
     public static List<String> loadFile(String path) {
-        // file's content
+
+        LOGGER.debug("Loading file, path: {}", FileReader.class.getResource(path).toString());
         InputStream inputStream = FileReader.class.getResourceAsStream(path);
         return new BufferedReader(new InputStreamReader(inputStream)).lines()
                 .collect(Collectors.toList());

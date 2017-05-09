@@ -36,7 +36,7 @@
             <label class="col-md-4 control-label">Trip length</label>
             <div class="col-md-5  inputGroupContainer">
                 <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
-                    <input name="tripLength" class="form-control" type="number" min="1" >
+                    <input name="tripLength" class="form-control" type="number" min="1" value="${tripLength}"/>
                 </div>
             </div>
         </div>
@@ -45,7 +45,7 @@
             <label class="col-md-4 control-label">Date from</label>
             <div class="col-md-5 inputGroupContainer">
                 <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                    <input type="text" id="periodDateFrom" name="periodDateFrom" class="form-control date-picker1" />
+                    <input type="text" id="periodDateFrom" name="periodDateFrom" class="form-control date-picker1" value="${trendPeriodFrom}"/>
                 </div>
             </div>
         </div>
@@ -55,7 +55,7 @@
             <label class="col-md-4 control-label">Date till</label>
             <div class="col-md-5 inputGroupContainer">
                 <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                    <input type="text" id="periodDateTill" name="periodDateTill" class="form-control date-picker2" />
+                    <input type="text" id="periodDateTill" name="periodDateTill" class="form-control date-picker2" value="${trendPeriodTill}" />
                 </div>
             </div>
         </div>
@@ -201,12 +201,11 @@
 
     <div class="container">
         <h2>Fuel and Currency Trends</h2>
+        <h3>${conclusion}</h3>
         <div>
             <canvas id="myChart"></canvas>
         </div>
     </div>
-
-    <h3>${conclusion}</h3>
 
     <script src="vendor/Chart.bundle.js"></script>
     <script>
