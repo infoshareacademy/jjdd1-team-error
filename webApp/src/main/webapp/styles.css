@@ -47,6 +47,7 @@ body {
     bottom: 0;
     left: 0;
     margin-top: -100px;
+    padding-top: 150px;
 }
 
 #footercontent{
@@ -154,4 +155,8 @@ pre {
 select {
     display: block;
     margin: auto;
+}
+
+.btn-outline-inverse:hover{
+    background-color: rgba(13, 147, 176, 0.94);
 }

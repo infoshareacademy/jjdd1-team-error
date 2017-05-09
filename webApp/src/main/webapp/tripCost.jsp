@@ -10,21 +10,25 @@
 <%@ include file="headerOptions.jsp" %>
 <%@ page errorPage="exceptionHandling.jsp" %>
 
-<div class="data">
-    <br>
-    <label><b>Given data:</b></label>
-    <li>Country:  ${country}</li>
-    <li>Currency:  ${currency}</li>
-    <li>Fuel type:  ${fuelType}</li>
-    <li>Date of departure:  ${date1}</li>
-    <li>Date of return:  ${date2}</li>
-    <li>Fuel usage:  ${fuelUsage}</li>
-    <li>Distance:  ${fullDistance}</li>
-</div>
-<div class="result">
-    <br>
-    <h3>The cost of renting a car abroad (for the specified data) will be: ${fullCost}</h3>
-</div>
+    <%--<div class="col-md-9">--%>
+
+        <div class="data">
+            <br>
+            <label><b>Given data:</b></label>
+            <li>Country:  ${country}</li>
+            <li>Currency:  ${currency}</li>
+            <li>Fuel type:  ${fuelType}</li>
+            <li>Date of departure:  ${date1}</li>
+            <li>Date of return:  ${date2}</li>
+            <li>Fuel usage:  ${fuelUsage}</li>
+            <li>Distance:  ${fullDistance}</li>
+        </div>
+        <div class="result">
+            <br>
+            <h3>The cost of renting a car abroad (for the specified data) will be: ${fullCost}</h3>
+        </div>
+    <%--</div>--%>
+<%--</div>--%>
 
 
 

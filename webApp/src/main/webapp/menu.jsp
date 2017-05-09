@@ -7,13 +7,12 @@
 --%>
 <%@ include file="headersAndStyle.jsp" %>
 <%@ include file="headerOptions.jsp" %>
+        <div class="data">
+            <br>
+            <li>Country: ${country}</li>
+            <li>Currency:  ${currency}</li>
+            <li>Fuel type:  ${fuelType}</li>
 
-<div class="data">
-    <br>
-    <li>Country: ${country}</li>
-    <li>Currency:  ${currency}</li>
-    <li>Fuel type:  ${fuelType}</li>
-
-</div>
+        </div>
 
 <%@ include file="footer.jsp" %>

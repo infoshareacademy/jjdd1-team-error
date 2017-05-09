@@ -6,7 +6,7 @@
 <% if (session.getAttribute("userName") == null) {%>
 <jsp:forward page="/login.jsp"/>
 <% } %>
-<div class="row" style="margin:0; padding-bottom:120px; padding-top:50px;">
+<div class="row" style="margin:0; padding-top:50px;">
     <div class="col-md-4" style="padding:0;">
         <img class="photo" src="img/photo2.jpg" alt="car">
     </div>
