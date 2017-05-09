@@ -1,6 +1,7 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
 import com.infoshareacademy.jjdd1.teamerror.dataStatistics.CountryStatistics;
+import com.infoshareacademy.jjdd1.teamerror.dataStatistics.SavingCountryStatistics;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
@@ -104,15 +105,18 @@ public class InitialServlet extends HttpServlet {
             cost.setFuelUsage(fuelUsage);
             cost.setDistance(fullDistance);
 
-            if ("CROATIA".equals(cost.getCountry()))
-                CountryStatistics.Croatia++;
-            LOGGER.info ("Croatia chosen {} times", CountryStatistics.Croatia);
-            if ("FRANCE".equals(cost.getCountry()))
-                CountryStatistics.France++;
-            LOGGER.info ("France chosen {} times", CountryStatistics.France);
-            if ("USA".equals(cost.getCountry()))
-                CountryStatistics.USA++ ;
-            LOGGER.info ("USA chosen {} times", CountryStatistics.USA);
+            if ("CROATIA".equals(cost.getCountry())) {
+                SavingCountryStatistics.countryStatistics.Croatia++;
+                LOGGER.info("Croatia chosen quantity increased  by 1");
+            }
+            if ("FRANCE".equals(cost.getCountry())) {
+                SavingCountryStatistics.countryStatistics.France++;
+                LOGGER.info("France  chosen quantity increased  by 1");
+            }
+            if ("USA".equals(cost.getCountry())) {
+                SavingCountryStatistics.countryStatistics.USA++;
+                LOGGER.info("USA  chosen quantity increased  by 1");
+            }
 
             try{
                 cost.costCount();
@@ -176,9 +180,9 @@ public class InitialServlet extends HttpServlet {
             dispatcher.forward(req, resp);
         }
 
-        LOGGER.info ("Croatia chosen {} times", CountryStatistics.Croatia);
-        LOGGER.info ("France chosen {} times", CountryStatistics.France);
-        LOGGER.info ("USA chosen {} times", CountryStatistics.USA );
+        LOGGER.info ("Croatia chosen {} times", SavingCountryStatistics.countryStatistics.Croatia);
+        LOGGER.info ("France chosen {} times", SavingCountryStatistics.countryStatistics.France);
+        LOGGER.info ("USA chosen {} times", SavingCountryStatistics.countryStatistics.USA );
 
     }
 }
