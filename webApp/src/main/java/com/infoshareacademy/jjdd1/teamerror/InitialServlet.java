@@ -42,6 +42,26 @@ public class InitialServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
 
+        LOGGER.debug("Checking existence of resource files path: {}", FileReader.PATH_TO_FILES,
+                FileReader.PETROL_FILE_NAME);
+        File petrolFile = new File(FileReader.PATH_TO_FILES,
+                FileReader.PETROL_FILE_NAME);
+        LOGGER.debug("Checking existence of resource files path: {}", FileReader.PATH_TO_FILES);
+        File currencyInfoFile = new File(FileReader.PATH_TO_FILES,
+                FileReader.CURRENCY_FILE_WITH_GENERAL_DATA);
+        LOGGER.debug("Checking existence of resource files path: {}", FileReader.PATH_TO_FILES);
+        File currencyZipFile = new File(FileReader.PATH_TO_FILES,
+                FileReader.ZIP_CURRENCY_FILE);
+        LOGGER.debug("Checking existence of resource files path: {}", FileReader.PATH_TO_FILES);
+        if(!petrolFile.exists() || !currencyInfoFile.exists() || !currencyZipFile.exists()) {
+            req.setAttribute("missingFile",  "yes");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
+
+            dispatcher.forward(req, resp);
+            LOGGER.error("At least one source file is missing");
+            return;
+        }
+
         LOGGER.debug("Reading data from database");
         List<String> ret = savingClass.getPromotedCountries();
         LOGGER.debug("List of promoted countries from database: {}", ret);
@@ -54,7 +74,7 @@ public class InitialServlet extends HttpServlet {
         if (cost == null) {
             cost = new TripFullCost();
             cost.setTripFullCost(initialData.filesContent, initialData.petrolFileFilter, initialData.currencyFileFilter);
-            cost.setCountryAndCurrency(new CountryAndCurrency());
+//            cost.setCountryAndCurrency(new CountryAndCurrency());
 
             session.setAttribute(TRIP_FULL_COST_SESSION_ATTR, cost);
         }
@@ -65,23 +85,6 @@ public class InitialServlet extends HttpServlet {
         initialData.countryAndCurrency.setFilesContent(initialData.filesContent);
         initialData.countryAndCurrencyList = initialData.countryAndCurrency.getCountryAndCurrency();
 
-        LOGGER.debug("Checking existence of resource files");
-        URL petrolFileURL = (FileReader.class.getResource(FileReader.PATH_TO_FILES +
-                FileReader.PETROL_FILE_NAME));
-
-        URL currencyInfoFileURL = (FileReader.class.getResource(FileReader.PATH_TO_FILES +
-                FileReader.CURRENCY_FILE_WITH_GENERAL_DATA));
-
-        URL currencyZipFileURL = (FileReader.class.getResource(FileReader.PATH_TO_FILES +
-                FileReader.ZIP_CURRENCY_FILE));
-
-        if(petrolFileURL == null || currencyInfoFileURL == null || currencyZipFileURL == null) {
-            req.setAttribute("missingFile",  "yes");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
-            dispatcher.forward(req, resp);
-            LOGGER.error("At least one source file is missing");
-            return;
-        }
 
         // starting servlet work
         if (req.getParameter("start") != null || req.getParameter("initialData") != null) {
