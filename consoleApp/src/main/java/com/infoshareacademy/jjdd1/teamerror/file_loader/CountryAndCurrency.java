@@ -29,13 +29,11 @@ public class CountryAndCurrency {
     }
 
     public Map<String, String> getCountryAndCurrency() {
-        LOGGER.debug("Before if");
         if (countryAndCurrency.isEmpty()) {
-            LOGGER.debug("loading country and currency");
+            LOGGER.debug("Loading country and currency");
             loadCountryAndCurrency();
-            LOGGER.debug("selecting");
+            LOGGER.debug("Filtering countries to show only available ones");
             selectCountriesAndCurrency();
-            LOGGER.debug("Last stage {}", countryAndCurrency.toString());
         }
         return countryAndCurrency;
     }
@@ -44,7 +42,6 @@ public class CountryAndCurrency {
         countryAndCurrency = new LinkedHashMap<>();
         List<String> lines = filesContent.getPetrolDataFile();
         String[] parts;
-        LOGGER.debug("loadCountryAndCurrency lines: {}", lines);
         CurrencyNames currencyNames = new CurrencyNames(filesContent);
         currencyNames.loadCurrencies();
         // iterate over all lines

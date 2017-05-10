@@ -88,9 +88,7 @@ public class InitialServlet extends HttpServlet {
                     LOGGER.error("Something went wrong. Please check your input (above)", e);
                 }
 
-                LOGGER.info("servlet req params: date1-{} date2-{} fuel usage-{} " +
-                        "full distance-{} country-{} fuelType-{}", cost.getDate1(), cost.getDate2(), cost.getFuelUsage(), cost.getDistance());
-                LOGGER.info(cost.toString());
+                LOGGER.info("Cost class: {}", cost.toString());
 
                 initialData.trendy.setTripFullCost(cost);
                 initialData.trendy.setTrendy();

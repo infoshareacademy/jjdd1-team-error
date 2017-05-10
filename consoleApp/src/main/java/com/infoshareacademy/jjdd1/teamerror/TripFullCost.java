@@ -177,8 +177,6 @@ public class TripFullCost {
         try{
             countryAndCurrency = new CountryAndCurrency();
             countryAndCurrency.setFilesContent(new OnDemandFilesContent());
-            LOGGER.debug("Here I am");
-            LOGGER.debug(countryAndCurrency.getCountryAndCurrency().toString());
             if (countryAndCurrency.getCountryAndCurrency().containsKey(country)) {
                 this.country = country;
                 this.currency = countryAndCurrency.getCountryAndCurrency().get(country);
@@ -233,18 +231,15 @@ public class TripFullCost {
         double currencyPriceDate2 = 0;
         double fuelPriceDate1 = 0;
         double fuelPriceDate2 = 0;
-        //double days = DAYS.between(getDate1(), getDate2());
-        LOGGER.debug("1 {} {} {}", currency, country, fuelType);
+
         //creating lists from files, so that they can be searched through
         currencyFileFilter = new CurrencyFileFilter();
         currencyFileFilter.setFilesContent(new OnDemandFilesContent());
-
         petrolFileFilter = new PetrolFileFilter();
         petrolFileFilter.setFilesContent(new OnDemandFilesContent());
         List<RatesInfo> currencyObjectsList = currencyFileFilter.getListOfCurrencyDataObjects(currency);
-        LOGGER.debug("2");
         List<RatesInfo> petrolObjectsList = petrolFileFilter.getListOfPetrolDataObjects(country, fuelType);
-        LOGGER.debug("3");
+
 
         //getting average currency values for the specified months of travel if years match in files (lists)
         int iterator1 = 0;

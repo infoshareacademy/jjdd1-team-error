@@ -79,15 +79,14 @@ public class FileUploader extends HttpServlet {
             return;
         }
 
-//        RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
-//        dispatcher.forward(req, resp);
+        if (SourceFilesChecker.checkForSourceFiles(req, resp)) {
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
+            dispatcher.forward(req, resp);
+            return;
+        }
 
         req.setAttribute("start", "");
-//        RequestDispatcher dispatcher = req.getRequestDispatcher("/calc");
-//        dispatcher.forward(req, resp);
-
-
-        resp.sendRedirect("/calc");
+        resp.sendRedirect("/start");
     }
 
 }

@@ -1,6 +1,7 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
+import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.OnDemandFilesContent;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.PromotedCountries;
 import org.slf4j.Logger;
@@ -31,6 +32,12 @@ public class WelcomeServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        if (SourceFilesChecker.checkForSourceFiles(req, resp)) {
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
+            dispatcher.forward(req, resp);
+            return;
+        }
 
         promotedCountries = new PromotedCountries();
         promotedCountries.setFilesContent(new OnDemandFilesContent());
