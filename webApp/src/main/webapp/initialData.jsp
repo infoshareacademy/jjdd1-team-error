@@ -31,7 +31,7 @@
         <label class="col-md-4 control-label">Fuel Type</label>
         <div class="col-md-5 selectContainer">
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-                <select name="fuelType" class="form-control selectpicker" placeholder="${fuelType}">
+                <select name="fuelType" class="form-control selectpicker" value="${fuelType}">
                     <option value="" >Please select your fuel type</option>
                     <option value="1">Diesel</option>
                     <option value="2">Gasoline</option>
@@ -46,7 +46,7 @@
         <label class="col-md-4 control-label">Fuel Usage</label>
         <div class="col-md-5  inputGroupContainer">
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
-                <input name="fuelUsage" placeholder="6.9" class="form-control" type="number" step="0.1" min="1" placeholder="${fuelUsage}">
+                <input name="fuelUsage" value="${fuelUsage}" placeholder="6.9" class="form-control" type="number" step="0.1" min="1" >
             </div>
         </div>
     </div>
@@ -57,7 +57,7 @@
         <label class="col-md-4 control-label">Distance Traveled</label>
         <div class="col-md-5  inputGroupContainer">
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
-                <input name="fullDistance" placeholder="666" class="form-control" type="number" min="1" placeholder="${fullDistance}">
+                <input name="fullDistance" value="${fullDistance}" placeholder="666" class="form-control" type="number" min="1" >
             </div>
         </div>
     </div>
@@ -66,7 +66,7 @@
         <label class="col-md-4 control-label">Departure Date</label>
         <div class="col-md-5 inputGroupContainer">
             <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                <input type="text" id="date1" name="date1" class="form-control date-picker1" placeholder="${date1}"/>
+                <input type="text" id="date1" name="date1" class="form-control date-picker1" value="${date1}"/>
             </div>
         </div>
     </div>
@@ -76,7 +76,7 @@
         <label class="col-md-4 control-label">Return Date</label>
         <div class="col-md-5 inputGroupContainer">
             <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                <input type="text" id="date2" name="date2" class="form-control date-picker2" placeholder="${date2}"/>
+                <input type="text" id="date2" name="date2" class="form-control date-picker2" value="${date2}"/>
             </div>
         </div>
     </div>

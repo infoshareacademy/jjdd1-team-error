@@ -52,9 +52,8 @@ public class TrendsServlet extends HttpServlet {
             initialData.trendy.setTrendyPeriodTill(periodDateTill);
             initialData.trendy.setTripLength(tripLength);
             initialData.trendy.setStartingDays(new HashSet<>(Arrays.asList(startingDays)));
-            initialData.cost.setCountry(initialData.cost.getCountry());
-            initialData.cost.setCurrency(initialData.cost.getCurrency());
-            initialData.cost.setFuelType(initialData.cost.getFuelType());
+//            initialData.cost.setCountry(req.getParameter("country").toUpperCase());
+//            initialData.cost.setFuelType(req.getParameter("fuelType"));
 
             LOGGER.debug("Trendy parameters changed - DateFrom: {} DateTill: {} TripLength: {}",
                     periodDateFrom, periodDateTill, tripLength);

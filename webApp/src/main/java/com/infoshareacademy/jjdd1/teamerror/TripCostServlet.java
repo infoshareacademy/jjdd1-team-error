@@ -31,7 +31,7 @@ public class TripCostServlet extends HttpServlet {
         resp.setContentType("text/plain;charset=UTF-8");
 
 
-        req.getParameter("fullCost");
+//        req.getParameter("fullCost");
 
 
     }

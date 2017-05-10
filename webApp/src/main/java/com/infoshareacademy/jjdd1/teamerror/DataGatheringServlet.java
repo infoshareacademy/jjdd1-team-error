@@ -35,8 +35,8 @@ public class DataGatheringServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
 
-        req.setAttribute("trendy", null);
-        req.setAttribute("tripCost", null);
+//        req.setAttribute("trendy", null);
+//        req.setAttribute("tripCost", null);
 
 
         initialData.cost.setCountry(req.getParameter("country").toUpperCase());

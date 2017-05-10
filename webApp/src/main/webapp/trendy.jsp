@@ -30,8 +30,6 @@
 <div>
     <form method="post" action="/calc" class="form-horizontal" id="reg_form">
 
-        <!-- Text input-->
-
         <div class="form-group">
             <label class="col-md-4 control-label">Trip length</label>
             <div class="col-md-5  inputGroupContainer">
@@ -50,7 +48,6 @@
             </div>
         </div>
 
-        <!-- Text input-->
         <div class="form-group">
             <label class="col-md-4 control-label">Date till</label>
             <div class="col-md-5 inputGroupContainer">
@@ -87,9 +84,9 @@
             </label>
         </div>
 
-        <input type="hidden" name="country" value="${country}" />
-        <input type="hidden" name="currency" value="${currency}" />
-        <input type="hidden" name="fuelType" value="${fuelType}" />
+        <%--<input type="hidden" name="country" value="${country}" />--%>
+        <%--<input type="hidden" name="currency" value="${currency}" />--%>
+        <%--<input type="hidden" name="fuelType" value="${fuelType}" />--%>
 
 
         <br>
