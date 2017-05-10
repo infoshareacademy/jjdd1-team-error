@@ -19,7 +19,7 @@
     <li>Date from:  ${trendPeriodFrom}</li>
     <li>Date till:  ${trendPeriodTill}</li>
     <li>Starting days:
-        <c:forEach items="${startingDays}" var="trend">
+        <c:forEach items="${startingDaysString}" var="trend">
             ${trend}
         </c:forEach>
     </li>
@@ -29,6 +29,13 @@
 
 <div>
     <form method="get" action="/calc" class="form-horizontal" id="reg_form">
+
+        <input type="hidden" name="country" value="${country}" />
+        <input type="hidden" name="currency" value="${currency}" />
+        <input type="hidden" name="date1" value="${date1}" />
+        <input type="hidden" name="date2" value="${date2}" />
+        <input type="hidden" name="fuelUsage" value="${fuelUsage}" />
+        <input type="hidden" name="fullDistance" value="${fullDistance}" />
 
         <!-- Text input-->
 
