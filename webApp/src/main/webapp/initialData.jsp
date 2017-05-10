@@ -1,5 +1,5 @@
 <%@ include file="headersAndStyle.jsp" %>
-<form method="get" action="/calc" class="form-horizontal" id="reg_form">
+<form method="post" action="/data" class="form-horizontal" id="reg_form">
 
     <!-- Select Basic -->
 
@@ -46,7 +46,7 @@
         <label class="col-md-4 control-label">Fuel Usage</label>
         <div class="col-md-5  inputGroupContainer">
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
-                <input name="fuelUsage" class="form-control" type="number" step="0.1" min="1" value="${fuelUsage}">
+                <input name="fuelUsage" value="${fuelUsage}" placeholder="6.9" class="form-control" type="number" step="0.1" min="1" >
             </div>
         </div>
     </div>
@@ -57,7 +57,7 @@
         <label class="col-md-4 control-label">Distance Traveled</label>
         <div class="col-md-5  inputGroupContainer">
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
-                <input name="fullDistance" class="form-control" type="number" min="1" value="${fullDistance}">
+                <input name="fullDistance" value="${fullDistance}" placeholder="666" class="form-control" type="number" min="1" >
             </div>
         </div>
     </div>
@@ -80,8 +80,6 @@
             </div>
         </div>
     </div>
-
-
 
 
     <%--</fieldset>--%>

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -26,6 +27,19 @@ public class InitialData {
     public InitialData() {
         super();
         LOGGER.info("Initial data start");
+
+//         session thingy
+//        HttpSession session = req.getSession(true);
+//        TripFullCost cost = (TripFullCost) session.getAttribute(TRIP_FULL_COST_SESSION_ATTR);
+//        if (cost == null) {
+//            cost = new TripFullCost();
+//            cost.setTripFullCost(initialData.filesContent, initialData.petrolFileFilter, initialData.currencyFileFilter);
+//            cost.setCountryAndCurrency(new CountryAndCurrency());
+//
+//            session.setAttribute(TRIP_FULL_COST_SESSION_ATTR, cost);
+//        }
+
+
 
         trendy = new Trendy();
 

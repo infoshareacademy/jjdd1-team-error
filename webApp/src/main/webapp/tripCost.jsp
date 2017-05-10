@@ -10,6 +10,7 @@
 <%@ include file="headerOptions.jsp" %>
 <%@ page errorPage="exceptionHandling.jsp" %>
 
+<form method="post" action="/tripCost" class="form-horizontal" id="tripCost_form">
 <div class="data">
     <br>
     <label><b>Given data:</b></label>

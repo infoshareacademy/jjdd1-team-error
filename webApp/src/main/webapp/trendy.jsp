@@ -8,7 +8,7 @@
 <%@ include file="headersAndStyle.jsp" %>
 <%@ include file="headerOptions.jsp" %>
 
-<form method="get" action="/calc" class="form-horizontal" id="trendy_form">
+<form method="post" action="/trends" class="form-horizontal" id="trendy_form">
 <div class="data">
     <br>
     <label><b>Given data:</b></label>
@@ -19,7 +19,7 @@
     <li>Date from:  ${trendPeriodFrom}</li>
     <li>Date till:  ${trendPeriodTill}</li>
     <li>Starting days:
-        <c:forEach items="${startingDaysString}" var="trend">
+        <c:forEach items="${startingDays}" var="trend">
             ${trend}
         </c:forEach>
     </li>
@@ -28,16 +28,7 @@
 
 
 <div>
-    <form method="get" action="/calc" class="form-horizontal" id="reg_form">
-
-        <input type="hidden" name="country" value="${country}" />
-        <input type="hidden" name="currency" value="${currency}" />
-        <input type="hidden" name="date1" value="${date1}" />
-        <input type="hidden" name="date2" value="${date2}" />
-        <input type="hidden" name="fuelUsage" value="${fuelUsage}" />
-        <input type="hidden" name="fullDistance" value="${fullDistance}" />
-
-        <!-- Text input-->
+    <form method="post" action="/calc" class="form-horizontal" id="reg_form">
 
         <div class="form-group">
             <label class="col-md-4 control-label">Trip length</label>
@@ -57,7 +48,6 @@
             </div>
         </div>
 
-        <!-- Text input-->
         <div class="form-group">
             <label class="col-md-4 control-label">Date till</label>
             <div class="col-md-5 inputGroupContainer">
@@ -93,6 +83,11 @@
                 <input type="checkbox" name="startingDays"  value="7"> Sunday
             </label>
         </div>
+
+        <%--<input type="hidden" name="country" value="${country}" />--%>
+        <%--<input type="hidden" name="currency" value="${currency}" />--%>
+        <%--<input type="hidden" name="fuelType" value="${fuelType}" />--%>
+
 
         <br>
 
