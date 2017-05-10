@@ -1,6 +1,7 @@
 package com.infoshareacademy.jjdd1.teamerror.file_loader;
 
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.PetrolPrices;
+import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.RatesInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ public class PetrolFileFilter {
     private static final int NUMBER_OF_ELEMENTS_IN_LINE = 6;
     private FilesContent filesContent;
 
-    private List<PetrolPrices> listOfPetrolDataObjects = new ArrayList<>();
+    private List<RatesInfo> listOfPetrolDataObjects = new ArrayList<>();
 
     public PetrolFileFilter() {
     }
@@ -22,16 +23,17 @@ public class PetrolFileFilter {
         this.filesContent = filesContent;
     }
 
-    public List<PetrolPrices> getListOfPetrolDataObjects(String country) {
-        if (listOfPetrolDataObjects.isEmpty() || !listOfPetrolDataObjects.get(0).getCountryName().equalsIgnoreCase(country)) {
-            putPetrolFileContentToClass(country);
+    public List<RatesInfo> getListOfPetrolDataObjects(String country, String fuelType) {
+        if (listOfPetrolDataObjects.isEmpty() || !((PetrolPrices)listOfPetrolDataObjects.get(0)).getCountryName().equalsIgnoreCase(country)) {
+            putPetrolFileContentToClass(country, fuelType);
         }
         return listOfPetrolDataObjects;
     }
 
     // divide content of Currency File and put this information as objects
-    public void putPetrolFileContentToClass(String country) {
+    public void putPetrolFileContentToClass(String country, String fuelType) {
 
+        listOfPetrolDataObjects.clear();
         List<String> lines = filesContent.getPetrolDataFile();
         String[] parts;
 
@@ -45,8 +47,10 @@ public class PetrolFileFilter {
                     value.setCountryName(parts[0]);
                     value.setDate(DateParser.DateFromString(parts[1], parts[2]));
                     value.setCurrencyCode(parts[3].toUpperCase());
-                    value.setGasolinePrice(Double.parseDouble(changeComaToPoint(parts[4])));
-                    value.setDieselPrice(Double.parseDouble(changeComaToPoint(parts[5])));
+                    if (fuelType.equalsIgnoreCase("gasoline")) {
+                        value.setRate(Double.parseDouble(changeComaToPoint(parts[4])));
+                    }
+                    value.setRate(Double.parseDouble(changeComaToPoint(parts[5])));
 
                     listOfPetrolDataObjects.add(value);
                 }

@@ -1,6 +1,7 @@
 package com.infoshareacademy.jjdd1.teamerror.file_loader;
 
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.CurrencyHistoryDayValue;
+import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.RatesInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ public class CurrencyFileFilter {
 
     public static final int NUMBER_OF_ELEMENTS_IN_LINE = 7;
 
-    private List<CurrencyHistoryDayValue> listOfCurrencyDataObjects = new ArrayList<>();
+    private List<RatesInfo> listOfCurrencyDataObjects = new ArrayList<>();
     private FilesContent filesContent;
 
     public CurrencyFileFilter() {
@@ -22,8 +23,8 @@ public class CurrencyFileFilter {
         this.filesContent = filesContent;
     }
 
-    public List<CurrencyHistoryDayValue> getListOfCurrencyDataObjects(String currencySymbol) {
-        if (listOfCurrencyDataObjects.isEmpty() || !listOfCurrencyDataObjects.get(0).getName().equalsIgnoreCase(currencySymbol)) {
+    public List<RatesInfo> getListOfCurrencyDataObjects(String currencySymbol) {
+        if (listOfCurrencyDataObjects.isEmpty() || !listOfCurrencyDataObjects.get(0).getCurrencyCode().equalsIgnoreCase(currencySymbol)) {
             putCurrencyFileContentToClass(currencySymbol);
         }
         return listOfCurrencyDataObjects;
@@ -32,6 +33,7 @@ public class CurrencyFileFilter {
     // divide content of Currency File and put this information as objects
     public void putCurrencyFileContentToClass(String currencySymbol) {
 
+        listOfCurrencyDataObjects.clear();
         List<String> lines = filesContent.getCurrencyDataFile(currencySymbol);
         String[] parts;
 
@@ -40,13 +42,9 @@ public class CurrencyFileFilter {
             parts = lines.get(i).split(",");
             if (!lines.get(i).isEmpty() && parts.length == NUMBER_OF_ELEMENTS_IN_LINE) {
                 CurrencyHistoryDayValue value = new CurrencyHistoryDayValue();
-                value.setName(parts[0].toUpperCase());
+                value.setCurrencyCode(parts[0].toUpperCase());
                 value.setDate(DateParser.DateFromString(parts[1]));
-                value.setOpen(Double.parseDouble(parts[2]));
-                value.setHigh(Double.parseDouble(parts[3]));
-                value.setLow(Double.parseDouble(parts[4]));
-                value.setClose(Double.parseDouble(parts[5]));
-                value.setVolume(Double.parseDouble(parts[6]));
+                value.setRate(Double.parseDouble(parts[5]));
                 listOfCurrencyDataObjects.add(value);
             }
         }

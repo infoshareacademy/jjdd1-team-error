@@ -6,15 +6,19 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-<form style="display: inline" method="post" action="/calc">
-    <div class="buttons">
-        <%--<button type="submit" name="additionalData" value="">Trip cost</button>--%>
-        <button type="submit" name="tripCostFromMenu" value="">Trip cost</button>
+<div class="buttons">
+    <form style="display: inline" method="get" action="/calc">
 
-        <button type="submit" name="trendyFromMenu" value="">Optimal time for trip</button>
+            <%--<button type="submit" name="additionalData" value="">Trip cost</button>--%>
+            <button type="submit" name="tripCost" value="">Trip cost</button>
 
+            <button type="submit" name="trendy" value="">Optimal time for trip</button>
+    </form>
+
+    <form style="display: inline" method="get" action="/start">
         <button type="submit" name="initialData" value="">Change initial data</button>
-    </div>
-</form>
+
+    </form>
+</div>
 
 

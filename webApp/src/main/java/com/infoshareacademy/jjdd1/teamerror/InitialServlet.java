@@ -1,7 +1,10 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
+import com.google.gson.Gson;
+import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
-import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.FileReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,10 +15,9 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by krystianskrzyszewski on 19.04.17.
@@ -26,20 +28,26 @@ public class InitialServlet extends HttpServlet {
 
     private final String TRIP_FULL_COST_SESSION_ATTR = "fripFullCost";
     private final Logger LOGGER = LoggerFactory.getLogger(InitialServlet.class);
+    private int switcher = 0;
 
     @Inject
     SavingClass savingClass;
 
-    InitialData initialData = new InitialData();
+    @Inject
+    InitialData initialData;
 
     @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        LOGGER.debug("Reading data from database");
-        List<String> ret = savingClass.getPromotedCountries();
-        LOGGER.debug("List of promoted countries from database: {}", ret);
-        initialData.promotedCountries.setPromotedCountries(ret);
-        LOGGER.info("Data from database successfully loaded");
+        LOGGER.debug("servlet request");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/plain;charset=UTF-8");
+
+        if (SourceFilesChecker.checkForSourceFiles(req, resp)) {
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
+            dispatcher.forward(req, resp);
+            return;
+        }
 
         // session thingy
         HttpSession session = req.getSession(true);
@@ -47,75 +55,60 @@ public class InitialServlet extends HttpServlet {
         if (cost == null) {
             cost = new TripFullCost();
             cost.setTripFullCost(initialData.filesContent, initialData.petrolFileFilter, initialData.currencyFileFilter);
-            cost.setCountryAndCurrency(new CountryAndCurrency());
+//            cost.setCountryAndCurrency(new CountryAndCurrency());
 
             session.setAttribute(TRIP_FULL_COST_SESSION_ATTR, cost);
         }
 
         // countries/currencies check
-        LOGGER.debug("servlet request");
-        resp.setCharacterEncoding("UTF-8");
-        resp.setContentType("text/plain;charset=UTF-8");
         initialData.filesContent.getPetrolDataFile();
         initialData.filesContent.getCurrencyInfoFile();
-
         initialData.countryAndCurrency.setFilesContent(initialData.filesContent);
-        initialData.countryAndCurrencyList = initialData.countryAndCurrency.getCountriesAndCurrency();
+        initialData.countryAndCurrencyList = initialData.countryAndCurrency.getCountryAndCurrency();
 
-        LOGGER.debug("Checking existence of resource files");
-        File petrolFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "iSA-PetrolPrices.csv");
-        File currencyInfoFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "omeganbp.lst.txt");
-        File currencyZipFile = new File(System.getProperty("java.io.tmpdir")+"/files/" + "omeganbp.zip");
-        if(!petrolFile.exists() || !currencyInfoFile.exists() || !currencyZipFile.exists()) {
-            req.setAttribute("missingFile",  "yes");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
-            dispatcher.forward(req, resp);
-            LOGGER.error("At least one source file is missing");
-        }
-
-        // starting servlet work
-        if (req.getParameter("start") != null || req.getParameter("initialData") != null) {
-            req.setAttribute("countryList", initialData.promotedCountries.getOrderedPromotedCountries());
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
-            dispatcher.forward(req, resp);
-        }
 
         // proceed trendy.jsp or tripCost.jsp
-        else if (req.getParameter("trendy") != null || req.getParameter("tripCost") != null) {
+        if (req.getParameter("trendy") != null || req.getParameter("tripCost") != null) {
 
-            String country = req.getParameter("country").toUpperCase();
-            String fuelType = req.getParameter("fuelType");
-            String date1 = req.getParameter("date1");
-            String date2 = req.getParameter("date2");
-            String fuelUsage = req.getParameter("fuelUsage");
-            String fullDistance = req.getParameter("fullDistance");
-            String fullCostString;
+            if(switcher == 0){
+                switcher++;
 
-            LOGGER.info("servlet req params: date1-{} date2-{} fuel usage-{} " +
-                    "full distance-{}", date1, date2, fuelUsage, fullDistance);
+                cost.setCountry(req.getParameter("country").toUpperCase());
+                cost.setFuelType(req.getParameter("fuelType"));
+                cost.setDate1(req.getParameter("date1").replaceAll("/",""));
+                cost.setDate2(req.getParameter("date2").replaceAll("/",""));
+                cost.setFuelUsage(req.getParameter("fuelUsage"));
+                cost.setDistance(req.getParameter("fullDistance"));
+                LOGGER.debug("country-{} fuel type-{}", req.getParameter("country"), req.getParameter("fuelType"));
+                               LOGGER.info("servlet req params: date1-{} date2-{} fuel usage-{} " +
+                        "full distance-{}", cost.getDate1(), cost.getDate2(), cost.getFuelUsage(), cost.getDistance());
+                try{
+                    cost.costCount();
+                }catch(Exception e){
+                    LOGGER.error("Something went wrong. Please check your input (above)", e);
+                }
 
-            cost.setCountry(country);
-            cost.setFuelType(fuelType);
-            cost.setDate1(date1.replaceAll("/",""));
-            cost.setDate2(date2.replaceAll("/",""));
-            cost.setFuelUsage(fuelUsage);
-            cost.setDistance(fullDistance);
-            try{
-                cost.costCount();
-                fullCostString = String.valueOf(cost.costCount()) + " PLN";
-            }catch(Exception e){
-                LOGGER.error("Something went wrong. Please check your input (above)", e);
-                fullCostString = "Something went wrong. Please check your input (above)";
+                LOGGER.info("Cost class: {}", cost.toString());
+
+                initialData.trendy.setTripFullCost(cost);
+                initialData.trendy.setTrendy();
+                LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}",
+                        cost.getCountry(), cost.getCurrency(), cost.getFuelType());
             }
-            LOGGER.info(cost.toString());
 
-            initialData.trendy.setTrendy(cost.getCurrency(), cost.getFuelType(), cost.getCountry());
-            LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}",
-                    cost.getCountry(), cost.getCurrency(), cost.getFuelType());
-            req.setAttribute("petrolTrendy", initialData.trendy.getPetrolTrendy());
-            req.setAttribute("currencyTrendy", initialData.trendy.getCurrencyTrendy());
+//            if(req.getParameter("trendy") != null) {
+//
+//            }
+
+            Gson gson = new Gson();
+            String json1 = gson.toJson(initialData.trendy.getPeriodTrendy().keySet());
+            LOGGER.info("Map key set: {} ",json1);
+            String json2 = gson.toJson(initialData.trendy.getPeriodTrendy().values());
+            LOGGER.info("Values: {}", json2);
+
+
+            req.setAttribute("periodTrendy", initialData.trendy.getPeriodTrendy());
             req.setAttribute("conclusion", initialData.trendy.getConclusion());
-
             req.setAttribute("country", cost.getCountry());
             req.setAttribute("currency", cost.getCurrency());
             req.setAttribute("fuelType", cost.getFuelType());
@@ -123,9 +116,39 @@ public class InitialServlet extends HttpServlet {
             req.setAttribute("date2", cost.getDate2());
             req.setAttribute("fuelUsage", cost.getFuelUsage());
             req.setAttribute("fullDistance", cost.getDistance());
-            req.setAttribute("fullCost", fullCostString);
+            req.setAttribute("fullCost", cost.costCount());
+            req.setAttribute("tripLength", initialData.trendy.getTripLength());
+            req.setAttribute("trendPeriodFrom",
+                    initialData.trendy.getTrendyPeriodFrom().toString().replaceAll("-", "/"));
+            req.setAttribute("trendPeriodTill",
+                    initialData.trendy.getTrendyPeriodTill().toString().replaceAll("-", "/"));
+            req.setAttribute("startingDays", initialData.trendy.getStartingDaysString());
+            req.setAttribute("datesForTrends", json1);
+            req.setAttribute("valuesForTrends", json2);
+
+            LOGGER.info("initialData trip atributes set:{} {} {} {} {} {}",
+                    cost.getCountry(), cost.getFuelType(), cost.getDate1(),
+                    cost.getDate2(), cost.getFuelUsage(), cost.getDistance());
 
             if(req.getParameter("trendy") != null){
+                String periodDateFrom = req.getParameter("periodDateFrom");
+                String periodDateTill = req.getParameter("periodDateTill");
+                String[] startingDays = req.getParameterValues("startingDays");
+                String tripLength = req.getParameter("tripLength");
+                LOGGER.debug("Trendy parameters - DateFrom: {} DateTill: {} TripLength: {} WeekDays: {}",
+                        periodDateFrom, periodDateTill, tripLength, startingDays);
+                if (periodDateFrom != null && periodDateTill != null & tripLength != null && startingDays != null) {
+                    periodDateFrom = periodDateFrom.replaceAll("/", "");
+                    periodDateTill = periodDateTill.replaceAll("/", "");
+                    initialData.trendy.setTrendyPeriodFrom(periodDateFrom);
+                    initialData.trendy.setTrendyPeriodTill(periodDateTill);
+                    initialData.trendy.setTripLength(tripLength);
+                    initialData.trendy.setStartingDays(new HashSet<>(Arrays.asList(startingDays)));
+
+                    LOGGER.debug("Trendy parameters changed - DateFrom: {} DateTill: {} TripLength: {}",
+                            periodDateFrom, periodDateTill, tripLength);
+                }
+
                 req.setAttribute("title", "Optimal time for trip");
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/trendy.jsp");
                 dispatcher.forward(req, resp);
@@ -136,31 +159,16 @@ public class InitialServlet extends HttpServlet {
                 dispatcher.forward(req, resp);
             }
         }
-        else if (req.getParameter("trendyFromMenu") != null){
-            req.setAttribute("country", cost.getCountry());
-            req.setAttribute("currency", cost.getCurrency());
-            req.setAttribute("fuelType", cost.getFuelType());
-            req.setAttribute("title", "Optimal time for trip");
-            req.setAttribute("petrolTrendy", initialData.trendy.getPetrolTrendy());
-            req.setAttribute("currencyTrendy", initialData.trendy.getCurrencyTrendy());
-            req.setAttribute("conclusion", initialData.trendy.getConclusion());
-
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/trendy.jsp");
-            dispatcher.forward(req, resp);
-        }
-        else if (req.getParameter("tripCostFromMenu") != null){
-            req.setAttribute("country", cost.getCountry());
-            req.setAttribute("currency", cost.getCurrency());
-            req.setAttribute("fuelType", cost.getFuelType());
-            req.setAttribute("date1", cost.getDate1());
-            req.setAttribute("date2", cost.getDate2());
-            req.setAttribute("fuelUsage", cost.getFuelUsage());
-            req.setAttribute("fullDistance", cost.getDistance());
-            req.setAttribute("fullCost", cost.costCount() + " PLN");
-
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/tripCost.jsp");
-            dispatcher.forward(req, resp);
-        }
-
+//        req.setAttribute("countryList", initialData.promotedCountries.getOrderedPromotedCountries());
+//        RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
+//        dispatcher.forward(req, resp);
     }
+
+
+
+
+
+
+
+
 }

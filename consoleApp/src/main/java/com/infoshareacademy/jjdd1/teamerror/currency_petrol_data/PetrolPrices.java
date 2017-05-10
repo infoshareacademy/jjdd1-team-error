@@ -5,11 +5,12 @@ import java.time.LocalDate;
 /**
  * Created by krystianskrzyszewski on 06.04.17.
  */
-public class PetrolPrices {
-    String countryName;
-    LocalDate date;
-    String currencyCode;
-    double gasolinePrice, dieselPrice;
+public class PetrolPrices extends RatesInfo {
+    private String countryName;
+    private LocalDate date;
+    private String currencyCode;
+    private String fuelType;
+    private Double rate;
 
     public String getCountryName() {
         return countryName;
@@ -35,20 +36,19 @@ public class PetrolPrices {
         this.currencyCode = currencyCode;
     }
 
-    public double getGasolinePrice() {
-        return gasolinePrice;
+    public String getFuelType() {
+        return fuelType;
     }
 
-    public void setGasolinePrice(double gasolinePrice) {
-        this.gasolinePrice = gasolinePrice;
+    public void setFuelType(String fuelType) {
+        this.fuelType = fuelType;
     }
 
-    public double getDieselPrice() {
-        return dieselPrice;
+    public Double getRate() {
+        return rate;
     }
 
-    public void setDieselPrice(double dieselPrice) {
-        this.dieselPrice = dieselPrice;
+    public void setRate(Double rate) {
+        this.rate = rate;
     }
-
 }
