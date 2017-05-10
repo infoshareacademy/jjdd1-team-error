@@ -24,8 +24,9 @@ import java.util.List;
 public class WelcomeServlet extends HttpServlet {
 
     private final Logger LOGGER = LoggerFactory.getLogger(WelcomeServlet.class);
-    private PromotedCountries promotedCountries;
 
+    @Inject
+    PromotedCountries promotedCountries;
 
     @Inject
     SavingClass savingClass;
@@ -39,7 +40,6 @@ public class WelcomeServlet extends HttpServlet {
             return;
         }
 
-        promotedCountries = new PromotedCountries();
         promotedCountries.setFilesContent(new OnDemandFilesContent());
 
         LOGGER.debug("Reading data from database");

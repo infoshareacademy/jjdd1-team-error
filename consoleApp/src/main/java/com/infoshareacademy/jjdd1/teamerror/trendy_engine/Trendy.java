@@ -141,9 +141,13 @@ public class Trendy {
 
     public Set<String> getStartingDaysString() {
         String[] weekDays = DateFormatSymbols.getInstance().getWeekdays();
-        System.out.println(weekDays);
+        startingDays.forEach(s -> {
+            if (s.equals(7)) {
+                s = 0;
+            }
+        });
         return startingDays.stream()
-                .map(day -> weekDays[day])
+                .map(day -> weekDays[++day])
                 .collect(Collectors.toSet());
     }
 

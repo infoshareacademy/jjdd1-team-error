@@ -50,7 +50,6 @@ public class CountryAndCurrency {
             if (currencyNames.getCurrencies().containsKey(parts[3])) {
                 countryAndCurrency.put(parts[0].toUpperCase(), parts[3]);
             }
-            LOGGER.debug(countryAndCurrency.toString());
         }
     }
 
