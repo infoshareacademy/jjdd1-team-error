@@ -1,8 +1,8 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
-//import com.google.gson.Gson;
-import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
+import com.google.gson.Gson;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.FileReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,8 @@ public class InitialServlet extends HttpServlet {
     @Inject
     SavingClass savingClass;
 
-    private InitialData initialData = new InitialData();
+    @Inject
+    InitialData initialData;
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -78,9 +79,7 @@ public class InitialServlet extends HttpServlet {
                 cost.setFuelUsage(req.getParameter("fuelUsage"));
                 cost.setDistance(req.getParameter("fullDistance"));
                 LOGGER.debug("country-{} fuel type-{}", req.getParameter("country"), req.getParameter("fuelType"));
-                LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}",
-                        cost.getCountry(), cost.getCurrency(), cost.getFuelType());
-                LOGGER.info("servlet req params: date1-{} date2-{} fuel usage-{} " +
+                               LOGGER.info("servlet req params: date1-{} date2-{} fuel usage-{} " +
                         "full distance-{}", cost.getDate1(), cost.getDate2(), cost.getFuelUsage(), cost.getDistance());
                 try{
                     cost.costCount();
@@ -96,32 +95,15 @@ public class InitialServlet extends HttpServlet {
                         cost.getCountry(), cost.getCurrency(), cost.getFuelType());
             }
 
-            if(req.getParameter("trendy") != null) {
-                String periodDateFrom = req.getParameter("periodDateFrom");
-                String periodDateTill = req.getParameter("periodDateTill");
-                String[] startingDays = req.getParameterValues("startingDays");
-                String tripLength = req.getParameter("tripLength");
-                LOGGER.debug("Trendy parameters - DateFrom: {} DateTill: {} TripLength: {} WeekDays: {}",
-                        periodDateFrom, periodDateTill, tripLength, startingDays);
-                if (periodDateFrom != null && periodDateTill != null & tripLength != null && startingDays != null) {
-                    periodDateFrom = periodDateFrom.replaceAll("/", "");
-                    periodDateTill = periodDateTill.replaceAll("/", "");
-                    initialData.trendy.setTrendyPeriodFrom(periodDateFrom);
-                    initialData.trendy.setTrendyPeriodTill(periodDateTill);
-                    initialData.trendy.setTripLength(tripLength);
-                    initialData.trendy.setStartingDays(new HashSet<>(Arrays.asList(startingDays)));
+//            if(req.getParameter("trendy") != null) {
+//
+//            }
 
-                    LOGGER.debug("Trendy parameters changed - DateFrom: {} DateTill: {} TripLength: {}",
-                            periodDateFrom, periodDateTill, tripLength);
-                }
-            }
-
-//            Gson gson = new Gson();
-//            String json1 = gson.toJson(initialData.trendy.getPeriodTrendy().keySet());
-//            LOGGER.info("Map key set: {} ",json1);
-//            String json2 = gson.toJson(initialData.trendy.getPeriodTrendy().values());
-//            LOGGER.info("Values: {}", json2);
-
+            Gson gson = new Gson();
+            String json1 = gson.toJson(initialData.trendy.getPeriodTrendy().keySet());
+            LOGGER.info("Map key set: {} ",json1);
+            String json2 = gson.toJson(initialData.trendy.getPeriodTrendy().values());
+            LOGGER.info("Values: {}", json2);
 
 
             req.setAttribute("periodTrendy", initialData.trendy.getPeriodTrendy());
@@ -140,14 +122,32 @@ public class InitialServlet extends HttpServlet {
             req.setAttribute("trendPeriodTill",
                     initialData.trendy.getTrendyPeriodTill().toString().replaceAll("-", "/"));
             req.setAttribute("startingDays", initialData.trendy.getStartingDaysString());
-//            req.setAttribute("datesForTrends", json1);
-//            req.setAttribute("valuesForTrends", json2);
+            req.setAttribute("datesForTrends", json1);
+            req.setAttribute("valuesForTrends", json2);
 
             LOGGER.info("initialData trip atributes set:{} {} {} {} {} {}",
                     cost.getCountry(), cost.getFuelType(), cost.getDate1(),
                     cost.getDate2(), cost.getFuelUsage(), cost.getDistance());
 
             if(req.getParameter("trendy") != null){
+                String periodDateFrom = req.getParameter("periodDateFrom");
+                String periodDateTill = req.getParameter("periodDateTill");
+                String[] startingDays = req.getParameterValues("startingDays");
+                String tripLength = req.getParameter("tripLength");
+                LOGGER.debug("Trendy parameters - DateFrom: {} DateTill: {} TripLength: {} WeekDays: {}",
+                        periodDateFrom, periodDateTill, tripLength, startingDays);
+                if (periodDateFrom != null && periodDateTill != null & tripLength != null && startingDays != null) {
+                    periodDateFrom = periodDateFrom.replaceAll("/", "");
+                    periodDateTill = periodDateTill.replaceAll("/", "");
+                    initialData.trendy.setTrendyPeriodFrom(periodDateFrom);
+                    initialData.trendy.setTrendyPeriodTill(periodDateTill);
+                    initialData.trendy.setTripLength(tripLength);
+                    initialData.trendy.setStartingDays(new HashSet<>(Arrays.asList(startingDays)));
+
+                    LOGGER.debug("Trendy parameters changed - DateFrom: {} DateTill: {} TripLength: {}",
+                            periodDateFrom, periodDateTill, tripLength);
+                }
+
                 req.setAttribute("title", "Optimal time for trip");
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/trendy.jsp");
                 dispatcher.forward(req, resp);

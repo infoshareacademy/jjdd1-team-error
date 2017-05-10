@@ -210,47 +210,42 @@
     <script src="vendor/Chart.bundle.js"></script>
     <script>
         var ctx = document.getElementById("myChart");
+
         var json1 = ${datesForTrends};
         var json2 = ${valuesForTrends};
-        var chartjsData1 = [];
-        var chartjsData2 = [];
+        var dateValues = [];
+        var currencyValues = [];
+        var petrolValues = [];
+        var sumValues = [];
         for (var i = 0; i < json1.length; i++) {
-            chartjsData1.push(json1[i].year + "-" +json1[i].day);
+            dateValues.push(json1[i].year + "-" +json1[i].month + "-" + json1[i].day);
         }
         for (var i = 0; i < json2.length; i++) {
-            chartjsData2.push(json2[i][0]);
+            currencyValues.push(json2[i][0]);
         }
-
+        for (var i = 0; i < json2.length; i++) {
+            petrolValues.push(json2[i][1]);
+        }
+        for (var i = 0; i < json2.length; i++) {
+            sumValues.push(json2[i][2]);
+        }
 
         var myChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: chartjsData1,
-
-
-                <%--<c:forEach items="${currencyTrendy}" var="monthValue">--%>
-                    <%--${monthValue.key}--%>
-                <%--</c:forEach>,--%>
+                labels: dateValues,
                 datasets: [{
                     label: 'currency',
-                    data: chartjsData2,
-
-                    <%--${currencyValues},--%>
-
-                    <%--<c:forEach items="${currencyTrendy}" var="monthValue">--%>
-                        <%--${monthValue.value}--%>
-                    <%--</c:forEach>,--%>
+                    data: currencyValues,
                     backgroundColor: "rgba(153,255,51,0.6)"
                 }, {
                     label: 'fuel',
-                    data: [3, 2, 1],
-
-                    <%--${petrolValues},--%>
-
-                    <%--<c:forEach items="${petrolTrendy}" var="monthValue">--%>
-                        <%--${monthValue.value}--%>
-                    <%--</c:forEach>,--%>
+                    data: petrolValues,
                     backgroundColor: "rgba(255,153,0,0.6)"
+                }, {
+                    label: 'total',
+                    data: sumValues,
+                    backgroundColor: "rgba(200,153,0,0.6)"
                 }]
             },
             options: {
