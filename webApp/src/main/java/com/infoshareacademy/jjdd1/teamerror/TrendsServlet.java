@@ -39,23 +39,6 @@ public class TrendsServlet extends HttpServlet {
         LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}",
                 initialData.cost.getCountry(), initialData.cost.getCurrency(), initialData.cost.getFuelType());
 
-        Gson gson = new Gson();
-        String json1 = gson.toJson(initialData.trendy.getPeriodTrendy().keySet());
-        LOGGER.info("Map key set: {} ",json1);
-        String json2 = gson.toJson(initialData.trendy.getPeriodTrendy().values());
-        LOGGER.info("Values: {}", json2);
-
-        req.setAttribute("periodTrendy", initialData.trendy.getPeriodTrendy());
-        req.setAttribute("conclusion", initialData.trendy.getConclusion());
-        req.setAttribute("tripLength", initialData.trendy.getTripLength());
-        req.setAttribute("trendPeriodFrom",
-                initialData.trendy.getTrendyPeriodFrom().toString().replaceAll("-", "/"));
-        req.setAttribute("trendPeriodTill",
-                initialData.trendy.getTrendyPeriodTill().toString().replaceAll("-", "/"));
-        req.setAttribute("startingDays", initialData.trendy.getStartingDaysString());
-        req.setAttribute("datesForTrends", json1);
-        req.setAttribute("valuesForTrends", json2);
-
         String periodDateFrom = req.getParameter("periodDateFrom");
         String periodDateTill = req.getParameter("periodDateTill");
         String[] startingDays = req.getParameterValues("startingDays");
@@ -69,10 +52,33 @@ public class TrendsServlet extends HttpServlet {
             initialData.trendy.setTrendyPeriodTill(periodDateTill);
             initialData.trendy.setTripLength(tripLength);
             initialData.trendy.setStartingDays(new HashSet<>(Arrays.asList(startingDays)));
+            initialData.cost.setCountry(initialData.cost.getCountry());
+            initialData.cost.setCurrency(initialData.cost.getCurrency());
+            initialData.cost.setFuelType(initialData.cost.getFuelType());
 
             LOGGER.debug("Trendy parameters changed - DateFrom: {} DateTill: {} TripLength: {}",
                     periodDateFrom, periodDateTill, tripLength);
         }
+
+        Gson gson = new Gson();
+        String json1 = gson.toJson(initialData.trendy.getPeriodTrendy().keySet());
+        LOGGER.info("Map key set: {} ",json1);
+        String json2 = gson.toJson(initialData.trendy.getPeriodTrendy().values());
+        LOGGER.info("Values: {}", json2);
+
+        req.setAttribute("country", initialData.cost.getCountry());
+        req.setAttribute("currency", initialData.cost.getCurrency());
+        req.setAttribute("fuelType", initialData.cost.getFuelType());
+        req.setAttribute("periodTrendy", initialData.trendy.getPeriodTrendy());
+        req.setAttribute("conclusion", initialData.trendy.getConclusion());
+        req.setAttribute("tripLength", initialData.trendy.getTripLength());
+        req.setAttribute("trendPeriodFrom",
+                initialData.trendy.getTrendyPeriodFrom().toString().replaceAll("-", "/"));
+        req.setAttribute("trendPeriodTill",
+                initialData.trendy.getTrendyPeriodTill().toString().replaceAll("-", "/"));
+        req.setAttribute("startingDays", initialData.trendy.getStartingDaysString());
+        req.setAttribute("datesForTrends", json1);
+        req.setAttribute("valuesForTrends", json2);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/trendy.jsp");
         dispatcher.forward(req, resp);

@@ -35,6 +35,10 @@ public class DataGatheringServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
 
+        req.setAttribute("trendy", null);
+        req.setAttribute("tripCost", null);
+
+
         initialData.cost.setCountry(req.getParameter("country").toUpperCase());
         initialData.cost.setFuelType(req.getParameter("fuelType"));
         initialData.cost.setDate1(req.getParameter("date1").replaceAll("/",""));
@@ -52,6 +56,8 @@ public class DataGatheringServlet extends HttpServlet {
                 initialData.cost.getDate1(), initialData.cost.getDate2(),
                 initialData.cost.getFuelUsage(), initialData.cost.getDistance());
         LOGGER.info(initialData.cost.toString());
+
+
 
         req.setAttribute("country", initialData.cost.getCountry());
         req.setAttribute("currency", initialData.cost.getCurrency());

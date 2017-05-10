@@ -87,6 +87,11 @@
             </label>
         </div>
 
+        <input type="hidden" name="country" value="${country}" />
+        <input type="hidden" name="currency" value="${currency}" />
+        <input type="hidden" name="fuelType" value="${fuelType}" />
+
+
         <br>
 
         <!-- Submit button -->
