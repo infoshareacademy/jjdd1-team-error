@@ -9,11 +9,11 @@
 <form style="display: inline" method="post" action="/calc">
     <div class="buttons">
         <%--<button type="submit" name="additionalData" value="">Trip cost</button>--%>
-        <button type="submit" name="tripCost" value="">Trip cost</button>
+        <button type="button" class="btn btn-info" value="Trip Button" href = '/tripCost'>Trip cost</button>
 
-        <button type="submit" name="trendy" value="">Optimal time for trip</button>
+        <button type="button" class="btn btn-info" value="Trendy Button" href = '/trends'>Optimal time for trip</button>
 
-        <button type="submit" name="initialData" value="">Change initial data</button>
+        <button type="button" class="btn btn-info" value="Clear Button" href = '/data'>Change initial data</button>
     </div>
 </form>
 

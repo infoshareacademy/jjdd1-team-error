@@ -73,19 +73,9 @@ public class InitialServlet extends HttpServlet {
             return;
         }
 
-        // starting servlet work
-        if (req.getParameter("start") != null || req.getParameter("initialData") != null) {
-            switcher = 0;
-            req.setAttribute("countryList", initialData.promotedCountries.getOrderedPromotedCountries());
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
-            dispatcher.forward(req, resp);
-        }
+        req.setAttribute("countryList", initialData.promotedCountries.getOrderedPromotedCountries());
 
-        // proceed trendy.jsp or tripCost.jsp
-        else if (req.getParameter("trendy") != null || req.getParameter("tripCost") != null) {
-
-
-
-        }
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
+        dispatcher.forward(req, resp);
     }
 }

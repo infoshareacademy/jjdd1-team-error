@@ -6,8 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -18,7 +20,7 @@ import java.util.HashSet;
  * Created by krystianskrzyszewski on 09.05.17.
  */
 @WebServlet(urlPatterns = "/trends")
-public class TrendsServlet {
+public class TrendsServlet extends HttpServlet {
 
     private final Logger LOGGER = LoggerFactory.getLogger(InitialServlet.class);
 
@@ -72,9 +74,8 @@ public class TrendsServlet {
                     periodDateFrom, periodDateTill, tripLength);
         }
 
-
-
-
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/trendy.jsp");
+        dispatcher.forward(req, resp);
     }
 
 }
