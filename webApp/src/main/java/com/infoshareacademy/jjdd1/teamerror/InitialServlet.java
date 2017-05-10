@@ -60,10 +60,10 @@ public class InitialServlet extends HttpServlet {
                 FileReader.PETROL_FILE_NAME));
 
         URL currencyInfoFileURL = (FileReader.class.getResource(FileReader.PATH_TO_FILES +
-                FileReader.CURRENCY_FILE_WITH_GENERAL_DATA));
+                FileReader.CURRENCY_INFO_FILE));
 
         URL currencyZipFileURL = (FileReader.class.getResource(FileReader.PATH_TO_FILES +
-                FileReader.ZIP_CURRENCY_FILE));
+                FileReader.CURRENCY_ZIP_FILE));
 
         if(petrolFileURL == null || currencyInfoFileURL == null || currencyZipFileURL == null) {
             req.setAttribute("missingFile",  "yes");
