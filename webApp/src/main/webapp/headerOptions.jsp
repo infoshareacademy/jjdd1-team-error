@@ -7,7 +7,7 @@
 --%>
 
 <div class="buttons">
-    <form style="display: inline" method="get" action="/calc">
+    <form style="display: inline" method="post" action="/data">
         <input type="hidden" name="country" value="${country}" />
         <input type="hidden" name="currency" value="${currency}" />
         <input type="hidden" name="fuelType" value="${fuelType}" />
@@ -36,6 +36,8 @@
         <input type="hidden" name="date2" value="${date2}" />
         <input type="hidden" name="fuelUsage" value="${fuelUsage}" />
         <input type="hidden" name="fullDistance" value="${fullDistance}" />
+
+        <button type="submit" name="initialData" value="">Reset data</button>
     </form>
 </div>
 
