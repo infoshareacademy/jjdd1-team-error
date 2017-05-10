@@ -175,14 +175,5 @@ public class InitialServlet extends HttpServlet {
         LOGGER.info ("USA chosen {} times", SavingCountryStatistics.countryStatistics.USA );
     }
 
-
-
-
-
-
-
-
-
-
     }
 
