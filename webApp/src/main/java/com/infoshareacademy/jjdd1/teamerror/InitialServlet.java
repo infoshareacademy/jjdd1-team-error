@@ -148,6 +148,8 @@ public class InitialServlet extends HttpServlet {
                 json2 = gson.toJson(initialData.trendy.getPeriodTrendy().values());
                 LOGGER.info("Values: {}", json2);
 
+                req.setAttribute("periodTrendy", initialData.trendy.getPeriodTrendy());
+                req.setAttribute("conclusion", initialData.trendy.getConclusion());
                 req.setAttribute("trendPeriodFrom",
                         initialData.trendy.getTrendyPeriodFrom().toString().replaceAll("-", "/"));
                 req.setAttribute("trendPeriodTill",

@@ -54,7 +54,7 @@ public class CountryAndCurrency {
     }
 
     // select countries which are available for petrol and currencies
-    public void selectCountriesAndCurrency(){
+    private void selectCountriesAndCurrency(){
         List<String> countries= new ArrayList<>(countryAndCurrency.keySet());
         List<String> currencies = new ArrayList<>(countryAndCurrency.values());
 

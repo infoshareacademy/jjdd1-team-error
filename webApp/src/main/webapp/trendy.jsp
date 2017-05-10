@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.util.TreeSet" %>
+<%@ page import="java.util.HashSet" %><%--
   Created by IntelliJ IDEA.
   User: SebastianLos
   Date: 22.04.2017
@@ -72,25 +73,53 @@
         </div>
         <div>
             <label class="checkbox-inline">
-                <input type="checkbox" name="startingDays" value="1"> Monday
+                <% if (((HashSet<String>)request.getAttribute("startingDaysString")).contains("Monday")) { %>
+                    <input type="checkbox" name="startingDays" value="1" checked> Monday
+                <% } else { %>
+                    <input type="checkbox" name="startingDays" value="1" > Monday
+                <% } %>
             </label>
             <label class="checkbox-inline">
-                <input type="checkbox" name="startingDays" value="2"> Tuesday
+                <% if (((HashSet<String>)request.getAttribute("startingDaysString")).contains("Tuesday")) { %>
+                <input type="checkbox" name="startingDays" value="2" checked> Tuesday
+                <% } else { %>
+                <input type="checkbox" name="startingDays" value="2" > Tuesday
+                <% } %>
             </label>
             <label class="checkbox-inline">
-                <input type="checkbox" name="startingDays" value="3"> Wednesday
+                <% if (((HashSet<String>)request.getAttribute("startingDaysString")).contains("Wednesday")) { %>
+                <input type="checkbox" name="startingDays" value="3" checked> Wednesday
+                <% } else { %>
+                <input type="checkbox" name="startingDays" value="3" > Wednesday
+                <% } %>
             </label>
             <label class="checkbox-inline">
-                <input type="checkbox" name="startingDays" value="4"> Thursday
+                <% if (((HashSet<String>)request.getAttribute("startingDaysString")).contains("Thursday")) { %>
+                <input type="checkbox" name="startingDays" value="4" checked> Thursday
+                <% } else { %>
+                <input type="checkbox" name="startingDays" value="4" > Thursday
+                <% } %>
             </label>
             <label class="checkbox-inline">
-                <input type="checkbox" name="startingDays"  value="5"> Friday
+                <% if (((HashSet<String>)request.getAttribute("startingDaysString")).contains("Friday")) { %>
+                <input type="checkbox" name="startingDays"  value="5" checked> Friday
+                <% } else { %>
+                <input type="checkbox" name="startingDays"  value="5" > Friday
+                <% } %>
             </label>
             <label class="checkbox-inline">
-                <input type="checkbox" name="startingDays"  value="6"> Saturday
+                <% if (((HashSet<String>)request.getAttribute("startingDaysString")).contains("Saturday")) { %>
+                <input type="checkbox" name="startingDays"  value="6" checked> Saturday
+                <% } else { %>
+                <input type="checkbox" name="startingDays"  value="6" > Saturday
+                <% } %>
             </label>
             <label class="checkbox-inline">
-                <input type="checkbox" name="startingDays"  value="7"> Sunday
+                <% if (((HashSet<String>)request.getAttribute("startingDaysString")).contains("Sunday")) { %>
+                <input type="checkbox" name="startingDays"  value="7" checked> Sunday
+                <% } else { %>
+                <input type="checkbox" name="startingDays"  value="7" > Sunday
+                <% } %>
             </label>
         </div>
 

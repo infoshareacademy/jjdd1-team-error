@@ -18,6 +18,5 @@
         <input type="hidden" name="currencyZipFileStatus" value="${currencyZipFileStatus}" />
         <button type="submit" name="uploadFiles">Upload files</button>
     </div>
-    session.setAttribute("userId", userid);
 </form>
 <%@ include file="footer.jsp" %>
