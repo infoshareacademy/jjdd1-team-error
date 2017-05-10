@@ -53,8 +53,6 @@ public class CountryStatisticsTest {
         assertThat(sut.getStatistics()).containsKey("USA");
         assertThat(sut.getStatistics().get("USA")).isEqualTo(5);
 
-
-
     }
 
     @Test
