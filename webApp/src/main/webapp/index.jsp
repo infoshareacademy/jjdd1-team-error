@@ -1,12 +1,12 @@
 <%@ include file="headersAndStyle.jsp" %>
 
-<div class="row" style="margin:0; padding-top:50px;">
+<div class="row" style="margin:0; padding-bottom:120px; padding-top:50px;">
     <div class="col-md-4" style="padding:0;">
         <img class="photo" src="img/photo2.jpg" alt="car">
     </div>
     <div class="col-md-4" style="padding:0;">
 <h1>Welcome  ${userName}!</h1>
-</br>
+<br>
 
 <form method="get" action="/start">
     <div class="buttons">
@@ -19,5 +19,4 @@
 </div>
 </div>
 <div style="clear:both;"></div>
-
 <%@ include file="footer.jsp" %>

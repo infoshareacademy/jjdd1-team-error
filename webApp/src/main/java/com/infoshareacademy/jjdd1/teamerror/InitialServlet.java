@@ -98,9 +98,18 @@ public class InitialServlet extends HttpServlet {
                         cost.getCountry(), cost.getCurrency(), cost.getFuelType());
 
 
-                LOGGER.info ("Croatia chosen {} times", SavingCountryStatistics.countryStatistics.Croatia);
-                LOGGER.info ("France chosen {} times", SavingCountryStatistics.countryStatistics.France);
-                LOGGER.info ("USA chosen {} times", SavingCountryStatistics.countryStatistics.USA );
+                if ("CROATIA".equals(cost.getCountry())) {
+                                  SavingCountryStatistics.countryStatistics.Croatia++;
+                                   LOGGER.info("Croatia chosen quantity increased  by 1");
+                }
+                if ("FRANCE".equals(cost.getCountry())) {
+                                    SavingCountryStatistics.countryStatistics.France++;
+                                    LOGGER.info("France  chosen quantity increased  by 1");
+                }
+                if ("USA".equals(cost.getCountry())) {
+                                    SavingCountryStatistics.countryStatistics.USA++;
+                                    LOGGER.info("USA  chosen quantity increased  by 1");
+                }
             }
 
 //            if(req.getParameter("trendy") != null) {

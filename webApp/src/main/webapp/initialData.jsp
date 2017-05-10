@@ -129,15 +129,15 @@
         <%--</div>--%>
 
         <!-- Submit buttons -->
-        <div class="form-group">
-            <label class="col-md-4 control-label"></label>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-warning" name="trendy" value="">Price Trends <span class="glyphicon glyphicon-send"></span></button>
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-danger" name="tripCost" value="">Trip Cost <span class="glyphicon glyphicon-send"></span></button>
-            </div>
+    <div class="form-group">
+        <label class="col-md-4 control-label"></label>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-warning" name="trendy" value="">Price Trends <span class="glyphicon glyphicon-send"></span></button>
         </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-danger" name="tripCost" value="">Trip Cost <span class="glyphicon glyphicon-send"></span></button>
+        </div>
+    </div>
 
     <%--</fieldset>--%>
 </form>
