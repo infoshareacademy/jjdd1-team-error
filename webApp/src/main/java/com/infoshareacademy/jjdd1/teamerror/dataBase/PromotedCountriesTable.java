@@ -9,7 +9,7 @@ import javax.persistence.Id;
  * Created by sebastianlos on 23.04.2017.
  */
 @Entity
-public class PromotedCountries {
+public class PromotedCountriesTable {
 
     @Id
     @GeneratedValue
@@ -18,10 +18,10 @@ public class PromotedCountries {
     @Column
     private String name;
 
-    public PromotedCountries() {
+    public PromotedCountriesTable() {
     }
 
-    public PromotedCountries(String name) {
+    public PromotedCountriesTable(String name) {
         this.name = name;
     }
 

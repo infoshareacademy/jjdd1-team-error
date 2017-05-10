@@ -46,8 +46,8 @@
                             message: 'You must select a valid payroll file to upload'
                         },
                         file: {
-                            extension: 'txt,xls,csv',
-                            type: 'text/plain,application/vnd.ms-excel,text/csv'
+                            extension: 'txt,csv',
+                            type: 'text/plain,text/csv'
                         }
                     }
                 },

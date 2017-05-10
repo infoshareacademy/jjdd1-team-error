@@ -14,7 +14,7 @@
 <h1>Welcome  ${userName}!</h1>
 </br>
 
-<form method="post" action="/calc">
+<form method="get" action="/start">
     <div class="buttons">
         <button type="submit" name="start" value="" class="btn btn-primary btn-lg">Start your calculation</button>
     </div>
