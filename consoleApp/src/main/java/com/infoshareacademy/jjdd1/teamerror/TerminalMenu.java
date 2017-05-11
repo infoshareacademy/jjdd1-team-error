@@ -14,9 +14,15 @@ public class TerminalMenu {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TerminalMenu.class);
     private final FilesContent filesContent;
+    private final TripFullCost cost;
+    private final Trendy trendy;
 
     public TerminalMenu(FilesContent filesContent) {
         this.filesContent = filesContent;
+        this.cost = new TripFullCost();
+        cost.setTripFullCost(filesContent);
+        this.trendy = new Trendy();
+        trendy.setupClass(filesContent);
     }
 
     public static void main(String[] arg) {
@@ -34,17 +40,6 @@ public class TerminalMenu {
 
         Scanner input = new Scanner(System.in);
 
-        PetrolFileFilter petrolFileFilter = new PetrolFileFilter();
-        petrolFileFilter.setFilesContent(filesContent);
-        CurrencyFileFilter currencyFileFilter = new CurrencyFileFilter();
-        currencyFileFilter.setFilesContent(filesContent);
-
-        TripFullCost cost = new TripFullCost();
-        cost.setTripFullCost(filesContent, petrolFileFilter, currencyFileFilter);
-        cost.setCountryAndCurrency(new CountryAndCurrency());
-
-        CountryAndCurrency countryAndCurrency = new CountryAndCurrency();
-        countryAndCurrency.setCurrencyNames(filesContent);
         PromotedCountries promotedCountries = new PromotedCountries();
         promotedCountries.setFilesContent(filesContent);
 
@@ -52,18 +47,20 @@ public class TerminalMenu {
         for (int i = 0; i < badAnswerCountry; i++) {
             LOGGER.info("Enter a country of the trip({}): ", promotedCountries.getOrderedPromotedCountries());
             String country = input.nextLine();
-            cost.setCountry(country.toUpperCase());
+            cost.setCountry(country);
+            trendy.setCountry(country);
             if (cost.getCountry() == null) {
                 badAnswerCountry++;
             }
         }
-        LOGGER.info("Currency in chosen country is " + cost.getCurrency());
+        LOGGER.info("Currency in chosen country is {} {}", cost.getCurrency(), trendy.getCurrencySymbol());
 
         int badAnswerFuelType = 1;
         for (int i = 0; i < badAnswerFuelType; i++) {
             LOGGER.info("Enter a number for a specific fuel type (1 = diesel, 2 = gasoline): ");
             String fuelType = input.nextLine();
             cost.setFuelType(fuelType);
+            trendy.setFuelType(fuelType);
             if(cost.getFuelType() == null){
                 badAnswerFuelType++;
             }
@@ -97,13 +94,9 @@ public class TerminalMenu {
                         System.out.println("OPTIMAL TIME FOR TRAVEL ANALYSIS");
                         System.out.println("------------------------------------");
                         LOGGER.info("Country: "+ cost.getCountry());
-                        LOGGER.info("Currency: "+ cost.getCurrency());
-                        LOGGER.info("Fuel type: "+ cost.getFuelType());
+                        LOGGER.info("Currency: "+ cost.getCurrency());LOGGER.info("Fuel type: "+ cost.getFuelType());
 
-                        Trendy trendy = new Trendy();
-                        trendy.setCurrencyFileFilter(currencyFileFilter);
-                        trendy.setPetrolFileFilter(petrolFileFilter);
-                        trendy.setTripFullCost(cost);
+                        trendy.setTrendy();
                         String trendForTrip = trendy.getMonthTrendyAsString();
 
                         System.out.println("");

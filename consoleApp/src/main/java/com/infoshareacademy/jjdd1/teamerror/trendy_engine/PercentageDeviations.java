@@ -28,10 +28,11 @@ public class PercentageDeviations {
     }
 
     Map<LocalDate, Double> getDayPercentageDeviations() {
+        LOGGER.debug("Getting in getDayPercentageDeviations method");
         if (ratesList.isEmpty()) {
             return new HashMap<>();
         }
-        Map<Integer, DayValuesGroupedByYear> dayValuesByYear = new LinkedHashMap<>();
+        Map<Integer, DayValuesGroupedByYear> dayValuesByYear = new TreeMap<>();
         Integer currentYear = ratesList.get(0).getDate().getYear();
         dayValuesByYear.put(currentYear, new DayValuesGroupedByYear());
         for (RatesInfo dayData : ratesList) {
@@ -39,6 +40,7 @@ public class PercentageDeviations {
             dayValuesByYear.putIfAbsent(currentYear, new DayValuesGroupedByYear());
             dayValuesByYear.get(currentYear).setDayDeviations(dayData.getDate(), dayData.getRate());
         }
+        LOGGER.debug("Day values grouped by years");
 
         Map<LocalDate, DayValuesGroupedByDay> dayValuesByDay = new LinkedHashMap<>();
         dayValuesByYear.forEach((key, value) -> value.getDayPercentageDeviations().forEach((key1, value1) -> {
@@ -46,7 +48,7 @@ public class PercentageDeviations {
             dayValuesByDay.putIfAbsent(dayOfYear, new DayValuesGroupedByDay());
             dayValuesByDay.get(dayOfYear).setDayPercentageDeviations(value1);
         }));
-
+        LOGGER.debug("Day values grouped by day of the year");
 
         Map<LocalDate, Double> averageDeviations = dayValuesByDay.entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, s -> s.getValue().getAverageDeviation()));
@@ -58,10 +60,12 @@ public class PercentageDeviations {
                 .collect(Collectors.toMap(Map.Entry::getKey,
                         s -> HelpfulMethods.round(s.getValue() - minVal, DECIMAL_PLACES))));
 
+        LOGGER.debug("Getting out of getDayPercentageDeviations");
         return result;
     }
 
     Map<LocalDate, Double> getMonthPercentageDeviations() {
+        LOGGER.debug("Getting in getMonthPercentageDeviations");
         if (ratesList.isEmpty()) {
             return new HashMap<>();
         }
@@ -117,7 +121,7 @@ public class PercentageDeviations {
                         Map.Entry::getKey,
                         s -> HelpfulMethods.round(((s.getValue() - 1) * 100), DECIMAL_PLACES)
                 )));
-        LOGGER.info("Currency month average deviations for all years calculated");
+        LOGGER.debug("Getting in getMonthPercentageDeviations");
         return HelpfulMethods.minimizeDeviations(results);
     }
 

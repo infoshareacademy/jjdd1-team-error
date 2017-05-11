@@ -15,34 +15,18 @@ public class InitialData {
 
     private final Logger LOGGER = LoggerFactory.getLogger(InitialData.class);
 
-    TripFullCost cost;
-    CurrencyFileFilter currencyFileFilter;
-    PetrolFileFilter petrolFileFilter;
-    Trendy trendy;
     FilesContent filesContent;
-    CountryAndCurrency countryAndCurrency;
-    Map<String, String> countryAndCurrencyList;
+
 
     public InitialData() {
         super();
         LOGGER.info("Initial data start");
 
-        trendy = new Trendy();
 
         filesContent = new OnDemandFilesContent();
-        currencyFileFilter = new CurrencyFileFilter();
-        petrolFileFilter = new PetrolFileFilter();
-        currencyFileFilter.setFilesContent(filesContent);
-        petrolFileFilter.setFilesContent(filesContent);
 
-        trendy.setCurrencyFileFilter(currencyFileFilter);
-        trendy.setPetrolFileFilter(petrolFileFilter);
-        countryAndCurrency = new CountryAndCurrency();
         LOGGER.info("InitialServlet initialised");
 
-        cost = new TripFullCost();
-        cost.setTripFullCost(filesContent, petrolFileFilter, currencyFileFilter);
-//        cost.setCountryAndCurrency(countryAndCurrency);
     }
 }
 

@@ -38,6 +38,9 @@ public class InitialServlet extends HttpServlet {
     Trendy trendy;
 
     @Inject
+    TripFullCost cost;
+
+    @Inject
     InitialData initialData;
 
     @Override
@@ -46,6 +49,8 @@ public class InitialServlet extends HttpServlet {
         LOGGER.debug("servlet request");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
+        trendy.setupClass(initialData.filesContent);
+        cost.setTripFullCost(initialData.filesContent);
 
         if (SourceFilesChecker.checkForSourceFiles(req, resp)) {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
@@ -53,21 +58,13 @@ public class InitialServlet extends HttpServlet {
             return;
         }
 
-        // session thingy
-        HttpSession session = req.getSession(true);
-        TripFullCost cost = (TripFullCost) session.getAttribute(TRIP_FULL_COST_SESSION_ATTR);
-        if (cost == null) {
-            cost = new TripFullCost();
-            cost.setTripFullCost(initialData.filesContent,
-                    initialData.petrolFileFilter, initialData.currencyFileFilter);
-            session.setAttribute(TRIP_FULL_COST_SESSION_ATTR, cost);
-        }
-
-        // countries/currencies check
-        initialData.filesContent.getPetrolDataFile();
-        initialData.filesContent.getCurrencyInfoFile();
-        initialData.countryAndCurrency.setCurrencyNames();
-        initialData.countryAndCurrencyList = initialData.countryAndCurrency.getCountryAndCurrency();
+//        // session thingy
+//        HttpSession session = req.getSession(true);
+//        TripFullCost cost = (TripFullCost) session.getAttribute(TRIP_FULL_COST_SESSION_ATTR);
+//        if (cost == null) {
+//            cost.setTripFullCost(initialData.filesContent);
+//            session.setAttribute(TRIP_FULL_COST_SESSION_ATTR, cost);
+//        }
 
 
         // proceed trendy.jsp or tripCost.jsp
@@ -101,10 +98,10 @@ public class InitialServlet extends HttpServlet {
             }
 
             Gson gson = new Gson();
-            Map<LocalDate, List<Double>> periodTrendy = trendy.getPeriodTrendy(initialData.filesContent);
-            String json1 = gson.toJson(periodTrendy);
+            Map<LocalDate, List<Double>> periodTrendy = trendy.getPeriodTrendy();
+            String json1 = gson.toJson(periodTrendy.keySet());
             LOGGER.info("Map key set: {} ",json1);
-            String json2 = gson.toJson(periodTrendy);
+            String json2 = gson.toJson(periodTrendy.values());
             LOGGER.info("Values: {}", json2);
 
 
@@ -118,12 +115,12 @@ public class InitialServlet extends HttpServlet {
             req.setAttribute("fuelUsage", cost.getFuelUsage());
             req.setAttribute("fullDistance", cost.getDistance());
             req.setAttribute("fullCost", cost.costCount());
-            req.setAttribute("tripLength", initialData.trendy.getTripLength());
+            req.setAttribute("tripLength", trendy.getTripLength());
             req.setAttribute("trendPeriodFrom",
-                    initialData.trendy.getTrendyPeriodFrom().toString().replaceAll("-", "/"));
+                    trendy.getTrendyPeriodFrom().toString().replaceAll("-", "/"));
             req.setAttribute("trendPeriodTill",
-                    initialData.trendy.getTrendyPeriodTill().toString().replaceAll("-", "/"));
-            req.setAttribute("startingDaysString", initialData.trendy.getStartingDaysString());
+                    trendy.getTrendyPeriodTill().toString().replaceAll("-", "/"));
+            req.setAttribute("startingDaysString", trendy.getStartingDaysString());
             req.setAttribute("datesForTrends", json1);
             req.setAttribute("valuesForTrends", json2);
 
@@ -141,27 +138,28 @@ public class InitialServlet extends HttpServlet {
                 if (periodDateFrom != null && periodDateTill != null & tripLength != null && startingDays != null) {
                     periodDateFrom = periodDateFrom.replaceAll("/", "");
                     periodDateTill = periodDateTill.replaceAll("/", "");
-                    initialData.trendy.setTrendyPeriodFrom(periodDateFrom);
-                    initialData.trendy.setTrendyPeriodTill(periodDateTill);
-                    initialData.trendy.setTripLength(tripLength);
-                    initialData.trendy.setStartingDays(new HashSet<>(Arrays.asList(startingDays)));
+                    trendy.setTrendyPeriodFrom(periodDateFrom);
+                    trendy.setTrendyPeriodTill(periodDateTill);
+                    trendy.setTripLength(tripLength);
+                    trendy.setStartingDays(new HashSet<>(Arrays.asList(startingDays)));
 
                     LOGGER.debug("Trendy parameters changed - DateFrom: {} DateTill: {} TripLength: {}",
                             periodDateFrom, periodDateTill, tripLength);
                 }
-                periodTrendy = trendy.getPeriodTrendy(initialData.filesContent);
-                json1 = gson.toJson(periodTrendy);
+                periodTrendy = trendy.getPeriodTrendy();
+                json1 = gson.toJson(periodTrendy.keySet());
                 LOGGER.info("Map key set: {} ",json1);
-                json2 = gson.toJson(periodTrendy);
+                json2 = gson.toJson(periodTrendy.values());
                 LOGGER.info("Values: {}", json2);
 
-                req.setAttribute("periodTrendy", initialData.trendy.getPeriodTrendy(initialData.filesContent));
-                req.setAttribute("conclusion", initialData.trendy.getConclusion());
+                req.setAttribute("periodTrendy", periodTrendy);
+                req.setAttribute("conclusion", trendy.getConclusion());
                 req.setAttribute("trendPeriodFrom",
-                        initialData.trendy.getTrendyPeriodFrom().toString().replaceAll("-", "/"));
+                        trendy.getTrendyPeriodFrom().toString().replaceAll("-", "/"));
                 req.setAttribute("trendPeriodTill",
-                        initialData.trendy.getTrendyPeriodTill().toString().replaceAll("-", "/"));
-                req.setAttribute("startingDaysString", initialData.trendy.getStartingDaysString());
+                        trendy.getTrendyPeriodTill().toString().replaceAll("-", "/"));
+                req.setAttribute("tripLength", trendy.getTripLength());
+                req.setAttribute("startingDaysString", trendy.getStartingDaysString());
                 req.setAttribute("datesForTrends", json1);
                 req.setAttribute("valuesForTrends", json2);
 

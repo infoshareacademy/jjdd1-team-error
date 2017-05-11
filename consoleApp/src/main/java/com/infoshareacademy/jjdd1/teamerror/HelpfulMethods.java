@@ -34,7 +34,7 @@ public class HelpfulMethods {
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey,
-                        a -> a.getValue() - Collections.min(valuesAvgForStartingDays.values()))));
+                        a -> round(a.getValue() - Collections.min(valuesAvgForStartingDays.values()), 2))));
         return valuesAvgListFinal;
     }
 }

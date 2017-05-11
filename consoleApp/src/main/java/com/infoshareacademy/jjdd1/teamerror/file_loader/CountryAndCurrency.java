@@ -22,9 +22,6 @@ public class CountryAndCurrency {
 
     public CountryAndCurrency(FilesContent filesContent) {
         this.filesContent = filesContent;
-    }
-
-    public void setCurrencyNames() {
         currencyNames = new CurrencyNames(filesContent);
     }
 
