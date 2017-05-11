@@ -47,6 +47,7 @@ public class InitialData {
         petrolFileFilter = new PetrolFileFilter();
         currencyFileFilter.setFilesContent(filesContent);
         petrolFileFilter.setFilesContent(filesContent);
+        promotedCountries = new PromotedCountries();
 
         trendy.setCurrencyFileFilter(currencyFileFilter);
         trendy.setPetrolFileFilter(petrolFileFilter);
