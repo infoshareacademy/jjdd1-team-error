@@ -76,6 +76,7 @@ public class InitialServlet extends HttpServlet {
             return;
         }
 
+
         req.setAttribute("countryList", initialData.promotedCountries.getOrderedPromotedCountries());
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
