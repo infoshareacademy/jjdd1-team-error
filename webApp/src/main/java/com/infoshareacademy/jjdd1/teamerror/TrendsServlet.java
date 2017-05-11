@@ -34,16 +34,16 @@ public class TrendsServlet extends HttpServlet {
     @Inject
     HttpSession session;
 
-    Gson gson = new Gson();
-
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
 
+        Gson gson = new Gson();
+
         initialData.trendy.setTripFullCost(initialData.cost);
         initialData.trendy.setTrendy();
-        LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}",
-                initialData.cost.getCountry(), initialData.cost.getCurrency(), initialData.cost.getFuelType());
+        LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}", initialData.cost.getCountry()
+                , initialData.cost.getCurrency(), initialData.cost.getFuelType());
 
         String periodDateFrom = req.getParameter("periodDateFrom");
         String periodDateTill = req.getParameter("periodDateTill");

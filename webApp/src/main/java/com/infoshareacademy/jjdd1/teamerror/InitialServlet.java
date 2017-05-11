@@ -52,17 +52,6 @@ public class InitialServlet extends HttpServlet {
         initialData.promotedCountries.setPromotedCountries(ret);
         LOGGER.info("Data from database successfully loaded");
 
-        // session thingy
-        HttpSession session = req.getSession(true);
-        TripFullCost cost = (TripFullCost) session.getAttribute(TRIP_FULL_COST_SESSION_ATTR);
-        if (cost == null) {
-            cost = new TripFullCost();
-            cost.setTripFullCost(initialData.filesContent, initialData.petrolFileFilter, initialData.currencyFileFilter);
-            cost.setCountryAndCurrency(new CountryAndCurrency());
-
-            session.setAttribute(TRIP_FULL_COST_SESSION_ATTR, cost);
-        }
-
         // countries/currencies check
         initialData.filesContent.getPetrolDataFile();
         initialData.filesContent.getCurrencyInfoFile();
@@ -74,10 +63,10 @@ public class InitialServlet extends HttpServlet {
                 FileReader.PETROL_FILE_NAME));
 
         URL currencyInfoFileURL = (FileReader.class.getResource(FileReader.PATH_TO_FILES +
-                FileReader.CURRENCY_FILE_WITH_GENERAL_DATA));
+                FileReader.CURRENCY_INFO_FILE));
 
         URL currencyZipFileURL = (FileReader.class.getResource(FileReader.PATH_TO_FILES +
-                FileReader.ZIP_CURRENCY_FILE));
+                FileReader.CURRENCY_ZIP_FILE));
 
         if(petrolFileURL == null || currencyInfoFileURL == null || currencyZipFileURL == null) {
             req.setAttribute("missingFile",  "yes");
@@ -86,6 +75,7 @@ public class InitialServlet extends HttpServlet {
             LOGGER.error("At least one source file is missing");
             return;
         }
+
 
         req.setAttribute("countryList", initialData.promotedCountries.getOrderedPromotedCountries());
 

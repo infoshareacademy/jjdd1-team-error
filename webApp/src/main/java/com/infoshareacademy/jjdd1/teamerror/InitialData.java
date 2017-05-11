@@ -23,6 +23,7 @@ public class InitialData {
     FilesContent filesContent;
     CountryAndCurrency countryAndCurrency;
     Map<String, String> countryAndCurrencyList;
+    PromotedCountries promotedCountries;
 
     public InitialData() {
         super();
