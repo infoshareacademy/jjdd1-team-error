@@ -141,11 +141,11 @@ public class Trendy {
 
     public Set<String> getStartingDaysString() {
         String[] weekDays = DateFormatSymbols.getInstance().getWeekdays();
-        startingDays.forEach(s -> {
-            if (s.equals(7)) {
-                s = 0;
-            }
-        });
+        if (startingDays.contains(7)) {
+            startingDays.remove(7);
+            startingDays.add(0);
+        }
+        startingDays.stream().forEach(System.out::println);
         return startingDays.stream()
                 .map(day -> weekDays[++day])
                 .collect(Collectors.toSet());
