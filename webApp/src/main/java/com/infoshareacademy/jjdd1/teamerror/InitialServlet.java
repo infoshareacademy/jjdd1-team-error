@@ -36,11 +36,10 @@ public class InitialServlet extends HttpServlet {
     @Inject
     InitialData initialData;
 
-    @Inject
-    HttpSession session;
-
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        HttpSession session = req.getSession(true);
 
         LOGGER.debug("servlet request");
         resp.setCharacterEncoding("UTF-8");
@@ -68,6 +67,9 @@ public class InitialServlet extends HttpServlet {
         URL currencyZipFileURL = (FileReader.class.getResource(FileReader.PATH_TO_FILES +
                 FileReader.CURRENCY_ZIP_FILE));
 
+        session.setAttribute("countryList", initialData.promotedCountries.getOrderedPromotedCountries());
+        LOGGER.info("IMPORTANDO! COUNTRIES ATRIBUTE {}:", session.getAttribute("countryList"));
+
         if(petrolFileURL == null || currencyInfoFileURL == null || currencyZipFileURL == null) {
             req.setAttribute("missingFile",  "yes");
             RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
@@ -75,9 +77,6 @@ public class InitialServlet extends HttpServlet {
             LOGGER.error("At least one source file is missing");
             return;
         }
-
-
-        req.setAttribute("countryList", initialData.promotedCountries.getOrderedPromotedCountries());
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");
         dispatcher.forward(req, resp);

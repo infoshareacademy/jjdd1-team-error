@@ -31,10 +31,10 @@ public class TrendsServlet extends HttpServlet {
     @Inject
     InitialData initialData;
 
-    @Inject
-    HttpSession session;
-
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        HttpSession session = req.getSession(true);
+
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
 
@@ -42,7 +42,7 @@ public class TrendsServlet extends HttpServlet {
 
         initialData.trendy.setTripFullCost(initialData.cost);
         initialData.trendy.setTrendy();
-        LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}", initialData.cost.getCountry()
+        LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}", session.getAttribute("country")
                 , initialData.cost.getCurrency(), initialData.cost.getFuelType());
 
         String periodDateFrom = req.getParameter("periodDateFrom");

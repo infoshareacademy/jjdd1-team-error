@@ -32,10 +32,10 @@ public class DataGatheringServlet extends HttpServlet {
     @Inject
     InitialData initialData;
 
-    @Inject
-    HttpSession session;
-
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        HttpSession session = req.getSession(true);
+
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
 
@@ -69,6 +69,7 @@ public class DataGatheringServlet extends HttpServlet {
         LOGGER.info("initialData trip atributes set:{} {} {} {} {} {}",
                 initialData.cost.getCountry(), initialData.cost.getFuelType(), initialData.cost.getDate1(),
                 initialData.cost.getDate2(), initialData.cost.getFuelUsage(), initialData.cost.getDistance());
+
 
         if(req.getParameter("trendy") != null){
             req.setAttribute("title", "Optimal time for trip");
