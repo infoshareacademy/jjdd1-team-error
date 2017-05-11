@@ -30,7 +30,7 @@ public class PromotedCountries {
     public void setFilesContent(FilesContent filesContent) {
         this.filesContent = filesContent;
         countryAndCurrency = new CountryAndCurrency();
-        countryAndCurrency.setFilesContent(filesContent);
+        countryAndCurrency.setCurrencyNames(filesContent);
     }
 
     public static void loadPromotedCountries() {

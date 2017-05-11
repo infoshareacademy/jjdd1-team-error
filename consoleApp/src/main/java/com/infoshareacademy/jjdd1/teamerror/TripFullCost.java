@@ -29,7 +29,7 @@ public class TripFullCost {
 
     public void setCountryAndCurrency(CountryAndCurrency countryAndCurrency) {
         this.countryAndCurrency = countryAndCurrency;
-        countryAndCurrency.setFilesContent(fileContent);
+        countryAndCurrency.setCurrencyNames();
     }
 
     //basic constructor
@@ -172,8 +172,8 @@ public class TripFullCost {
     //data check added to standard SET method
     void setCountry(String country){
         try{
-            countryAndCurrency = new CountryAndCurrency();
-            countryAndCurrency.setFilesContent(new OnDemandFilesContent());
+            countryAndCurrency = new CountryAndCurrency(fileContent);
+            countryAndCurrency.setCurrencyNames();
             if (countryAndCurrency.getCountryAndCurrency().containsKey(country)) {
                 this.country = country;
                 this.currency = countryAndCurrency.getCountryAndCurrency().get(country);
@@ -230,9 +230,9 @@ public class TripFullCost {
         double fuelPriceDate2 = 0;
 
         //creating lists from files, so that they can be searched through
-        currencyFileFilter = new CurrencyFileFilter();
+        currencyFileFilter = new CurrencyFileFilter(fileContent);
         currencyFileFilter.setFilesContent(new OnDemandFilesContent());
-        petrolFileFilter = new PetrolFileFilter();
+        petrolFileFilter = new PetrolFileFilter(fileContent);
         petrolFileFilter.setFilesContent(new OnDemandFilesContent());
         List<RatesInfo> currencyObjectsList = currencyFileFilter.getListOfCurrencyDataObjects(currency);
         List<RatesInfo> petrolObjectsList = petrolFileFilter.getListOfPetrolDataObjects(country, fuelType);

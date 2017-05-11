@@ -16,7 +16,8 @@ public class PetrolFileFilter {
 
     private List<RatesInfo> listOfPetrolDataObjects = new ArrayList<>();
 
-    public PetrolFileFilter() {
+    public PetrolFileFilter(FilesContent filesContent) {
+        this.filesContent = filesContent;
     }
 
     public void setFilesContent(FilesContent filesContent) {

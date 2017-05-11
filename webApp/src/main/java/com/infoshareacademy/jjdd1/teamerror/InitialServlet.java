@@ -3,8 +3,7 @@ package com.infoshareacademy.jjdd1.teamerror;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
 import com.google.gson.Gson;
 import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
-import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
-import com.infoshareacademy.jjdd1.teamerror.file_loader.FileReader;
+import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,9 +14,11 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by krystianskrzyszewski on 19.04.17.
@@ -32,6 +33,9 @@ public class InitialServlet extends HttpServlet {
 
     @Inject
     SavingClass savingClass;
+
+    @Inject
+    Trendy trendy;
 
     @Inject
     InitialData initialData;
@@ -62,7 +66,7 @@ public class InitialServlet extends HttpServlet {
         // countries/currencies check
         initialData.filesContent.getPetrolDataFile();
         initialData.filesContent.getCurrencyInfoFile();
-        initialData.countryAndCurrency.setFilesContent(initialData.filesContent);
+        initialData.countryAndCurrency.setCurrencyNames();
         initialData.countryAndCurrencyList = initialData.countryAndCurrency.getCountryAndCurrency();
 
 
@@ -71,13 +75,16 @@ public class InitialServlet extends HttpServlet {
 
             if(switcher == 0){
                 switcher++;
-
-                cost.setCountry(req.getParameter("country").toUpperCase());
-                cost.setFuelType(req.getParameter("fuelType"));
+                String country = req.getParameter("country").toUpperCase();
+                String fuelType = req.getParameter("fuelType");
+                cost.setCountry(country);
+                cost.setFuelType(fuelType);
                 cost.setDate1(req.getParameter("date1").replaceAll("/",""));
                 cost.setDate2(req.getParameter("date2").replaceAll("/",""));
                 cost.setFuelUsage(req.getParameter("fuelUsage"));
                 cost.setDistance(req.getParameter("fullDistance"));
+                trendy.setCountry(country);
+                trendy.setFuelType(fuelType);
                 LOGGER.debug("country-{} fuel type-{}", req.getParameter("country"), req.getParameter("fuelType"));
                                LOGGER.info("servlet req params: date1-{} date2-{} fuel usage-{} " +
                         "full distance-{}", cost.getDate1(), cost.getDate2(), cost.getFuelUsage(), cost.getDistance());
@@ -89,21 +96,20 @@ public class InitialServlet extends HttpServlet {
 
                 LOGGER.info("Cost class: {}", cost.toString());
 
-                initialData.trendy.setTripFullCost(cost);
-                initialData.trendy.setTrendy();
                 LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}",
                         cost.getCountry(), cost.getCurrency(), cost.getFuelType());
             }
 
             Gson gson = new Gson();
-            String json1 = gson.toJson(initialData.trendy.getPeriodTrendy().keySet());
+            Map<LocalDate, List<Double>> periodTrendy = trendy.getPeriodTrendy(initialData.filesContent);
+            String json1 = gson.toJson(periodTrendy);
             LOGGER.info("Map key set: {} ",json1);
-            String json2 = gson.toJson(initialData.trendy.getPeriodTrendy().values());
+            String json2 = gson.toJson(periodTrendy);
             LOGGER.info("Values: {}", json2);
 
 
-            req.setAttribute("periodTrendy", initialData.trendy.getPeriodTrendy());
-            req.setAttribute("conclusion", initialData.trendy.getConclusion());
+            req.setAttribute("periodTrendy", periodTrendy);
+            req.setAttribute("conclusion", periodTrendy);
             req.setAttribute("country", cost.getCountry());
             req.setAttribute("currency", cost.getCurrency());
             req.setAttribute("fuelType", cost.getFuelType());
@@ -143,12 +149,13 @@ public class InitialServlet extends HttpServlet {
                     LOGGER.debug("Trendy parameters changed - DateFrom: {} DateTill: {} TripLength: {}",
                             periodDateFrom, periodDateTill, tripLength);
                 }
-                json1 = gson.toJson(initialData.trendy.getPeriodTrendy().keySet());
+                periodTrendy = trendy.getPeriodTrendy(initialData.filesContent);
+                json1 = gson.toJson(periodTrendy);
                 LOGGER.info("Map key set: {} ",json1);
-                json2 = gson.toJson(initialData.trendy.getPeriodTrendy().values());
+                json2 = gson.toJson(periodTrendy);
                 LOGGER.info("Values: {}", json2);
 
-                req.setAttribute("periodTrendy", initialData.trendy.getPeriodTrendy());
+                req.setAttribute("periodTrendy", initialData.trendy.getPeriodTrendy(initialData.filesContent));
                 req.setAttribute("conclusion", initialData.trendy.getConclusion());
                 req.setAttribute("trendPeriodFrom",
                         initialData.trendy.getTrendyPeriodFrom().toString().replaceAll("-", "/"));

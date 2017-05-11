@@ -16,7 +16,8 @@ public class CurrencyFileFilter {
     private List<RatesInfo> listOfCurrencyDataObjects = new ArrayList<>();
     private FilesContent filesContent;
 
-    public CurrencyFileFilter() {
+    public CurrencyFileFilter(FilesContent filesContent) {
+        this.filesContent = filesContent;
     }
 
     public void setFilesContent(FilesContent filesContent) {

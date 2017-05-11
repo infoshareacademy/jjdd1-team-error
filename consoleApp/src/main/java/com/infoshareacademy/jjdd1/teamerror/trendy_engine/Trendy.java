@@ -1,10 +1,8 @@
 package com.infoshareacademy.jjdd1.teamerror.trendy_engine;
 
 import com.infoshareacademy.jjdd1.teamerror.HelpfulMethods;
-import com.infoshareacademy.jjdd1.teamerror.TripFullCost;
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.RatesInfo;
-import com.infoshareacademy.jjdd1.teamerror.file_loader.CurrencyFileFilter;
-import com.infoshareacademy.jjdd1.teamerror.file_loader.PetrolFileFilter;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,9 +30,13 @@ public class Trendy {
     private Map<LocalDate, Double> petrolTrendy = new LinkedHashMap<>();
     private Map<LocalDate, Double> currencyDayTrendy = new LinkedHashMap<>();
 
+    private FilesContent filesContent;
     private PetrolFileFilter petrolFileFilter;
     private CurrencyFileFilter currencyFileFilter;
-    private TripFullCost tripFullCost = new TripFullCost();
+    private CountryAndCurrency countryAndCurrency;
+    private String currencySymbol;
+    private String country;
+    private String fuelType;
     private LocalDate trendyPeriodFrom = LocalDate.now();
     private LocalDate trendyPeriodTill = LocalDate.now().plusDays(DEFAULT_DAYS_NUMBER);
     private Integer tripLength = DEFAULT_TRIP_LENGTH;
@@ -43,14 +45,58 @@ public class Trendy {
     public Trendy() {
     }
 
-    public void setPetrolFileFilter(PetrolFileFilter petrolFileFilter) {
-        this.petrolFileFilter = petrolFileFilter;
+    public String getCurrencySymbol() {
+        return currencySymbol;
     }
-    public void setCurrencyFileFilter(CurrencyFileFilter currencyFileFilter) {
-        this.currencyFileFilter = currencyFileFilter;
+
+    public void setCurrencySymbol(String currencySymbol) {
+        this.currencySymbol = currencySymbol;
     }
-    public void setTripFullCost(TripFullCost tripFullCost) {
-        this.tripFullCost = tripFullCost;
+
+    public String getCountry() {
+        return country;
+    }
+
+    //data check added to standard SET method
+    public void setCountry(String country){
+        try{
+            countryAndCurrency = new CountryAndCurrency(filesContent);
+            countryAndCurrency.setCurrencyNames();
+            if (countryAndCurrency.getCountryAndCurrency().containsKey(country)) {
+                this.country = country;
+                this.currencySymbol = countryAndCurrency.getCountryAndCurrency().get(country);
+            } else {
+                throw new Exception();
+            }
+        } catch (Exception e) {
+            LOGGER.error("Country [{}] is not accepted --> {}", country, e);
+        }
+    }
+
+    public String getFuelType() {
+        return fuelType;
+    }
+
+    //data check added to standard SET method
+    public void setFuelType(String fuelNumber) {
+        try{
+            int number = Integer.parseInt(fuelNumber);
+            switch(number){
+                case 1:
+                    this.fuelType = "diesel";
+                    LOGGER.info("[{}] chosen", fuelType);
+                    break;
+                case 2:
+                    this.fuelType = "gasoline";
+                    LOGGER.info("[{}] chosen", fuelType);
+                    break;
+                default:
+                    LOGGER.error("[{}] fuel type is incorrect", fuelNumber);
+                    break;
+            }
+        }catch (Exception e) {
+            LOGGER.error("[{}] is not a number", fuelNumber);
+        }
     }
 
     public LocalDate getTrendyPeriodFrom() {
@@ -157,15 +203,81 @@ public class Trendy {
                 .collect(Collectors.toSet());
     }
 
-    public Map<LocalDate, List<Double>> getPeriodTrendy() {
-
+    public Map<LocalDate, List<Double>> getPeriodTrendy(FilesContent filesContent) {
+        setTrendy(filesContent);
         LOGGER.debug("Calculating trendy for parameters - DateFrom: {} DateTill: {} TripLength: {}",
                 trendyPeriodFrom, trendyPeriodTill, tripLength);
-        Long daysNumber = trendyPeriodFrom.until(trendyPeriodTill, ChronoUnit.DAYS);
         Map<LocalDate, Double> currencyValuesAvgList = new LinkedHashMap<>();
         Map<LocalDate, Double> petrolValuesAvgList = new LinkedHashMap<>();
         Map<LocalDate, List<Double>> results = new TreeMap<>();
         Map<LocalDate, Double> cheapestAveragesSums = new TreeMap<>();
+        determineAvgValues(currencyValuesAvgList, petrolValuesAvgList);
+
+        Map<LocalDate, Double> currencyValuesAvgForStartingDays = filtrateByStaringDays(currencyValuesAvgList);
+        Map<LocalDate, Double> petrolValuesAvgForStartingDays = filtrateByStaringDays(petrolValuesAvgList);
+
+        Map<LocalDate, Double> currencyValuesAvgListFinal = HelpfulMethods.minimizeDeviations(currencyValuesAvgForStartingDays);
+        Map<LocalDate, Double> petrolValuesAvgListFinal = HelpfulMethods.minimizeDeviations(petrolValuesAvgForStartingDays);
+
+        determineCurrencyAndPetrolValuesSumsAndGenerateResults(results, cheapestAveragesSums, currencyValuesAvgListFinal, petrolValuesAvgListFinal);
+
+        setConclusion(cheapestAveragesSums);
+        return results;
+    }
+
+    private void setConclusion(Map<LocalDate, Double> cheapestAveragesSums) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM YYYY");
+        if (!cheapestAveragesSums.isEmpty()) {
+            conclusion = "The cheapest dates for trip are between: \n<br>";
+            cheapestAveragesSums.forEach((key, value) -> conclusion += key.format(formatter) +
+                    " and " + key.plusDays(tripLength).format(formatter) + "\n<br>");
+        }
+        else {
+            conclusion = "No data for given parameters";
+        }
+    }
+
+    private void determineCurrencyAndPetrolValuesSumsAndGenerateResults(
+            Map<LocalDate, List<Double>> results,
+            Map<LocalDate, Double> cheapestAveragesSums,
+            Map<LocalDate, Double> currencyValuesAvgListFinal,
+            Map<LocalDate, Double> petrolValuesAvgListFinal) {
+
+        for (Map.Entry tripValue : currencyValuesAvgListFinal.entrySet()) {
+            List<Double> values = new ArrayList<>();
+            LocalDate currentDate = (LocalDate)tripValue.getKey();
+            Double currencyValue = HelpfulMethods.round((Double)tripValue.getValue(), 2);
+            Double petrolValue = HelpfulMethods.round(
+                    petrolValuesAvgListFinal.getOrDefault(currentDate, 0.0), 2);
+            Double currentSumOfAverages = HelpfulMethods.round(currencyValue + petrolValue, 2);
+            values.add(currencyValue);
+            values.add(petrolValue);
+            values.add(currentSumOfAverages);
+            results.put(currentDate, values);
+
+            updateCheapestAverageSums(cheapestAveragesSums, currentDate, currentSumOfAverages);
+        }
+    }
+
+    private void updateCheapestAverageSums(Map<LocalDate, Double> cheapestAveragesSums, LocalDate currentDate, Double currentSumOfAverages) {
+        if (cheapestAveragesSums.size() < 3) {
+            cheapestAveragesSums.put(currentDate, currentSumOfAverages);
+        }
+        else if (Collections.max(cheapestAveragesSums.values()) > currentSumOfAverages) {
+            LocalDate maxValueDate = null;
+            for (Map.Entry sum : cheapestAveragesSums.entrySet()) {
+                if (sum.getValue().equals(Collections.max(cheapestAveragesSums.values()))) {
+                    maxValueDate = (LocalDate) sum.getKey();
+                }
+            }
+            cheapestAveragesSums.remove(maxValueDate);
+            cheapestAveragesSums.put(currentDate, currentSumOfAverages);
+        }
+    }
+
+    private void determineAvgValues(Map<LocalDate, Double> currencyValuesAvgList,
+                                    Map<LocalDate, Double> petrolValuesAvgList) {
+        Long daysNumber = trendyPeriodFrom.until(trendyPeriodTill, ChronoUnit.DAYS);
         for (int i = 0; i < daysNumber - tripLength; i++) {
             LocalDate currentDate = trendyPeriodFrom.plusDays(i);
             List<Double> currencyValues = new ArrayList<>();
@@ -189,50 +301,6 @@ public class Trendy {
                 petrolValuesAvgList.put(currentDate, petrolValuesAvg);
             }
         }
-
-        Map<LocalDate, Double> currencyValuesAvgForStartingDays = filtrateByStaringDays(currencyValuesAvgList);
-        Map<LocalDate, Double> petrolValuesAvgForStartingDays = filtrateByStaringDays(petrolValuesAvgList);
-
-        Map<LocalDate, Double> currencyValuesAvgListFinal = HelpfulMethods.minimizeDeviations(currencyValuesAvgForStartingDays);
-        Map<LocalDate, Double> petrolValuesAvgListFinal = HelpfulMethods.minimizeDeviations(petrolValuesAvgForStartingDays);
-
-        for (Map.Entry tripValue : currencyValuesAvgListFinal.entrySet()) {
-            List<Double> values = new ArrayList<>();
-            LocalDate currentDate = (LocalDate)tripValue.getKey();
-            Double currencyValue = HelpfulMethods.round((Double)tripValue.getValue(), 2);
-            Double petrolValue = HelpfulMethods.round(
-                    petrolValuesAvgListFinal.getOrDefault(currentDate, 0.0), 2);
-            Double currentSumOfAverages = HelpfulMethods.round(currencyValue + petrolValue, 2);
-            values.add(currencyValue);
-            values.add(petrolValue);
-            values.add(currentSumOfAverages);
-            results.put(currentDate, values);
-
-            if (cheapestAveragesSums.size() < 3) {
-                cheapestAveragesSums.put(currentDate, currentSumOfAverages);
-            }
-            else if (Collections.max(cheapestAveragesSums.values()) > currentSumOfAverages) {
-                LocalDate maxValueDate = null;
-                for (Map.Entry sum : cheapestAveragesSums.entrySet()) {
-                    if (sum.getValue().equals(Collections.max(cheapestAveragesSums.values()))) {
-                        maxValueDate = (LocalDate) sum.getKey();
-                    }
-                }
-                cheapestAveragesSums.remove(maxValueDate);
-                cheapestAveragesSums.put(currentDate, currentSumOfAverages);
-            }
-        }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM YYYY");
-        if (!cheapestAveragesSums.isEmpty()) {
-            conclusion = "The cheapest dates for trip are between: \n<br>";
-            cheapestAveragesSums.forEach((key, value) -> conclusion += key.format(formatter) +
-                    " and " + key.plusDays(tripLength).format(formatter) + "\n<br>");
-        }
-        else {
-            conclusion = "No data for given parameters";
-        }
-        return results;
     }
 
     private Map<LocalDate, Double> filtrateByStaringDays(Map<LocalDate, Double> valuesAvgList) {
@@ -246,12 +314,12 @@ public class Trendy {
     }
 
     // set trendy values for petrol and currency to maps and conclusion
-    public void setTrendy() {
+    public void setTrendy(FilesContent filesContent) {
+        this.filesContent = filesContent;
+        petrolFileFilter = new PetrolFileFilter(filesContent);
+        currencyFileFilter = new CurrencyFileFilter(filesContent);
         currencyDayTrendy.clear();
         petrolTrendy.clear();
-        String currencySymbol = tripFullCost.getCurrency();
-        String fuelType = tripFullCost.getFuelType();
-        String country = tripFullCost.getCountry();
         Map<LocalDate, Double> currencyDayTrendyList = new TreeMap<>();
         Map<LocalDate, Double> petrolTrendyList = new TreeMap<>();
         List<RatesInfo> currencyDataList = currencyFileFilter.getListOfCurrencyDataObjects(currencySymbol);
@@ -276,9 +344,6 @@ public class Trendy {
 
     // print differences in currencies and fuel rates in each month and the best month for cheap travel
     public String getMonthTrendyAsString() {
-        String currencySymbol = tripFullCost.getCurrency();
-        String fuelType = tripFullCost.getFuelType();
-        String country = tripFullCost.getCountry();
         Map<LocalDate, Double> currencyTrendyList = new HashMap<>();
         Map<LocalDate, Double> petrolTrendyList = new HashMap<>();
         List<RatesInfo> currencyDataList = currencyFileFilter.getListOfCurrencyDataObjects(currencySymbol);
@@ -341,12 +406,6 @@ public class Trendy {
             returnStatement.append(symbols.getMonths()[numberOfMonthWithOptimalRates].toUpperCase());
         }
         LOGGER.info("Trendy analysis in string created");
-
-        setTrendy();
-
-        getPeriodTrendy()
-                .forEach((key, value) -> System.out.println(key + " " + value.toString()));
-        System.out.println(conclusion);
 
         return returnStatement.toString();
     }

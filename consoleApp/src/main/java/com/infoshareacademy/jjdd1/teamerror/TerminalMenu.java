@@ -44,7 +44,7 @@ public class TerminalMenu {
         cost.setCountryAndCurrency(new CountryAndCurrency());
 
         CountryAndCurrency countryAndCurrency = new CountryAndCurrency();
-        countryAndCurrency.setFilesContent(filesContent);
+        countryAndCurrency.setCurrencyNames(filesContent);
         PromotedCountries promotedCountries = new PromotedCountries();
         promotedCountries.setFilesContent(filesContent);
 
