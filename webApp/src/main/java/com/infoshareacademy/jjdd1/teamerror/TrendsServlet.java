@@ -3,6 +3,7 @@ package com.infoshareacademy.jjdd1.teamerror;
 import com.google.gson.Gson;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
 import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +36,6 @@ public class TrendsServlet extends HttpServlet{
     @Inject
     Trendy trendy;
 
-    @Inject
-    InitialData initialData;
-
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -51,8 +49,10 @@ public class TrendsServlet extends HttpServlet{
             return;
         }
 
-        trendy.setupClass(initialData.filesContent);
         session = req.getSession();
+        FilesContent filesContent = (FilesContent)session.getAttribute("filesContent");
+        trendy.setupClass(filesContent);
+
 
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
@@ -116,7 +116,7 @@ public class TrendsServlet extends HttpServlet{
         String conclusion = trendy.getConclusion();
         session.setAttribute("conclusion", conclusion);
 
-
+        session.setAttribute("filesContent", filesContent);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/trendy.jsp");
         dispatcher.forward(req, resp);
     }

@@ -3,6 +3,7 @@ package com.infoshareacademy.jjdd1.teamerror;
 import com.google.gson.Gson;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
 import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,9 +37,6 @@ public class TripCostServlet extends HttpServlet {
     @Inject
     TripFullCost cost;
 
-    @Inject
-    InitialData initialData;
-
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -52,8 +50,10 @@ public class TripCostServlet extends HttpServlet {
             return;
         }
 
-        cost.setTripFullCost(initialData.filesContent);
         session = req.getSession();
+        FilesContent filesContent = (FilesContent)session.getAttribute("filesContent");
+        cost.setTripFullCost(filesContent);
+
 
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
@@ -100,6 +100,7 @@ public class TripCostServlet extends HttpServlet {
         session.setAttribute("fullCost", cost.costCount());
 
 
+        session.setAttribute("filesContent", filesContent);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/tripCost.jsp");
         dispatcher.forward(req, resp);
     }
