@@ -36,6 +36,9 @@ public class InitialServlet extends HttpServlet {
     @Inject
     InitialData initialData;
 
+    @Inject
+    HttpSession session;
+
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

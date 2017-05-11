@@ -40,8 +40,6 @@ public class InitialData {
 //            session.setAttribute(TRIP_FULL_COST_SESSION_ATTR, cost);
 //        }
 
-
-
         trendy = new Trendy();
 
         filesContent = new CachedFilesContent();
