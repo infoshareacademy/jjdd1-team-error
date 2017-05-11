@@ -1,21 +1,16 @@
 package com.infoshareacademy.jjdd1.teamerror;
-import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.CurrencyHistoryDayValue;
-import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.PetrolPrices;
+import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.CurrencyRates;
+import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.PetrolRates;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
-import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 /**
@@ -34,8 +29,8 @@ public class TripFullCostTest {
     public final LocalDate END_DATE = dateParser.DateFromString("20160321");
     public static final String FUEL_TYPE = "gasoline";
 
-    List<CurrencyHistoryDayValue> currencyObjectsList = new ArrayList<>();
-    List<PetrolPrices> petrolObjectsList = new ArrayList<>();
+    List<CurrencyRates> currencyObjectsList = new ArrayList<>();
+    List<PetrolRates> petrolObjectsList = new ArrayList<>();
 
 //    private static Map<LocalDate, Double> mapOfCurrencyObjects = new LinkedHashMap<>();
 //    private static Map<LocalDate, Double> mapOfPetrolObjects = new LinkedHashMap<>();
@@ -53,14 +48,14 @@ public class TripFullCostTest {
                 int days = LocalDate.of(year,month,1).lengthOfMonth();
                 for (int i = 1; i<=days; i++){
                     currencyValue+=0.01;
-                    CurrencyHistoryDayValue someObject = new CurrencyHistoryDayValue();
+                    CurrencyRates someObject = new CurrencyRates();
                     someObject.setDate(LocalDate.of(year, month, i));
                     someObject.setRate(currencyValue);
                     currencyObjectsList.add(someObject);
                 }
             }
         }
-//        for(CurrencyHistoryDayValue o : currencyObjectsList){
+//        for(CurrencyRates o : currencyObjectsList){
 //            System.out.println("Currency:  " + o.getDate() + "  " + o.getClose());
 //        }
     }
@@ -73,14 +68,14 @@ public class TripFullCostTest {
             for (int month = 1; month <= 12; month++) {
                 gasolineValue += 0.5;
                 dieselValue += 0.5;
-                PetrolPrices someObject = new PetrolPrices();
+                PetrolRates someObject = new PetrolRates();
                 someObject.setDate(LocalDate.of(year, month, FIRST_DAY_OF_MONTH));
                 someObject.setRate(gasolineValue);
 //                someObject.setDieselPrice(dieselValue);
                 petrolObjectsList.add(someObject);
             }
         }
-//        for(PetrolPrices o : petrolObjectsList){
+//        for(PetrolRates o : petrolObjectsList){
 //            System.out.println("Petrol:  " + o.getDate() + "  " + o.getGasolinePrice() + "  " + o.getDieselPrice());
 //        }
     }
@@ -91,14 +86,14 @@ public class TripFullCostTest {
         double currencyPriceDate2 = 0;
         double fuelPriceDate1 = 0;
         double fuelPriceDate2 = 0;
-        List<CurrencyHistoryDayValue> currencyObjectsList = this.currencyObjectsList;
-        List<PetrolPrices> petrolObjectsList = this.petrolObjectsList;
+        List<CurrencyRates> currencyObjectsList = this.currencyObjectsList;
+        List<PetrolRates> petrolObjectsList = this.petrolObjectsList;
         int iterator1 = 0;
         int iterator2 = 0;
         int iterator3 = 0;
         int iterator4 = 0;
-        for(PetrolPrices o2 : petrolObjectsList){
-            for(CurrencyHistoryDayValue o1: currencyObjectsList) {
+        for(PetrolRates o2 : petrolObjectsList){
+            for(CurrencyRates o1: currencyObjectsList) {
                 if (o1.getDate().getYear() == o2.getDate().getYear()) {
                     if (START_DATE.getMonth() == o1.getDate().getMonth()) {
                         currencyPriceDate1 += o1.getRate();

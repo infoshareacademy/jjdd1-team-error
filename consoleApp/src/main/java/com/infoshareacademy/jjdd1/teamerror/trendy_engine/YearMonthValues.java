@@ -7,23 +7,23 @@ import java.util.stream.Collectors;
 /**
  * Created by sebastianlos on 14.04.17.
  */
-public class MonthValuesForOneYear {
-    Map<LocalDate, Double> monthValues = new HashMap<>();
+class YearMonthValues {
+    private Map<LocalDate, Double> monthValues = new HashMap<>();
 
-    public void setMonthValue(DayValuesForOneMonth dayValuesForOneMonth) {
-        this.monthValues.put(dayValuesForOneMonth.getDate(), dayValuesForOneMonth.getAverageMonthValue());
+    void setMonthValue(MonthDayValues monthDayValues) {
+        this.monthValues.put(monthDayValues.getDate(), monthDayValues.getAverageMonthValue());
     }
 
-    public Double getMinValue() {
+    private Double getMinValue() {
         return Collections.min(monthValues.values());
 
     }
 
-    public Map<LocalDate, Double> getMonthDeviations() {
+    Map<LocalDate, Double> getMonthDeviations() {
 
         return  monthValues.entrySet().stream()
                 .collect(Collectors.toMap(
-                        s -> s.getKey(),
+                        Map.Entry::getKey,
                         s -> s.getValue() / getMinValue()));
     }
 

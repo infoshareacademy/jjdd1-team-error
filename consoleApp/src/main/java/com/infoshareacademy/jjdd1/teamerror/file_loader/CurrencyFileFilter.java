@@ -1,6 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror.file_loader;
 
-import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.CurrencyHistoryDayValue;
+import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.CurrencyRates;
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.RatesInfo;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class CurrencyFileFilter {
         for (int i = 1; i < lines.size(); i++) {
             parts = lines.get(i).split(",");
             if (!lines.get(i).isEmpty() && parts.length == NUMBER_OF_ELEMENTS_IN_LINE) {
-                CurrencyHistoryDayValue value = new CurrencyHistoryDayValue();
+                CurrencyRates value = new CurrencyRates();
                 value.setCurrencyCode(parts[0].toUpperCase());
                 value.setDate(DateParser.DateFromString(parts[1]));
                 value.setRate(Double.parseDouble(parts[5]));

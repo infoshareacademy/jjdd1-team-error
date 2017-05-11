@@ -6,9 +6,6 @@ import java.time.LocalDate;
  * Created by sebastian_los on 03.05.17.
  */
 public abstract class RatesInfo {
-    LocalDate date;
-    String currencyCode;
-    Double rate;
 
     public abstract LocalDate getDate();
 

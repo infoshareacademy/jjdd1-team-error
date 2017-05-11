@@ -1,6 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror.file_loader;
 
-import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.PetrolPrices;
+import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.PetrolRates;
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.RatesInfo;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class PetrolFileFilter {
     }
 
     public List<RatesInfo> getListOfPetrolDataObjects(String country, String fuelType) {
-        if (listOfPetrolDataObjects.isEmpty() || !((PetrolPrices)listOfPetrolDataObjects.get(0)).getCountryName().equalsIgnoreCase(country)) {
+        if (listOfPetrolDataObjects.isEmpty() || !((PetrolRates)listOfPetrolDataObjects.get(0)).getCountryName().equalsIgnoreCase(country)) {
             putPetrolFileContentToClass(country, fuelType);
         }
         return listOfPetrolDataObjects;
@@ -43,7 +43,7 @@ public class PetrolFileFilter {
             if (!lines.get(i).isEmpty() && parts.length == NUMBER_OF_ELEMENTS_IN_LINE) {
 
                 if (parts[0].equalsIgnoreCase(country)) {
-                    PetrolPrices value = new PetrolPrices();
+                    PetrolRates value = new PetrolRates();
                     value.setCountryName(parts[0]);
                     value.setDate(DateParser.DateFromString(parts[1], parts[2]));
                     value.setCurrencyCode(parts[3].toUpperCase());

@@ -2,18 +2,17 @@ package com.infoshareacademy.jjdd1.teamerror.trendy_engine;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by sebastianlos on 13.04.2017.
  */
-public class DayValuesForOneMonth {
+public class MonthDayValues {
 
 
     private List<Double> dayValues = new ArrayList<>();
     private LocalDate date;
 
-    DayValuesForOneMonth(LocalDate date) {
+    MonthDayValues(LocalDate date) {
         this.date = date;
     }
 
