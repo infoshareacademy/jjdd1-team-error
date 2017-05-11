@@ -1,4 +1,16 @@
 <%@ include file="headersAndStyle.jsp" %>
+
+<form method="get">
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button class="btn btn-outline-inverse btn-lg" type="submit" formaction="/report" name="countryAndCurrencyReport" value="/report">Country and currency report</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button class="btn btn-outline-inverse btn-lg" type="submit" formaction="/report" name="fuelTypeReport" value="/report">Fuel type report</button>
+        </div>
+    </div>
+</form>
+
 <form method="get" action="/calc" class="form-horizontal" id="reg_form">
 
     <!-- Select Basic -->
