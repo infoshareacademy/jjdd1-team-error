@@ -43,7 +43,7 @@ public class TripFullCost {
     public static TripFullCost reset(TripFullCost other) {
         TripFullCost newCostObject = new TripFullCost();
         newCostObject.setTripFullCost(other.fileContent, other.petrolFileFilter, other.currencyFileFilter);
-        newCostObject.setCountryAndCurrency(new CountryAndCurrency());
+//        newCostObject.setCountryAndCurrency(new CountryAndCurrency());
 
         newCostObject.setCurrency(other.currency);
         newCostObject.setCountry(other.country);
@@ -175,6 +175,8 @@ public class TripFullCost {
     //data check added to standard SET method
     void setCountry(String country){
         try{
+            countryAndCurrency = new CountryAndCurrency();
+            countryAndCurrency.setFilesContent(new OnDemandFilesContent());
             if (countryAndCurrency.getCountryAndCurrency().containsKey(country)) {
                 this.country = country;
                 this.currency = countryAndCurrency.getCountryAndCurrency().get(country);
@@ -182,7 +184,7 @@ public class TripFullCost {
                 throw new Exception();
             }
         } catch (Exception e) {
-            LOGGER.error("Country [{}] is not accepted", country);
+            LOGGER.error("Country [{}] is not accepted --> {}", country, e);
         }
     }
 
@@ -229,9 +231,12 @@ public class TripFullCost {
         double currencyPriceDate2 = 0;
         double fuelPriceDate1 = 0;
         double fuelPriceDate2 = 0;
-        //double days = DAYS.between(getDate1(), getDate2());
 
         //creating lists from files, so that they can be searched through
+        currencyFileFilter = new CurrencyFileFilter();
+        currencyFileFilter.setFilesContent(new OnDemandFilesContent());
+        petrolFileFilter = new PetrolFileFilter();
+        petrolFileFilter.setFilesContent(new OnDemandFilesContent());
         List<RatesInfo> currencyObjectsList = currencyFileFilter.getListOfCurrencyDataObjects(currency);
         List<RatesInfo> petrolObjectsList = petrolFileFilter.getListOfPetrolDataObjects(country, fuelType);
 

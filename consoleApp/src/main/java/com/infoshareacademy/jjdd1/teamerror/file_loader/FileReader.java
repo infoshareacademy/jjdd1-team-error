@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,30 +19,40 @@ import java.util.zip.ZipInputStream;
  */
 public class FileReader {
 
-    public static final String PROMOTED_COUNTRIES = "promotedCountries.txt";
-    public static final String CURRENCY_FILE_WITH_GENERAL_DATA = "omeganbp.lst.txt";
-    public static final String PATH_TO_FILES = "files/";
+    static final String PROMOTED_COUNTRIES = "promotedCountries.txt";
+    public static final String CURRENCY_INFO_FILE = "omeganbp.lst.txt";
+    public static final String PATH_TO_FILES = System.getProperty("java.io.tmpdir") + "/files/";
     public static final String PETROL_FILE_NAME = "iSA-PetrolPrices.csv";
-    public static final String ZIP_CURRENCY_FILE = "omeganbp.zip";
+    public static final String CURRENCY_ZIP_FILE = "omeganbp.zip";
     public static final String UNZIP_FOLDER = PATH_TO_FILES + "unzip/";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileReader.class);
 
     // load file's content
-    public static List<String> loadFile(String path) {
+    static List<String> loadFile(String path) {
 
-        LOGGER.debug("Loading file, path: {}", FileReader.class.getResource(path).toString());
-        InputStream inputStream = FileReader.class.getResourceAsStream(path);
+        LOGGER.debug("Loading file, path: {}", path);
+        InputStream inputStream = null;
+        try {
+            inputStream = Files.newInputStream(Paths.get(path));
+        } catch (IOException e) {
+            LOGGER.error("Loading file failed, path: {} exception: {}", path, e);
+        }
         return new BufferedReader(new InputStreamReader(inputStream)).lines()
                 .collect(Collectors.toList());
     }
 
-    public static List<String> loadFileForDefaultZip(String fileName) {
-        InputStream inputStream = FileReader.class.getResourceAsStream(PATH_TO_FILES + ZIP_CURRENCY_FILE);
+    static List<String> loadFileForDefaultZip(String fileName) {
+        InputStream inputStream = null;
+        try {
+            inputStream = Files.newInputStream(Paths.get(PATH_TO_FILES, CURRENCY_ZIP_FILE));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return loadFileForZip(inputStream, fileName);
     }
 
-    public static List<String> loadFileForZip(InputStream stream, String fileName) {
+    static List<String> loadFileForZip(InputStream stream, String fileName) {
         ZipInputStream zip = new ZipInputStream(stream);
 
         try {
@@ -60,13 +69,18 @@ public class FileReader {
         return new ArrayList<String>();
     }
 
-    public static List<String> loadStream(InputStream inputStream) {
-        return new BufferedReader(new InputStreamReader(inputStream)).lines()
-                .collect(Collectors.toList());
+    static List<String> loadStream(InputStream inputStream) {
+        List<String> result = new ArrayList<>();
+        try(BufferedReader br =  new BufferedReader(new InputStreamReader(inputStream))) {
+            result = br.lines().collect(Collectors.toList());
+        } catch (IOException e) {
+            LOGGER.error("Stream not converted to List");
+        }
+        return result;
     }
 
     // create String path
-    public static String createPath(String fileName) {
+    static String createPath(String fileName) {
         return fileName + ".txt";
     }
 }

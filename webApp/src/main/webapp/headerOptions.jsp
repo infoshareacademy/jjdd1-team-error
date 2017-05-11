@@ -19,6 +19,7 @@
         <input type="hidden" name="fuelUsage" value="${fuelUsage}" />
         <input type="hidden" name="fullDistance" value="${fullDistance}" />
 
+    <%--<button type="submit" name="additionalData" value="">Trip cost</button>--%>
         <button type="submit" name="tripCost" value="">Trip cost</button>
         <button type="submit" name="trendy" value="">Optimal time for trip</button>
     </form>
@@ -36,7 +37,7 @@
         <input type="hidden" name="fuelUsage" value="${fuelUsage}" />
         <input type="hidden" name="fullDistance" value="${fullDistance}" />
 
-        <button type="submit" name="initialData" value="">Change initial data</button>
+        <button type="submit" name="initialData" value="">Reset data</button>
     </form>
 </div>
 

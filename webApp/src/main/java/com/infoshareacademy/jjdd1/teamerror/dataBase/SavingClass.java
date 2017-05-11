@@ -1,11 +1,8 @@
 package com.infoshareacademy.jjdd1.teamerror.dataBase;
 
-import com.infoshareacademy.jjdd1.teamerror.dataBase.PromotedCountries;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.ejb.Stateless;
 import javax.persistence.*;
 import java.util.List;
 
@@ -21,14 +18,14 @@ public class SavingClass {
     EntityManager entityManager;
 
     public List<String> getPromotedCountries() {
-        return entityManager.createQuery("SELECT s.name from PromotedCountries s", String.class).getResultList();
+        return entityManager.createQuery("SELECT s.name from PromotedCountriesTable s", String.class).getResultList();
     }
 
     @PostConstruct
     public void setCountries() {
-        PromotedCountries france = new PromotedCountries("USA");
+        PromotedCountriesTable france = new PromotedCountriesTable("USA");
         entityManager.persist(france);
-        PromotedCountries croatia = new PromotedCountries("France");
+        PromotedCountriesTable croatia = new PromotedCountriesTable("France");
         entityManager.persist(croatia);
     }
 }
