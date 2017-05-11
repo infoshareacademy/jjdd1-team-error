@@ -235,18 +235,9 @@
 
 
 
-    <div class="container">
-        <h2>Fuel and Currency Trends</h2>
-        <h3>${conclusion}</h3>
-        <div>
-            <canvas id="myChart"></canvas>
-        </div>
-    </div>
+    <div id="container" style="min-width: 300px; height: 400px; margin: auto"></div>
 
-    <script src="vendor/Chart.bundle.js"></script>
     <script>
-        var ctx = document.getElementById("myChart");
-
         var json1 = ${datesForTrends};
         var json2 = ${valuesForTrends};
         var dateValues = [];
@@ -265,35 +256,128 @@
         for (var i = 0; i < json2.length; i++) {
             sumValues.push(json2[i][2]);
         }
+        $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=usdeur.json&callback=?', function (data) {
 
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: dateValues,
-                datasets: [{
-                    label: 'currency',
-                    data: currencyValues,
-                    backgroundColor: "rgba(153,255,51,0.6)"
-                }, {
-                    label: 'fuel',
-                    data: petrolValues,
-                    backgroundColor: "rgba(255,153,0,0.6)"
-                }, {
-                    label: 'total',
-                    data: sumValues,
-                    backgroundColor: "rgba(200,153,0,0.6)"
+            Highcharts.chart('container', {
+                chart: {
+                    zoomType: 'x'
+                },
+                title: {
+                    text: 'USD to EUR exchange rate over time'
+                },
+                subtitle: {
+                    text: document.ontouchstart === undefined ?
+                        'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+                },
+                xAxis: {
+                    type: 'datetime'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Exchange rate'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    area: {
+                        fillColor: {
+                            linearGradient: {
+                                x1: 0,
+                                y1: 0,
+                                x2: 0,
+                                y2: 1
+                            },
+                            stops: [
+                                [0, Highcharts.getOptions().colors[0]],
+                                [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                            ]
+                        },
+                        marker: {
+                            radius: 2
+                        },
+                        lineWidth: 1,
+                        states: {
+                            hover: {
+                                lineWidth: 1
+                            }
+                        },
+                        threshold: null
+                    }
+                },
+
+                series: [{
+                    type: 'area',
+                    name: 'Currency statistics',
+                    color: '#f7a35c',
+                    data: currencyValues
                 }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                }
-            }
+
+            });
         });
     </script>
+
+
+    <%--<div class="container">--%>
+        <%--<h2>Fuel and Currency Trends</h2>--%>
+        <%--<h3>${conclusion}</h3>--%>
+        <%--<div>--%>
+            <%--<canvas id="myChart"></canvas>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+
+    <%--<script src="vendor/Chart.bundle.js"></script>--%>
+    <%--<script>--%>
+        <%--var ctx = document.getElementById("myChart");--%>
+
+        <%--var json1 = ${datesForTrends};--%>
+        <%--var json2 = ${valuesForTrends};--%>
+        <%--var dateValues = [];--%>
+        <%--var currencyValues = [];--%>
+        <%--var petrolValues = [];--%>
+        <%--var sumValues = [];--%>
+        <%--for (var i = 0; i < json1.length; i++) {--%>
+            <%--dateValues.push(json1[i].year + "-" +json1[i].month + "-" + json1[i].day);--%>
+        <%--}--%>
+        <%--for (var i = 0; i < json2.length; i++) {--%>
+            <%--currencyValues.push(json2[i][0]);--%>
+        <%--}--%>
+        <%--for (var i = 0; i < json2.length; i++) {--%>
+            <%--petrolValues.push(json2[i][1]);--%>
+        <%--}--%>
+        <%--for (var i = 0; i < json2.length; i++) {--%>
+            <%--sumValues.push(json2[i][2]);--%>
+        <%--}--%>
+
+        <%--var myChart = new Chart(ctx, {--%>
+            <%--type: 'line',--%>
+            <%--data: {--%>
+                <%--labels: dateValues,--%>
+                <%--datasets: [{--%>
+                    <%--label: 'currency',--%>
+                    <%--data: currencyValues,--%>
+                    <%--backgroundColor: "rgba(153,255,51,0.6)"--%>
+                <%--}, {--%>
+                    <%--label: 'fuel',--%>
+                    <%--data: petrolValues,--%>
+                    <%--backgroundColor: "rgba(255,153,0,0.6)"--%>
+                <%--}, {--%>
+                    <%--label: 'total',--%>
+                    <%--data: sumValues,--%>
+                    <%--backgroundColor: "rgba(200,153,0,0.6)"--%>
+                <%--}]--%>
+            <%--},--%>
+            <%--options: {--%>
+                <%--scales: {--%>
+                    <%--yAxes: [{--%>
+                        <%--ticks: {--%>
+                            <%--beginAtZero:true--%>
+                        <%--}--%>
+                    <%--}]--%>
+                <%--}--%>
+            <%--}--%>
+        <%--});--%>
+    <%--</script>--%>
 
 <%@ include file="footer.jsp" %>
