@@ -52,6 +52,17 @@ public class InitialServlet extends HttpServlet {
         initialData.promotedCountries.setPromotedCountries(ret);
         LOGGER.info("Data from database successfully loaded");
 
+        // session thingy
+        HttpSession session = req.getSession(true);
+        TripFullCost cost = (TripFullCost) session.getAttribute(TRIP_FULL_COST_SESSION_ATTR);
+        if (cost == null) {
+            cost = new TripFullCost();
+            cost.setTripFullCost(initialData.filesContent, initialData.petrolFileFilter, initialData.currencyFileFilter);
+            cost.setCountryAndCurrency(new CountryAndCurrency());
+
+            session.setAttribute(TRIP_FULL_COST_SESSION_ATTR, cost);
+        }
+
         // countries/currencies check
         initialData.filesContent.getPetrolDataFile();
         initialData.filesContent.getCurrencyInfoFile();
