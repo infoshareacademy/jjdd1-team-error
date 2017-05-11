@@ -11,7 +11,7 @@
 <script src="vendor/Chart.bundle.js"></script>
 
 <div class="row" style="padding-bottom: 120px; margin:0;">
-        <div class="col-md-6" style="padding:20px 50px 0px;">
+        <div class="col-md-6" style="padding:0px 100px;">
 
             <h3>Country report</h3>
             <canvas id="country" width="300" height="200"></canvas>
@@ -50,7 +50,7 @@
             </script>
         </div>
 
-        <div class="col-md-6" style="padding:20px 50px 0px">
+        <div class="col-md-6" style="padding:0px 100px">
 
             <h3>Currency report</h3>
             <canvas id="currency" width="300" height="200"></canvas>
@@ -60,7 +60,7 @@
                 var currency = new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: ["Croatia", "France", "USA"],
+                        labels: ["HRK", "EUR", "USD"],
                         datasets: [
                             {
                                 label: "popularity of currency",

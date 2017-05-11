@@ -19,12 +19,14 @@
             <div class="btn-group" role="group">
                 <button class="btn btn-outline-inverse btn-lg" type="submit" formaction="/calc" name="trendy" value="/calc" >Optimal time for trip</button>
             </div>
-
             <div class="btn-group" role="group">
                 <button class="btn btn-outline-inverse btn-lg" type="submit" formaction="/start" name="initialData" value="/start" >Change initial data</button>
             </div>
             <div class="btn-group" role="group">
                 <button class="btn btn-outline-inverse btn-lg" type="submit" formaction="/report" name="countryAndCurrencyReport" value="/report">Country and currency report</button>
+            </div>
+            <div class="btn-group" role="group">
+                <button class="btn btn-outline-inverse btn-lg" type="submit" formaction="/report" name="fuelTypeReport" value="/report">Fuel type report</button>
             </div>
         <%--</div>--%>
 

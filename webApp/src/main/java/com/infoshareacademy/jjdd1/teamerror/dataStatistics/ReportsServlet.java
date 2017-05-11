@@ -22,8 +22,14 @@ public class ReportsServlet extends HttpServlet{
         resp.setContentType("text/plain;charset=UTF-8");
 
         if (req.getParameter("countryAndCurrencyReport") != null) {
-            req.setAttribute("title", "Country and currency raport");
+            req.setAttribute("title", "Country and currency report");
             RequestDispatcher dispatcher = req.getRequestDispatcher("/countryAndCurrencyReport.jsp");
+            dispatcher.forward(req, resp);
+        }
+
+        if (req.getParameter("fuelTypeReport") != null) {
+            req.setAttribute("title", "Fuel type report");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/fuelTypeReport.jsp");
             dispatcher.forward(req, resp);
         }
     }
