@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingFuelTypeStatistics;
 import com.infoshareacademy.jjdd1.teamerror.dataStatistics.CountryStatistics;
 import com.infoshareacademy.jjdd1.teamerror.dataStatistics.SavingCountryStatistics;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
@@ -37,6 +38,9 @@ public class InitialServlet extends HttpServlet {
 
     @Inject
     InitialData initialData;
+
+    @Inject
+    SavingFuelTypeStatistics savingFuelTypeStatistics;
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -97,24 +101,26 @@ public class InitialServlet extends HttpServlet {
                 LOGGER.info("calculated trend for trip: country-{} currency-{} fuel type-{}",
                         cost.getCountry(), cost.getCurrency(), cost.getFuelType());
 
-
-                if ("CROATIA".equals(cost.getCountry())) {
-                                  SavingCountryStatistics.countryStatistics.Croatia++;
-                                   LOGGER.info("Croatia chosen quantity increased  by 1");
-                }
-                if ("FRANCE".equals(cost.getCountry())) {
-                                    SavingCountryStatistics.countryStatistics.France++;
-                                    LOGGER.info("France  chosen quantity increased  by 1");
-                }
-                if ("USA".equals(cost.getCountry())) {
-                                    SavingCountryStatistics.countryStatistics.USA++;
-                                    LOGGER.info("USA  chosen quantity increased  by 1");
-                }
             }
 
-//            if(req.getParameter("trendy") != null) {
-//
-//            }
+            LOGGER.info("Popularity of diesel is {}", savingFuelTypeStatistics.getPopularity("diesel"));
+            LOGGER.info("Popularity of gasoline is {}", savingFuelTypeStatistics.getPopularity("gasoline"));
+
+            savingFuelTypeStatistics.updatePopularity(cost.getFuelType());
+            LOGGER.info("Popularity of {} is updated to {}", cost.getFuelType(), savingFuelTypeStatistics.getPopularity(cost.getFuelType()));
+
+            if ("CROATIA".equals(cost.getCountry())) {
+                SavingCountryStatistics.countryStatistics.Croatia++;
+                LOGGER.info("Croatia chosen quantity increased  by 1");
+            }
+            if ("FRANCE".equals(cost.getCountry())) {
+                SavingCountryStatistics.countryStatistics.France++;
+                LOGGER.info("France  chosen quantity increased  by 1");
+            }
+            if ("USA".equals(cost.getCountry())) {
+                SavingCountryStatistics.countryStatistics.USA++;
+                LOGGER.info("USA  chosen quantity increased  by 1");
+            }
 
             Gson gson = new Gson();
             String json1 = gson.toJson(initialData.trendy.getPeriodTrendy().keySet());

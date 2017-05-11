@@ -21,6 +21,9 @@ public class FuelTypeStatistics {
     @Column
     private int popularity;
 
+    public FuelTypeStatistics() {
+    }
+
     public FuelTypeStatistics(String fuelType, int popularity) {
         this.fuelType = fuelType;
         this.popularity = popularity;
