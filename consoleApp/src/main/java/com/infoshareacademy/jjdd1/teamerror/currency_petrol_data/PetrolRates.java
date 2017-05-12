@@ -5,7 +5,7 @@ import java.time.LocalDate;
 /**
  * Created by krystianskrzyszewski on 06.04.17.
  */
-public class PetrolPrices extends RatesInfo {
+public class PetrolRates extends RatesInfo {
     private String countryName;
     private LocalDate date;
     private String currencyCode;

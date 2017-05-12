@@ -37,20 +37,20 @@ public class SourceFilesChecker extends HttpServlet {
         File currencyZipFile = new File(currencyZipFilePath);
 
         if(!petrolFile.exists() || !currencyInfoFile.exists() || !currencyZipFile.exists()) {
-            req.setAttribute("petrolFile",  "ok");
-            req.setAttribute("currencyInfoFile",  "ok");
-            req.setAttribute("currencyZipFile",  "ok");
+            req.setAttribute("petrolFileStatus",  "ok");
+            req.setAttribute("currencyInfoFileStatus",  "ok");
+            req.setAttribute("currencyZipFileStatus",  "ok");
 
             if (!petrolFile.exists()) {
-                req.setAttribute("petrolFile",  "missing");
+                req.setAttribute("petrolFileStatus",  "missing");
                 LOGGER.warn("Petrol file missing");
             }
             if (!currencyInfoFile.exists()) {
-                req.setAttribute("currencyInfoFile",  "missing");
+                req.setAttribute("currencyInfoFileStatus",  "missing");
                 LOGGER.warn("Currency info file missing");
             }
             if (!currencyZipFile.exists()) {
-                req.setAttribute("currencyZipFile",  "missing");
+                req.setAttribute("currencyZipFileStatus",  "missing");
                 LOGGER.warn("Currency zim file missing");
             }
             return true;
