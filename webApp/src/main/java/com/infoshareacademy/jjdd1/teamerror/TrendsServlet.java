@@ -72,11 +72,11 @@ public class TrendsServlet extends HttpServlet{
         fuelType = trendy.getFuelType();
         session.setAttribute("fuelTypeString", fuelType);
 
-        Integer tripLength = (Integer) session.getAttribute("tripLength");
+        String tripLength = (String) session.getAttribute("tripLength");
         if (tripLength != null) {
             trendy.setTripLength(tripLength.toString());
         }
-        tripLength = trendy.getTripLength();
+        tripLength = trendy.getTripLength().toString();
         session.setAttribute("tripLength", tripLength);
 
         String trendPeriodFrom = (String) session.getAttribute("trendPeriodFrom");
@@ -99,7 +99,7 @@ public class TrendsServlet extends HttpServlet{
         }
 
         Set<String> startingDaysString = trendy.getStartingDaysString();
-        session.setAttribute("startingDaysString", trendy.getStartingDaysString());
+        session.setAttribute("startingDaysString", startingDaysString);
 
         LOGGER.info("Session params: country-{} fuelType-{}, trendPeriodFrom-{}, trendPeriodTill-{}, startingDays-{}",
                 country, fuelType, trendPeriodFrom, trendPeriodTill, startingDays);

@@ -29,7 +29,7 @@
 
 
 <div>
-    <form method="get" action="/calc" class="form-horizontal" id="reg_form">
+    <form method="get" action="/trendy" class="form-horizontal" id="reg_form">
 
         <!-- Text input-->
 
@@ -46,7 +46,7 @@
             <label class="col-md-4 control-label">Date from</label>
             <div class="col-md-5 inputGroupContainer">
                 <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                    <input type="text" id="periodDateFrom" name="periodDateFrom" class="form-control date-picker1" value="<%= session.getAttribute("trendPeriodFrom") %>"/>
+                    <input type="text" id="trendPEriodFrom" name="trendPeriodFrom" class="form-control date-picker1" value="<%= session.getAttribute("trendPeriodFrom") %>"/>
                 </div>
             </div>
         </div>
@@ -56,7 +56,7 @@
             <label class="col-md-4 control-label">Date till</label>
             <div class="col-md-5 inputGroupContainer">
                 <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                    <input type="text" id="periodDateTill" name="periodDateTill" class="form-control date-picker2" value="<%= session.getAttribute("trendPeriodTill") %>" />
+                    <input type="text" id="periodDateTill" name="trendPeriodTill" class="form-control date-picker2" value="<%= session.getAttribute("trendPeriodTill") %>" />
                 </div>
             </div>
         </div>

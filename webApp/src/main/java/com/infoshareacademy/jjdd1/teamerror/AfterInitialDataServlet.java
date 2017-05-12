@@ -71,8 +71,30 @@ public class AfterInitialDataServlet  extends HttpServlet {
             session.setAttribute("date2", date2);
         }
 
-        LOGGER.info("Inisial data req params: country-{} fuelType-{} fuelUsage-{} full distance-{} date1-{} date2-{}",
-                country, fuelType, fuelUsage, fullDistance, date1, date2);
+        String tripLength = req.getParameter("tripLength");
+        if (tripLength != null) {
+            session.setAttribute("tripLength", tripLength);
+        }
+
+        String trendPeriodFrom = req.getParameter("trendPeriodFrom");
+        if (trendPeriodFrom != null) {
+            session.setAttribute("trendPeriodFrom", trendPeriodFrom);
+        }
+
+        String trendPeriodTill = req.getParameter("trendPeriodTill");
+        if (trendPeriodTill != null) {
+            session.setAttribute("trendPeriodTill", trendPeriodTill);
+        }
+
+        String[] startingDays = req.getParameterValues("startingDays");
+        if (startingDays != null) {
+            session.setAttribute("startingDays", startingDays);
+        }
+
+
+        LOGGER.info("Inisial data req params: country-{} fuelType-{} fuelUsage-{} full distance-{} date1-{} date2-{}, tripLength-{} " +
+                        "trendPeriodFrom-{}, trendPeriodTill-{}, startingDays-{}",
+                country, fuelType, fuelUsage, fullDistance, date1, date2, tripLength, trendPeriodFrom, trendPeriodTill, startingDays);
 
     }
 }
