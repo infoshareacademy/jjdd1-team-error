@@ -8,7 +8,10 @@
 <%@ include file="headersAndStyle.jsp" %>
 <h1>Upload your files</h1>
 <br>
-
+<li>Petrol file is: ${param.petrolFileStatus}</li>
+<li>Currency info file is: ${param.currencyInfoFileStatus}</li>
+<li>Currency zip file is: ${param.currencyZipFileStatus}</li>
+<br>
 <!-- Select Basic -->
 <form method="post" action="/upload" class="form-horizontal" id="reg_form" enctype="multipart/form-data">
     <div class="form-group">

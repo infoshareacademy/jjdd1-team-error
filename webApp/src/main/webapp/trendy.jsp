@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.util.TreeSet" %>
+<%@ page import="java.util.HashSet" %><%--
   Created by IntelliJ IDEA.
   User: SebastianLos
   Date: 22.04.2017
@@ -8,18 +9,18 @@
 <%@ include file="headersAndStyle.jsp" %>
 <%@ include file="headerOptions.jsp" %>
 
-<form method="get" action="/calc" class="form-horizontal" id="trendy_form">
+<form method="post" action="/trendy" class="form-horizontal" id="trendy_form">
 <div class="data">
     <br>
     <label><b>Given data:</b></label>
     <li>Country: ${country}</li>
-    <li>Currency:  ${currency}</li>
-    <li>Fuel type:  ${fuelType}</li>
-    <li>Trip length:  ${tripLength}</li>
-    <li>Date from:  ${trendPeriodFrom}</li>
-    <li>Date till:  ${trendPeriodTill}</li>
+    <li>Currency:  <%= session.getAttribute("currency") %></li>
+    <li>Fuel type:  <%= session.getAttribute("fuelTypeString") %></li>
+    <li>Trip length:  <%= session.getAttribute("tripLength") %></li>
+    <li>Date from:  <%= session.getAttribute("trendPeriodFrom") %></li>
+    <li>Date till:  <%= session.getAttribute("trendPeriodTill") %></li>
     <li>Starting days:
-        <c:forEach items="${startingDays}" var="trend">
+        <c:forEach items="${startingDaysString}" var="trend">
             ${trend}
         </c:forEach>
     </li>
@@ -28,109 +29,104 @@
 
 
 <div>
-    <form method="get" action="/calc" class="form-horizontal" id="reg_form">
 
-        <!-- Text input-->
+    <!-- Text input-->
 
-        <div class="form-group">
-            <label class="col-md-4 control-label">Trip length</label>
-            <div class="col-md-5  inputGroupContainer">
-                <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
-                    <input name="tripLength" class="form-control" type="number" min="1" value="${tripLength}"/>
-                </div>
+    <div class="form-group">
+        <label class="col-md-4 control-label">Trip length</label>
+        <div class="col-md-5  inputGroupContainer">
+            <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
+                <input name="tripLength" class="form-control" type="number" min="1" value="<%= session.getAttribute("tripLength") %>"/>
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label class="col-md-4 control-label">Date from</label>
-            <div class="col-md-5 inputGroupContainer">
-                <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                    <input type="text" id="periodDateFrom" name="periodDateFrom" class="form-control date-picker1" value="${trendPeriodFrom}"/>
-                </div>
+    <div class="form-group">
+        <label class="col-md-4 control-label">Date from</label>
+        <div class="col-md-5 inputGroupContainer">
+            <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                <input type="text" id="trendPEriodFrom" name="trendPeriodFrom" class="form-control date-picker1" value="<%= session.getAttribute("trendPeriodFrom") %>"/>
             </div>
         </div>
+    </div>
 
-        <!-- Text input-->
-        <div class="form-group">
-            <label class="col-md-4 control-label">Date till</label>
-            <div class="col-md-5 inputGroupContainer">
-                <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                    <input type="text" id="periodDateTill" name="periodDateTill" class="form-control date-picker2" value="${trendPeriodTill}" />
-                </div>
+    <!-- Text input-->
+    <div class="form-group">
+        <label class="col-md-4 control-label">Date till</label>
+        <div class="col-md-5 inputGroupContainer">
+            <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                <input type="text" id="periodDateTill" name="trendPeriodTill" class="form-control date-picker2" value="<%= session.getAttribute("trendPeriodTill") %>" />
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label class="col-md-4 control-label">Starting days</label>
-        </div>
-        <div>
-            <label class="checkbox-inline">
-                <input type="checkbox" name="startingDays" value="1"> Monday
-            </label>
-            <label class="checkbox-inline">
-                <input type="checkbox" name="startingDays" value="2"> Tuesday
-            </label>
-            <label class="checkbox-inline">
-                <input type="checkbox" name="startingDays" value="3"> Wednesday
-            </label>
-            <label class="checkbox-inline">
-                <input type="checkbox" name="startingDays" value="4"> Thursday
-            </label>
-            <label class="checkbox-inline">
-                <input type="checkbox" name="startingDays"  value="5"> Friday
-            </label>
-            <label class="checkbox-inline">
-                <input type="checkbox" name="startingDays"  value="6"> Saturday
-            </label>
-            <label class="checkbox-inline">
-                <input type="checkbox" name="startingDays"  value="7"> Sunday
-            </label>
-        </div>
+    <div class="form-group">
+        <label class="col-md-4 control-label">Starting days</label>
+    </div>
+    <div>
+        <label class="checkbox-inline">
+            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Monday")) { %>
+                <input type="checkbox" name="startingDays" value="1" checked> Monday
+            <% } else { %>
+                <input type="checkbox" name="startingDays" value="1" > Monday
+            <% } %>
+        </label>
+        <label class="checkbox-inline">
+            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Tuesday")) { %>
+            <input type="checkbox" name="startingDays" value="2" checked> Tuesday
+            <% } else { %>
+            <input type="checkbox" name="startingDays" value="2" > Tuesday
+            <% } %>
+        </label>
+        <label class="checkbox-inline">
+            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Wednesday")) { %>
+            <input type="checkbox" name="startingDays" value="3" checked> Wednesday
+            <% } else { %>
+            <input type="checkbox" name="startingDays" value="3" > Wednesday
+            <% } %>
+        </label>
+        <label class="checkbox-inline">
+            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Thursday")) { %>
+            <input type="checkbox" name="startingDays" value="4" checked> Thursday
+            <% } else { %>
+            <input type="checkbox" name="startingDays" value="4" > Thursday
+            <% } %>
+        </label>
+        <label class="checkbox-inline">
+            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Friday")) { %>
+            <input type="checkbox" name="startingDays"  value="5" checked> Friday
+            <% } else { %>
+            <input type="checkbox" name="startingDays"  value="5" > Friday
+            <% } %>
+        </label>
+        <label class="checkbox-inline">
+            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Saturday")) { %>
+            <input type="checkbox" name="startingDays"  value="6" checked> Saturday
+            <% } else { %>
+            <input type="checkbox" name="startingDays"  value="6" > Saturday
+            <% } %>
+        </label>
+        <label class="checkbox-inline">
+            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Sunday")) { %>
+            <input type="checkbox" name="startingDays"  value="7" checked> Sunday
+            <% } else { %>
+            <input type="checkbox" name="startingDays"  value="7" > Sunday
+            <% } %>
+        </label>
+    </div>
 
-        <br>
-
-        <!-- Submit button -->
-        <div class="form-group">
-            <label class="col-md-4 control-label"></label>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-warning" name="trendy" value="">Price Trends <span class="glyphicon glyphicon-send"></span></button>
-            </div>
-        </div>
-
-    </form>
-
-</div>
-
-<div class="result">
     <br>
-    <table id="trendy_table">
-        <tr>
-            <th>Date</th>
-            <c:forEach items="${periodTrendy}" var="trend">
-                <td>${trend.key}</td>
-            </c:forEach>
-        </tr>
-        <tr>
-            <th>Currency deviations &#91;&#37;&#93;</th>
-            <c:forEach items="${periodTrendy}" var="trend">
-                <td>${trend.value.get(0)}</td>
-            </c:forEach>
-        </tr>
-        <tr>
-            <th>Petrol deviations &#91;&#37;&#93;</th>
-            <c:forEach items="${periodTrendy}" var="trend">
-                <td>${trend.value.get(1)}</td>
-            </c:forEach>
-        </tr>
-        <tr>
-            <th>Sum &#91;&#37;&#93;</th>
-            <c:forEach items="${periodTrendy}" var="trend">
-                <td>${trend.value.get(2)}</td>
-            </c:forEach>
-        </tr>
-    </table>
+
+    <!-- Submit button -->
+    <div class="form-group">
+        <label class="col-md-4 control-label"></label>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-warning" >Price Trends <span class="glyphicon glyphicon-send"></span></button>
+        </div>
+    </div>
 </div>
 
+</form>
     <script type="text/javascript">
         $(document).ready(function() {
 
@@ -198,10 +194,132 @@
     </script>
 
 
+    <div id="container" style="min-width: 300px; height: 400px; margin: auto">
+        <h2>Fuel and Currency Trends</h2>
+        <h3><%= session.getAttribute("conclusion") %></h3>
+    </div>
+
+    <script>
+        var json1 = <%= session.getAttribute("json1") %>;
+        var json2 = <%= session.getAttribute("json2") %>;
+        var dateValues = [];
+        var currencyValues = [];
+        var petrolValues = [];
+        var sumValues = [];
+        for (var i = 0; i < json1.length; i++) {
+            dateValues.push(json1[i].year + "-" +json1[i].month + "-" + json1[i].day);
+        }
+        for (var i = 0; i < json2.length; i++) {
+            currencyValues.push(json2[i][0]);
+        }
+        for (var i = 0; i < json2.length; i++) {
+            petrolValues.push(json2[i][1]);
+        }
+        for (var i = 0; i < json2.length; i++) {
+            sumValues.push(json2[i][2]);
+        }
+        $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=usdeur.json&callback=?', function (data) {
+
+            Highcharts.chart('container', {
+                chart: {
+                    zoomType: 'x'
+                },
+                title: {
+                    text: 'USD to EUR exchange rate over time'
+                },
+                subtitle: {
+                    text: document.ontouchstart === undefined ?
+                        'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+                },
+                xAxis: {
+//                    type: 'datetime',
+                    categories: dateValues
+                },
+                yAxis: {
+                    title: {
+                        text: 'Exchange rate'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    area: {
+                        marker: {
+                            radius: 2
+                        },
+                        lineWidth: 1,
+                        states: {
+                            hover: {
+                                lineWidth: 1
+                            }
+                        },
+                        threshold: null
+                    }
+                },
+
+                series: [{
+                    type: 'area',
+                    name: 'Currency statistics',
+                    color: '#f76664',
+                    fillColor: {
+                        linearGradient: {
+                            x1: 0,
+                            y1: 0,
+                            x2: 0,
+                            y2: 1
+                        },
+                        stops: [
+                            [0, Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]
+                    },
+                    data: currencyValues
+                }, {
+                    type: 'area',
+                    name: 'Petrol statistics',
+
+                    fillColor: {
+                        color: '#79c97c',
+                        linearGradient: {
+                            x1: 0,
+                            y1: 0,
+                            x2: 0,
+                            y2: 1
+                        },
+                        stops: [
+                            [0, Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]
+                    },
+                    data: petrolValues
+                }, {
+                    type: 'area',
+                    name: 'Full statistics',
+                    color: '#39b0c9',
+                    fillColor: {
+                        linearGradient: {
+                            x1: 0,
+                            y1: 0,
+                            x2: 0,
+                            y2: 1
+                        },
+                        stops: [
+                            [0, Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]
+                    },
+                    data: sumValues
+
+                }]
+
+            });
+        });
+    </script>
 
     <div class="container">
         <h2>Fuel and Currency Trends</h2>
-        <h3>${conclusion}</h3>
+        <h3><%= session.getAttribute("conclusion") %></h3>
         <div>
             <canvas id="myChart"></canvas>
         </div>
@@ -211,8 +329,8 @@
     <script>
         var ctx = document.getElementById("myChart");
 
-        var json1 = ${datesForTrends};
-        var json2 = ${valuesForTrends};
+        var json1 = ${json1};
+        var json2 = ${json2};
         var dateValues = [];
         var currencyValues = [];
         var petrolValues = [];

@@ -5,10 +5,9 @@ import java.time.LocalDate;
 /**
  * Created by krystianskrzyszewski on 05.04.17.
  */
-public class CurrencyHistoryDayValue extends RatesInfo {
+public class CurrencyRates extends RatesInfo {
     private String currencyCode;
     private LocalDate date;
-    private String rateType;
     private Double rate;
 
     public String getCurrencyCode() {
@@ -25,14 +24,6 @@ public class CurrencyHistoryDayValue extends RatesInfo {
 
     public void setDate(LocalDate date) {
         this.date = date;
-    }
-
-    public String getRateType() {
-        return rateType;
-    }
-
-    public void setRateType(String rateType) {
-        this.rateType = rateType;
     }
 
     public Double getRate() {

@@ -4,6 +4,7 @@ import com.infoshareacademy.jjdd1.teamerror.TripFullCost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -19,11 +20,7 @@ public class CountryAndCurrency {
     private static final Logger LOGGER = LoggerFactory.getLogger(CountryAndCurrency.class);
 
 
-    public CountryAndCurrency() {
-
-    }
-
-    public void setFilesContent(FilesContent filesContent) {
+    public CountryAndCurrency(FilesContent filesContent) {
         this.filesContent = filesContent;
         currencyNames = new CurrencyNames(filesContent);
     }
@@ -50,12 +47,11 @@ public class CountryAndCurrency {
             if (currencyNames.getCurrencies().containsKey(parts[3])) {
                 countryAndCurrency.put(parts[0].toUpperCase(), parts[3]);
             }
-            LOGGER.debug(countryAndCurrency.toString());
         }
     }
 
     // select countries which are available for petrol and currencies
-    public void selectCountriesAndCurrency(){
+    private void selectCountriesAndCurrency(){
         List<String> countries= new ArrayList<>(countryAndCurrency.keySet());
         List<String> currencies = new ArrayList<>(countryAndCurrency.values());
 
