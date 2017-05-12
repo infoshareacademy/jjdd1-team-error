@@ -1,6 +1,7 @@
 package com.infoshareacademy.jjdd1.teamerror.logging;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.infoshareacademy.jjdd1.teamerror.ReportsSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +39,8 @@ public class LoginServlet extends HttpServlet {
 
             HttpSession session = req.getSession(true);
             session.setAttribute("userName", name);
+            ReportsSender.sendAnEmail("New logging",
+                    name + " just logged in with an email: " + email);
             req.getServletContext()
                     .getRequestDispatcher("/index.jsp").forward(req, resp);
 
