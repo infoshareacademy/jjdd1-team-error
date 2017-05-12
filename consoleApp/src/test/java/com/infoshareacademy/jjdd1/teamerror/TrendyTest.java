@@ -1,21 +1,5 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import com.google.common.collect.ImmutableMap;
-import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.CurrencyHistoryDayValue;
-import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.PetrolPrices;
-import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.RatesInfo;
-import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
@@ -53,7 +37,7 @@ public class TrendyTest {
 //            BigDecimal initialValue = BigDecimal.valueOf(4.0), increment = BigDecimal.valueOf(0.02),
 //                    initialResultValue = BigDecimal.valueOf(0.0), resultIncrement = BigDecimal.valueOf(0.5);
 //            for (int month = FIRST_MONTH; month <= LIST_OF_MONTHS; month++) {
-//                CurrencyHistoryDayValue dayObject = new CurrencyHistoryDayValue();
+//                CurrencyRates dayObject = new CurrencyRates();
 //                dayObject.setDate(LocalDate.of(year, month, FIRST_DAY_OF_MONTH));
 //                dayObject.setRate(initialValue.doubleValue());
 //                listOfCurrencyObjects.add(dayObject);
@@ -68,7 +52,7 @@ public class TrendyTest {
 //        for (int year = EXEMPLARY_YEAR; year <= EXEMPLARY_YEAR + 5; year++) {
 //            double initialValue = 4.0, increment = 0.02, initialResultValue = 0.0, resultIncrement = 0.5;
 //            for (int month = FIRST_MONTH; month <= LIST_OF_MONTHS; month++) {
-//                PetrolPrices dayObject = new PetrolPrices();
+//                PetrolRates dayObject = new PetrolRates();
 //                dayObject.setDate(LocalDate.of(year, month, FIRST_DAY_OF_MONTH));
 //                dayObject.setRate(initialValue);
 //                listOfPetrolObjects.add(dayObject);
@@ -107,7 +91,7 @@ public class TrendyTest {
 //    public void CURRENCY_TEST_should_return_percentage_deviation_for_first_month() {
 //        //given
 //        List<RatesInfo> listOfOneObject = new ArrayList<>();
-//        CurrencyHistoryDayValue dayCurrencyObject = new CurrencyHistoryDayValue();
+//        CurrencyRates dayCurrencyObject = new CurrencyRates();
 //        dayCurrencyObject.setDate(LocalDate.of(2016, 1, 1));
 //        dayCurrencyObject.setRate(4.0);
 //        listOfOneObject.add(dayCurrencyObject);
@@ -192,7 +176,7 @@ public class TrendyTest {
 //    public void PETROL_TEST_should_return_percentage_deviation_for_first_month() {
 //        //given
 //        List<RatesInfo> listOfOneObject = new ArrayList<>();
-//        PetrolPrices dayPetrolObject = new PetrolPrices();
+//        PetrolRates dayPetrolObject = new PetrolRates();
 //        dayPetrolObject.setDate(LocalDate.of(2016, 1, 1));
 //        dayPetrolObject.setRate(4.0);
 //        listOfOneObject.add(dayPetrolObject);

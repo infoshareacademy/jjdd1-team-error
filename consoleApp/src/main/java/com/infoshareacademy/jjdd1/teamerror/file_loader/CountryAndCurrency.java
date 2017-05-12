@@ -4,6 +4,7 @@ import com.infoshareacademy.jjdd1.teamerror.TripFullCost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -19,11 +20,7 @@ public class CountryAndCurrency {
     private static final Logger LOGGER = LoggerFactory.getLogger(CountryAndCurrency.class);
 
 
-    public CountryAndCurrency() {
-
-    }
-
-    public void setFilesContent(FilesContent filesContent) {
+    public CountryAndCurrency(FilesContent filesContent) {
         this.filesContent = filesContent;
         currencyNames = new CurrencyNames(filesContent);
     }

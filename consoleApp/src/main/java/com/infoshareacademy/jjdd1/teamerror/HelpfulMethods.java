@@ -1,6 +1,11 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 /**
  * Created by sebastian_los on 06.05.17.
@@ -21,5 +26,15 @@ public class HelpfulMethods {
                 .stream()
                 .mapToDouble(a -> a)
                 .summaryStatistics().getAverage();
+    }
+
+    public static Map<LocalDate, Double> minimizeDeviations(Map<LocalDate, Double> valuesAvgForStartingDays) {
+        Map<LocalDate, Double> valuesAvgListFinal = new TreeMap<>();
+        valuesAvgListFinal.putAll(valuesAvgForStartingDays
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey,
+                        a -> round(a.getValue() - Collections.min(valuesAvgForStartingDays.values()), 2))));
+        return valuesAvgListFinal;
     }
 }

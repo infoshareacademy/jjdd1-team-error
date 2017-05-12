@@ -7,29 +7,23 @@ import java.util.stream.Collectors;
 /**
  * Created by sebastian_los on 03.05.17.
  */
-public class DayValuesForAllYearsGroupedByYear {
+class DayValuesGroupedByYear {
     
     private Map<LocalDate, Double> dayDeviations;
-    private Integer year;
 
-    DayValuesForAllYearsGroupedByYear(Integer year) {
+    DayValuesGroupedByYear() {
         this.dayDeviations = new LinkedHashMap<>();
-        this.year = year;
     }
 
-    public void setDayDeviations(LocalDate date, Double rate) {
+    void setDayDeviations(LocalDate date, Double rate) {
         this.dayDeviations.put(date, rate);
-    }
-
-    public Integer getYear() {
-        return year;
     }
 
     private Double getMinValue() {
         return Collections.min(dayDeviations.values());
     }
 
-    public Map<LocalDate, Double> getDayPercentageDeviations() {
+    Map<LocalDate, Double> getDayPercentageDeviations() {
         Double minValue = getMinValue();
         return dayDeviations.entrySet().stream()
                 .collect(Collectors.toMap(
