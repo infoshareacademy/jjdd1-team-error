@@ -7,7 +7,7 @@
 --%>
 
 <div class="buttons">
-    <form style="display: inline" method="get" action="/tripCost">
+    <form style="display: inline" method="post" action="/tripCost">
 
         <button type="submit" onclick="form.action='/tripCost';">Trip cost</button>
 

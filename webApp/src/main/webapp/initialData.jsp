@@ -1,5 +1,5 @@
 <%@ include file="headersAndStyle.jsp" %>
-<form method="get" action="/afterInitial" class="form-horizontal" id="reg_form">
+<form method="post" action="/afterInitial" class="form-horizontal" id="reg_form">
 
 
     <div class="form-group">
