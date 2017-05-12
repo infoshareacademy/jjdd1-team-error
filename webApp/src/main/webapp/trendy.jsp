@@ -310,6 +310,7 @@
                         ]
                     },
                     data: sumValues
+
                 }]
 
             });
