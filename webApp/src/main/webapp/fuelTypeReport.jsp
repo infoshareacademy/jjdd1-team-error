@@ -16,16 +16,17 @@
 
         <h3>Fuel type report</h3>
         <canvas id="fuelType" width="200" height="200"></canvas>
-
         <script>
             var ctx = document.getElementById("fuelType");
+            var dieselPopularity = ${dieselPopularity};
+            var gasolinePopularity = ${gasolinePopularity};
             var fuelType = new Chart(ctx, {
                 type: 'pie',
                 data: {
                     labels: ["popularity of diesel", "popularity of gasoline"],
                     datasets: [
                         {
-                            data: [300, 50],
+                            data: [dieselPopularity, gasolinePopularity],
                             backgroundColor: [
                                 "#FF6384",
                                 "#36A2EB",

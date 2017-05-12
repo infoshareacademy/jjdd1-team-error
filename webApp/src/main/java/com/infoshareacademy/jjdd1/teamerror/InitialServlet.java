@@ -109,6 +109,7 @@ public class InitialServlet extends HttpServlet {
             savingFuelTypeStatistics.updatePopularity(cost.getFuelType());
             LOGGER.info("Popularity of {} is updated to {}", cost.getFuelType(), savingFuelTypeStatistics.getPopularity(cost.getFuelType()));
 
+
             if ("CROATIA".equals(cost.getCountry())) {
                 SavingCountryStatistics.countryStatistics.Croatia++;
                 LOGGER.info("Croatia chosen quantity increased  by 1");
