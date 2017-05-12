@@ -2,6 +2,7 @@ package com.infoshareacademy.jjdd1.teamerror;
 
 import com.google.gson.Gson;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingFuelTypeStatistics;
 import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
@@ -36,6 +37,9 @@ public class TripCostServlet extends HttpServlet {
 
     @Inject
     TripFullCost cost;
+
+    @Inject
+    SavingFuelTypeStatistics savingFuelTypeStatistics;
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -98,6 +102,12 @@ public class TripCostServlet extends HttpServlet {
         LOGGER.debug("Cost class: {}", cost.toString());
 
         session.setAttribute("fullCost", cost.costCount());
+
+        LOGGER.info("Popularity of diesel is {}", savingFuelTypeStatistics.getPopularity("diesel"));
+        LOGGER.info("Popularity of gasoline is {}", savingFuelTypeStatistics.getPopularity("gasoline"));
+
+        savingFuelTypeStatistics.updatePopularity(cost.getFuelType());
+        LOGGER.info("Popularity of {} is updated to {}", cost.getFuelType(), savingFuelTypeStatistics.getPopularity(cost.getFuelType()));
 
 
         session.setAttribute("filesContent", filesContent);

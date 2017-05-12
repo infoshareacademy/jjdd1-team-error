@@ -14,10 +14,10 @@
         <%--<button type="submit" name="additionalData" value="">Trip cost</button>--%>
 
             <div class="btn-group" role="group">
-                <button class="btn btn-outline-inverse btn-lg" type="submit" formaction="/calc" name="tripCost" value="/calc" >Trip cost</button>
+                <button class="btn btn-outline-inverse btn-lg" type="submit" formaction="/tripCost" name="tripCost" value="/tripCost" >Trip cost</button>
             </div>
             <div class="btn-group" role="group">
-                <button class="btn btn-outline-inverse btn-lg" type="submit" formaction="/calc" name="trendy" value="/calc" >Optimal time for trip</button>
+                <button class="btn btn-outline-inverse btn-lg" type="submit" formaction="/trendy" name="trendy" value="/trendy" >Optimal time for trip</button>
             </div>
             <div class="btn-group" role="group">
                 <button class="btn btn-outline-inverse btn-lg" type="submit" formaction="/start" name="initialData" value="/start" >Change initial data</button>

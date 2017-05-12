@@ -2,6 +2,7 @@ package com.infoshareacademy.jjdd1.teamerror;
 
 import com.google.gson.Gson;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingFuelTypeStatistics;
 import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
@@ -35,6 +36,9 @@ public class TrendsServlet extends HttpServlet{
 
     @Inject
     Trendy trendy;
+
+    @Inject
+    SavingFuelTypeStatistics savingFuelTypeStatistics;
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -116,6 +120,12 @@ public class TrendsServlet extends HttpServlet{
         session.setAttribute("periodTrendy", periodTrendy);
         String conclusion = trendy.getConclusion();
         session.setAttribute("conclusion", conclusion);
+
+        LOGGER.info("Popularity of diesel is {}", savingFuelTypeStatistics.getPopularity("diesel"));
+        LOGGER.info("Popularity of gasoline is {}", savingFuelTypeStatistics.getPopularity("gasoline"));
+
+        savingFuelTypeStatistics.updatePopularity(trendy.getFuelType());
+        LOGGER.info("Popularity of {} is updated to {}", trendy.getFuelType(), savingFuelTypeStatistics.getPopularity(trendy.getFuelType()));
 
         session.setAttribute("filesContent", filesContent);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/trendy.jsp");
