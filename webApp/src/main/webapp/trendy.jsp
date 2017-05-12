@@ -20,9 +20,9 @@
     <li>Date from:  <%= session.getAttribute("trendPeriodFrom") %></li>
     <li>Date till:  <%= session.getAttribute("trendPeriodTill") %></li>
     <li>Starting days:
-        <%--<c:forEach items="${sessionScope[startingDaysString]" var="trend">--%>
-            <%--${trend}--%>
-        <%--</c:forEach>--%>
+        <c:forEach items="${startingDaysString}" var="trend">
+            ${trend}
+        </c:forEach>
     </li>
     <br>
 </div>
@@ -227,6 +227,102 @@
     </script>
 
 
+    <div id="container" style="min-width: 300px; height: 400px; margin: auto">
+        <h2>Fuel and Currency Trends</h2>
+        <h3><%= session.getAttribute("conclusion") %></h3>
+    </div>
+
+    <script>
+        var json1 = <%= session.getAttribute("json1") %>;
+        var json2 = <%= session.getAttribute("json2") %>;
+        var dateValues = [];
+        var currencyValues = [];
+        var petrolValues = [];
+        var sumValues = [];
+        for (var i = 0; i < json1.length; i++) {
+            dateValues.push(json1[i].year + "-" +json1[i].month + "-" + json1[i].day);
+        }
+        for (var i = 0; i < json2.length; i++) {
+            currencyValues.push(json2[i][0]);
+        }
+        for (var i = 0; i < json2.length; i++) {
+            petrolValues.push(json2[i][1]);
+        }
+        for (var i = 0; i < json2.length; i++) {
+            sumValues.push(json2[i][2]);
+        }
+        $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=usdeur.json&callback=?', function (data) {
+
+            Highcharts.chart('container', {
+                chart: {
+                    zoomType: 'x'
+                },
+                title: {
+                    text: 'USD to EUR exchange rate over time'
+                },
+                subtitle: {
+                    text: document.ontouchstart === undefined ?
+                        'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+                },
+                xAxis: {
+//                    type: 'datetime',
+                    categories: dateValues
+                },
+                yAxis: {
+                    title: {
+                        text: 'Exchange rate'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    area: {
+                        fillColor: {
+                            linearGradient: {
+                                x1: 0,
+                                y1: 0,
+                                x2: 0,
+                                y2: 1
+                            },
+                            stops: [
+                                [0, Highcharts.getOptions().colors[0]],
+                                [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                            ]
+                        },
+                        marker: {
+                            radius: 2
+                        },
+                        lineWidth: 1,
+                        states: {
+                            hover: {
+                                lineWidth: 1
+                            }
+                        },
+                        threshold: null
+                    }
+                },
+
+                series: [{
+                    type: 'area',
+                    name: 'Currency statistics',
+                    color: '#f7a35c',
+                    data: currencyValues
+                }, {
+                    type: 'area',
+                    name: 'Petrol statistics',
+                    color: '#00c92b',
+                    data: petrolValues
+                }, {
+                    type: 'area',
+                    name: 'Petrol statistics',
+                    color: '#345fc9',
+                    data: sumValues
+                }]
+
+            });
+        });
+    </script>
 
     <div class="container">
         <h2>Fuel and Currency Trends</h2>
