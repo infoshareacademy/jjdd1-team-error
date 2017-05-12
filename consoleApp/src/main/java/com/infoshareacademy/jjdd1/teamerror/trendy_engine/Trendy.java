@@ -208,8 +208,8 @@ public class Trendy {
     }
 
     public Map<LocalDate, List<Double>> getPeriodTrendy() {
-        LOGGER.debug("Getting in getPeriodTrendy method, parameters - DateFrom: {} DateTill: {} TripLength: {}",
-                trendyPeriodFrom, trendyPeriodTill, tripLength);
+        LOGGER.debug("Getting in getPeriodTrendy method, parameters - DateFrom: {} DateTill: {} TripLength: {} " +
+                        "startingDays: {}", trendyPeriodFrom, trendyPeriodTill, tripLength, startingDays);
         setTrendy();
         Map<LocalDate, Double> currencyValuesAvgList = new TreeMap<>();
         Map<LocalDate, Double> petrolValuesAvgList = new TreeMap<>();
@@ -226,7 +226,7 @@ public class Trendy {
         determineCurrencyAndPetrolValuesSumsAndGenerateResults(results, cheapestAveragesSums, currencyValuesAvgListFinal, petrolValuesAvgListFinal);
 
         setConclusion(cheapestAveragesSums);
-        LOGGER.debug("Getting out of get PeriodTrendy method");
+        LOGGER.debug("Getting out of get PeriodTrendy method, results: {}", results);
         return results;
     }
 

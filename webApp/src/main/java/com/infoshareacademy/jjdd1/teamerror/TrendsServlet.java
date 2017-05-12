@@ -37,7 +37,7 @@ public class TrendsServlet extends HttpServlet{
     Trendy trendy;
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         LOGGER.debug("Servlet start");
 
@@ -74,7 +74,7 @@ public class TrendsServlet extends HttpServlet{
 
         String tripLength = (String) session.getAttribute("tripLength");
         if (tripLength != null) {
-            trendy.setTripLength(tripLength.toString());
+            trendy.setTripLength(tripLength);
         }
         tripLength = trendy.getTripLength().toString();
         session.setAttribute("tripLength", tripLength);
@@ -105,6 +105,7 @@ public class TrendsServlet extends HttpServlet{
                 country, fuelType, trendPeriodFrom, trendPeriodTill, startingDays);
 
         Gson gson = new Gson();
+
         Map<LocalDate, List<Double>> periodTrendy = trendy.getPeriodTrendy();
         String json1 = gson.toJson(periodTrendy.keySet());
         session.setAttribute("json1", json1);

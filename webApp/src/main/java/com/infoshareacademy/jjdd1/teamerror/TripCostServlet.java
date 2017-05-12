@@ -38,7 +38,7 @@ public class TripCostServlet extends HttpServlet {
     TripFullCost cost;
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         LOGGER.debug("Servlet start");
 

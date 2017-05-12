@@ -9,157 +9,124 @@
 <%@ include file="headersAndStyle.jsp" %>
 <%@ include file="headerOptions.jsp" %>
 
-<form method="get" action="/trendy" class="form-horizontal" id="trendy_form">
+<form method="post" action="/trendy" class="form-horizontal" id="trendy_form">
 <div class="data">
     <br>
     <label><b>Given data:</b></label>
-    <li>Country: <%= session.getAttribute("country") %></li>
+    <li>Country: ${country}</li>
     <li>Currency:  <%= session.getAttribute("currency") %></li>
     <li>Fuel type:  <%= session.getAttribute("fuelTypeString") %></li>
     <li>Trip length:  <%= session.getAttribute("tripLength") %></li>
     <li>Date from:  <%= session.getAttribute("trendPeriodFrom") %></li>
     <li>Date till:  <%= session.getAttribute("trendPeriodTill") %></li>
     <li>Starting days:
-        <%--<c:forEach items="${sessionScope[startingDaysString]" var="trend">--%>
-            <%--${trend}--%>
-        <%--</c:forEach>--%>
+        <c:forEach items="${startingDaysString}" var="trend">
+            ${trend}
+        </c:forEach>
     </li>
     <br>
 </div>
 
 
 <div>
-    <form method="get" action="/trendy" class="form-horizontal" id="reg_form">
 
-        <!-- Text input-->
+    <!-- Text input-->
 
-        <div class="form-group">
-            <label class="col-md-4 control-label">Trip length</label>
-            <div class="col-md-5  inputGroupContainer">
-                <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
-                    <input name="tripLength" class="form-control" type="number" min="1" value="<%= session.getAttribute("tripLength") %>"/>
-                </div>
+    <div class="form-group">
+        <label class="col-md-4 control-label">Trip length</label>
+        <div class="col-md-5  inputGroupContainer">
+            <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
+                <input name="tripLength" class="form-control" type="number" min="1" value="<%= session.getAttribute("tripLength") %>"/>
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label class="col-md-4 control-label">Date from</label>
-            <div class="col-md-5 inputGroupContainer">
-                <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                    <input type="text" id="trendPEriodFrom" name="trendPeriodFrom" class="form-control date-picker1" value="<%= session.getAttribute("trendPeriodFrom") %>"/>
-                </div>
+    <div class="form-group">
+        <label class="col-md-4 control-label">Date from</label>
+        <div class="col-md-5 inputGroupContainer">
+            <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                <input type="text" id="trendPEriodFrom" name="trendPeriodFrom" class="form-control date-picker1" value="<%= session.getAttribute("trendPeriodFrom") %>"/>
             </div>
         </div>
+    </div>
 
-        <!-- Text input-->
-        <div class="form-group">
-            <label class="col-md-4 control-label">Date till</label>
-            <div class="col-md-5 inputGroupContainer">
-                <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                    <input type="text" id="periodDateTill" name="trendPeriodTill" class="form-control date-picker2" value="<%= session.getAttribute("trendPeriodTill") %>" />
-                </div>
+    <!-- Text input-->
+    <div class="form-group">
+        <label class="col-md-4 control-label">Date till</label>
+        <div class="col-md-5 inputGroupContainer">
+            <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                <input type="text" id="periodDateTill" name="trendPeriodTill" class="form-control date-picker2" value="<%= session.getAttribute("trendPeriodTill") %>" />
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label class="col-md-4 control-label">Starting days</label>
-        </div>
-        <div>
-            <label class="checkbox-inline">
-                <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Monday")) { %>
-                    <input type="checkbox" name="startingDays" value="1" checked> Monday
-                <% } else { %>
-                    <input type="checkbox" name="startingDays" value="1" > Monday
-                <% } %>
-            </label>
-            <label class="checkbox-inline">
-                <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Tuesday")) { %>
-                <input type="checkbox" name="startingDays" value="2" checked> Tuesday
-                <% } else { %>
-                <input type="checkbox" name="startingDays" value="2" > Tuesday
-                <% } %>
-            </label>
-            <label class="checkbox-inline">
-                <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Wednesday")) { %>
-                <input type="checkbox" name="startingDays" value="3" checked> Wednesday
-                <% } else { %>
-                <input type="checkbox" name="startingDays" value="3" > Wednesday
-                <% } %>
-            </label>
-            <label class="checkbox-inline">
-                <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Thursday")) { %>
-                <input type="checkbox" name="startingDays" value="4" checked> Thursday
-                <% } else { %>
-                <input type="checkbox" name="startingDays" value="4" > Thursday
-                <% } %>
-            </label>
-            <label class="checkbox-inline">
-                <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Friday")) { %>
-                <input type="checkbox" name="startingDays"  value="5" checked> Friday
-                <% } else { %>
-                <input type="checkbox" name="startingDays"  value="5" > Friday
-                <% } %>
-            </label>
-            <label class="checkbox-inline">
-                <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Saturday")) { %>
-                <input type="checkbox" name="startingDays"  value="6" checked> Saturday
-                <% } else { %>
-                <input type="checkbox" name="startingDays"  value="6" > Saturday
-                <% } %>
-            </label>
-            <label class="checkbox-inline">
-                <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Sunday")) { %>
-                <input type="checkbox" name="startingDays"  value="7" checked> Sunday
-                <% } else { %>
-                <input type="checkbox" name="startingDays"  value="7" > Sunday
-                <% } %>
-            </label>
-        </div>
+    <div class="form-group">
+        <label class="col-md-4 control-label">Starting days</label>
+    </div>
+    <div>
+        <label class="checkbox-inline">
+            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Monday")) { %>
+                <input type="checkbox" name="startingDays" value="1" checked> Monday
+            <% } else { %>
+                <input type="checkbox" name="startingDays" value="1" > Monday
+            <% } %>
+        </label>
+        <label class="checkbox-inline">
+            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Tuesday")) { %>
+            <input type="checkbox" name="startingDays" value="2" checked> Tuesday
+            <% } else { %>
+            <input type="checkbox" name="startingDays" value="2" > Tuesday
+            <% } %>
+        </label>
+        <label class="checkbox-inline">
+            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Wednesday")) { %>
+            <input type="checkbox" name="startingDays" value="3" checked> Wednesday
+            <% } else { %>
+            <input type="checkbox" name="startingDays" value="3" > Wednesday
+            <% } %>
+        </label>
+        <label class="checkbox-inline">
+            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Thursday")) { %>
+            <input type="checkbox" name="startingDays" value="4" checked> Thursday
+            <% } else { %>
+            <input type="checkbox" name="startingDays" value="4" > Thursday
+            <% } %>
+        </label>
+        <label class="checkbox-inline">
+            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Friday")) { %>
+            <input type="checkbox" name="startingDays"  value="5" checked> Friday
+            <% } else { %>
+            <input type="checkbox" name="startingDays"  value="5" > Friday
+            <% } %>
+        </label>
+        <label class="checkbox-inline">
+            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Saturday")) { %>
+            <input type="checkbox" name="startingDays"  value="6" checked> Saturday
+            <% } else { %>
+            <input type="checkbox" name="startingDays"  value="6" > Saturday
+            <% } %>
+        </label>
+        <label class="checkbox-inline">
+            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Sunday")) { %>
+            <input type="checkbox" name="startingDays"  value="7" checked> Sunday
+            <% } else { %>
+            <input type="checkbox" name="startingDays"  value="7" > Sunday
+            <% } %>
+        </label>
+    </div>
 
-        <br>
-
-        <!-- Submit button -->
-        <div class="form-group">
-            <label class="col-md-4 control-label"></label>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-warning" name="trendy" value="">Price Trends <span class="glyphicon glyphicon-send"></span></button>
-            </div>
-        </div>
-
-    </form>
-
-</div>
-
-<div class="result">
     <br>
-    <table id="trendy_table">
-        <tr>
-            <th>Date</th>
-            <%--<c:forEach items="<%= session.getAttribute("periodTrendy") %>" var="trend">--%>
-                <%--<td>${trend.key}</td>--%>
-            <%--</c:forEach>--%>
-        </tr>
-        <tr>
-            <th>Currency deviations &#91;&#37;&#93;</th>
-            <%--<c:forEach items="<%= session.getAttribute("periodTrendy") %>" var="trend">--%>
-                <%--<td>${trend.value.get(0)}</td>--%>
-            <%--</c:forEach>--%>
-        </tr>
-        <tr>
-            <th>Petrol deviations &#91;&#37;&#93;</th>
-            <%--<c:forEach items="<%= session.getAttribute("periodTrendy") %>" var="trend">--%>
-                <%--<td>${trend.value.get(1)}</td>--%>
-            <%--</c:forEach>--%>
-        </tr>
-        <tr>
-            <th>Sum &#91;&#37;&#93;</th>
-            <%--<c:forEach items="<%= session.getAttribute("periodTrendy") %>" var="trend">--%>
-                <%--<td>${trend.value.get(2)}</td>--%>
-            <%--</c:forEach>--%>
-        </tr>
-    </table>
+
+    <!-- Submit button -->
+    <div class="form-group">
+        <label class="col-md-4 control-label"></label>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-warning" >Price Trends <span class="glyphicon glyphicon-send"></span></button>
+        </div>
+    </div>
 </div>
 
+</form>
     <script type="text/javascript">
         $(document).ready(function() {
 
@@ -240,8 +207,8 @@
     <script>
         var ctx = document.getElementById("myChart");
 
-        var json1 = <%= session.getAttribute("json1") %>;
-        var json2 = <%= session.getAttribute("json2") %>;
+        var json1 = ${json1};
+        var json2 = ${json2};
         var dateValues = [];
         var currencyValues = [];
         var petrolValues = [];
