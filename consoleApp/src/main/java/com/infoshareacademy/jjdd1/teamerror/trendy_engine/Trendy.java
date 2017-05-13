@@ -23,7 +23,7 @@ public class Trendy {
     private static final int MONTHS_NUMBER = 12;
     private static final int YEAR_WITH_29_DAY_FEBRUARY = 1904;
     private static final int DEFAULT_DAYS_NUMBER = 60;
-    private static final int DEFAULT_TRIP_LENGTH = 1;
+    private static final int DEFAULT_TRIP_LENGTH = 7;
     private static final int DEFAULT_STARTING_DAY = 6;
 
     private String conclusion = "";
@@ -36,10 +36,9 @@ public class Trendy {
     private String currencySymbol;
     private String country;
     private String fuelType;
-//    private LocalDate trendyPeriodFrom = LocalDate.now();
-//    private LocalDate trendyPeriodTill = LocalDate.now().plusDays(DEFAULT_DAYS_NUMBER);
-    private LocalDate trendyPeriodFrom = LocalDate.of(2018,1,1);
-    private LocalDate trendyPeriodTill = LocalDate.of(2018, 12, 31);
+    private LocalDate trendyPeriodFrom = LocalDate.now();
+    private LocalDate trendyPeriodTill = LocalDate.now().plusDays(DEFAULT_DAYS_NUMBER);
+
     private Integer tripLength = DEFAULT_TRIP_LENGTH;
     private Set<Integer> startingDays = new TreeSet<>(Collections.singleton(DEFAULT_STARTING_DAY));
 
@@ -209,7 +208,7 @@ public class Trendy {
 
     public Map<LocalDate, List<Double>> getPeriodTrendy() {
         LOGGER.debug("Getting in getPeriodTrendy method, parameters - DateFrom: {} DateTill: {} TripLength: {} " +
-                        "startingDays: {}", trendyPeriodFrom, trendyPeriodTill, tripLength, startingDays);
+                        "startingDays: {}", trendyPeriodFrom, trendyPeriodTill, tripLength, getStartingDaysString());
         setTrendy();
         Map<LocalDate, Double> currencyValuesAvgList = new TreeMap<>();
         Map<LocalDate, Double> petrolValuesAvgList = new TreeMap<>();
