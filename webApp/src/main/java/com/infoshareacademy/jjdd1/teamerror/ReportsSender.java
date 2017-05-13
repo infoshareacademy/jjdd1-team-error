@@ -20,7 +20,6 @@ public class ReportsSender {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReportsSender.class);
 
-    @EJB
     public static void sendAnEmail(String subject, String message) {
 
         LOGGER.info("Getting in sendAnEmail class and setting up Mail Server properties");
