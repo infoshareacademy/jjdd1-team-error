@@ -1,7 +1,7 @@
 # Project: Trip Calculator
 Application to calculate cost of car abroad on the base on historical exchange rate and petrols price rate.
 
-# Development team:
+**Development team:**
   - Sebastian Łoś
   
   - Krystian Skrzyszewski
@@ -10,8 +10,8 @@ Application to calculate cost of car abroad on the base on historical exchange r
   
   - Iga Falkowska
   
-# Product owner:
+**Product owner:**
   - Wòjcech Makùrôt 
   
-# infoShare Academy, Team ERROR
+infoShare Academy, Team ERROR
     

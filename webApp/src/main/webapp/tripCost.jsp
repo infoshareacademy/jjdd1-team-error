@@ -10,7 +10,6 @@
 <%@ include file="headerOptions.jsp" %>
 <%@ page errorPage="exceptionHandling.jsp" %>
 
-    <%--<div class="col-md-9">--%>
 
         <div class="data">
             <br>
@@ -23,13 +22,10 @@
             <li>Fuel usage:  ${fuelUsage}</li>
             <li>Distance:  ${fullDistance}</li>
         </div>
-        <div class="result">
+        <div class="result" style="padding-bottom:120px;">
             <br>
             <h3>The cost of renting a car abroad (for the specified data) will be: ${fullCost}</h3>
         </div>
-    <%--</div>--%>
-<%--</div>--%>
-
 
 
 <%@ include file="footer.jsp" %>

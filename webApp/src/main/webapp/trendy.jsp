@@ -317,7 +317,7 @@
         });
     </script>
 
-    <div class="container">
+    <div class="container" style="padding-bottom:120px;">
         <h2>Fuel and Currency Trends</h2>
         <h3><%= session.getAttribute("conclusion") %></h3>
         <div>
