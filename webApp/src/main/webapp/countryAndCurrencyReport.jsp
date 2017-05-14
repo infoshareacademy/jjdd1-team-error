@@ -16,12 +16,18 @@
             <h3>Country report</h3>
             <canvas id="country" width="300" height="200"></canvas>
 
+
+
             <script>
                 var ctx = document.getElementById("country");
                 var country = new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: ["Croatia", "France", "USA"],
+                        labels: [
+                            <c:forEach items="${countriesList}" var="country">
+                            "${country}",
+                            </c:forEach>
+                        ],
                         datasets: [
                             {
                                 label: "popularity of country",
@@ -42,7 +48,9 @@
                                     'rgba(255, 159, 64, 1)'
                                 ],
                                 borderWidth: 1,
-                                data: [65, 59, 80],
+                                data: [<c:forEach items="${popularityList}" var="popularity">
+                                    "${popularity}",
+                                    </c:forEach>],
                             }
                         ]
                     }

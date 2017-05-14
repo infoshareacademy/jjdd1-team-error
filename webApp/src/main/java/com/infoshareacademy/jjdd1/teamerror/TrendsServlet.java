@@ -2,6 +2,7 @@ package com.infoshareacademy.jjdd1.teamerror;
 
 import com.google.gson.Gson;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingCountryStatistics;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingFuelTypeStatistics;
 import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
@@ -39,6 +40,9 @@ public class TrendsServlet extends HttpServlet{
 
     @Inject
     SavingFuelTypeStatistics savingFuelTypeStatistics;
+
+    @Inject
+    SavingCountryStatistics savingCountryStatistics;
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -126,6 +130,12 @@ public class TrendsServlet extends HttpServlet{
 
         savingFuelTypeStatistics.updatePopularity(trendy.getFuelType());
         LOGGER.info("Popularity of {} is updated to {}", trendy.getFuelType(), savingFuelTypeStatistics.getPopularity(trendy.getFuelType()));
+
+        savingCountryStatistics.updateCountryStatistics(trendy.getCountry());
+        LOGGER.info("Popularity of {} is updated to {}", trendy.getCountry(), savingCountryStatistics.getPopularity(trendy.getCountry()));
+
+        LOGGER.info("Countries from database: {}", savingCountryStatistics.getListOfCountries());
+        LOGGER.info("Popularity of countries from database: {}", savingCountryStatistics.getListOfPopularity());
 
         session.setAttribute("filesContent", filesContent);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/trendy.jsp");

@@ -1,7 +1,5 @@
 package com.infoshareacademy.jjdd1.teamerror.dataBase;
 
-import com.infoshareacademy.jjdd1.teamerror.TripFullCost;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -24,11 +22,6 @@ public class SavingFuelTypeStatistics {
     }
 
     public void updatePopularity(String fuelType){
-//        FuelTypeStatistics fuelTypeStatistics = entityManager.find(FuelTypeStatistics.class, 1 );
-//        entityManager.getTransaction().begin();
-//        fuelTypeStatistics.setPopularity(getPopularity(fuelType)+ 1);
-//        entityManager.getTransaction().commit();
-
        Query query =  entityManager.createQuery("UPDATE FuelTypeStatistics p SET p.popularity = p.popularity + 1" +
                 "WHERE p.fuelType = ?1 ");
        int result = query.setParameter(1, fuelType).executeUpdate();
