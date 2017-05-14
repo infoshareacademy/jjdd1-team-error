@@ -1,4 +1,15 @@
-package com.infoshareacademy.jjdd1.teamerror;
+package com.infoshareacademy.jjdd1.teamerror.trendy_engine;
+
+import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.RatesInfo;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -14,8 +25,6 @@ public class TrendyTest {
 //    private static final int FIRST_DAY_OF_MONTH = 1;
 //    private static final int EXEMPLARY_YEAR = 2016;
 //
-////    private Trendy trendy = new Trendy(new PetrolFileFilter(new OnDemandFilesContent()),
-////            new CurrencyFileFilter(new OnDemandFilesContent()));
 //    private Trendy trendy = new Trendy();
 //
 //

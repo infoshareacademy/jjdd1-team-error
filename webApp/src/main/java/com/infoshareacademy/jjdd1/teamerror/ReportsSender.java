@@ -62,7 +62,6 @@ public class ReportsSender {
                 LOGGER.warn("Problem with closing transport, exception: ", e);
             }
         }
-        LOGGER.info("Email sent successfully");
 
     }
 

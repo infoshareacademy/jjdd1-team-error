@@ -8,8 +8,15 @@
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
                 <select name="country" class="form-control selectpicker"  >
                     <option value="" >Please select your destination</option>
-                    <c:forEach items="${countryList}" var="country">
-                        <option value="${country}">${country}</option>
+                    <c:forEach items="${countryList}" var="oneCountry">
+                        <c:choose>
+                            <c:when test="${oneCountry == country}" >
+                                <option value="${oneCountry}" selected="${oneCountry}">${oneCountry}</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="${oneCountry}" >${oneCountry}</option>
+                            </c:otherwise>
+                        </c:choose>
                     </c:forEach>
                 </select>
             </div>
@@ -24,8 +31,10 @@
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
                 <select name="fuelType" class="form-control selectpicker" value="${fuelType}">
                     <option value="" >Please select your fuel type</option>
-                    <option value="1">Diesel</option>
-                    <option value="2">Gasoline</option>
+                    <option value="1" <%= session.getAttribute("fuelTypeString") != null &&
+                            session.getAttribute("fuelTypeString").equals("diesel")?"selected":"" %> >Diesel</option>
+                    <option value="2" <%= session.getAttribute("fuelTypeString") != null &&
+                            session.getAttribute("fuelTypeString").equals("gasoline")?"selected":"" %> >Gasoline</option>
                 </select>
             </div>
         </div>
