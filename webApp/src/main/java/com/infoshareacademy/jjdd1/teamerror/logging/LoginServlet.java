@@ -41,8 +41,6 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("userName", name);
             req.getServletContext()
                     .getRequestDispatcher("/index.jsp").forward(req, resp);
-            ReportsSender.sendAnEmail("New logging",
-                    name + " just logged in with an email: " + email);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
