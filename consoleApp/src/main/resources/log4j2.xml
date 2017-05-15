@@ -2,12 +2,18 @@
 <Configuration status="WARN">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <PatternLayout pattern="%highlight{%d{HH:mm:ss.SSS} [%t] | %-18marker | %-5level %logger{1.} [%line]
+            - %msg%n%throwable}{FATAL=black,ERROR=red,WARN=yellow,INFO=black,DEBUG=green,TRACE=cyan}"/>
         </Console>
+        <File name="MonitoringFile" fileName="logs/app.log" append="true">
+            <PatternLayout pattern="%highlight{%d{HH:mm:ss.SSS} [%t] | %-18marker | %-5level %logger{1.} [%line]
+             - %enc{%msg}%n}{FATAL=black,ERROR=red,WARN=yellow,INFO=black,DEBUG=green,TRACE=cyan}"/>
+        </File>
     </Appenders>
     <Loggers>
         <Root level="debug">
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="MonitoringFile"/>
         </Root>
     </Loggers>
 </Configuration>

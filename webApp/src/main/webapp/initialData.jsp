@@ -1,6 +1,7 @@
 <%@ include file="headersAndStyle.jsp" %>
-<form method="post" action="/afterInitial" class="form-horizontal" id="reg_form">
 
+
+<form method="post" action="/afterInitial" class="form-horizontal" id="reg_form" style="padding-bottom:120px;">
 
     <div class="form-group">
         <label class="col-md-4 control-label">Country</label>
