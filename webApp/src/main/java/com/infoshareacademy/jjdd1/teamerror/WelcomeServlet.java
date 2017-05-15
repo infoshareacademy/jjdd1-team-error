@@ -59,6 +59,8 @@ public class WelcomeServlet extends HttpServlet {
         promotedCountries.setPromotedCountries(ret);
         LOGGER.info("Data from database successfully loaded");
 
+
+
         req.setAttribute("countryList", promotedCountries.getOrderedPromotedCountries());
         session.setAttribute("filesContent", filesContent);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/initialData.jsp");

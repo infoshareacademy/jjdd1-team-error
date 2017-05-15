@@ -6,7 +6,6 @@ import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingFuelTypeStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
@@ -34,7 +33,7 @@ public class ReportsSender {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReportsSender.class);
 
-    public static void sendAnEmail(String subject, String message) {
+    private static void sendAnEmail(String subject, String message) {
 
         LOGGER.info("Getting in sendAnEmail class and setting up Mail Server properties");
         Properties mailServerProperties = System.getProperties();
@@ -77,10 +76,9 @@ public class ReportsSender {
                 LOGGER.warn("Problem with closing transport, exception: ", e);
             }
         }
-
     }
 
-    @Schedule(dayOfWeek = "*", hour = "8")
+    @Schedule(hour = "8")
     public void sendCountryAndCurrencyReport() {
         String subject = "New report - " + LocalDate.now();
         List<String> countries = savingCountryStatistics.getListOfCountries();
@@ -90,20 +88,27 @@ public class ReportsSender {
         Integer dieselPopularity = savingFuelTypeStatistics.getPopularity("diesel");
         Integer gasolinePopularity = savingFuelTypeStatistics.getPopularity("gasoline");
 
-        String report = "";
-        report += "New report <br>--------------------------------------";
+        StringBuilder report = new StringBuilder();
+        report.append("New report <br>--------------------------------------<br>");
+        createMultipleValues(countries, countryPopularity, report);
+        createMultipleValues(currencies, currenciesPopularity, report);
+        report.append("diesel ");
+        report.append(dieselPopularity);
+        report.append("<br>");
+        report.append("gasoline ");
+        report.append(gasolinePopularity);
+        report.append("<br>");
+        sendAnEmail(subject, report.toString());
+    }
+
+    private void createMultipleValues(List<String> countries, List<Integer> countryPopularity,
+                                      StringBuilder report) {
         for (int i = 0; i < countries.size(); i++) {
-            report += countries.get(i) + " " + countryPopularity.get(i) + "<br>";
+            report.append(countries.get(i));
+            report.append(" ");
+            report.append(countryPopularity.get(i));
+            report.append("<br>");
+            report.append("--------------------------------------<br>");
         }
-        report += "--------------------------------------";
-
-        for (int i = 0; i < currencies.size(); i++) {
-            report += currencies.get(i) + " " + currenciesPopularity.get(i) + "<br>";
-        }
-        report += "--------------------------------------";
-
-        report += "diesel " + dieselPopularity + "<br>";
-        report += "gasoline " + gasolinePopularity + "<br>";
-        sendAnEmail(subject, report);
     }
 }
