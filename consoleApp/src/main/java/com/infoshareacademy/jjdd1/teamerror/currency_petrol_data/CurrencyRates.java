@@ -10,6 +10,14 @@ public class CurrencyRates extends RatesInfo {
     private LocalDate date;
     private Double rate;
 
+    public CurrencyRates() {
+    }
+
+    public CurrencyRates(LocalDate date, Double rate) {
+        this.date = date;
+        this.rate = rate;
+    }
+
     public String getCurrencyCode() {
         return currencyCode;
     }

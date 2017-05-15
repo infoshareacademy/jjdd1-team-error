@@ -12,6 +12,14 @@ public class PetrolRates extends RatesInfo {
     private String fuelType;
     private Double rate;
 
+    public PetrolRates() {
+    }
+
+    public PetrolRates(LocalDate date, Double rate) {
+        this.date = date;
+        this.rate = rate;
+    }
+
     public String getCountryName() {
         return countryName;
     }
