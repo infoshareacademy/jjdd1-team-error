@@ -174,21 +174,6 @@ public class Trendy {
         return conclusion;
     }
 
-    public Map<String, String> getPetrolTrendy() {
-        return transformToStringValues(petrolTrendy);
-    }
-
-    public Map<String, String> getCurrencyDayTrendy() {
-        return transformToStringValues(currencyDayTrendy);
-    }
-
-    private Map<String, String> transformToStringValues(Map<LocalDate, Double> input) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM YYYY");
-        return input.entrySet().stream()
-                .collect(Collectors.toMap(key -> key.getKey().format(formatter),
-                        value -> value.getValue().toString()));
-    }
-
     public Set<String> getStartingDaysString() {
         String[] weekDays = DateFormatSymbols.getInstance().getWeekdays();
         if (startingDays.contains(7)) {
@@ -216,8 +201,8 @@ public class Trendy {
         Map<LocalDate, Double> cheapestAveragesSums = new TreeMap<>();
         determineAvgValues(currencyValuesAvgList, petrolValuesAvgList);
 
-        Map<LocalDate, Double> currencyValuesAvgForStartingDays = filtrateByStaringDays(currencyValuesAvgList);
-        Map<LocalDate, Double> petrolValuesAvgForStartingDays = filtrateByStaringDays(petrolValuesAvgList);
+        Map<LocalDate, Double> currencyValuesAvgForStartingDays = filtrateByStartingDays(currencyValuesAvgList);
+        Map<LocalDate, Double> petrolValuesAvgForStartingDays = filtrateByStartingDays(petrolValuesAvgList);
 
         Map<LocalDate, Double> currencyValuesAvgListFinal = HelpfulMethods.minimizeDeviations(currencyValuesAvgForStartingDays);
         Map<LocalDate, Double> petrolValuesAvgListFinal = HelpfulMethods.minimizeDeviations(petrolValuesAvgForStartingDays);
@@ -310,7 +295,7 @@ public class Trendy {
         LOGGER.debug("Getting out of determineAvgValues method");
     }
 
-    private Map<LocalDate, Double> filtrateByStaringDays(Map<LocalDate, Double> valuesAvgList) {
+    private Map<LocalDate, Double> filtrateByStartingDays(Map<LocalDate, Double> valuesAvgList) {
         Map<LocalDate, Double> valuesAvgForStartingDays = new TreeMap<>();
         valuesAvgForStartingDays.putAll(valuesAvgList
                 .entrySet()
