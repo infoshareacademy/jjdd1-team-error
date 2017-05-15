@@ -91,16 +91,16 @@ public class ReportsSender {
         Integer gasolinePopularity = savingFuelTypeStatistics.getPopularity("gasoline");
 
         String report = "";
-        report += "New report <br>--------------------------------------";
+        report += "New report <br>--------------------------------------<br>";
         for (int i = 0; i < countries.size(); i++) {
             report += countries.get(i) + " " + countryPopularity.get(i) + "<br>";
         }
-        report += "--------------------------------------";
+        report += "--------------------------------------<br>";
 
         for (int i = 0; i < currencies.size(); i++) {
             report += currencies.get(i) + " " + currenciesPopularity.get(i) + "<br>";
         }
-        report += "--------------------------------------";
+        report += "--------------------------------------<br>";
 
         report += "diesel " + dieselPopularity + "<br>";
         report += "gasoline " + gasolinePopularity + "<br>";
