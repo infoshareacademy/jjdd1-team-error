@@ -76,7 +76,6 @@ public class ReportsSender {
                 LOGGER.warn("Problem with closing transport, exception: ", e);
             }
         }
-
     }
 
     @Schedule(hour = "8")
