@@ -40,7 +40,7 @@
 </br>
 <h3>Sign in with Google to start your calculation</h3>
 <br>
-<div style="width:100px; margin-left: auto; margin-right:auto; ">
+<div style="width:100px; margin-left: auto; margin-right:auto; padding-bottom: 120px">
 <div class="g-signin2" data-onsuccess="onSignIn"></div>
 </div>
 <script>

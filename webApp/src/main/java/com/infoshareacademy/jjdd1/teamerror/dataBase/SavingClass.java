@@ -23,9 +23,9 @@ public class SavingClass {
 
     @PostConstruct
     public void setCountries() {
-        PromotedCountriesTable france = new PromotedCountriesTable("USA");
+        PromotedCountriesTable france = new PromotedCountriesTable("France");
         entityManager.persist(france);
-        PromotedCountriesTable croatia = new PromotedCountriesTable("France");
+        PromotedCountriesTable croatia = new PromotedCountriesTable("Croatia");
         entityManager.persist(croatia);
     }
 }

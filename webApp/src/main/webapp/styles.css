@@ -160,3 +160,7 @@ select {
     display: block;
     margin: auto;
 }
+
+.btn-outline-inverse:hover{
+    background-color: rgba(13, 147, 176, 0.94);
+}

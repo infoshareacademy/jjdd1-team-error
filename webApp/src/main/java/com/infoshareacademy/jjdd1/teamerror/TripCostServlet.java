@@ -2,6 +2,9 @@ package com.infoshareacademy.jjdd1.teamerror;
 
 import com.google.gson.Gson;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingCountryStatistics;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingCurrencyStatistics;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingFuelTypeStatistics;
 import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
@@ -27,7 +30,7 @@ import java.util.*;
 public class TripCostServlet extends HttpServlet {
 
 
-    private final Logger LOGGER = LoggerFactory.getLogger(com.infoshareacademy.jjdd1.teamerror.TrendsServlet.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(com.infoshareacademy.jjdd1.teamerror.TripCostServlet.class);
     private HttpSession session;
 
 
@@ -36,6 +39,15 @@ public class TripCostServlet extends HttpServlet {
 
     @Inject
     TripFullCost cost;
+
+    @Inject
+    SavingFuelTypeStatistics savingFuelTypeStatistics;
+
+    @Inject
+    SavingCountryStatistics savingCountryStatistics;
+
+    @Inject
+    SavingCurrencyStatistics savingCurrencyStatistics;
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -99,6 +111,20 @@ public class TripCostServlet extends HttpServlet {
 
         session.setAttribute("fullCost", cost.costCount());
 
+        LOGGER.info("Popularity of diesel is {}", savingFuelTypeStatistics.getPopularity("diesel"));
+        LOGGER.info("Popularity of gasoline is {}", savingFuelTypeStatistics.getPopularity("gasoline"));
+        savingFuelTypeStatistics.updatePopularity(cost.getFuelType());
+        LOGGER.info("Popularity of {} is updated to {}", cost.getFuelType(), savingFuelTypeStatistics.getPopularity(cost.getFuelType()));
+
+        savingCountryStatistics.updateCountryStatistics(cost.getCountry());
+        LOGGER.info("Popularity of {} is updated to {}", cost.getCountry(), savingCountryStatistics.getPopularity(cost.getCountry()));
+        LOGGER.info("Countries from database: {}", savingCountryStatistics.getListOfCountries());
+        LOGGER.info("Popularity of countries from database: {}", savingCountryStatistics.getListOfPopularity());
+
+        savingCurrencyStatistics.updateCurrencyStatistics(cost.getCurrency());
+        LOGGER.info("Popularity of {} is updated to {}", cost.getCurrency(), savingCurrencyStatistics.getPopularity(cost.getCurrency()));
+        LOGGER.info("Currencies from database: {}", savingCurrencyStatistics.getListOfCurrencies());
+        LOGGER.info("Popularity of currencies from database: {}", savingCurrencyStatistics.getListOfPopularity());
 
         session.setAttribute("filesContent", filesContent);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/tripCost.jsp");
