@@ -1,0 +1,25 @@
+version: '2'
+services:
+  db:
+    container_name: "db"
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=teamerror
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_ROOT_PASSWORD=pass
+    ports:
+      - 4444:3306
+  webapp:
+    container_name: "webapp"
+    build: .
+    environment:
+      - MYSQL_URI=db:3306
+      - MYSQL_DATABASE=teamerror
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_ROOT_PASSWORD=pass
+    ports:
+      - 8080:8080
+    links:
+      - db
