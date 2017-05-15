@@ -29,12 +29,15 @@ public class HelpfulMethods {
     }
 
     public static Map<LocalDate, Double> minimizeDeviations(Map<LocalDate, Double> valuesAvgForStartingDays) {
-        Map<LocalDate, Double> valuesAvgListFinal = new TreeMap<>();
-        valuesAvgListFinal.putAll(valuesAvgForStartingDays
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey,
-                        a -> round(a.getValue() - Collections.min(valuesAvgForStartingDays.values()), 2))));
-        return valuesAvgListFinal;
+        if (Collections.min(valuesAvgForStartingDays.values()) != 0) {
+            Map<LocalDate, Double> valuesAvgListFinal = new TreeMap<>();
+            valuesAvgListFinal.putAll(valuesAvgForStartingDays
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey,
+                            a -> round(a.getValue() - Collections.min(valuesAvgForStartingDays.values()), 2))));
+            return valuesAvgListFinal;
+        }
+        return valuesAvgForStartingDays;
     }
 }
