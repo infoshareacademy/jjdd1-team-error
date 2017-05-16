@@ -32,16 +32,15 @@ public class PetrolFileFilter {
     }
 
     // divide content of Currency File and put this information as objects
-    public void putPetrolFileContentToClass(String country, String fuelType) {
+    private void putPetrolFileContentToClass(String country, String fuelType) {
 
         listOfPetrolDataObjects.clear();
         List<String> lines = filesContent.getPetrolDataFile();
-        String[] parts;
 
         // iterate over all lines excepts the first one
-        for (int i = 1; i < lines.size(); i++) {
-            parts = lines.get(i).split(";");
-            if (!lines.get(i).isEmpty() && parts.length == NUMBER_OF_ELEMENTS_IN_LINE) {
+        lines.forEach(line -> {
+            String[] parts = line.split(";");
+            if (!line.isEmpty() && parts.length == NUMBER_OF_ELEMENTS_IN_LINE) {
 
                 if (parts[0].equalsIgnoreCase(country)) {
                     PetrolRates value = new PetrolRates();
@@ -51,19 +50,17 @@ public class PetrolFileFilter {
                     if (fuelType.equalsIgnoreCase("gasoline")) {
                         value.setRate(Double.parseDouble(changeComaToPoint(parts[4])));
                     }
-                    value.setRate(Double.parseDouble(changeComaToPoint(parts[5])));
+                    else {
+                        value.setRate(Double.parseDouble(changeComaToPoint(parts[5])));
+                    }
 
                     listOfPetrolDataObjects.add(value);
                 }
             }
-        }
+        } );
     }
 
     private static String changeComaToPoint(String price) {
         return price.replace(',','.');
     }
-
-    public static void getListOfPetrolDataObjects() {
-    }
-
 }

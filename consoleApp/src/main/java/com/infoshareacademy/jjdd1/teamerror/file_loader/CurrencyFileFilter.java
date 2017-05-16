@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Created by SebastianLos on 06.04.17.
@@ -37,20 +39,20 @@ public class CurrencyFileFilter {
 
         listOfCurrencyDataObjects.clear();
         List<String> lines = filesContent.getCurrencyDataFile(currencySymbol);
-        String[] parts;
 
         LOGGER.debug("Parsing currency content");
         // iterate over all lines excepts the first one
-        for (int i = 1; i < lines.size(); i++) {
-            parts = lines.get(i).split(",");
-            if (!lines.get(i).isEmpty() && parts.length == NUMBER_OF_ELEMENTS_IN_LINE) {
+        lines.forEach(line -> {
+            String[] parts = line.split(",");
+
+            if (!line.isEmpty() && parts.length == NUMBER_OF_ELEMENTS_IN_LINE && !line.equals(lines.get(0))) {
                 CurrencyRates value = new CurrencyRates();
                 value.setCurrencyCode(parts[0].toUpperCase());
                 value.setDate(DateParser.DateFromString(parts[1]));
                 value.setRate(Double.parseDouble(parts[5]));
                 listOfCurrencyDataObjects.add(value);
             }
-        }
+        } );
         LOGGER.info("Currency content parsed");
     }
 }

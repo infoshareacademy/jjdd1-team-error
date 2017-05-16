@@ -2,7 +2,6 @@ package com.infoshareacademy.jjdd1.teamerror.file_loader;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 /**
  * Created by krystianskrzyszewski on 04.04.17.

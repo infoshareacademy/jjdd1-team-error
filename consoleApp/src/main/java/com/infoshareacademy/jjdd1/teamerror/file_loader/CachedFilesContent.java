@@ -3,7 +3,6 @@ package com.infoshareacademy.jjdd1.teamerror.file_loader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,13 +29,9 @@ public class CachedFilesContent implements FilesContent {
         return currencyInfoFile;
     }
 
-    public void setCurrencyInfoFile() {
+    private void setCurrencyInfoFile() {
         LOGGER.debug("Creating path and loading file: {}", CURRENCY_INFO_FILE);
         currencyInfoFile = loadFile(PATH_TO_FILES + CURRENCY_INFO_FILE);
-    }
-
-    public void setCurrencyInfoFile(InputStream currencyInfoFile) {
-        this.currencyInfoFile = loadStream(currencyInfoFile);
     }
 
     @Override
@@ -47,11 +42,7 @@ public class CachedFilesContent implements FilesContent {
         return currencyDataFile;
     }
 
-    public void setCurrencyDataFile(InputStream currencyDataFile, String fileName) {
-        this.currencyDataFile = loadFileForZip(currencyDataFile, fileName);
-    }
-
-    public void setCurrencyDataFile(String currencySymbol) {
+    private void setCurrencyDataFile(String currencySymbol) {
 
         currencyDataFile = loadFileForDefaultZip(createPath(currencySymbol));
     }
@@ -64,12 +55,8 @@ public class CachedFilesContent implements FilesContent {
         return petrolDataFile;
     }
 
-    public void setPetrolDataFile() {
+    private void setPetrolDataFile() {
         LOGGER.debug("Creating path and loading file: {}", PETROL_FILE_NAME);
         this.petrolDataFile = loadFile(PATH_TO_FILES + PETROL_FILE_NAME);
-    }
-
-    public void setPetrolDataFile(InputStream petrolDataFile) {
-        this.petrolDataFile = loadStream(petrolDataFile);
     }
 }
