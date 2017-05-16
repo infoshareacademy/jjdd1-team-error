@@ -18,7 +18,6 @@ import java.util.List;
  */
 
 @Singleton
-@Startup
 public class SavingCountryStatistics {
 
     @PersistenceContext

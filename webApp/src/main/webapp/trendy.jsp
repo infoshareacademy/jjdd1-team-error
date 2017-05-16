@@ -225,7 +225,7 @@
                     zoomType: 'x'
                 },
                 title: {
-                    text: 'USD to EUR exchange rate over time'
+                    text: 'Currency and petrol percentage deviations for given period'
                 },
                 subtitle: {
                     text: document.ontouchstart === undefined ?
