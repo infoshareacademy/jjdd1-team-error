@@ -11,7 +11,7 @@ import java.util.List;
  */
 
 @Singleton
-@Startup
+//@Startup
 public class SavingClass {
 
     @PersistenceContext

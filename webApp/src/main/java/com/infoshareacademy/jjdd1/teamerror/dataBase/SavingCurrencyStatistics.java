@@ -17,7 +17,7 @@ import java.util.List;
  * Created by Iga on 14.05.2017.
  */
 @Singleton
-@Startup
+//@Startup
 public class SavingCurrencyStatistics {
 
     @PersistenceContext
