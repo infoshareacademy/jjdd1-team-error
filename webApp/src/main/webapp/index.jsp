@@ -20,15 +20,19 @@
 </div>
 </div>
 <div style="clear:both;"></div>
-<a href="https://accounts.google.com/Logout" onclick="signOut();" target="_blank">Sign out</a>
-<script>
-    function signOut() {
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().disconnect().then(function () {
-            console.log('User signed out.');
-        });
-    }
 
-</script>
+<form action="${pageContext.request.contextPath}/logout" method="post">
+
+
+<%--<a href="https://accounts.google.com/Logout" ><input type="submit" value="Logout" /></a>--%>
+    <%--<input onClick="window.location='https://accounts.google.com/Logout' " target="_parent" type="submit" value="Logout">--%>
+    <input onClick="" type="submit" value="Logout">
+</form>
+
+<%--window in selected size--%>
+<a href="https://accounts.google.com/Logout" onclick="window.open(this.href, 'mywin',
+'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" >Share this</a>
+
+
 
 <%@ include file="footer.jsp" %>
