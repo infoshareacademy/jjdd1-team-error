@@ -136,13 +136,13 @@ public class TrendsServlet extends HttpServlet{
 
         savingCountryStatistics.updateCountryStatistics(trendy.getCountry());
         LOGGER.info("Popularity of {} is updated to {}", trendy.getCountry(), savingCountryStatistics.getPopularity(trendy.getCountry()));
-        LOGGER.info("Countries from database: {}", savingCountryStatistics.getListOfCountries());
-        LOGGER.info("Popularity of countries from database: {}", savingCountryStatistics.getListOfPopularity());
+        LOGGER.info("Top 10 countries from database: {}", savingCountryStatistics.getListOfCountries());
+        LOGGER.info("Top 10 popularity of countries from database: {}", savingCountryStatistics.getListOfPopularity());
 
         savingCurrencyStatistics.updateCurrencyStatistics(trendy.getCurrencySymbol());
         LOGGER.info("Popularity of {} is updated to {}", trendy.getCurrencySymbol(), savingCurrencyStatistics.getPopularity(trendy.getCurrencySymbol()));
-        LOGGER.info("Currencies from database: {}", savingCurrencyStatistics.getListOfCurrencies());
-        LOGGER.info("Popularity of currencies from database: {}", savingCurrencyStatistics.getListOfPopularity());
+        LOGGER.info("Top 10 currencies from database: {}", savingCurrencyStatistics.getListOfCurrencies());
+        LOGGER.info("Top 10 popularity of currencies from database: {}", savingCurrencyStatistics.getListOfPopularity());
 
         session.setAttribute("filesContent", filesContent);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/trendy.jsp");
