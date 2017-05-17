@@ -1,4 +1,5 @@
 <%@ include file="headersAndStyle.jsp" %>
+<%@ include file="sessionChecker.jsp" %>
 
 <div class="row" style="margin:0; padding-bottom:120px; padding-top:50px;">
     <div class="col-md-4" style="padding:0;">
@@ -19,4 +20,15 @@
 </div>
 </div>
 <div style="clear:both;"></div>
+<a href="https://accounts.google.com/Logout" onclick="signOut();" target="_blank">Sign out</a>
+<script>
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().disconnect().then(function () {
+            console.log('User signed out.');
+        });
+    }
+
+</script>
+
 <%@ include file="footer.jsp" %>

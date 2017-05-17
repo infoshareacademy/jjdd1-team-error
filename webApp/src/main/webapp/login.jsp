@@ -46,11 +46,11 @@
 <script>
     function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();
-//        console.log('ID: ' + profile.getId());
-//        console.log('Name: ' + profile.getName());
-//        console.log('Image URL: ' + profile.getImageUrl());
-//        console.log('Email: ' + profile.getEmail());
-//        console.log('id_token: ' + googleUser.getAuthResponse().id_token);
+        console.log('ID: ' + profile.getId());
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail());
+        console.log('id_token: ' + googleUser.getAuthResponse().id_token);
 
         //do not post above info to the server because that is not safe.
         //just send the id_token
