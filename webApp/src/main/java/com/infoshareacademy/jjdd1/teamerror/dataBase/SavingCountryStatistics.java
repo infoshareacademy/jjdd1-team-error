@@ -18,7 +18,6 @@ import java.util.List;
  */
 
 @Singleton
-//@Startup
 public class SavingCountryStatistics {
 
     @PersistenceContext
@@ -31,9 +30,8 @@ public class SavingCountryStatistics {
     }
 
     public int getPopularity(String country){
-            return entityManager.createQuery("SELECT cs.popularity FROM CountryStatistics cs " +
-                    "WHERE cs.country = ?1", Integer.class).setParameter(1, country).getSingleResult();
-
+        return entityManager.createQuery("SELECT cs.popularity FROM CountryStatistics cs " +
+                "WHERE cs.country = ?1", Integer.class).setParameter(1, country).getSingleResult();
     }
 
 

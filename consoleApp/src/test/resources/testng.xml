@@ -3,7 +3,7 @@
     <!--<test name="Testing, testing, 1,2,3..." >-->
         <!--<classes>-->
             <!--<class name="com.infoshareacademy.jjdd1.teamerror.TripFullCostTest"/>-->
-            <!--<class name="com.infoshareacademy.jjdd1.teamerror.TrendyTest"/>-->
+            <!--<class name="com.infoshareacademy.jjdd1.teamerror.trendy_engine.TrendyTestTest"/>-->
             <!--<class name="com.infoshareacademy.jjdd1.teamerror.DateParserTest"/>-->
         <!--</classes>-->
     <!--</test>-->

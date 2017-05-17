@@ -54,7 +54,7 @@ public class FileReader {
         return loadFileForZip(inputStream, fileName);
     }
 
-    static List<String> loadFileForZip(InputStream stream, String fileName) {
+    private static List<String> loadFileForZip(InputStream stream, String fileName) {
         ZipInputStream zip = new ZipInputStream(stream);
 
         try {
@@ -71,7 +71,7 @@ public class FileReader {
         return new ArrayList<>();
     }
 
-    static List<String> loadStream(InputStream inputStream) {
+    private static List<String> loadStream(InputStream inputStream) {
         List<String> result = new ArrayList<>();
         try(BufferedReader br =  new BufferedReader(new InputStreamReader(inputStream))) {
             result = br.lines().collect(Collectors.toList());

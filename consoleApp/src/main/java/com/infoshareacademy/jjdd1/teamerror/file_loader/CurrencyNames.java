@@ -24,7 +24,7 @@ public class CurrencyNames {
     }
 
     // load all available currencies from given file
-    public void loadCurrencies() {
+    void loadCurrencies() {
 
         // read content of the file line by line
         List<String> lines = filesContent.getCurrencyInfoFile();
@@ -37,6 +37,6 @@ public class CurrencyNames {
             file = parts[parts.length - 2].split("\\.");
             currencyName = parts[parts.length - 1].split("\\(");
             currencies.put(file[0].toUpperCase(), currencyName[0]);
-        };
+        }
     }
 }

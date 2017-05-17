@@ -225,7 +225,7 @@
                     zoomType: 'x'
                 },
                 title: {
-                    text: 'USD to EUR exchange rate over time'
+                    text: 'Currency and petrol percentage deviations for given period'
                 },
                 subtitle: {
                     text: document.ontouchstart === undefined ?
@@ -326,56 +326,5 @@
     </div>
 
     <script src="vendor/Chart.bundle.js"></script>
-    <script>
-        var ctx = document.getElementById("myChart");
-
-        var json1 = ${json1};
-        var json2 = ${json2};
-        var dateValues = [];
-        var currencyValues = [];
-        var petrolValues = [];
-        var sumValues = [];
-        for (var i = 0; i < json1.length; i++) {
-            dateValues.push(json1[i].year + "-" +json1[i].month + "-" + json1[i].day);
-        }
-        for (var i = 0; i < json2.length; i++) {
-            currencyValues.push(json2[i][0]);
-        }
-        for (var i = 0; i < json2.length; i++) {
-            petrolValues.push(json2[i][1]);
-        }
-        for (var i = 0; i < json2.length; i++) {
-            sumValues.push(json2[i][2]);
-        }
-
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: dateValues,
-                datasets: [{
-                    label: 'currency',
-                    data: currencyValues,
-                    backgroundColor: "rgba(153,255,51,0.6)"
-                }, {
-                    label: 'fuel',
-                    data: petrolValues,
-                    backgroundColor: "rgba(255,153,0,0.6)"
-                }, {
-                    label: 'total',
-                    data: sumValues,
-                    backgroundColor: "rgba(200,153,0,0.6)"
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                }
-            }
-        });
-    </script>
 
 <%@ include file="footer.jsp" %>

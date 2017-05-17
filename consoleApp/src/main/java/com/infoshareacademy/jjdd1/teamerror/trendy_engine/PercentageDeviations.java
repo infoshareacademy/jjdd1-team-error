@@ -20,7 +20,7 @@ public class PercentageDeviations {
     private static final int FIRST_DAY_OF_MONTH = 1;
     private static final Logger LOGGER = LoggerFactory.getLogger(PercentageDeviations.class);
 
-    private List<RatesInfo> ratesList;
+    private List<RatesInfo> ratesList = new ArrayList<>();
 
 
     PercentageDeviations(List<RatesInfo> ratesList) {
