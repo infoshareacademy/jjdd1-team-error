@@ -37,13 +37,13 @@ public class SavingCountryStatistics {
 
 
     public List<String> getListOfCountries(){
-        return entityManager.createQuery("SELECT cs.country FROM CountryStatistics cs "
-                , String.class).getResultList();
+        return entityManager.createQuery("SELECT cs.country FROM CountryStatistics cs ORDER BY cs.popularity DESC "
+                , String.class).setMaxResults(10).getResultList();
     }
 
     public List<Integer> getListOfPopularity(){
-        return entityManager.createQuery("SELECT cs.popularity FROM CountryStatistics cs "
-                , Integer.class).getResultList();
+        return entityManager.createQuery("SELECT cs.popularity FROM CountryStatistics cs ORDER BY cs.popularity DESC"
+                , Integer.class).setMaxResults(10).getResultList();
     }
 
     @PostConstruct
