@@ -12,7 +12,7 @@ import java.util.List;
 
 @Singleton
 //@Startup
-public class SavingClass {
+public class PromotedCountriesSaver {
 
     @PersistenceContext
     EntityManager entityManager;

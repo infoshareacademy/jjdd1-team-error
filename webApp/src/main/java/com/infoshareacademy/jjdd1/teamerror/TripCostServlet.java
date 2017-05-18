@@ -1,13 +1,11 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import com.google.gson.Gson;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.PromotedCountriesSaver;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingCountryStatistics;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingCurrencyStatistics;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingFuelTypeStatistics;
 import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
-import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,8 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.*;
 
 /**
  * Created by krystianskrzyszewski on 09.05.17.
@@ -35,7 +31,7 @@ public class TripCostServlet extends HttpServlet {
 
 
     @Inject
-    SavingClass savingClass;
+    PromotedCountriesSaver promotedCountriesSaver;
 
     @Inject
     TripFullCost cost;

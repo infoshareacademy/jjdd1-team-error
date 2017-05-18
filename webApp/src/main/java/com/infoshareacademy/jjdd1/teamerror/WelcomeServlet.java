@@ -1,11 +1,10 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.PromotedCountriesSaver;
 import com.infoshareacademy.jjdd1.teamerror.fileUpload.FileDownloader;
 import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.CachedFilesContent;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
-import com.infoshareacademy.jjdd1.teamerror.file_loader.OnDemandFilesContent;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.PromotedCountries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +34,7 @@ public class WelcomeServlet extends HttpServlet {
     PromotedCountries promotedCountries;
 
     @Inject
-    SavingClass savingClass;
+    PromotedCountriesSaver promotedCountriesSaver;
 
     @Inject
     FileDownloader fileDownloader;
@@ -58,7 +57,7 @@ public class WelcomeServlet extends HttpServlet {
 
 
         LOGGER.debug("Reading data from database");
-        List<String> ret = savingClass.getPromotedCountries();
+        List<String> ret = promotedCountriesSaver.getPromotedCountries();
         LOGGER.debug("List of promoted countries from database: {}", ret);
         promotedCountries.setPromotedCountries(ret);
         LOGGER.info("Data from database successfully loaded");

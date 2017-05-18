@@ -1,7 +1,7 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
 import com.google.gson.Gson;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.PromotedCountriesSaver;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingCountryStatistics;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingCurrencyStatistics;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingFuelTypeStatistics;
@@ -34,7 +34,7 @@ public class TrendsServlet extends HttpServlet{
 
 
     @Inject
-    SavingClass savingClass;
+    PromotedCountriesSaver promotedCountriesSaver;
 
     @Inject
     Trendy trendy;
