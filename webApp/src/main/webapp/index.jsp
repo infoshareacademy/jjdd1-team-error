@@ -21,17 +21,43 @@
 </div>
 <div style="clear:both;"></div>
 
-<form action="${pageContext.request.contextPath}/logout" method="post">
+<input onclick=logOut() type="submit" value="Sign out" >
 
+<script>
+    var a;
+    function logOut() {
+        if (a = window.open("https://accounts.google.com/Logout", 'mywin',
+                'left=450,top=100,width=500,height=500,toolbar=1,resizable=0'))
+        {
+            var redirectUrl = 'logout';
+            var form = $('<form action="' + redirectUrl + '" method="post"> </form>');
+            form.submit();
+//                setTimeout(function() {
+//                    a.close();
+//                }, 5000);
+            }
+    }
+</script>
 
-<%--<a href="https://accounts.google.com/Logout" ><input type="submit" value="Logout" /></a>--%>
-    <%--<input onClick="window.location='https://accounts.google.com/Logout' " target="_parent" type="submit" value="Logout">--%>
-    <input onClick="" type="submit" value="Logout">
-</form>
+<a href="#" id="target">Log</a>
+<script>
+    (function() {
 
-<%--window in selected size--%>
-<a href="https://accounts.google.com/Logout" onclick="window.open(this.href, 'mywin',
-'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" >Share this</a>
+        document.getElementById("target").onclick = function() {
+            var wnd = window.open("https://accounts.google.com/Logout", 'mywin',
+                'left=450,top=100,width=500,height=500,toolbar=1,resizable=0');
+            setTimeout(function() {
+                wnd.close();
+            }, 3000)
+//            {
+//                var form = $('<form action="' + redirectUrl + '" method="post"> </form>');
+//                form.submit();
+//            }
+        };
+
+    })();
+
+</script>
 
 
 

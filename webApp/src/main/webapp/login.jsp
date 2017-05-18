@@ -35,7 +35,6 @@
     </div>
 </div>
 
-
 <h1>Welcome to Trip Calculator!</h1>
 </br>
 <h3>Sign in with Google to start your calculation</h3>

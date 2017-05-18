@@ -40,9 +40,6 @@
     <jsp:include page="sessionChecker.jsp" />
 </head>
 <body>
-    <%--<% if (session.getAttribute("userName") == null) {%>--%>
-<%--<jsp:forward page="/login.jsp"/>--%>
-    <%--<% } %>--%>
     <div id="header">
         <div id="logo">
             <p>Trip Calculator</p>

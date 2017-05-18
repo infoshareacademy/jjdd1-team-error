@@ -1,8 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror.logging;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.infoshareacademy.jjdd1.teamerror.ReportsSender;
-import com.infoshareacademy.jjdd1.teamerror.SessionData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * Created by igafalkowska on 28.04.17.
@@ -22,7 +19,6 @@ import java.util.Objects;
 @WebServlet(urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
     private static Logger logger = LoggerFactory.getLogger(LoginServlet.class);
-
 
     @Override
     protected void doPost(HttpServletRequest req,
