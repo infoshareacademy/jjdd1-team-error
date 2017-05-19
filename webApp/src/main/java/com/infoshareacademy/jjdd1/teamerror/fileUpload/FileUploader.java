@@ -38,39 +38,7 @@ public class FileUploader extends HttpServlet {
         Part currencyZipFile = req.getPart("currencyZipFile");
         LOGGER.debug("Getting files as request parameters {}", petrolFile, currencyInfoFile, currencyZipFile);
 
-//        String fileName = Paths.get(petrolFile.getSubmittedFileName()).getFileName().toString();
-//        LOGGER.debug("File name: {}", fileName);
-
-        Path pathToDirectory = Paths.get(FileReader.PATH_TO_FILES);
-        if (!Files.exists(pathToDirectory)) {
-            Files.createDirectory(pathToDirectory);
-        }
-
-        if(petrolFile.getSize() != 0) {
-            LOGGER.debug("Converting petrol file from Part format to InputStream");
-            Path pathToPetrolFile = Paths.get(FileReader.PATH_TO_FILES +
-                    FileReader.PETROL_FILE_NAME);
-            LOGGER.debug("Saving petrol file on server");
-
-            Files.copy(petrolFile.getInputStream(), pathToPetrolFile, StandardCopyOption.REPLACE_EXISTING);
-            LOGGER.info("Petrol file saved on server");
-        }
-        if(currencyInfoFile.getSize() != 0) {
-            LOGGER.debug("Converting currency info file from Part format to InputStream");
-            Path pathToCurrencyInfoFile = Paths.get(FileReader.PATH_TO_FILES +
-                    FileReader.CURRENCY_INFO_FILE);
-            LOGGER.debug("Saving currency info file on server");
-            Files.copy(currencyInfoFile.getInputStream(), pathToCurrencyInfoFile, StandardCopyOption.REPLACE_EXISTING);
-            LOGGER.info("Currency info file saved on server");
-        }
-        if(currencyZipFile.getSize() != 0) {
-            LOGGER.debug("Converting currency zip file from Part format to InputStream");
-            Path pathToCurrencyZipFile = Paths.get(FileReader.PATH_TO_FILES +
-                    FileReader.CURRENCY_ZIP_FILE);
-            LOGGER.debug("Saving currency zip file on server");
-            Files.copy(currencyZipFile.getInputStream(), pathToCurrencyZipFile, StandardCopyOption.REPLACE_EXISTING);
-            LOGGER.info("Currency zip file saved on server");
-        }
+        saveSourceFiles(petrolFile, currencyInfoFile, currencyZipFile);
 
         if (SourceFilesChecker.checkForSourceFiles(req, resp)) {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
@@ -79,14 +47,25 @@ public class FileUploader extends HttpServlet {
             return;
         }
 
-        if (SourceFilesChecker.checkForSourceFiles(req, resp)) {
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
-            dispatcher.forward(req, resp);
-            return;
-        }
-
         req.setAttribute("start", "");
         resp.sendRedirect("/start");
     }
+
+    private void saveSourceFiles(Part petrolFile, Part currencyInfoFile, Part currencyZipFile) throws IOException {
+        Path pathToDirectory = Paths.get(FileReader.PATH_TO_FILES);
+        if (!Files.exists(pathToDirectory)) {
+            Files.createDirectory(pathToDirectory);
+        }
+        if(petrolFile.getSize() != 0) {
+            FileSaver.saveFileOnServer(FileReader.PETROL_FILE_NAME, petrolFile.getInputStream());
+        }
+        if(currencyInfoFile.getSize() != 0) {
+            FileSaver.saveFileOnServer(FileReader.CURRENCY_INFO_FILE, currencyInfoFile.getInputStream());
+        }
+        if(currencyZipFile.getSize() != 0) {
+            FileSaver.saveFileOnServer(FileReader.CURRENCY_ZIP_FILE, currencyZipFile.getInputStream());
+        }
+    }
+
 
 }
