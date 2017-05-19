@@ -62,7 +62,26 @@
 
         },
         scaleStartValue: 0,
+        scaleSteps: 1,
     });
+    window.myObjBar = new Chart(ctx).Bar(country, {
+        responsive: true
+    });
+    var bars = myObjBar.datasets[0].bars;
+    for (i = 0; i < bars.length; i++) {
+        var color = "green";
+        console.log(bars);
+        if (bars[i].data > 2) {
+            color = "blue";
+        } else {
+            color = "green"
+        }
+
+        bars[i].fillColor = color;
+
+    }
+    myObjBar.update();
+
 </script>
 
 <script>
