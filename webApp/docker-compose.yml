@@ -20,8 +20,8 @@ services:
       - MYSQL_PASSWORD=mysql
       - MYSQL_ROOT_PASSWORD=pass
     ports:
-      - 8080:8080
-      - 9990:9990
+      - 8740:8080
+      - 8741:9990
 
     depends_on:
       - db
