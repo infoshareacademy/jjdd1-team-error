@@ -13,6 +13,12 @@
         <button type="submit" name="start" value="" class="btn btn-primary btn-lg">Start your calculation</button>
     </div>
 </form>
+
+        <form method="get" action="/admin">
+            <div class="buttons">
+                <button type="submit" <c:if test="${adminMail == false}"><c:out value="disabled='disabled'"/></c:if> name="start" value="" class="btn btn-primary btn-lg">Go to Admin Panel</button>
+            </div>
+        </form>
 </div>
 <div class="col-md-4" style="padding:0;" >
     <img class="photo" src="img/photo1.jpg" alt="car">

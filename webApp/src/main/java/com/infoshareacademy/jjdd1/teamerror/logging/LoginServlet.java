@@ -23,7 +23,6 @@ import java.util.Objects;
 @WebServlet(urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
     private static Logger logger = LoggerFactory.getLogger(LoginServlet.class);
-    private HttpSession session;
 
     @Inject
     SavingAdminBase savingAdminBase;
@@ -31,24 +30,8 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        AfterInitialDataServlet.setReqParametersToSession(req, resp);
-        session = req.getSession();
-
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
-
-//        String loginName = req.getParameter("loginName");
-//        if (loginName != null) {
-//            session.setAttribute("loginName", loginName);
-//        }
-
-//        String passwordName = req.getParameter("passwordName");
-//        if (passwordName != null) {
-//            session.setAttribute("passwordName", passwordName);
-//        }
-
-
-
 
         try {
             String idToken = req.getParameter("id_token");
@@ -60,16 +43,20 @@ public class LoginServlet extends HttpServlet {
 
             HttpSession session = req.getSession(true);
             session.setAttribute("userName", name);
-            session.setAttribute("adminMmail", email);
+            session.setAttribute("adminMail", email);
 
             logger.info("User data : {} and {}", name, email);
 
-            for(String admin : savingAdminBase.getListOfAdmins()){
-                if(email.equals(admin)){
-                    req.getServletContext().getRequestDispatcher("/admin.jsp").forward(req, resp);
-                }
-            }
-
+//            for(String admin : savingAdminBase.getListOfAdmins()){
+//                if(email.equals(admin)){
+//                    req.getServletContext().getRequestDispatcher("/admin.jsp").forward(req, resp);
+//                }
+//                else{
+//                    req.getServletContext()
+//                            .getRequestDispatcher("/index.jsp").forward(req, resp);
+//                }
+//            }
+//
             req.getServletContext()
                     .getRequestDispatcher("/index.jsp").forward(req, resp);
 

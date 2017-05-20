@@ -15,9 +15,6 @@ public class AdminBase {
     @Column
     private String adminMail;
 
-//    @Column
-//    private String adminPassword;
-
     public AdminBase(){
     }
 
@@ -33,11 +30,5 @@ public class AdminBase {
         this.adminMail = adminName;
     }
 
-//    public String getAdminPasswordPassword() {
-//        return adminPassword;
-//    }
-//
-//    public void setAdminPassword(String adminPassword) {
-//        this.adminPassword = adminPassword;
-//    }
+
 }
