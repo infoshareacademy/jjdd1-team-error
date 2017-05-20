@@ -22,7 +22,14 @@
 </div>
 
 <script src="vendor/Chart.bundle.js"></script>
+
 <script>
+    var chartColors = {
+        blueFirstLevel: 'rgba(54, 162, 235, 0.2)',
+        blueSecondLevel: 'rgba(54, 162, 235, 0.5)',
+        blueThirdLevel: 'rgba(54, 162, 235, 0.8)'
+    };
+
     var ctx = document.getElementById("country");
     var country = new Chart(ctx, {
         type: 'bar',
@@ -35,7 +42,18 @@
             datasets: [
                 {
                     label: "popularity of country",
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    backgroundColor: [
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel
+                    ],
                     borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1,
                     data: [
@@ -58,9 +76,28 @@
             }
         }
     });
+
+    var colorSecondLevel = 2;
+    var colorThirdLevel = 5;
+    var dataset = country.data.datasets[0];
+    for (var i = 0; i < dataset.data.length; i++) {
+        if (dataset.data[i] > colorSecondLevel && dataset.data[i] < colorThirdLevel) {
+            dataset.backgroundColor[i] = chartColors.blueSecondLevel;
+        }
+        else if (dataset.data[i] > colorThirdLevel){
+            dataset.backgroundColor[i] = chartColors.blueThirdLevel;
+        }
+    }
+    country.update();
 </script>
 
 <script>
+    var chartColors = {
+        blueFirstLevel: 'rgba(54, 162, 235, 0.2)',
+        blueSecondLevel: 'rgba(54, 162, 235, 0.5)',
+        blueThirdLevel: 'rgba(54, 162, 235, 0.8)'
+    };
+
     var ctx = document.getElementById("currency");
     var currency = new Chart(ctx, {
         type: 'bar',
@@ -74,7 +111,18 @@
             datasets: [
                 {
                     label: "popularity of currency",
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    backgroundColor: [
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel
+                    ],
                     borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1,
                     data: [
@@ -96,6 +144,20 @@
             }
         }
     });
+
+    var colorSecondLevel = 2;
+    var colorThirdLevel = 5;
+    var dataset = currency.data.datasets[0];
+    for (var i = 0; i < dataset.data.length; i++) {
+        if (dataset.data[i] > colorSecondLevel && dataset.data[i] < colorThirdLevel) {
+            dataset.backgroundColor[i] = chartColors.blueSecondLevel;
+        }
+        else if (dataset.data[i] > colorThirdLevel){
+            dataset.backgroundColor[i] = chartColors.blueThirdLevel;
+        }
+    }
+    currency.update();
 </script>
+
 
 <%@ include file="footer.jsp" %>
