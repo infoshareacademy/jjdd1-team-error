@@ -9,7 +9,7 @@ import javax.persistence.Query;
 
 
 @Singleton
-@Startup
+//@Startup
 public class SavingFuelTypeStatistics {
 
     @PersistenceContext
