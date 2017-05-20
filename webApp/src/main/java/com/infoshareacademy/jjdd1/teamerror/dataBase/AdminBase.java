@@ -13,33 +13,31 @@ public class AdminBase {
     private int id;
 
     @Column
-    private String adminName;
+    private String adminMail;
 
-    @Column
-    private String adminPassword;
+//    @Column
+//    private String adminPassword;
 
     public AdminBase(){
-
     }
 
-    public AdminBase(String adminName, String adminPassword) {
-        this.adminName = adminName;
-        this.adminPassword = adminPassword;
+    public AdminBase(String adminMail) {
+        this.adminMail = adminMail;
     }
 
-    public String getAdminName() {
-        return adminName;
+    public String getAdminMail() {
+        return adminMail;
     }
 
-    public void setAdminName(String adminName) {
-        this.adminName = adminName;
+    public void setAdminMail(String adminName) {
+        this.adminMail = adminName;
     }
 
-    public String getAdminPasswordPassword() {
-        return adminPassword;
-    }
-
-    public void setAdminPassword(String adminPassword) {
-        this.adminPassword = adminPassword;
-    }
+//    public String getAdminPasswordPassword() {
+//        return adminPassword;
+//    }
+//
+//    public void setAdminPassword(String adminPassword) {
+//        this.adminPassword = adminPassword;
+//    }
 }

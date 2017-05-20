@@ -41,6 +41,16 @@ public class AfterInitialDataServlet  extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
 
+        String adminMail = req.getParameter("adminMail");
+        if (adminMail != null) {
+            session.setAttribute("adminMail", adminMail);
+        }
+
+//        String passwordName = req.getParameter("passwordName");
+//        if (passwordName != null) {
+//            session.setAttribute("passwordName", passwordName);
+//        }
+
         String country = req.getParameter("country");
         if (country != null) {
             session.setAttribute("country", country);
