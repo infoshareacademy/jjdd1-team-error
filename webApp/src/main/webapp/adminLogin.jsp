@@ -25,47 +25,42 @@
     <meta name="google-signin-client_id"
           content="447589672882-lon09s9eq542cpusfm4njbkjcuhpgif7.apps.googleusercontent.com">
 </head>
+
 <body>
-<div id="header">
-    <div id="logo">
-        <p>Trip Calculator</p>
-    </div>
-    <div class="car">
-        <img  id="car" src="img/moving-car-mirror.png" alt="car">
+    <title>Admin Login Page</title>
+
+
+<form method="post" action="/check" class="form-horizontal" id="reg_form" style="padding-bottom:120px;">
+
+<div class="form-group">
+    <label class="col-md-4 control-label">Login</label>
+    <div class="col-md-5  inputGroupContainer">
+        <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
+            <input name="loginName" class="form-control" type="text" value="${loginName}">
+        </div>
     </div>
 </div>
-
-
-<h1>Welcome to Trip Calculator!</h1>
-
-</br>
-<h3>Sign in with Google to start your calculation</h3>
-<br>
-<div style="width:100px; margin-left: auto; margin-right:auto; padding-bottom: 120px">
-<div class="g-signin2" data-onsuccess="onSignIn"></div>
+<div class="form-group">
+    <label class="col-md-4 control-label">Password</label>
+    <div class="col-md-5  inputGroupContainer">
+        <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
+            <input name="passwordName" class="form-control" type="text" value="${passwordName}">
+        </div>
+    </div>
 </div>
-<script>
-    function onSignIn(googleUser) {
-        var profile = googleUser.getBasicProfile();
-//        console.log('ID: ' + profile.getId());
-//        console.log('Name: ' + profile.getName());
-//        console.log('Image URL: ' + profile.getImageUrl());
-//        console.log('Email: ' + profile.getEmail());
-//        console.log('id_token: ' + googleUser.getAuthResponse().id_token);
+    <div class="form-group">
+        <label class="col-md-4 control-label"></label>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-warning" >Price Trends <span class="glyphicon glyphicon-send"></span></button>
+        </div>
+        <div class="col-md-2">
+            <button type="reset" class="btn btn-danger" >Trip Cost <span class="glyphicon glyphicon-send"></span></button>
+        </div>
+    </div>
 
-        //do not post above info to the server because that is not safe.
-        //just send the id_token
-
-        var redirectUrl = 'login';
-        //using jquery to post data dynamically
-        var form = $('<form action="' + redirectUrl + '" method="post">' +
-            '<input type="text" name="id_token" value="' +
-            googleUser.getAuthResponse().id_token + '" />' +
-            '</form>');
-        $('body').append(form);
-        form.submit();
-    }
-
-</script>
+</form>
+</body>
 
 <%@ include file="footer.jsp" %>
+
+
