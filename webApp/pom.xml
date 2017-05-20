@@ -23,12 +23,6 @@
       <groupId>isacademy.jjdd1.team-error</groupId>
       <artifactId>consoleApp</artifactId>
       <version>1.0-SNAPSHOT</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-core</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>

@@ -2,7 +2,6 @@ package com.infoshareacademy.jjdd1.teamerror.dataBase;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
-import javax.ejb.Startup;
 import javax.persistence.*;
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
 public class PromotedCountriesSaver {
 
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     public List<String> getPromotedCountries() {
         return entityManager.createQuery("SELECT s.name from PromotedCountriesTable s", String.class).getResultList();

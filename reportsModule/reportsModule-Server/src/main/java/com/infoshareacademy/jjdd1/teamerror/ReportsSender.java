@@ -6,13 +6,11 @@ import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingFuelTypeStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Properties;
 
@@ -78,28 +76,28 @@ public class ReportsSender {
         }
     }
 
-    @Schedule(hour = "8")
-    public void sendCountryAndCurrencyReport() {
-        String subject = "New report - " + LocalDate.now();
-        List<String> countries = savingCountryStatistics.getListOfCountries();
-        List<Integer> countryPopularity = savingCountryStatistics.getListOfPopularity();
-        List<String> currencies = savingCurrencyStatistics.getListOfCurrencies();
-        List<Integer> currenciesPopularity = savingCurrencyStatistics.getListOfPopularity();
-        Integer dieselPopularity = savingFuelTypeStatistics.getPopularity("diesel");
-        Integer gasolinePopularity = savingFuelTypeStatistics.getPopularity("gasoline");
-
-        StringBuilder report = new StringBuilder();
-        report.append("New report <br>--------------------------------------<br>");
-        createMultipleValues(countries, countryPopularity, report);
-        createMultipleValues(currencies, currenciesPopularity, report);
-        report.append("diesel ");
-        report.append(dieselPopularity);
-        report.append("<br>");
-        report.append("gasoline ");
-        report.append(gasolinePopularity);
-        report.append("<br>");
-        sendAnEmail(subject, report.toString());
-    }
+//    @Schedule(hour = "8")
+//    public void sendCountryAndCurrencyReport() {
+//        String subject = "New report - " + LocalDate.now();
+//        List<String> countries = savingCountryStatistics.getCountryStatistics();
+//        List<Integer> countryPopularity = savingCountryStatistics.getListOfPopularity();
+//        List<String> currencies = savingCurrencyStatistics.getCurrenciesStatistics();
+//        List<Integer> currenciesPopularity = savingCurrencyStatistics.getListOfPopularity();
+//        Integer dieselPopularity = savingFuelTypeStatistics.getPetrolStatistics("diesel");
+//        Integer gasolinePopularity = savingFuelTypeStatistics.getPetrolStatistics("gasoline");
+//
+//        StringBuilder report = new StringBuilder();
+//        report.append("New report <br>--------------------------------------<br>");
+//        createMultipleValues(countries, countryPopularity, report);
+//        createMultipleValues(currencies, currenciesPopularity, report);
+//        report.append("diesel ");
+//        report.append(dieselPopularity);
+//        report.append("<br>");
+//        report.append("gasoline ");
+//        report.append(gasolinePopularity);
+//        report.append("<br>");
+//        sendAnEmail(subject, report.toString());
+//    }
 
     private void createMultipleValues(List<String> countries, List<Integer> countryPopularity,
                                       StringBuilder report) {

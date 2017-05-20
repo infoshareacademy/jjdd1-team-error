@@ -1,9 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror.dataBase;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by igafalkowska on 11.05.17.
@@ -20,6 +17,9 @@ public class CountryStatistics {
 
     @Column
     private int popularity;
+
+    public CountryStatistics() {
+    }
 
     public CountryStatistics(String country, int popularity) {
         this.country = country;
