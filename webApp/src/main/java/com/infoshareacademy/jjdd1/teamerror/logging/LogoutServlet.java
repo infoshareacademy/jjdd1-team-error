@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror.logging;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,12 +14,15 @@ import java.io.IOException;
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        @Inject
+        SessionData sessionData;
 
-        request.getSession().invalidate();
-        response.sendRedirect("/login.jsp");
+        @Override
+        protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+            sessionData.logoutUser();
+            resp.sendRedirect("/login");
+
+        }
 
     }
 
-}

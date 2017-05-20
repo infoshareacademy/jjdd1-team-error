@@ -1,6 +1,5 @@
 package com.infoshareacademy.jjdd1.teamerror.logging;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,39 +9,110 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
  * Created by igafalkowska on 28.04.17.
  */
+import com.github.scribejava.apis.GoogleApi20;
+import com.github.scribejava.core.builder.ServiceBuilder;
+import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.model.Verb;
+import com.github.scribejava.core.oauth.OAuth20Service;
+import com.google.gson.Gson;
+
+import javax.servlet.RequestDispatcher;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
+
 @WebServlet(urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
-    private static Logger logger = LoggerFactory.getLogger(LoginServlet.class);
+    @Inject
+    SessionData sessionData;
+
+    final String CLIENT_ID = "447589672882-lon09s9eq542cpusfm4njbkjcuhpgif7.apps.googleusercontent.com";
+    final String CLIENT_SECRET = "kypWEr8p2gMxtv1DZZG6g2mt";
+    private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/oauth2/v2/userinfo";
+
+    private OAuth20Service service = new ServiceBuilder()
+            .apiKey(CLIENT_ID)
+            .apiSecret(CLIENT_SECRET)
+            .scope("profile")
+            .scope("email")
+            .callback("http://localhost:8080/login")
+            .build(GoogleApi20.instance());
 
     @Override
-    protected void doPost(HttpServletRequest req,
-                          HttpServletResponse resp)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
 
-        resp.setContentType("text/html");
-
-        try {
-            String idToken = req.getParameter("id_token");
-            GoogleIdToken.Payload payLoad = IdTokenVerifierAndParser.getPayload(idToken);
-            String name = (String) payLoad.get("name");
-            String email = payLoad.getEmail();
-            logger.debug("User name: " + name);
-            logger.debug("User email: " + email);
-
-            HttpSession session = req.getSession(true);
-            session.setAttribute("userName", name);
-            req.getServletContext()
-                    .getRequestDispatcher("/index.jsp").forward(req, resp);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if (null != req.getParameter("error")) {
+            req.setAttribute("error", req.getParameter("error"));
+            return;
         }
+
+//refresh_token or redirect
+        final String code = req.getParameter("code");
+        if (null != code) {
+            OAuth2AccessToken accessToken = null;
+
+            try {
+                accessToken = service.getAccessToken(code);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+            OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
+            service.signRequest(accessToken, request);
+
+            Response response = null;
+            try {
+                response = service.execute(request);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+            if (response.getCode() != 200) {
+                req.setAttribute("error", "Brak połączenia z api google");
+            } else {
+                String googleJson = response.getBody();
+                Gson gson = new Gson();
+                GoogleUser googleUser = gson.fromJson(googleJson, GoogleUser.class);
+
+                    sessionData.logUser(googleUser.getFirstName(), googleUser.getSecondName(), googleUser.getEmail());
+                    resp.sendRedirect("http://localhost:8080/login");
+
+            }
+        }
+        Map<String, String> sessionUser = new HashMap<>();
+        sessionUser.put("firstName", sessionData.getUserFirstName());
+        sessionUser.put("secondName", sessionData.getUserSecondName());
+        sessionUser.put("email", sessionData.getEmail());
+        req.setAttribute("oauth", sessionUser);
+
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
+        dispatcher.forward(req, resp);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        if (req.getParameter("login").equals("1")) {
+            final Map<String, String> additionalParams = new HashMap<>();
+            additionalParams.put("access_type", "offline");
+            additionalParams.put("prompt", "consent");
+            resp.sendRedirect(service.getAuthorizationUrl(additionalParams));
+            req.setAttribute("oauth", "wysyłam żądanie do google...");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
+            dispatcher.forward(req, resp);
+        }
+    }
 }

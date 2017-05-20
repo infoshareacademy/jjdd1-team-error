@@ -11,25 +11,32 @@ import java.io.Serializable;
 @Named
 @SessionScoped
 public class SessionData implements Serializable{
-    private String userName;
+    private String userFirstName;
+    private String userSecondName;
     private String email;
     private boolean logged = false;
 
-    public void logUser(String userName, String email){
-        this.userName = userName;
+    public void logUser(String userFirstName, String userSecondName, String email){
+        this.userFirstName = userFirstName;
+        this.userSecondName = userSecondName;
         this.email = email;
         this.logged = true;
     }
 
     public void logoutUser(){
-        userName = null;
+        userFirstName = null;
+        userSecondName = null;
         email = null;
         logged = false;
     }
 
 
-    public String getUserName() {
-        return userName;
+    public String getUserFirstName() {
+        return userFirstName;
+    }
+
+    public String getUserSecondName() {
+        return userSecondName;
     }
 
     public String getEmail() {
