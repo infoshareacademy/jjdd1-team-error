@@ -23,7 +23,14 @@
 </div>
 
 <script src="vendor/Chart.bundle.js"></script>
+
 <script>
+    var chartColors = {
+        blueFirstLevel: 'rgba(54, 162, 235, 0.2)',
+        blueSecondLevel: 'rgba(54, 162, 235, 0.5)',
+        blueThirdLevel: 'rgba(54, 162, 235, 0.8)'
+    };
+
     var ctx = document.getElementById("country");
     var country = new Chart(ctx, {
         type: 'bar',
@@ -37,21 +44,18 @@
                 {
                     label: "popularity of country",
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel
                     ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
+                    borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1,
                     data: [
                         <c:forEach items="${countriesPopularityList}" var="countriesPopularity">
@@ -62,11 +66,39 @@
             ]
 
         },
-        scaleStartValue: 0,
+        options:{
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1
+                    }
+                }]
+            }
+        }
     });
+
+    var colorSecondLevel = 2;
+    var colorThirdLevel = 5;
+    var dataset = country.data.datasets[0];
+    for (var i = 0; i < dataset.data.length; i++) {
+        if (dataset.data[i] > colorSecondLevel && dataset.data[i] < colorThirdLevel) {
+            dataset.backgroundColor[i] = chartColors.blueSecondLevel;
+        }
+        else if (dataset.data[i] > colorThirdLevel){
+            dataset.backgroundColor[i] = chartColors.blueThirdLevel;
+        }
+    }
+    country.update();
 </script>
 
 <script>
+    var chartColors = {
+        blueFirstLevel: 'rgba(54, 162, 235, 0.2)',
+        blueSecondLevel: 'rgba(54, 162, 235, 0.5)',
+        blueThirdLevel: 'rgba(54, 162, 235, 0.8)'
+    };
+
     var ctx = document.getElementById("currency");
     var currency = new Chart(ctx, {
         type: 'bar',
@@ -81,21 +113,18 @@
                 {
                     label: "popularity of currency",
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel,
+                        chartColors.blueFirstLevel
                     ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
+                    borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1,
                     data: [
                         <c:forEach items="${currenciesPopularityList}" var="curPopularity">
@@ -105,8 +134,31 @@
                 }
             ]
         },
-        scaleStartValue: 0,
+        options:{
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1
+                    }
+                }]
+            }
+        }
     });
+
+    var colorSecondLevel = 2;
+    var colorThirdLevel = 5;
+    var dataset = currency.data.datasets[0];
+    for (var i = 0; i < dataset.data.length; i++) {
+        if (dataset.data[i] > colorSecondLevel && dataset.data[i] < colorThirdLevel) {
+            dataset.backgroundColor[i] = chartColors.blueSecondLevel;
+        }
+        else if (dataset.data[i] > colorThirdLevel){
+            dataset.backgroundColor[i] = chartColors.blueThirdLevel;
+        }
+    }
+    currency.update();
 </script>
+
 
 <%@ include file="footer.jsp" %>
