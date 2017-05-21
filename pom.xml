@@ -31,6 +31,7 @@
     <module>consoleApp</module>
     <module>webApp</module>
     <module>reportsModule</module>
+    <module>sampleRESTserver</module>
   </modules>
 
 </project>
