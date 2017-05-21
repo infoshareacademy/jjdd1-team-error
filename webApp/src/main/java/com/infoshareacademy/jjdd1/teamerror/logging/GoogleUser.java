@@ -5,16 +5,16 @@ package com.infoshareacademy.jjdd1.teamerror.logging;
  */
 public class GoogleUser {
 
-    private String firstName;
-    private String secondName;
+    private String given_name;
+    private String family_name;
     private String email;
 
-    public String getFirstName() {
-        return firstName;
+    public String getGiven_name() {
+        return given_name;
     }
 
-    public String getSecondName() {
-        return secondName;
+    public String getFamily_name() {
+        return family_name;
     }
 
     public String getEmail() {

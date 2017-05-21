@@ -5,7 +5,8 @@
   Time: 21:55
   To change this template use File | Settings | File Templates.
 --%>
-<%@ include file="headersAndStyle.jsp" %>
+<%@ include file="headAndStyle.jsp" %>
+<%@ include file="header.jsp" %>
 <h2 class="error">Error. One or more source file was not detected.</h2>
 <li>Petrol file is: ${petrolFileStatus}</li>
 <li>Currency info file is: ${currencyInfoFileStatus}</li>

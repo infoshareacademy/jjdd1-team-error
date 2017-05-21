@@ -30,7 +30,6 @@ public class SessionData implements Serializable{
         logged = false;
     }
 
-
     public String getUserFirstName() {
         return userFirstName;
     }
@@ -43,4 +42,7 @@ public class SessionData implements Serializable{
         return email;
     }
 
+    public boolean isLogged() {
+        return logged;
+    }
 }

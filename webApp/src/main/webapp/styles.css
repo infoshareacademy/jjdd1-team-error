@@ -30,6 +30,26 @@ body {
     border-bottom: 2px black dotted;
 }
 
+#signout{
+    font-family: Calibri;
+    font-size: 24px;
+    height: 60px;
+    padding-top: 10px;
+    border-left: 2px black dotted;
+}
+
+#signout:hover{
+    background-color: #343434;
+}
+a.link{
+    color: white;
+}
+
+a.link:hover{
+    text-decoration: none;
+    color: #c1241b;
+}
+
 .car{
     width:100px;
     height: 70px;

@@ -37,17 +37,8 @@
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id"
           content="447589672882-lon09s9eq542cpusfm4njbkjcuhpgif7.apps.googleusercontent.com">
-    <jsp:include page="sessionChecker.jsp" />
 </head>
-<body>
-    <div id="header">
-        <div id="logo">
-            <p>Trip Calculator</p>
-        </div>
-        <div class="car">
-            <img  id="car" src="img/moving-car-mirror.png" alt="car">
-        </div>
-    </div>
+
 
 
 

@@ -31,6 +31,8 @@ import java.util.concurrent.ExecutionException;
 
 @WebServlet(urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
+    private static Logger LOGGER = LoggerFactory.getLogger(LoginServlet.class);
+
     @Inject
     SessionData sessionData;
 
@@ -55,7 +57,6 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-//refresh_token or redirect
         final String code = req.getParameter("code");
         if (null != code) {
             OAuth2AccessToken accessToken = null;
@@ -87,16 +88,19 @@ public class LoginServlet extends HttpServlet {
                 Gson gson = new Gson();
                 GoogleUser googleUser = gson.fromJson(googleJson, GoogleUser.class);
 
-                    sessionData.logUser(googleUser.getFirstName(), googleUser.getSecondName(), googleUser.getEmail());
+                    sessionData.logUser(googleUser.getGiven_name(), googleUser.getFamily_name(), googleUser.getEmail());
                     resp.sendRedirect("http://localhost:8080/login");
 
             }
         }
         Map<String, String> sessionUser = new HashMap<>();
-        sessionUser.put("firstName", sessionData.getUserFirstName());
-        sessionUser.put("secondName", sessionData.getUserSecondName());
+        sessionUser.put("given_name", sessionData.getUserFirstName());
+        sessionUser.put("family_name", sessionData.getUserSecondName());
         sessionUser.put("email", sessionData.getEmail());
         req.setAttribute("oauth", sessionUser);
+        LOGGER.debug(sessionUser.get("given_name"));
+        LOGGER.debug(sessionUser.get("family_name"));
+        LOGGER.debug(sessionUser.get("email"));
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
         dispatcher.forward(req, resp);
