@@ -102,7 +102,7 @@ public class LoginServlet extends HttpServlet {
         LOGGER.debug(sessionUser.get("family_name"));
         LOGGER.debug(sessionUser.get("email"));
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
         dispatcher.forward(req, resp);
     }
 
@@ -115,7 +115,7 @@ public class LoginServlet extends HttpServlet {
             additionalParams.put("prompt", "consent");
             resp.sendRedirect(service.getAuthorizationUrl(additionalParams));
             req.setAttribute("oauth", "wysyłam żądanie do google...");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
             dispatcher.forward(req, resp);
         }
     }

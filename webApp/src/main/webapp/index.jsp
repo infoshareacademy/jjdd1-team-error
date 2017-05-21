@@ -4,19 +4,19 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="headAndStyle.jsp" %>
 
-<body>
-<div id="header">
-    <div id="logo">
-        <p>Trip Calculator</p>
-    </div>
-    <div class="car">
-        <img  id="car" src="img/moving-car-mirror.png" alt="car">
-    </div>
-</div>
 
 </div>
     <c:choose>
     <c:when test="${empty oauth.email}">
+        <body>
+        <div id="header">
+            <div id="logo">
+                <p>Trip Calculator</p>
+            </div>
+            <div class="car">
+                <img  id="car" src="img/moving-car-mirror.png" alt="car">
+            </div>
+        </div>
         <div style="margin:0; padding-bottom:120px; padding-top:50px;"><br/>
             <strong>
                 <h1> Welcome to Trip Calculator! </h1> <br/>
@@ -29,6 +29,7 @@
         </div>
     </c:when>
     <c:otherwise>
+    <%@ include file="header.jsp" %>
         <div class="row" style="margin:0; padding-bottom:120px; padding-top:50px;">
             <div class="col-md-4" style="padding:0;">
              <img class="photo" src="img/photo2.jpg" alt="car">
@@ -37,9 +38,6 @@
                 <h1>Welcome ${oauth.given_name} ${oauth.family_name}!</h1><br/><br/>
                 <form method="get" action="/start">
                     <input type="submit" class="btn btn-primary btn-lg" value="Start you calculation">
-                </form><br/>
-                <form method="get" action="/logout">
-                     <input type="submit" class="btn btn-primary btn-md" value="Sign out">
                 </form>
             </div>
             <div class="col-md-4" style="padding:0;" >
