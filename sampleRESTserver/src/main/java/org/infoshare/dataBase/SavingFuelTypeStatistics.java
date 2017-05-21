@@ -24,7 +24,7 @@ public class SavingFuelTypeStatistics {
             query.setParameter(1, fuelType).executeUpdate();
         }
         else {
-            entityManager.persist(new CountryStatistics(fuelType, 1));
+            entityManager.persist(new FuelTypeStatistics(fuelType, 1));
         }
     }
 
