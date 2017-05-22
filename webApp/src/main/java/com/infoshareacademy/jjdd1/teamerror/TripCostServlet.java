@@ -114,13 +114,13 @@ public class TripCostServlet extends HttpServlet {
 
         savingCountryStatistics.updateCountryStatistics(cost.getCountry());
         LOGGER.info("Popularity of {} is updated to {}", cost.getCountry(), savingCountryStatistics.getPopularity(cost.getCountry()));
-        LOGGER.info("Countries from database: {}", savingCountryStatistics.getListOfCountries());
-        LOGGER.info("Popularity of countries from database: {}", savingCountryStatistics.getListOfPopularity());
+        LOGGER.info("Top 10 countries from database: {}", savingCountryStatistics.getListOfCountries());
+        LOGGER.info("Top 10 popularity of countries from database: {}", savingCountryStatistics.getListOfPopularity());
 
         savingCurrencyStatistics.updateCurrencyStatistics(cost.getCurrency());
         LOGGER.info("Popularity of {} is updated to {}", cost.getCurrency(), savingCurrencyStatistics.getPopularity(cost.getCurrency()));
-        LOGGER.info("Currencies from database: {}", savingCurrencyStatistics.getListOfCurrencies());
-        LOGGER.info("Popularity of currencies from database: {}", savingCurrencyStatistics.getListOfPopularity());
+        LOGGER.info("Top 10 currencies from database: {}", savingCurrencyStatistics.getListOfCurrencies());
+        LOGGER.info("Top 10 popularity of currencies from database: {}", savingCurrencyStatistics.getListOfPopularity());
 
         session.setAttribute("filesContent", filesContent);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/tripCost.jsp");

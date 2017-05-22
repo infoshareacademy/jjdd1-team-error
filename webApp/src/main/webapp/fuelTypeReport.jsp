@@ -5,8 +5,10 @@
   Time: 12:53
   To change this template use File | Settings | File Templates.
 --%>
-<%@ include file="headersAndStyle.jsp" %>
+<%@ include file="headAndStyle.jsp" %>
+<%@ include file="header.jsp" %>
 <%@ include file="headerOptions.jsp" %>
+
 
 
 <div class="row" style="padding-bottom: 120px; margin:0;">
@@ -32,13 +34,11 @@
                     data: [dieselPopularity, gasolinePopularity],
                     backgroundColor: [
                         "#FF6384",
-                        "#36A2EB",
-                        "#FFCE56"
+                        "#36A2EB"
                     ],
                     hoverBackgroundColor: [
                         "#FF6384",
-                        "#36A2EB",
-                        "#FFCE56"
+                        "#36A2EB"
                     ],
                 }
             ]

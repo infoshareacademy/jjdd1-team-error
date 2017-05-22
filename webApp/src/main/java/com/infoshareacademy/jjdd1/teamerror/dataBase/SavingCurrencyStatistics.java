@@ -35,13 +35,13 @@ public class SavingCurrencyStatistics {
     }
 
     public List<String> getListOfCurrencies(){
-        return entityManager.createQuery("SELECT cs.currency FROM CurrencyStatistics cs "
-                , String.class).getResultList();
+        return entityManager.createQuery("SELECT cs.currency FROM CurrencyStatistics cs ORDER BY cs.popularity DESC"
+                , String.class).setMaxResults(10).getResultList();
     }
 
     public List<Integer> getListOfPopularity(){
-        return entityManager.createQuery("SELECT cs.popularity FROM CurrencyStatistics cs "
-                , Integer.class).getResultList();
+        return entityManager.createQuery("SELECT cs.popularity FROM CurrencyStatistics cs ORDER BY cs.popularity DESC"
+                , Integer.class).setMaxResults(10).getResultList();
     }
 
 
