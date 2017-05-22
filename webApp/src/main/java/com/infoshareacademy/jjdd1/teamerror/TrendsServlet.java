@@ -53,8 +53,6 @@ public class TrendsServlet extends HttpServlet{
 
         LOGGER.debug("Servlet start");
 
-        AfterInitialDataServlet.setReqParametersToSession(req, resp);
-
         if (SourceFilesChecker.checkForSourceFiles(req, resp)) {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
             dispatcher.forward(req, resp);
@@ -63,8 +61,10 @@ public class TrendsServlet extends HttpServlet{
 
         session = req.getSession();
         FilesContent filesContent = (FilesContent)session.getAttribute("filesContent");
-        trendy.setupClass(filesContent);
 
+        AfterInitialDataServlet.setReqParametersToSession(req, resp, filesContent);
+
+        trendy.setupClass(filesContent);
 
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
@@ -128,21 +128,6 @@ public class TrendsServlet extends HttpServlet{
         session.setAttribute("periodTrendy", periodTrendy);
         String conclusion = trendy.getConclusion();
         session.setAttribute("conclusion", conclusion);
-
-        LOGGER.info("Popularity of diesel is {}", savingFuelTypeStatistics.getPopularity("diesel"));
-        LOGGER.info("Popularity of gasoline is {}", savingFuelTypeStatistics.getPopularity("gasoline"));
-        savingFuelTypeStatistics.updatePopularity(trendy.getFuelType());
-        LOGGER.info("Popularity of {} is updated to {}", trendy.getFuelType(), savingFuelTypeStatistics.getPopularity(trendy.getFuelType()));
-
-        savingCountryStatistics.updateCountryStatistics(trendy.getCountry());
-        LOGGER.info("Popularity of {} is updated to {}", trendy.getCountry(), savingCountryStatistics.getPopularity(trendy.getCountry()));
-        LOGGER.info("Top 10 countries from database: {}", savingCountryStatistics.getListOfCountries());
-        LOGGER.info("Top 10 popularity of countries from database: {}", savingCountryStatistics.getListOfPopularity());
-
-        savingCurrencyStatistics.updateCurrencyStatistics(trendy.getCurrencySymbol());
-        LOGGER.info("Popularity of {} is updated to {}", trendy.getCurrencySymbol(), savingCurrencyStatistics.getPopularity(trendy.getCurrencySymbol()));
-        LOGGER.info("Top 10 currencies from database: {}", savingCurrencyStatistics.getListOfCurrencies());
-        LOGGER.info("Top 10 popularity of currencies from database: {}", savingCurrencyStatistics.getListOfPopularity());
 
         session.setAttribute("filesContent", filesContent);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/trendy.jsp");

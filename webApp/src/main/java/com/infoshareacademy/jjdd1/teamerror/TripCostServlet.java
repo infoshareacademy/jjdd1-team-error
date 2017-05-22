@@ -50,8 +50,6 @@ public class TripCostServlet extends HttpServlet {
 
         LOGGER.debug("Servlet start");
 
-        AfterInitialDataServlet.setReqParametersToSession(req, resp);
-
         if (SourceFilesChecker.checkForSourceFiles(req, resp)) {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
             dispatcher.forward(req, resp);
@@ -60,8 +58,10 @@ public class TripCostServlet extends HttpServlet {
 
         session = req.getSession();
         FilesContent filesContent = (FilesContent)session.getAttribute("filesContent");
-        cost.setTripFullCost(filesContent);
 
+        AfterInitialDataServlet.setReqParametersToSession(req, resp, filesContent);
+
+        cost.setTripFullCost(filesContent);
 
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
