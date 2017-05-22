@@ -6,13 +6,11 @@ import com.google.gson.reflect.TypeToken;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
 import java.util.Map;
 import com.google.gson.Gson;
 
@@ -37,7 +35,7 @@ public class test {
         paramsForm.param("currency", "PLN");
         paramsForm.param("fuelType", "diesel");
 
-        WebTarget target = client.target("http://localhost:8080/sampleRESTserver-1.0-SNAPSHOT/statisticsUpdate");
+        WebTarget target = client.target("http://localhost:8080/reportsModule-1.0-SNAPSHOT/statisticsUpdate");
 
         Response response = target.request().post((Entity.form(paramsForm)));
         response.close();
@@ -45,7 +43,7 @@ public class test {
 
     private static void getCurrencyStatisticsTest() {
         Client client = new ResteasyClientBuilder().build();
-        WebTarget target = client.target("http://localhost:8080/sampleRESTserver-1.0-SNAPSHOT/currencyStatistics");
+        WebTarget target = client.target("http://localhost:8080/reportsModule-1.0-SNAPSHOT/currencyStatistics");
         getData(target);
     }
 
@@ -53,13 +51,13 @@ public class test {
 
     private static void getCountryStatisticsTest() {
         Client client = new ResteasyClientBuilder().build();
-        WebTarget target = client.target("http://localhost:8080/sampleRESTserver-1.0-SNAPSHOT/countryStatistics");
+        WebTarget target = client.target("http://localhost:8080/reportsModule-1.0-SNAPSHOT/countryStatistics");
         getData(target);
     }
 
     private static void getPetrolStatisticsTest() {
         Client client = new ResteasyClientBuilder().build();
-        WebTarget target = client.target("http://localhost:8080/sampleRESTserver-1.0-SNAPSHOT/petrolStatistics");
+        WebTarget target = client.target("http://localhost:8080/reportsModule-1.0-SNAPSHOT/petrolStatistics");
         getData(target);
     }
 

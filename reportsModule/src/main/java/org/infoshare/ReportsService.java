@@ -3,8 +3,6 @@ package org.infoshare;
 import org.infoshare.dataBase.SavingCountryStatistics;
 import org.infoshare.dataBase.SavingCurrencyStatistics;
 import org.infoshare.dataBase.SavingFuelTypeStatistics;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
