@@ -37,7 +37,7 @@
             <div class="col-md-4" style="padding:0;">
                 <h1>Welcome ${oauth.given_name} ${oauth.family_name}!</h1><br/><br/>
                 <form method="get" action="/start">
-                    <input type="submit" class="btn btn-primary btn-lg" value="Start you calculation">
+                    <input type="submit" class="btn btn-primary btn-lg" value="Start your calculation">
                 </form>
             </div>
             <div class="col-md-4" style="padding:0;" >

@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror.logging;
 
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingUserStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +25,8 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import com.google.gson.Gson;
 
 import javax.servlet.RequestDispatcher;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -35,6 +38,9 @@ public class LoginServlet extends HttpServlet {
 
     @Inject
     SessionData sessionData;
+
+    @Inject
+    SavingUserStatistics savingUserStatistics;
 
     final String CLIENT_ID = "447589672882-lon09s9eq542cpusfm4njbkjcuhpgif7.apps.googleusercontent.com";
     final String CLIENT_SECRET = "kypWEr8p2gMxtv1DZZG6g2mt";
@@ -101,6 +107,14 @@ public class LoginServlet extends HttpServlet {
         LOGGER.debug(sessionUser.get("given_name"));
         LOGGER.debug(sessionUser.get("family_name"));
         LOGGER.debug(sessionUser.get("email"));
+
+        LocalDateTime date= LocalDateTime.now();
+        savingUserStatistics.setOrUpdateUser(sessionUser.get("given_name"), sessionUser.get("family_name"),
+                sessionUser.get("email"), date);
+        LOGGER.info("List of users firs names: {}", savingUserStatistics.getListOfUsersFirstName());
+        LOGGER.info("List of users second names: {}", savingUserStatistics.getListOfUsersSecondName());
+        LOGGER.info("List of users emails: {}", savingUserStatistics.getListOfUsersEmails());
+        LOGGER.info("List of users recent log in time: {}", savingUserStatistics.getListOfUsersRecentLocalDateTime());
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
         dispatcher.forward(req, resp);

@@ -28,7 +28,7 @@ public class LoginFilter implements  Filter{
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
             if (sessionData.isLogged() == false) {
                 LOGGER.debug("User not logged, redirecting to login page");
-                httpServletResponse.sendRedirect("/login");
+                httpServletResponse.sendRedirect("index.jsp");
                 return;
             }
 
