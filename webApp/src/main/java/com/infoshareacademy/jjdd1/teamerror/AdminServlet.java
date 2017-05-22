@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,19 +24,17 @@ public class AdminServlet extends HttpServlet {
     private HttpSession session;
     private FilesContent filesContent;
 
-    @Inject
-    PromotedCountries promotedCountries;
 
-    @Inject
-    SavingClass savingClass;
-
-    @Inject
-    FileDownloader fileDownloader;
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/plain;charset=UTF-8");
 
 
+
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/admin.jsp");
+        dispatcher.forward(req, resp);
     }
 
 }

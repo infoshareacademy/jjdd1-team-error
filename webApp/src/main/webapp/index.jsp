@@ -14,9 +14,14 @@
     </div>
 </form>
 
-        <form method="get" action="/admin">
+        <form method="post" action="/admin">
             <div class="buttons">
-                <button type="submit" <c:if test="${adminMail == false}"><c:out value="disabled='disabled'"/></c:if> name="start" value="" class="btn btn-primary btn-lg">Go to Admin Panel</button>
+                <button type="submit"
+                    <c:forEach items="${adminList}" var="admin">
+                        <c:if test="${userMail != admin}"><c:out value="disabled='disabled'"/></c:if>
+                    </c:forEach>
+                        name="admin" value="" class="btn btn-primary btn-lg">Go to Admin Panel
+                </button>
             </div>
         </form>
 </div>

@@ -8,6 +8,9 @@
 
 <%@ include file="headersAndStyle.jsp" %>
 <%@ include file="headerOptions.jsp" %>
+<div class="car">
+    <img  id="car" src="img/moving-car-mirror.png" alt="car">
+</div>
 <%@ page errorPage="exceptionHandling.jsp" %>
 
 

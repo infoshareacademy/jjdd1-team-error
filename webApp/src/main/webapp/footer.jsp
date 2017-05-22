@@ -102,52 +102,8 @@
                         }
                     }
                 }
-//                email: {
-//                    validators: {
-//                        notEmpty: {
-//                            message: 'Please supply your email address'
-//                        },
-//                        emailAddress: {
-//                            message: 'Please supply a valid email address'
-//                        }
-//                    }
-//                },
-//                password: {
-//                    validators: {
-//                        identical: {
-//                            field: 'confirmPassword',
-//                            message: 'Confirm your password below - type same password please'
-//                        }
-//                    }
-//                },
-//                confirmPassword: {
-//                    validators: {
-//                        identical: {
-//                            field: 'password',
-//                            message: 'The password and its confirm are not the same'
-//                        }
-//                    }
-//                },
-
             }
         });
-//            .on('success.form.bv', function(e) {
-//                $('#success_message').slideDown({ opacity: "show" }, "slow") // Do something ...
-//                $('#reg_form').data('bootstrapValidator').resetForm();
-//
-//                // Prevent form submission
-//                e.preventDefault();
-//
-//                // Get the form instance
-//                var $form = $(e.target);
-//                // Get the BootstrapValidator instance
-//                var bv = $form.data('bootstrapValidator');
-//
-//                // Use Ajax to submit form data
-//                $.post($form.attr('action'), $form.serialize(), function(result) {
-//                    console.log(result);
-//                }, 'json');
-//            });
 
         $('.date-picker1').on('changeDate show', function(e) {
             $('#reg_form').bootstrapValidator('revalidateField', 'date1');
@@ -159,6 +115,26 @@
 
 </script>
 
+<div style="position: absolute; bottom:100px;">
+    <form>
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <div class="btn-group" role="group">
+                <button class="btn btn-outline-inverse btn-lg" type="submit"
+                        formmethod="get" formaction="/report" name="countryAndCurrencyReport" value="">Country / currency report</button>
+            </div>
+            <div class="btn-group" role="group">
+                <button class="btn btn-outline-inverse btn-lg" type="submit"
+                        formmethod="get" formaction="/report" name="fuelTypeReport" value="">Fuel report
+                </button>
+            </div>
+            <div class="btn-group" role="group">
+                <button class="btn btn-outline-inverse btn-lg" type="submit"
+                        formmethod="get" formaction="/report" name="fuelTypeReport" value="">Change files
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
 <div id="footer">
     <div class="car">
         <img  id="car-mirror" src="img/moving-car.png" alt="car">

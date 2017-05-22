@@ -43,20 +43,16 @@ public class LoginServlet extends HttpServlet {
 
             HttpSession session = req.getSession(true);
             session.setAttribute("userName", name);
-            session.setAttribute("adminMail", email);
+            session.setAttribute("adminList", savingAdminBase.getListOfAdmins());
 
-            logger.info("User data : {} and {}", name, email);
+            for (String s: savingAdminBase.getListOfAdmins()) {
+                if(email.equals(s)){
+                    session.setAttribute("userMail", email);
+                }
+            }
 
-//            for(String admin : savingAdminBase.getListOfAdmins()){
-//                if(email.equals(admin)){
-//                    req.getServletContext().getRequestDispatcher("/admin.jsp").forward(req, resp);
-//                }
-//                else{
-//                    req.getServletContext()
-//                            .getRequestDispatcher("/index.jsp").forward(req, resp);
-//                }
-//            }
-//
+            logger.info("User data : {} and {}", name, session.getAttribute("adminMail"));
+
             req.getServletContext()
                     .getRequestDispatcher("/index.jsp").forward(req, resp);
 
