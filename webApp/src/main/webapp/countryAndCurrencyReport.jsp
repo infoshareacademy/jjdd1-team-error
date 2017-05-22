@@ -5,7 +5,8 @@
   Time: 23:09
   To change this template use File | Settings | File Templates.
 --%>
-<%@ include file="headersAndStyle.jsp" %>
+<%@ include file="headAndStyle.jsp" %>
+<%@ include file="header.jsp" %>
 <%@ include file="headerOptions.jsp" %>
 
 

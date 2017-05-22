@@ -5,7 +5,8 @@
   Time: 19:01
   To change this template use File | Settings | File Templates.
 --%>
-<%@ include file="headersAndStyle.jsp" %>
+<%@ include file="headAndStyle.jsp" %>
+<%@ include file="header.jsp" %>
 <h1>Upload your files</h1>
 <br>
 <li>Petrol file is: ${param.petrolFileStatus}</li>
