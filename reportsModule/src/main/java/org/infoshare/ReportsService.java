@@ -60,6 +60,8 @@ public class ReportsService {
     @Path("/petrolStatistics")
     public Response getPetrolStatistics() {
         Map<String, Integer> petrolStatistics = savingFuelTypeStatistics.getPetrolStatistics();
+//        ReportsSender reportsSender = new ReportsSender();
+//        reportsSender.sendReportEmail();
         return Response.ok(petrolStatistics).build();
     }
 }

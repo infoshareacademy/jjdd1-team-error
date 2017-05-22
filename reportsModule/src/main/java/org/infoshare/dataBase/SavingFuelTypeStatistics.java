@@ -1,6 +1,6 @@
 package org.infoshare.dataBase;
 
-import javax.ejb.Stateless;
+import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -9,8 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-
-@Stateless
+@Singleton
 public class SavingFuelTypeStatistics {
 
     @PersistenceContext

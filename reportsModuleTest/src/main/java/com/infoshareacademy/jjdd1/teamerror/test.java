@@ -31,9 +31,9 @@ public class test {
         Client client = new ResteasyClientBuilder().build();
 
         Form paramsForm = new Form();
-        paramsForm.param("country", "Polska");
-        paramsForm.param("currency", "PLN");
-        paramsForm.param("fuelType", "diesel");
+        paramsForm.param("country", "USA");
+        paramsForm.param("currency", "USD");
+        paramsForm.param("fuelType", "Gasoline");
 
         WebTarget target = client.target("http://localhost:8080/reportsModule-1.0-SNAPSHOT/statisticsUpdate");
 

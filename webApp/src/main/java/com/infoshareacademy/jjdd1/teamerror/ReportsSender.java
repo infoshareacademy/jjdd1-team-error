@@ -79,7 +79,7 @@ public class ReportsSender {
     }
 
     @Schedule(hour = "8")
-    public void sendCountryAndCurrencyReport() {
+    public void sendReportEmail() {
         String subject = "New report - " + LocalDate.now();
         List<String> countries = savingCountryStatistics.getListOfCountries();
         List<Integer> countryPopularity = savingCountryStatistics.getListOfPopularity();

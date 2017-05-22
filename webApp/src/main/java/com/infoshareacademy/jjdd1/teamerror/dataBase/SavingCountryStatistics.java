@@ -6,7 +6,6 @@ import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
-import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
