@@ -44,17 +44,23 @@ public class LoginServlet extends HttpServlet {
 
     private OAuth20Service getOAuthService(HttpServletRequest req) {
         if (service == null) {
-            StringBuffer hostAddress = req. getRequestURL();
+            String path = getProperPath(req, "/login");
             service = new ServiceBuilder()
                     .apiKey(CLIENT_ID)
                     .apiSecret(CLIENT_SECRET)
                     .scope("profile")
                     .scope("email")
-                    .callback(hostAddress + "/login")
+                    .callback(path)
                     .build(GoogleApi20.instance());
         }
 
         return service;
+    }
+
+    private String getProperPath(HttpServletRequest req, String context) {
+        String hostAddress = req.getServerName();
+        Integer portName = req.getServerPort();
+        return "http://" + hostAddress + ":" + portName + context;
     }
 
     @Override
@@ -97,8 +103,9 @@ public class LoginServlet extends HttpServlet {
                 Gson gson = new Gson();
                 GoogleUser googleUser = gson.fromJson(googleJson, GoogleUser.class);
 
-                    sessionData.logUser(googleUser.getGiven_name(), googleUser.getFamily_name(), googleUser.getEmail());
-                    resp.sendRedirect("http://localhost:8080/login");
+                sessionData.logUser(googleUser.getGiven_name(), googleUser.getFamily_name(), googleUser.getEmail());
+                String path = getProperPath(req, "/login");
+                resp.sendRedirect(path);
 
             }
         }
