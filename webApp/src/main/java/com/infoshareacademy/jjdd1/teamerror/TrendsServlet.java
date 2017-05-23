@@ -109,10 +109,8 @@ public class TrendsServlet extends HttpServlet{
         Map<LocalDate, List<Double>> periodTrendy = trendy.getPeriodTrendy();
         String json1 = gson.toJson(periodTrendy.keySet());
         session.setAttribute("json1", json1);
-        LOGGER.info("Map key set: {} ",json1);
         String json2 = gson.toJson(periodTrendy.values());
         session.setAttribute("json2", json2);
-        LOGGER.info("Values: {}", json2);
         session.setAttribute("periodTrendy", periodTrendy);
         String conclusion = trendy.getConclusion();
         session.setAttribute("conclusion", conclusion);

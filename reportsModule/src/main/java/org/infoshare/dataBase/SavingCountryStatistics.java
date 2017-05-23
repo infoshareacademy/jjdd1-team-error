@@ -34,10 +34,10 @@ public class SavingCountryStatistics {
 
     public Map<String, Integer> getCountryStatistics(){
         List<String> names = entityManager.createQuery("SELECT cs.country " +
-                        "FROM CountryStatistics cs ORDER BY cs.popularity", String.class)
+                        "FROM CountryStatistics cs ORDER BY cs.popularity DESC", String.class)
                 .setMaxResults(10).getResultList();
         List<Integer> values = entityManager.createQuery("SELECT cs.popularity " +
-                        "FROM CountryStatistics cs ORDER BY cs.popularity", Integer.class)
+                        "FROM CountryStatistics cs ORDER BY cs.popularity DESC", Integer.class)
                 .setMaxResults(10).getResultList();
         Map<String, Integer> results = new LinkedHashMap<>();
         if (names != null && values != null) {

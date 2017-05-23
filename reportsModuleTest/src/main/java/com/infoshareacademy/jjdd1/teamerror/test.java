@@ -21,7 +21,7 @@ public class test {
 
     public static void main(String[] args) {
 
-//        updateStatisticsTest();
+        updateStatisticsTest();
         getCurrencyStatisticsTest();
         getCountryStatisticsTest();
         getPetrolStatisticsTest();
@@ -31,11 +31,11 @@ public class test {
         Client client = new ResteasyClientBuilder().build();
 
         Form paramsForm = new Form();
-        paramsForm.param("country", "USA");
-        paramsForm.param("currency", "USD");
-        paramsForm.param("fuelType", "Gasoline");
+        paramsForm.param("country", "Luxemburg");
+        paramsForm.param("currency", "Eur");
+        paramsForm.param("fuelType", "Diesel");
 
-        WebTarget target = client.target("http://localhost:8100/reportsModule-1.0-SNAPSHOT/statisticsUpdate");
+        WebTarget target = client.target("http://localhost:8091/reportsModule-1.0-SNAPSHOT/statisticsUpdate");
 
         Response response = target.request().post((Entity.form(paramsForm)));
         response.close();
@@ -43,7 +43,7 @@ public class test {
 
     private static void getCurrencyStatisticsTest() {
         Client client = new ResteasyClientBuilder().build();
-        WebTarget target = client.target("http://localhost:8100/reportsModule-1.0-SNAPSHOT/currencyStatistics");
+        WebTarget target = client.target("http://localhost:8091/reportsModule-1.0-SNAPSHOT/currencyStatistics");
         getData(target);
     }
 
@@ -51,13 +51,13 @@ public class test {
 
     private static void getCountryStatisticsTest() {
         Client client = new ResteasyClientBuilder().build();
-        WebTarget target = client.target("http://localhost:8100/reportsModule-1.0-SNAPSHOT/countryStatistics");
+        WebTarget target = client.target("http://localhost:8091/reportsModule-1.0-SNAPSHOT/countryStatistics");
         getData(target);
     }
 
     private static void getPetrolStatisticsTest() {
         Client client = new ResteasyClientBuilder().build();
-        WebTarget target = client.target("http://localhost:8100/reportsModule-1.0-SNAPSHOT/petrolStatistics");
+        WebTarget target = client.target("http://localhost:8091/reportsModule-1.0-SNAPSHOT/petrolStatistics");
         getData(target);
     }
 

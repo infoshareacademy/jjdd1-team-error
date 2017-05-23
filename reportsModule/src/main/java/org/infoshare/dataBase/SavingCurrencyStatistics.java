@@ -21,8 +21,8 @@ public class SavingCurrencyStatistics {
     public void updateCurrencyStatistics(String currency) {
         Map<String, Integer> currencies = getCurrenciesStatistics();
         if (!currencies.isEmpty() && currencies.containsKey(currency)) {
-            Query query = entityManager.createQuery("UPDATE CurrencyStatistics cs SET cs.popularity = cs.popularity + 1" +
-                    "WHERE cs.currency = ?1");
+            Query query = entityManager.createQuery("UPDATE CurrencyStatistics cs " +
+                    "SET cs.popularity = cs.popularity + 1 WHERE cs.currency = ?1");
             query.setParameter(1, currency).executeUpdate();
         }
         else {
@@ -31,10 +31,12 @@ public class SavingCurrencyStatistics {
     }
 
     public Map<String, Integer> getCurrenciesStatistics(){
-        List<String> names =  entityManager.createQuery("SELECT cs.currency FROM CurrencyStatistics cs ",
-                String.class).getResultList();
-        List<Integer> values = entityManager.createQuery("SELECT cs.popularity FROM CurrencyStatistics cs ",
-                Integer.class).getResultList();
+        List<String> names =  entityManager.createQuery("SELECT cs.currency " +
+                        "FROM CurrencyStatistics cs ORDER BY cs.popularity DESC",
+                String.class).setMaxResults(10).getResultList();
+        List<Integer> values = entityManager.createQuery("SELECT cs.popularity " +
+                        "FROM CurrencyStatistics cs ORDER BY cs.popularity DESC",
+                Integer.class).setMaxResults(10).getResultList();
         Map<String, Integer> results = new LinkedHashMap<>();
         if (names != null && values != null) {
             for (int i = 0; i < names.size(); i++) {
