@@ -70,6 +70,10 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
+        HttpSession session = req.getSession(true);
+        session.setAttribute("adminList", savingAdminBase.getListOfAdmins());
+        LOGGER.info("Admin List data : {} ", session.getAttribute("adminList"));
+
         final String code = req.getParameter("code");
         if (null != code) {
             OAuth2AccessToken accessToken = null;
@@ -81,11 +85,6 @@ public class LoginServlet extends HttpServlet {
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-
-            HttpSession session = req.getSession(true);
-            session.setAttribute("adminList", savingAdminBase.getListOfAdmins());
-            LOGGER.info("User data : {} ", session.getAttribute("adminList"));
-
 
             OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
             service.signRequest(accessToken, request);
@@ -119,6 +118,11 @@ public class LoginServlet extends HttpServlet {
         LOGGER.debug(sessionUser.get("given_name"));
         LOGGER.debug(sessionUser.get("family_name"));
         LOGGER.debug(sessionUser.get("email"));
+
+        if(sessionData.getEmail()!=null){
+            session.setAttribute("userEmail", (sessionData.getEmail()).toString());
+            LOGGER.debug("UserEmail data: {} ", (sessionData.getEmail()).toString());
+        }
 
         LocalDate date= LocalDate.now();
         LocalTime time= LocalTime.now();
