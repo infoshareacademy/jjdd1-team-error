@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 import javax.servlet.RequestDispatcher;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -108,15 +109,19 @@ public class LoginServlet extends HttpServlet {
         LOGGER.debug(sessionUser.get("family_name"));
         LOGGER.debug(sessionUser.get("email"));
 
-        LocalDateTime date= LocalDateTime.now();
+        LocalDate date= LocalDate.now();
+        LocalTime time= LocalTime.now();
         savingUserStatistics.setOrUpdateUser(sessionUser.get("given_name"), sessionUser.get("family_name"),
-                sessionUser.get("email"), date);
+                sessionUser.get("email"), date, time);
         LOGGER.info("List of users firs names: {}", savingUserStatistics.getListOfUsersFirstName());
         LOGGER.info("List of users second names: {}", savingUserStatistics.getListOfUsersSecondName());
         LOGGER.info("List of users emails: {}", savingUserStatistics.getListOfUsersEmails());
-        LOGGER.info("List of users recent log in time: {}", savingUserStatistics.getListOfUsersRecentLocalDateTime());
+        LOGGER.info("List of users recent log in date: {}", savingUserStatistics.getListOfUsersRecentLocalDate());
+        LOGGER.info("List of users recent log in time: {}", savingUserStatistics.getListOfUsersRecentLocalTime());
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
+        req.setAttribute("isLogged", sessionData.isLogged());
+
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
         dispatcher.forward(req, resp);
     }
 
@@ -128,8 +133,9 @@ public class LoginServlet extends HttpServlet {
             additionalParams.put("access_type", "offline");
             additionalParams.put("prompt", "consent");
             resp.sendRedirect(service.getAuthorizationUrl(additionalParams));
-            req.setAttribute("oauth", "wysyłam żądanie do google...");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
+//            req.setAttribute("oauth", "wysyłam żądanie do google...");
+            req.setAttribute("isLogged", sessionData.isLogged());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
             dispatcher.forward(req, resp);
         }
     }

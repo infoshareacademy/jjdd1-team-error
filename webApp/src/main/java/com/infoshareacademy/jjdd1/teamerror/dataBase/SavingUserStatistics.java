@@ -6,6 +6,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -36,19 +37,27 @@ public class SavingUserStatistics {
         return entityManager.createQuery("SELECT us.userSecondName FROM UserStatistics us").getResultList();
     }
 
-    public List<LocalDateTime> getListOfUsersRecentLocalDateTime() {
-        return entityManager.createQuery("SELECT us.recentLoginDateTime FROM UserStatistics us").getResultList();
+    public List<LocalDate> getListOfUsersRecentLocalDate() {
+        return entityManager.createQuery("SELECT us.recentLoginDate FROM UserStatistics us").getResultList();
     }
 
-    public void setOrUpdateUser(String firstName, String secondName, String email, LocalDateTime localDateTime){
-        if (!getListOfUsersEmails().contains(email)) {
-            UserStatistics userStatistics = new UserStatistics(firstName, secondName, email, localDateTime);
-            entityManager.persist(userStatistics);
-        }
-        else {
-            Query query = entityManager.createQuery("UPDATE UserStatistics us SET us.recentLoginDateTime = ?1 WHERE " +
-                    "us.email =?2");
-            int result = query.setParameter(1, localDateTime).setParameter(2, email).executeUpdate();
+    public List<LocalTime> getListOfUsersRecentLocalTime() {
+        return entityManager.createQuery("SELECT us.recentLoginTime FROM UserStatistics us").getResultList();
+    }
+
+    public void setOrUpdateUser(String firstName, String secondName, String email, LocalDate localDate, LocalTime localTime) {
+        if (email != null) {
+            if (!getListOfUsersEmails().contains(email)) {
+                UserStatistics userStatistics = new UserStatistics(firstName, secondName, email, localDate, localTime);
+                entityManager.persist(userStatistics);
+            } else {
+                Query query = entityManager.createQuery("UPDATE UserStatistics us SET us.recentLoginDate = ?1 WHERE " +
+                        "us.email =?2");
+                int result = query.setParameter(1, localDate).setParameter(2, email).executeUpdate();
+                Query query2 = entityManager.createQuery("UPDATE UserStatistics us SET us.recentLoginTime = ?1 WHERE " +
+                        "us.email =?2");
+                int result2 = query.setParameter(1, localTime).setParameter(2, email).executeUpdate();
+            }
         }
     }
 }

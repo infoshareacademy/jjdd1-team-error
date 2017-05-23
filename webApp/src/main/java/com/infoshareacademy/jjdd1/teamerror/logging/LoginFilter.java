@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/start", "/tripCost", "/report", "/trendy"})
+@WebFilter(urlPatterns = {"/start", "/tripCost", "/report", "/trendy", "/"})
 public class LoginFilter implements  Filter{
 
         private static Logger LOGGER = LoggerFactory.getLogger(LoginFilter.class);
@@ -28,7 +28,7 @@ public class LoginFilter implements  Filter{
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
             if (sessionData.isLogged() == false) {
                 LOGGER.debug("User not logged, redirecting to login page");
-                httpServletResponse.sendRedirect("index.jsp");
+                httpServletResponse.sendRedirect("/login");
                 return;
             }
 

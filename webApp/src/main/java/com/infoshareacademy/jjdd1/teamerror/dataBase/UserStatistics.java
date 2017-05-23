@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * Created by igafalkowska on 22.05.17.
@@ -27,7 +28,10 @@ public class UserStatistics {
     private String email;
 
     @Column
-    private LocalDateTime recentLoginDateTime;
+    private LocalDate recentLoginDate;
+
+    @Column
+    private LocalTime recentLoginTime;
 
     public String getUserFirstName() {
         return userFirstName;
@@ -41,15 +45,20 @@ public class UserStatistics {
         return email;
     }
 
-    public LocalDateTime getRecentLoginDateTime() {
-        return recentLoginDateTime;
+    public LocalDate getRecentLoginDate() {
+        return recentLoginDate;
     }
 
-    public UserStatistics(String userFirstName, String userSecondName, String email, LocalDateTime localDateTime) {
+    public LocalTime getRecentLoginTime() {
+        return recentLoginTime;
+    }
+
+    public UserStatistics(String userFirstName, String userSecondName, String email, LocalDate recentLoginDate, LocalTime recentLoginTime) {
         this.userFirstName = userFirstName;
         this.userSecondName = userSecondName;
         this.email = email;
-        this.recentLoginDateTime = localDateTime ;
+        this.recentLoginDate = recentLoginDate;
+        this.recentLoginTime = recentLoginTime;
     }
 
     public UserStatistics() {
