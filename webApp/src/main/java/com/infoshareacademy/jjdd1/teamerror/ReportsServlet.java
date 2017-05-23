@@ -27,6 +27,9 @@ public class ReportsServlet extends HttpServlet{
     @Inject
     SavingCurrencyStatistics savingCurrencyStatistics;
 
+    @Inject
+    SavingUserStatistics savingUserStatistics;
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -49,6 +52,17 @@ public class ReportsServlet extends HttpServlet{
             req.setAttribute("dieselPopularity", savingFuelTypeStatistics.getPopularity("diesel"));
             req.setAttribute("gasolinePopularity", savingFuelTypeStatistics.getPopularity("gasoline"));
             RequestDispatcher dispatcher = req.getRequestDispatcher("/fuelTypeReport.jsp");
+            dispatcher.forward(req, resp);
+        }
+
+        else if (req.getParameter("usersReport") != null) {
+            req.setAttribute("title", "Fuel type report");
+            req.setAttribute("usersFirstName", savingUserStatistics.getListOfUsersFirstName());
+            req.setAttribute("usersSecondName", savingUserStatistics.getListOfUsersSecondName());
+            req.setAttribute("usersEmail", savingUserStatistics.getListOfUsersEmails());
+            req.setAttribute("usersRecentLoginDate", savingUserStatistics.getListOfUsersRecentLocalDate());
+            req.setAttribute("usersRecentLoginTime", savingUserStatistics.getListOfUsersRecentLocalTime());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/usersReport.jsp");
             dispatcher.forward(req, resp);
         }
     }

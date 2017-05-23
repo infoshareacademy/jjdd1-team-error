@@ -16,6 +16,9 @@
             <div class="btn-group" role="group">
                 <button class="btn btn-outline-inverse btn-lg" type="submit" formmethod="get" formaction="/report" name="fuelTypeReport" value="">Fuel type report</button>
             </div>
+            <div class="btn-group" role="group">
+                <button class="btn btn-outline-inverse btn-lg" type="submit" formmethod="get" formaction="/report" name="usersReport" value="">Users report</button>
+            </div>
     </div>
 </form>
 

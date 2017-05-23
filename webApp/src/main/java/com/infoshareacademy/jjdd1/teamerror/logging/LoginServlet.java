@@ -116,8 +116,11 @@ public class LoginServlet extends HttpServlet {
         LOGGER.info("List of users firs names: {}", savingUserStatistics.getListOfUsersFirstName());
         LOGGER.info("List of users second names: {}", savingUserStatistics.getListOfUsersSecondName());
         LOGGER.info("List of users emails: {}", savingUserStatistics.getListOfUsersEmails());
-        LOGGER.info("List of users recent log in date: {}", savingUserStatistics.getListOfUsersRecentLocalDate());
-        LOGGER.info("List of users recent log in time: {}", savingUserStatistics.getListOfUsersRecentLocalTime());
+        LOGGER.info("List of users recent login date: {}", savingUserStatistics.getListOfUsersRecentLocalDate());
+        LOGGER.info("List of users recent login time: {}", savingUserStatistics.getListOfUsersRecentLocalTime());
+        if(savingUserStatistics.getListOfUsers().size()>0) {
+            LOGGER.info("List of users: {}", savingUserStatistics.getListOfUsers().get(0));
+        }
 
         req.setAttribute("isLogged", sessionData.isLogged());
 
