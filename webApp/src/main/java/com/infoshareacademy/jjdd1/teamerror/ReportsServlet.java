@@ -1,9 +1,11 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingUserStatistics;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.Statistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +18,10 @@ import java.util.Map;
 @WebServlet(urlPatterns = "/report")
 public class ReportsServlet extends HttpServlet{
     private static Logger LOGGER = LoggerFactory.getLogger(ReportsServlet.class);
+
+    @Inject
+    SavingUserStatistics savingUserStatistics;
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,6 +49,17 @@ public class ReportsServlet extends HttpServlet{
             Map<String, Integer> fuelTypeStatistics = Statistics.getStatistics("petrol");
             req.setAttribute("fuelTypeStatistics", fuelTypeStatistics);
             RequestDispatcher dispatcher = req.getRequestDispatcher("/fuelTypeReport.jsp");
+            dispatcher.forward(req, resp);
+        }
+
+        else if (req.getParameter("usersReport") != null) {
+            req.setAttribute("title", "Fuel type report");
+            req.setAttribute("usersFirstName", savingUserStatistics.getListOfUsersFirstName());
+            req.setAttribute("usersSecondName", savingUserStatistics.getListOfUsersSecondName());
+            req.setAttribute("usersEmail", savingUserStatistics.getListOfUsersEmails());
+            req.setAttribute("usersRecentLoginDate", savingUserStatistics.getListOfUsersRecentLocalDate());
+            req.setAttribute("usersRecentLoginTime", savingUserStatistics.getListOfUsersRecentLocalTime());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/usersReport.jsp");
             dispatcher.forward(req, resp);
         }
     }
