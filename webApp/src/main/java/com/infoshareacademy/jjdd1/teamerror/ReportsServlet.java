@@ -1,11 +1,9 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import com.infoshareacademy.jjdd1.teamerror.dataBase.*;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingCountryStatistics;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.Statistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,16 +15,6 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/report")
 public class ReportsServlet extends HttpServlet{
     private static Logger LOGGER = LoggerFactory.getLogger(ReportsServlet.class);
-
-    @Inject
-    SavingFuelTypeStatistics savingFuelTypeStatistics;
-
-    @Inject
-    SavingCountryStatistics savingCountryStatistics;
-
-    @Inject
-    SavingCurrencyStatistics savingCurrencyStatistics;
-
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

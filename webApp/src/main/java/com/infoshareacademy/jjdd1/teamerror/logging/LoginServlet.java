@@ -40,13 +40,22 @@ public class LoginServlet extends HttpServlet {
     final String CLIENT_SECRET = "kypWEr8p2gMxtv1DZZG6g2mt";
     private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/oauth2/v2/userinfo";
 
-    private OAuth20Service service = new ServiceBuilder()
-            .apiKey(CLIENT_ID)
-            .apiSecret(CLIENT_SECRET)
-            .scope("profile")
-            .scope("email")
-            .callback("http://localhost:8080/login")
-            .build(GoogleApi20.instance());
+    private OAuth20Service service = null;
+
+    private OAuth20Service getOAuthService(HttpServletRequest req) {
+        if (service == null) {
+            StringBuffer hostAddress = req. getRequestURL();
+            service = new ServiceBuilder()
+                    .apiKey(CLIENT_ID)
+                    .apiSecret(CLIENT_SECRET)
+                    .scope("profile")
+                    .scope("email")
+                    .callback(hostAddress + "/login")
+                    .build(GoogleApi20.instance());
+        }
+
+        return service;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -62,7 +71,7 @@ public class LoginServlet extends HttpServlet {
             OAuth2AccessToken accessToken = null;
 
             try {
-                accessToken = service.getAccessToken(code);
+                accessToken = getOAuthService(req).getAccessToken(code);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -70,11 +79,11 @@ public class LoginServlet extends HttpServlet {
             }
 
             OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
-            service.signRequest(accessToken, request);
+            getOAuthService(req).signRequest(accessToken, request);
 
             Response response = null;
             try {
-                response = service.execute(request);
+                response = getOAuthService(req).execute(request);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -113,7 +122,7 @@ public class LoginServlet extends HttpServlet {
             final Map<String, String> additionalParams = new HashMap<>();
             additionalParams.put("access_type", "offline");
             additionalParams.put("prompt", "consent");
-            resp.sendRedirect(service.getAuthorizationUrl(additionalParams));
+            resp.sendRedirect(getOAuthService(req).getAuthorizationUrl(additionalParams));
             req.setAttribute("oauth", "wysyłam żądanie do google...");
             RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
             dispatcher.forward(req, resp);

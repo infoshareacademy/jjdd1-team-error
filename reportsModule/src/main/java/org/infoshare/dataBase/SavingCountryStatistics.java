@@ -22,8 +22,8 @@ public class SavingCountryStatistics {
     public void updateCountryStatistics(String country) {
         Map<String, Integer> countries = getCountryStatistics();
         if (!countries.isEmpty() && countries.containsKey(country)) {
-            Query query = entityManager.createQuery("UPDATE CountryStatistics cs SET cs.popularity = cs.popularity + 1" +
-                    "WHERE cs.country = ?1");
+            Query query = entityManager.createQuery("UPDATE CountryStatistics cs SET " +
+                    "cs.popularity = cs.popularity + 1 WHERE cs.country = ?1");
             query.setParameter(1, country).executeUpdate();
         }
         else {
@@ -33,10 +33,12 @@ public class SavingCountryStatistics {
 
 
     public Map<String, Integer> getCountryStatistics(){
-        List<String> names = entityManager.createQuery("SELECT cs.country FROM CountryStatistics cs ",
-                    String.class).getResultList();
-        List<Integer> values = entityManager.createQuery("SELECT cs.popularity FROM CountryStatistics cs ",
-                Integer.class).getResultList();
+        List<String> names = entityManager.createQuery("SELECT cs.country " +
+                        "FROM CountryStatistics cs ORDER BY cs.popularity", String.class)
+                .setMaxResults(10).getResultList();
+        List<Integer> values = entityManager.createQuery("SELECT cs.popularity " +
+                        "FROM CountryStatistics cs ORDER BY cs.popularity", Integer.class)
+                .setMaxResults(10).getResultList();
         Map<String, Integer> results = new LinkedHashMap<>();
         if (names != null && values != null) {
             for (int i = 0; i < names.size(); i++) {

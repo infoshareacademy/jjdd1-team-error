@@ -29,7 +29,9 @@ public class Statistics {
         Form paramsForm = new Form();
         paramsForm.param("country", country);
         paramsForm.param("currency", currency);
-        paramsForm.param("fuelType", fuelType);
+
+        String fuelTypeName = fuelType.equals("1") ? "diesel" : "gasoline";
+        paramsForm.param("fuelType", fuelTypeName);
 
         WebTarget target = client.target("http://localhost:8080/reportsModule-1.0-SNAPSHOT/statisticsUpdate");
 
@@ -70,6 +72,7 @@ public class Statistics {
 
         Gson gson = new Gson();
         Map<String, Integer> resultMap = gson.fromJson(result, new TypeToken<Map<String, Integer>>(){}.getType());
+
         resultMap.forEach((k,v) -> System.out.println(k + " " + v));
         return resultMap;
     }

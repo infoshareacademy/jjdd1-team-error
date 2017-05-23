@@ -1,527 +1,176 @@
-15:05:54,717 INFO  [stdout] (default task-1) Hibernate: 
-15:05:54,718 INFO  [stdout] (default task-1)     select
-15:05:54,718 INFO  [stdout] (default task-1)         countrysta0_.country as col_0_0_ 
-15:05:54,718 INFO  [stdout] (default task-1)     from
-15:05:54,718 INFO  [stdout] (default task-1)         CountryStatistics countrysta0_
-15:05:54,791 INFO  [stdout] (default task-1) Hibernate: 
-15:05:54,791 INFO  [stdout] (default task-1)     select
-15:05:54,791 INFO  [stdout] (default task-1)         countrysta0_.popularity as col_0_0_ 
-15:05:54,791 INFO  [stdout] (default task-1)     from
-15:05:54,791 INFO  [stdout] (default task-1)         CountryStatistics countrysta0_
-15:05:54,827 INFO  [stdout] (default task-1) Hibernate: 
-15:05:54,828 INFO  [stdout] (default task-1)     select
-15:05:54,828 INFO  [stdout] (default task-1)         next_val as id_val 
-15:05:54,828 INFO  [stdout] (default task-1)     from
-15:05:54,828 INFO  [stdout] (default task-1)         hibernate_sequence for update
-15:05:54,828 INFO  [stdout] (default task-1)             
-15:05:54,829 INFO  [stdout] (default task-1) Hibernate: 
-15:05:54,829 INFO  [stdout] (default task-1)     update
-15:05:54,829 INFO  [stdout] (default task-1)         hibernate_sequence 
-15:05:54,829 INFO  [stdout] (default task-1)     set
-15:05:54,829 INFO  [stdout] (default task-1)         next_val= ? 
-15:05:54,829 INFO  [stdout] (default task-1)     where
-15:05:54,829 INFO  [stdout] (default task-1)         next_val=?
-15:05:54,867 INFO  [stdout] (default task-1) Hibernate: 
-15:05:54,868 INFO  [stdout] (default task-1)     insert 
-15:05:54,868 INFO  [stdout] (default task-1)     into
-15:05:54,868 INFO  [stdout] (default task-1)         CountryStatistics
-15:05:54,868 INFO  [stdout] (default task-1)         (country, popularity, id) 
-15:05:54,868 INFO  [stdout] (default task-1)     values
-15:05:54,868 INFO  [stdout] (default task-1)         (?, ?, ?)
-15:05:54,896 INFO  [stdout] (default task-1) Hibernate: 
-15:05:54,896 INFO  [stdout] (default task-1)     select
-15:05:54,896 INFO  [stdout] (default task-1)         currencyst0_.currency as col_0_0_ 
-15:05:54,896 INFO  [stdout] (default task-1)     from
-15:05:54,896 INFO  [stdout] (default task-1)         CurrencyStatistics currencyst0_
-15:05:54,920 INFO  [stdout] (default task-1) Hibernate: 
-15:05:54,920 INFO  [stdout] (default task-1)     select
-15:05:54,920 INFO  [stdout] (default task-1)         currencyst0_.popularity as col_0_0_ 
-15:05:54,924 INFO  [stdout] (default task-1)     from
-15:05:54,927 INFO  [stdout] (default task-1)         CurrencyStatistics currencyst0_
-15:05:54,932 INFO  [stdout] (default task-1) Hibernate: 
-15:05:54,932 INFO  [stdout] (default task-1)     select
-15:05:54,933 INFO  [stdout] (default task-1)         next_val as id_val 
-15:05:54,933 INFO  [stdout] (default task-1)     from
-15:05:54,933 INFO  [stdout] (default task-1)         hibernate_sequence for update
-15:05:54,933 INFO  [stdout] (default task-1)             
-15:05:54,934 INFO  [stdout] (default task-1) Hibernate: 
-15:05:54,934 INFO  [stdout] (default task-1)     update
-15:05:54,934 INFO  [stdout] (default task-1)         hibernate_sequence 
-15:05:54,934 INFO  [stdout] (default task-1)     set
-15:05:54,934 INFO  [stdout] (default task-1)         next_val= ? 
-15:05:54,934 INFO  [stdout] (default task-1)     where
-15:05:54,934 INFO  [stdout] (default task-1)         next_val=?
-15:05:54,946 INFO  [stdout] (default task-1) Hibernate: 
-15:05:54,946 INFO  [stdout] (default task-1)     insert 
-15:05:54,947 INFO  [stdout] (default task-1)     into
-15:05:54,947 INFO  [stdout] (default task-1)         CurrencyStatistics
-15:05:54,947 INFO  [stdout] (default task-1)         (currency, popularity, id) 
-15:05:54,947 INFO  [stdout] (default task-1)     values
-15:05:54,947 INFO  [stdout] (default task-1)         (?, ?, ?)
-15:05:54,973 INFO  [stdout] (default task-1) Hibernate: 
-15:05:54,973 INFO  [stdout] (default task-1)     select
-15:05:54,973 INFO  [stdout] (default task-1)         fueltypest0_.fuelType as col_0_0_ 
-15:05:54,974 INFO  [stdout] (default task-1)     from
-15:05:54,974 INFO  [stdout] (default task-1)         FuelTypeStatistics fueltypest0_
-15:05:54,986 INFO  [stdout] (default task-1) Hibernate: 
-15:05:54,986 INFO  [stdout] (default task-1)     select
-15:05:54,986 INFO  [stdout] (default task-1)         fueltypest0_.popularity as col_0_0_ 
-15:05:54,986 INFO  [stdout] (default task-1)     from
-15:05:54,986 INFO  [stdout] (default task-1)         FuelTypeStatistics fueltypest0_
-15:05:54,997 INFO  [stdout] (default task-1) Hibernate: 
-15:05:54,997 INFO  [stdout] (default task-1)     select
-15:05:54,997 INFO  [stdout] (default task-1)         next_val as id_val 
-15:05:54,997 INFO  [stdout] (default task-1)     from
-15:05:54,999 INFO  [stdout] (default task-1)         hibernate_sequence for update
-15:05:55,000 INFO  [stdout] (default task-1)             
-15:05:55,001 INFO  [stdout] (default task-1) Hibernate: 
-15:05:55,001 INFO  [stdout] (default task-1)     update
-15:05:55,001 INFO  [stdout] (default task-1)         hibernate_sequence 
-15:05:55,001 INFO  [stdout] (default task-1)     set
-15:05:55,001 INFO  [stdout] (default task-1)         next_val= ? 
-15:05:55,001 INFO  [stdout] (default task-1)     where
-15:05:55,001 INFO  [stdout] (default task-1)         next_val=?
-15:05:55,010 INFO  [stdout] (default task-1) Hibernate: 
-15:05:55,010 INFO  [stdout] (default task-1)     insert 
-15:05:55,010 INFO  [stdout] (default task-1)     into
-15:05:55,010 INFO  [stdout] (default task-1)         FuelTypeStatistics
-15:05:55,010 INFO  [stdout] (default task-1)         (fuelType, popularity, id) 
-15:05:55,010 INFO  [stdout] (default task-1)     values
-15:05:55,010 INFO  [stdout] (default task-1)         (?, ?, ?)
-15:05:55,163 INFO  [stdout] (default task-2) Hibernate: 
-15:05:55,166 INFO  [stdout] (default task-2)     select
-15:05:55,166 INFO  [stdout] (default task-2)         currencyst0_.currency as col_0_0_ 
-15:05:55,167 INFO  [stdout] (default task-2)     from
-15:05:55,167 INFO  [stdout] (default task-2)         CurrencyStatistics currencyst0_
-15:05:55,175 INFO  [stdout] (default task-2) Hibernate: 
-15:05:55,176 INFO  [stdout] (default task-2)     select
-15:05:55,176 INFO  [stdout] (default task-2)         currencyst0_.popularity as col_0_0_ 
-15:05:55,176 INFO  [stdout] (default task-2)     from
-15:05:55,176 INFO  [stdout] (default task-2)         CurrencyStatistics currencyst0_
-15:05:55,673 INFO  [stdout] (default task-3) Hibernate: 
-15:05:55,673 INFO  [stdout] (default task-3)     select
-15:05:55,673 INFO  [stdout] (default task-3)         countrysta0_.country as col_0_0_ 
-15:05:55,673 INFO  [stdout] (default task-3)     from
-15:05:55,673 INFO  [stdout] (default task-3)         CountryStatistics countrysta0_
-15:05:55,683 INFO  [stdout] (default task-3) Hibernate: 
-15:05:55,684 INFO  [stdout] (default task-3)     select
-15:05:55,684 INFO  [stdout] (default task-3)         countrysta0_.popularity as col_0_0_ 
-15:05:55,684 INFO  [stdout] (default task-3)     from
-15:05:55,684 INFO  [stdout] (default task-3)         CountryStatistics countrysta0_
-15:05:55,732 INFO  [stdout] (default task-4) Hibernate: 
-15:05:55,732 INFO  [stdout] (default task-4)     select
-15:05:55,732 INFO  [stdout] (default task-4)         fueltypest0_.fuelType as col_0_0_ 
-15:05:55,733 INFO  [stdout] (default task-4)     from
-15:05:55,733 INFO  [stdout] (default task-4)         FuelTypeStatistics fueltypest0_
-15:05:55,734 INFO  [stdout] (default task-4) Hibernate: 
-15:05:55,734 INFO  [stdout] (default task-4)     select
-15:05:55,735 INFO  [stdout] (default task-4)         fueltypest0_.popularity as col_0_0_ 
-15:05:55,735 INFO  [stdout] (default task-4)     from
-15:05:55,735 INFO  [stdout] (default task-4)         FuelTypeStatistics fueltypest0_
-15:06:00,019 INFO  [stdout] (EJB default - 1) Hibernate: 
-15:06:00,019 INFO  [stdout] (EJB default - 1)     select
-15:06:00,019 INFO  [stdout] (EJB default - 1)         countrysta0_.country as col_0_0_ 
-15:06:00,020 INFO  [stdout] (EJB default - 1)     from
-15:06:00,020 INFO  [stdout] (EJB default - 1)         CountryStatistics countrysta0_
-15:06:00,021 INFO  [stdout] (EJB default - 1) Hibernate: 
-15:06:00,021 INFO  [stdout] (EJB default - 1)     select
-15:06:00,021 INFO  [stdout] (EJB default - 1)         countrysta0_.popularity as col_0_0_ 
-15:06:00,021 INFO  [stdout] (EJB default - 1)     from
-15:06:00,021 INFO  [stdout] (EJB default - 1)         CountryStatistics countrysta0_
-15:06:00,023 INFO  [stdout] (EJB default - 1) Hibernate: 
-15:06:00,023 INFO  [stdout] (EJB default - 1)     select
-15:06:00,023 INFO  [stdout] (EJB default - 1)         currencyst0_.currency as col_0_0_ 
-15:06:00,023 INFO  [stdout] (EJB default - 1)     from
-15:06:00,023 INFO  [stdout] (EJB default - 1)         CurrencyStatistics currencyst0_
-15:06:00,024 INFO  [stdout] (EJB default - 1) Hibernate: 
-15:06:00,024 INFO  [stdout] (EJB default - 1)     select
-15:06:00,024 INFO  [stdout] (EJB default - 1)         currencyst0_.popularity as col_0_0_ 
-15:06:00,024 INFO  [stdout] (EJB default - 1)     from
-15:06:00,024 INFO  [stdout] (EJB default - 1)         CurrencyStatistics currencyst0_
-15:06:00,027 INFO  [stdout] (EJB default - 1) Hibernate: 
-15:06:00,027 INFO  [stdout] (EJB default - 1)     select
-15:06:00,027 INFO  [stdout] (EJB default - 1)         fueltypest0_.fuelType as col_0_0_ 
-15:06:00,027 INFO  [stdout] (EJB default - 1)     from
-15:06:00,027 INFO  [stdout] (EJB default - 1)         FuelTypeStatistics fueltypest0_
-15:06:00,028 INFO  [stdout] (EJB default - 1) Hibernate: 
-15:06:00,028 INFO  [stdout] (EJB default - 1)     select
-15:06:00,028 INFO  [stdout] (EJB default - 1)         fueltypest0_.popularity as col_0_0_ 
-15:06:00,029 INFO  [stdout] (EJB default - 1)     from
-15:06:00,029 INFO  [stdout] (EJB default - 1)         FuelTypeStatistics fueltypest0_
-15:06:00,030 INFO  [org.infoshare.ReportsSender] (EJB default - 1) Getting in sendAnEmail class and setting up Mail Server properties
-15:06:00,031 INFO  [org.infoshare.ReportsSender] (EJB default - 1) Mail server properties setup successfully
-15:06:02,254 INFO  [org.infoshare.ReportsSender] (EJB default - 1) Email sent successfully
-15:06:36,848 INFO  [stdout] (default task-5) Hibernate: 
-15:06:36,850 INFO  [stdout] (default task-5)     select
-15:06:36,851 INFO  [stdout] (default task-5)         countrysta0_.country as col_0_0_ 
-15:06:36,851 INFO  [stdout] (default task-5)     from
-15:06:36,851 INFO  [stdout] (default task-5)         CountryStatistics countrysta0_
-15:06:36,859 INFO  [stdout] (default task-5) Hibernate: 
-15:06:36,859 INFO  [stdout] (default task-5)     select
-15:06:36,859 INFO  [stdout] (default task-5)         countrysta0_.popularity as col_0_0_ 
-15:06:36,859 INFO  [stdout] (default task-5)     from
-15:06:36,859 INFO  [stdout] (default task-5)         CountryStatistics countrysta0_
-15:06:36,870 INFO  [stdout] (default task-5) Hibernate: 
-15:06:36,870 INFO  [stdout] (default task-5)     select
-15:06:36,870 INFO  [stdout] (default task-5)         next_val as id_val 
-15:06:36,870 INFO  [stdout] (default task-5)     from
-15:06:36,873 INFO  [stdout] (default task-5)         hibernate_sequence for update
-15:06:36,873 INFO  [stdout] (default task-5)             
-15:06:36,874 INFO  [stdout] (default task-5) Hibernate: 
-15:06:36,874 INFO  [stdout] (default task-5)     update
-15:06:36,874 INFO  [stdout] (default task-5)         hibernate_sequence 
-15:06:36,874 INFO  [stdout] (default task-5)     set
-15:06:36,874 INFO  [stdout] (default task-5)         next_val= ? 
-15:06:36,874 INFO  [stdout] (default task-5)     where
-15:06:36,875 INFO  [stdout] (default task-5)         next_val=?
-15:06:36,876 INFO  [stdout] (default task-5) Hibernate: 
-15:06:36,877 INFO  [stdout] (default task-5)     insert 
-15:06:36,877 INFO  [stdout] (default task-5)     into
-15:06:36,877 INFO  [stdout] (default task-5)         CountryStatistics
-15:06:36,877 INFO  [stdout] (default task-5)         (country, popularity, id) 
-15:06:36,877 INFO  [stdout] (default task-5)     values
-15:06:36,877 INFO  [stdout] (default task-5)         (?, ?, ?)
-15:06:36,879 INFO  [stdout] (default task-5) Hibernate: 
-15:06:36,879 INFO  [stdout] (default task-5)     select
-15:06:36,880 INFO  [stdout] (default task-5)         currencyst0_.currency as col_0_0_ 
-15:06:36,880 INFO  [stdout] (default task-5)     from
-15:06:36,880 INFO  [stdout] (default task-5)         CurrencyStatistics currencyst0_
-15:06:36,882 INFO  [stdout] (default task-5) Hibernate: 
-15:06:36,883 INFO  [stdout] (default task-5)     select
-15:06:36,883 INFO  [stdout] (default task-5)         currencyst0_.popularity as col_0_0_ 
-15:06:36,883 INFO  [stdout] (default task-5)     from
-15:06:36,883 INFO  [stdout] (default task-5)         CurrencyStatistics currencyst0_
-15:06:36,885 INFO  [stdout] (default task-5) Hibernate: 
-15:06:36,885 INFO  [stdout] (default task-5)     select
-15:06:36,885 INFO  [stdout] (default task-5)         next_val as id_val 
-15:06:36,885 INFO  [stdout] (default task-5)     from
-15:06:36,885 INFO  [stdout] (default task-5)         hibernate_sequence for update
-15:06:36,885 INFO  [stdout] (default task-5)             
-15:06:36,887 INFO  [stdout] (default task-5) Hibernate: 
-15:06:36,888 INFO  [stdout] (default task-5)     update
-15:06:36,888 INFO  [stdout] (default task-5)         hibernate_sequence 
-15:06:36,888 INFO  [stdout] (default task-5)     set
-15:06:36,888 INFO  [stdout] (default task-5)         next_val= ? 
-15:06:36,888 INFO  [stdout] (default task-5)     where
-15:06:36,888 INFO  [stdout] (default task-5)         next_val=?
-15:06:36,890 INFO  [stdout] (default task-5) Hibernate: 
-15:06:36,890 INFO  [stdout] (default task-5)     insert 
-15:06:36,890 INFO  [stdout] (default task-5)     into
-15:06:36,890 INFO  [stdout] (default task-5)         CurrencyStatistics
-15:06:36,890 INFO  [stdout] (default task-5)         (currency, popularity, id) 
-15:06:36,891 INFO  [stdout] (default task-5)     values
-15:06:36,891 INFO  [stdout] (default task-5)         (?, ?, ?)
-15:06:36,893 INFO  [stdout] (default task-5) Hibernate: 
-15:06:36,893 INFO  [stdout] (default task-5)     select
-15:06:36,893 INFO  [stdout] (default task-5)         fueltypest0_.fuelType as col_0_0_ 
-15:06:36,893 INFO  [stdout] (default task-5)     from
-15:06:36,893 INFO  [stdout] (default task-5)         FuelTypeStatistics fueltypest0_
-15:06:36,895 INFO  [stdout] (default task-5) Hibernate: 
-15:06:36,895 INFO  [stdout] (default task-5)     select
-15:06:36,895 INFO  [stdout] (default task-5)         fueltypest0_.popularity as col_0_0_ 
-15:06:36,895 INFO  [stdout] (default task-5)     from
-15:06:36,895 INFO  [stdout] (default task-5)         FuelTypeStatistics fueltypest0_
-15:06:36,897 INFO  [stdout] (default task-5) Hibernate: 
-15:06:36,897 INFO  [stdout] (default task-5)     select
-15:06:36,897 INFO  [stdout] (default task-5)         next_val as id_val 
-15:06:36,897 INFO  [stdout] (default task-5)     from
-15:06:36,898 INFO  [stdout] (default task-5)         hibernate_sequence for update
-15:06:36,898 INFO  [stdout] (default task-5)             
-15:06:36,899 INFO  [stdout] (default task-5) Hibernate: 
-15:06:36,899 INFO  [stdout] (default task-5)     update
-15:06:36,899 INFO  [stdout] (default task-5)         hibernate_sequence 
-15:06:36,899 INFO  [stdout] (default task-5)     set
-15:06:36,899 INFO  [stdout] (default task-5)         next_val= ? 
-15:06:36,899 INFO  [stdout] (default task-5)     where
-15:06:36,899 INFO  [stdout] (default task-5)         next_val=?
-15:06:36,900 INFO  [stdout] (default task-5) Hibernate: 
-15:06:36,900 INFO  [stdout] (default task-5)     insert 
-15:06:36,900 INFO  [stdout] (default task-5)     into
-15:06:36,900 INFO  [stdout] (default task-5)         FuelTypeStatistics
-15:06:36,900 INFO  [stdout] (default task-5)         (fuelType, popularity, id) 
-15:06:36,900 INFO  [stdout] (default task-5)     values
-15:06:36,900 INFO  [stdout] (default task-5)         (?, ?, ?)
-15:06:36,975 INFO  [stdout] (default task-6) Hibernate: 
-15:06:36,975 INFO  [stdout] (default task-6)     select
-15:06:36,975 INFO  [stdout] (default task-6)         currencyst0_.currency as col_0_0_ 
-15:06:36,975 INFO  [stdout] (default task-6)     from
-15:06:36,975 INFO  [stdout] (default task-6)         CurrencyStatistics currencyst0_
-15:06:36,977 INFO  [stdout] (default task-6) Hibernate: 
-15:06:36,977 INFO  [stdout] (default task-6)     select
-15:06:36,977 INFO  [stdout] (default task-6)         currencyst0_.popularity as col_0_0_ 
-15:06:36,977 INFO  [stdout] (default task-6)     from
-15:06:36,977 INFO  [stdout] (default task-6)         CurrencyStatistics currencyst0_
-15:06:37,073 INFO  [stdout] (default task-7) Hibernate: 
-15:06:37,074 INFO  [stdout] (default task-7)     select
-15:06:37,074 INFO  [stdout] (default task-7)         countrysta0_.country as col_0_0_ 
-15:06:37,074 INFO  [stdout] (default task-7)     from
-15:06:37,074 INFO  [stdout] (default task-7)         CountryStatistics countrysta0_
-15:06:37,076 INFO  [stdout] (default task-7) Hibernate: 
-15:06:37,076 INFO  [stdout] (default task-7)     select
-15:06:37,076 INFO  [stdout] (default task-7)         countrysta0_.popularity as col_0_0_ 
-15:06:37,076 INFO  [stdout] (default task-7)     from
-15:06:37,076 INFO  [stdout] (default task-7)         CountryStatistics countrysta0_
-15:06:37,123 INFO  [stdout] (default task-8) Hibernate: 
-15:06:37,123 INFO  [stdout] (default task-8)     select
-15:06:37,123 INFO  [stdout] (default task-8)         fueltypest0_.fuelType as col_0_0_ 
-15:06:37,123 INFO  [stdout] (default task-8)     from
-15:06:37,123 INFO  [stdout] (default task-8)         FuelTypeStatistics fueltypest0_
-15:06:37,124 INFO  [stdout] (default task-8) Hibernate: 
-15:06:37,124 INFO  [stdout] (default task-8)     select
-15:06:37,124 INFO  [stdout] (default task-8)         fueltypest0_.popularity as col_0_0_ 
-15:06:37,124 INFO  [stdout] (default task-8)     from
-15:06:37,124 INFO  [stdout] (default task-8)         FuelTypeStatistics fueltypest0_
-15:07:00,002 INFO  [stdout] (EJB default - 2) Hibernate: 
-15:07:00,003 INFO  [stdout] (EJB default - 2)     select
-15:07:00,003 INFO  [stdout] (EJB default - 2)         countrysta0_.country as col_0_0_ 
-15:07:00,003 INFO  [stdout] (EJB default - 2)     from
-15:07:00,003 INFO  [stdout] (EJB default - 2)         CountryStatistics countrysta0_
-15:07:00,005 INFO  [stdout] (EJB default - 2) Hibernate: 
-15:07:00,005 INFO  [stdout] (EJB default - 2)     select
-15:07:00,005 INFO  [stdout] (EJB default - 2)         countrysta0_.popularity as col_0_0_ 
-15:07:00,005 INFO  [stdout] (EJB default - 2)     from
-15:07:00,005 INFO  [stdout] (EJB default - 2)         CountryStatistics countrysta0_
-15:07:00,006 INFO  [stdout] (EJB default - 2) Hibernate: 
-15:07:00,006 INFO  [stdout] (EJB default - 2)     select
-15:07:00,007 INFO  [stdout] (EJB default - 2)         currencyst0_.currency as col_0_0_ 
-15:07:00,007 INFO  [stdout] (EJB default - 2)     from
-15:07:00,007 INFO  [stdout] (EJB default - 2)         CurrencyStatistics currencyst0_
-15:07:00,009 INFO  [stdout] (EJB default - 2) Hibernate: 
-15:07:00,009 INFO  [stdout] (EJB default - 2)     select
-15:07:00,009 INFO  [stdout] (EJB default - 2)         currencyst0_.popularity as col_0_0_ 
-15:07:00,009 INFO  [stdout] (EJB default - 2)     from
-15:07:00,009 INFO  [stdout] (EJB default - 2)         CurrencyStatistics currencyst0_
-15:07:00,012 INFO  [stdout] (EJB default - 2) Hibernate: 
-15:07:00,012 INFO  [stdout] (EJB default - 2)     select
-15:07:00,012 INFO  [stdout] (EJB default - 2)         fueltypest0_.fuelType as col_0_0_ 
-15:07:00,012 INFO  [stdout] (EJB default - 2)     from
-15:07:00,012 INFO  [stdout] (EJB default - 2)         FuelTypeStatistics fueltypest0_
-15:07:00,014 INFO  [stdout] (EJB default - 2) Hibernate: 
-15:07:00,014 INFO  [stdout] (EJB default - 2)     select
-15:07:00,014 INFO  [stdout] (EJB default - 2)         fueltypest0_.popularity as col_0_0_ 
-15:07:00,014 INFO  [stdout] (EJB default - 2)     from
-15:07:00,015 INFO  [stdout] (EJB default - 2)         FuelTypeStatistics fueltypest0_
-15:07:00,015 INFO  [org.infoshare.ReportsSender] (EJB default - 2) Getting in sendAnEmail class and setting up Mail Server properties
-15:07:00,015 INFO  [org.infoshare.ReportsSender] (EJB default - 2) Mail server properties setup successfully
-15:07:01,814 INFO  [org.infoshare.ReportsSender] (EJB default - 2) Email sent successfully
-15:07:24,225 INFO  [stdout] (default task-9) Hibernate: 
-15:07:24,226 INFO  [stdout] (default task-9)     select
-15:07:24,226 INFO  [stdout] (default task-9)         countrysta0_.country as col_0_0_ 
-15:07:24,226 INFO  [stdout] (default task-9)     from
-15:07:24,226 INFO  [stdout] (default task-9)         CountryStatistics countrysta0_
-15:07:24,227 INFO  [stdout] (default task-9) Hibernate: 
-15:07:24,228 INFO  [stdout] (default task-9)     select
-15:07:24,228 INFO  [stdout] (default task-9)         countrysta0_.popularity as col_0_0_ 
-15:07:24,228 INFO  [stdout] (default task-9)     from
-15:07:24,228 INFO  [stdout] (default task-9)         CountryStatistics countrysta0_
-15:07:24,247 INFO  [stdout] (default task-9) Hibernate: 
-15:07:24,247 INFO  [stdout] (default task-9)     update
-15:07:24,247 INFO  [stdout] (default task-9)         CountryStatistics 
-15:07:24,247 INFO  [stdout] (default task-9)     set
-15:07:24,247 INFO  [stdout] (default task-9)         popularity=popularity+1 
-15:07:24,247 INFO  [stdout] (default task-9)     where
-15:07:24,247 INFO  [stdout] (default task-9)         country=?
-15:07:24,250 INFO  [stdout] (default task-9) Hibernate: 
-15:07:24,250 INFO  [stdout] (default task-9)     select
-15:07:24,250 INFO  [stdout] (default task-9)         currencyst0_.currency as col_0_0_ 
-15:07:24,250 INFO  [stdout] (default task-9)     from
-15:07:24,250 INFO  [stdout] (default task-9)         CurrencyStatistics currencyst0_
-15:07:24,252 INFO  [stdout] (default task-9) Hibernate: 
-15:07:24,252 INFO  [stdout] (default task-9)     select
-15:07:24,252 INFO  [stdout] (default task-9)         currencyst0_.popularity as col_0_0_ 
-15:07:24,252 INFO  [stdout] (default task-9)     from
-15:07:24,253 INFO  [stdout] (default task-9)         CurrencyStatistics currencyst0_
-15:07:24,259 INFO  [stdout] (default task-9) Hibernate: 
-15:07:24,259 INFO  [stdout] (default task-9)     update
-15:07:24,259 INFO  [stdout] (default task-9)         CurrencyStatistics 
-15:07:24,259 INFO  [stdout] (default task-9)     set
-15:07:24,259 INFO  [stdout] (default task-9)         popularity=popularity+1 
-15:07:24,259 INFO  [stdout] (default task-9)     where
-15:07:24,259 INFO  [stdout] (default task-9)         currency=?
-15:07:24,262 INFO  [stdout] (default task-9) Hibernate: 
-15:07:24,262 INFO  [stdout] (default task-9)     select
-15:07:24,262 INFO  [stdout] (default task-9)         fueltypest0_.fuelType as col_0_0_ 
-15:07:24,262 INFO  [stdout] (default task-9)     from
-15:07:24,262 INFO  [stdout] (default task-9)         FuelTypeStatistics fueltypest0_
-15:07:24,264 INFO  [stdout] (default task-9) Hibernate: 
-15:07:24,264 INFO  [stdout] (default task-9)     select
-15:07:24,264 INFO  [stdout] (default task-9)         fueltypest0_.popularity as col_0_0_ 
-15:07:24,264 INFO  [stdout] (default task-9)     from
-15:07:24,264 INFO  [stdout] (default task-9)         FuelTypeStatistics fueltypest0_
-15:07:24,271 INFO  [stdout] (default task-9) Hibernate: 
-15:07:24,271 INFO  [stdout] (default task-9)     update
-15:07:24,271 INFO  [stdout] (default task-9)         FuelTypeStatistics 
-15:07:24,271 INFO  [stdout] (default task-9)     set
-15:07:24,271 INFO  [stdout] (default task-9)         popularity=popularity+1 
-15:07:24,271 INFO  [stdout] (default task-9)     where
-15:07:24,271 INFO  [stdout] (default task-9)         fuelType=?
-15:07:24,308 INFO  [stdout] (default task-10) Hibernate: 
-15:07:24,308 INFO  [stdout] (default task-10)     select
-15:07:24,308 INFO  [stdout] (default task-10)         currencyst0_.currency as col_0_0_ 
-15:07:24,308 INFO  [stdout] (default task-10)     from
-15:07:24,308 INFO  [stdout] (default task-10)         CurrencyStatistics currencyst0_
-15:07:24,309 INFO  [stdout] (default task-10) Hibernate: 
-15:07:24,309 INFO  [stdout] (default task-10)     select
-15:07:24,309 INFO  [stdout] (default task-10)         currencyst0_.popularity as col_0_0_ 
-15:07:24,310 INFO  [stdout] (default task-10)     from
-15:07:24,310 INFO  [stdout] (default task-10)         CurrencyStatistics currencyst0_
-15:07:24,395 INFO  [stdout] (default task-11) Hibernate: 
-15:07:24,395 INFO  [stdout] (default task-11)     select
-15:07:24,395 INFO  [stdout] (default task-11)         countrysta0_.country as col_0_0_ 
-15:07:24,395 INFO  [stdout] (default task-11)     from
-15:07:24,396 INFO  [stdout] (default task-11)         CountryStatistics countrysta0_
-15:07:24,404 INFO  [stdout] (default task-11) Hibernate: 
-15:07:24,404 INFO  [stdout] (default task-11)     select
-15:07:24,404 INFO  [stdout] (default task-11)         countrysta0_.popularity as col_0_0_ 
-15:07:24,404 INFO  [stdout] (default task-11)     from
-15:07:24,404 INFO  [stdout] (default task-11)         CountryStatistics countrysta0_
-15:07:24,448 INFO  [stdout] (default task-12) Hibernate: 
-15:07:24,448 INFO  [stdout] (default task-12)     select
-15:07:24,448 INFO  [stdout] (default task-12)         fueltypest0_.fuelType as col_0_0_ 
-15:07:24,449 INFO  [stdout] (default task-12)     from
-15:07:24,450 INFO  [stdout] (default task-12)         FuelTypeStatistics fueltypest0_
-15:07:24,455 INFO  [stdout] (default task-12) Hibernate: 
-15:07:24,455 INFO  [stdout] (default task-12)     select
-15:07:24,455 INFO  [stdout] (default task-12)         fueltypest0_.popularity as col_0_0_ 
-15:07:24,455 INFO  [stdout] (default task-12)     from
-15:07:24,455 INFO  [stdout] (default task-12)         FuelTypeStatistics fueltypest0_
-15:07:37,999 INFO  [stdout] (default task-13) Hibernate: 
-15:07:37,999 INFO  [stdout] (default task-13)     select
-15:07:37,999 INFO  [stdout] (default task-13)         countrysta0_.country as col_0_0_ 
-15:07:37,999 INFO  [stdout] (default task-13)     from
-15:07:37,999 INFO  [stdout] (default task-13)         CountryStatistics countrysta0_
-15:07:38,001 INFO  [stdout] (default task-13) Hibernate: 
-15:07:38,001 INFO  [stdout] (default task-13)     select
-15:07:38,001 INFO  [stdout] (default task-13)         countrysta0_.popularity as col_0_0_ 
-15:07:38,001 INFO  [stdout] (default task-13)     from
-15:07:38,001 INFO  [stdout] (default task-13)         CountryStatistics countrysta0_
-15:07:38,003 INFO  [stdout] (default task-13) Hibernate: 
-15:07:38,003 INFO  [stdout] (default task-13)     select
-15:07:38,003 INFO  [stdout] (default task-13)         next_val as id_val 
-15:07:38,003 INFO  [stdout] (default task-13)     from
-15:07:38,003 INFO  [stdout] (default task-13)         hibernate_sequence for update
-15:07:38,003 INFO  [stdout] (default task-13)             
-15:07:38,003 INFO  [stdout] (default task-13) Hibernate: 
-15:07:38,004 INFO  [stdout] (default task-13)     update
-15:07:38,004 INFO  [stdout] (default task-13)         hibernate_sequence 
-15:07:38,004 INFO  [stdout] (default task-13)     set
-15:07:38,004 INFO  [stdout] (default task-13)         next_val= ? 
-15:07:38,004 INFO  [stdout] (default task-13)     where
-15:07:38,004 INFO  [stdout] (default task-13)         next_val=?
-15:07:38,005 INFO  [stdout] (default task-13) Hibernate: 
-15:07:38,005 INFO  [stdout] (default task-13)     insert 
-15:07:38,005 INFO  [stdout] (default task-13)     into
-15:07:38,005 INFO  [stdout] (default task-13)         CountryStatistics
-15:07:38,005 INFO  [stdout] (default task-13)         (country, popularity, id) 
-15:07:38,006 INFO  [stdout] (default task-13)     values
-15:07:38,006 INFO  [stdout] (default task-13)         (?, ?, ?)
-15:07:38,007 INFO  [stdout] (default task-13) Hibernate: 
-15:07:38,014 INFO  [stdout] (default task-13)     select
-15:07:38,014 INFO  [stdout] (default task-13)         currencyst0_.currency as col_0_0_ 
-15:07:38,014 INFO  [stdout] (default task-13)     from
-15:07:38,014 INFO  [stdout] (default task-13)         CurrencyStatistics currencyst0_
-15:07:38,015 INFO  [stdout] (default task-13) Hibernate: 
-15:07:38,015 INFO  [stdout] (default task-13)     select
-15:07:38,015 INFO  [stdout] (default task-13)         currencyst0_.popularity as col_0_0_ 
-15:07:38,015 INFO  [stdout] (default task-13)     from
-15:07:38,015 INFO  [stdout] (default task-13)         CurrencyStatistics currencyst0_
-15:07:38,017 INFO  [stdout] (default task-13) Hibernate: 
-15:07:38,017 INFO  [stdout] (default task-13)     select
-15:07:38,017 INFO  [stdout] (default task-13)         next_val as id_val 
-15:07:38,017 INFO  [stdout] (default task-13)     from
-15:07:38,017 INFO  [stdout] (default task-13)         hibernate_sequence for update
-15:07:38,017 INFO  [stdout] (default task-13)             
-15:07:38,018 INFO  [stdout] (default task-13) Hibernate: 
-15:07:38,018 INFO  [stdout] (default task-13)     update
-15:07:38,018 INFO  [stdout] (default task-13)         hibernate_sequence 
-15:07:38,018 INFO  [stdout] (default task-13)     set
-15:07:38,018 INFO  [stdout] (default task-13)         next_val= ? 
-15:07:38,018 INFO  [stdout] (default task-13)     where
-15:07:38,018 INFO  [stdout] (default task-13)         next_val=?
-15:07:38,019 INFO  [stdout] (default task-13) Hibernate: 
-15:07:38,019 INFO  [stdout] (default task-13)     insert 
-15:07:38,019 INFO  [stdout] (default task-13)     into
-15:07:38,019 INFO  [stdout] (default task-13)         CurrencyStatistics
-15:07:38,019 INFO  [stdout] (default task-13)         (currency, popularity, id) 
-15:07:38,019 INFO  [stdout] (default task-13)     values
-15:07:38,020 INFO  [stdout] (default task-13)         (?, ?, ?)
-15:07:38,021 INFO  [stdout] (default task-13) Hibernate: 
-15:07:38,021 INFO  [stdout] (default task-13)     select
-15:07:38,021 INFO  [stdout] (default task-13)         fueltypest0_.fuelType as col_0_0_ 
-15:07:38,021 INFO  [stdout] (default task-13)     from
-15:07:38,021 INFO  [stdout] (default task-13)         FuelTypeStatistics fueltypest0_
-15:07:38,023 INFO  [stdout] (default task-13) Hibernate: 
-15:07:38,023 INFO  [stdout] (default task-13)     select
-15:07:38,023 INFO  [stdout] (default task-13)         fueltypest0_.popularity as col_0_0_ 
-15:07:38,023 INFO  [stdout] (default task-13)     from
-15:07:38,023 INFO  [stdout] (default task-13)         FuelTypeStatistics fueltypest0_
-15:07:38,024 INFO  [stdout] (default task-13) Hibernate: 
-15:07:38,024 INFO  [stdout] (default task-13)     update
-15:07:38,024 INFO  [stdout] (default task-13)         FuelTypeStatistics 
-15:07:38,024 INFO  [stdout] (default task-13)     set
-15:07:38,024 INFO  [stdout] (default task-13)         popularity=popularity+1 
-15:07:38,024 INFO  [stdout] (default task-13)     where
-15:07:38,024 INFO  [stdout] (default task-13)         fuelType=?
-15:07:38,057 INFO  [stdout] (default task-14) Hibernate: 
-15:07:38,057 INFO  [stdout] (default task-14)     select
-15:07:38,057 INFO  [stdout] (default task-14)         currencyst0_.currency as col_0_0_ 
-15:07:38,057 INFO  [stdout] (default task-14)     from
-15:07:38,057 INFO  [stdout] (default task-14)         CurrencyStatistics currencyst0_
-15:07:38,059 INFO  [stdout] (default task-14) Hibernate: 
-15:07:38,059 INFO  [stdout] (default task-14)     select
-15:07:38,059 INFO  [stdout] (default task-14)         currencyst0_.popularity as col_0_0_ 
-15:07:38,059 INFO  [stdout] (default task-14)     from
-15:07:38,059 INFO  [stdout] (default task-14)         CurrencyStatistics currencyst0_
-15:07:38,185 INFO  [stdout] (default task-15) Hibernate: 
-15:07:38,185 INFO  [stdout] (default task-15)     select
-15:07:38,185 INFO  [stdout] (default task-15)         countrysta0_.country as col_0_0_ 
-15:07:38,185 INFO  [stdout] (default task-15)     from
-15:07:38,185 INFO  [stdout] (default task-15)         CountryStatistics countrysta0_
-15:07:38,187 INFO  [stdout] (default task-15) Hibernate: 
-15:07:38,187 INFO  [stdout] (default task-15)     select
-15:07:38,187 INFO  [stdout] (default task-15)         countrysta0_.popularity as col_0_0_ 
-15:07:38,187 INFO  [stdout] (default task-15)     from
-15:07:38,187 INFO  [stdout] (default task-15)         CountryStatistics countrysta0_
-15:07:38,210 INFO  [stdout] (default task-16) Hibernate: 
-15:07:38,211 INFO  [stdout] (default task-16)     select
-15:07:38,211 INFO  [stdout] (default task-16)         fueltypest0_.fuelType as col_0_0_ 
-15:07:38,211 INFO  [stdout] (default task-16)     from
-15:07:38,211 INFO  [stdout] (default task-16)         FuelTypeStatistics fueltypest0_
-15:07:38,212 INFO  [stdout] (default task-16) Hibernate: 
-15:07:38,212 INFO  [stdout] (default task-16)     select
-15:07:38,212 INFO  [stdout] (default task-16)         fueltypest0_.popularity as col_0_0_ 
-15:07:38,212 INFO  [stdout] (default task-16)     from
-15:07:38,212 INFO  [stdout] (default task-16)         FuelTypeStatistics fueltypest0_
-15:08:00,006 INFO  [stdout] (EJB default - 3) Hibernate: 
-15:08:00,006 INFO  [stdout] (EJB default - 3)     select
-15:08:00,006 INFO  [stdout] (EJB default - 3)         countrysta0_.country as col_0_0_ 
-15:08:00,006 INFO  [stdout] (EJB default - 3)     from
-15:08:00,007 INFO  [stdout] (EJB default - 3)         CountryStatistics countrysta0_
-15:08:00,010 INFO  [stdout] (EJB default - 3) Hibernate: 
-15:08:00,010 INFO  [stdout] (EJB default - 3)     select
-15:08:00,010 INFO  [stdout] (EJB default - 3)         countrysta0_.popularity as col_0_0_ 
-15:08:00,010 INFO  [stdout] (EJB default - 3)     from
-15:08:00,010 INFO  [stdout] (EJB default - 3)         CountryStatistics countrysta0_
-15:08:00,013 INFO  [stdout] (EJB default - 3) Hibernate: 
-15:08:00,013 INFO  [stdout] (EJB default - 3)     select
-15:08:00,013 INFO  [stdout] (EJB default - 3)         currencyst0_.currency as col_0_0_ 
-15:08:00,013 INFO  [stdout] (EJB default - 3)     from
-15:08:00,013 INFO  [stdout] (EJB default - 3)         CurrencyStatistics currencyst0_
-15:08:00,014 INFO  [stdout] (EJB default - 3) Hibernate: 
-15:08:00,015 INFO  [stdout] (EJB default - 3)     select
-15:08:00,015 INFO  [stdout] (EJB default - 3)         currencyst0_.popularity as col_0_0_ 
-15:08:00,015 INFO  [stdout] (EJB default - 3)     from
-15:08:00,015 INFO  [stdout] (EJB default - 3)         CurrencyStatistics currencyst0_
-15:08:00,016 INFO  [stdout] (EJB default - 3) Hibernate: 
-15:08:00,016 INFO  [stdout] (EJB default - 3)     select
-15:08:00,016 INFO  [stdout] (EJB default - 3)         fueltypest0_.fuelType as col_0_0_ 
-15:08:00,016 INFO  [stdout] (EJB default - 3)     from
-15:08:00,016 INFO  [stdout] (EJB default - 3)         FuelTypeStatistics fueltypest0_
-15:08:00,016 INFO  [stdout] (EJB default - 3) Hibernate: 
-15:08:00,016 INFO  [stdout] (EJB default - 3)     select
-15:08:00,016 INFO  [stdout] (EJB default - 3)         fueltypest0_.popularity as col_0_0_ 
-15:08:00,017 INFO  [stdout] (EJB default - 3)     from
-15:08:00,017 INFO  [stdout] (EJB default - 3)         FuelTypeStatistics fueltypest0_
-15:08:00,017 INFO  [org.infoshare.ReportsSender] (EJB default - 3) Getting in sendAnEmail class and setting up Mail Server properties
-15:08:00,017 INFO  [org.infoshare.ReportsSender] (EJB default - 3) Mail server properties setup successfully
-15:08:01,734 INFO  [org.infoshare.ReportsSender] (EJB default - 3) Email sent successfully
+16:49:06,733 INFO  [stdout] (default task-6) Hibernate: 
+16:49:06,734 INFO  [stdout] (default task-6)     select
+16:49:06,734 INFO  [stdout] (default task-6)         countrysta0_.country as col_0_0_ 
+16:49:06,734 INFO  [stdout] (default task-6)     from
+16:49:06,734 INFO  [stdout] (default task-6)         CountryStatistics countrysta0_ 
+16:49:06,734 INFO  [stdout] (default task-6)     order by
+16:49:06,734 INFO  [stdout] (default task-6)         countrysta0_.popularity limit ?
+16:49:06,762 INFO  [stdout] (default task-6) Hibernate: 
+16:49:06,763 INFO  [stdout] (default task-6)     select
+16:49:06,763 INFO  [stdout] (default task-6)         countrysta0_.popularity as col_0_0_ 
+16:49:06,763 INFO  [stdout] (default task-6)     from
+16:49:06,763 INFO  [stdout] (default task-6)         CountryStatistics countrysta0_ 
+16:49:06,763 INFO  [stdout] (default task-6)     order by
+16:49:06,763 INFO  [stdout] (default task-6)         countrysta0_.popularity limit ?
+16:49:06,771 INFO  [stdout] (default task-6) Hibernate: 
+16:49:06,771 INFO  [stdout] (default task-6)     select
+16:49:06,771 INFO  [stdout] (default task-6)         next_val as id_val 
+16:49:06,772 INFO  [stdout] (default task-6)     from
+16:49:06,772 INFO  [stdout] (default task-6)         hibernate_sequence for update
+16:49:06,772 INFO  [stdout] (default task-6)             
+16:49:06,773 INFO  [stdout] (default task-6) Hibernate: 
+16:49:06,773 INFO  [stdout] (default task-6)     update
+16:49:06,773 INFO  [stdout] (default task-6)         hibernate_sequence 
+16:49:06,773 INFO  [stdout] (default task-6)     set
+16:49:06,773 INFO  [stdout] (default task-6)         next_val= ? 
+16:49:06,773 INFO  [stdout] (default task-6)     where
+16:49:06,773 INFO  [stdout] (default task-6)         next_val=?
+16:49:06,794 INFO  [stdout] (default task-6) Hibernate: 
+16:49:06,794 INFO  [stdout] (default task-6)     insert 
+16:49:06,794 INFO  [stdout] (default task-6)     into
+16:49:06,794 INFO  [stdout] (default task-6)         CountryStatistics
+16:49:06,794 INFO  [stdout] (default task-6)         (country, popularity, id) 
+16:49:06,794 INFO  [stdout] (default task-6)     values
+16:49:06,794 INFO  [stdout] (default task-6)         (?, ?, ?)
+16:49:06,802 INFO  [stdout] (default task-6) Hibernate: 
+16:49:06,802 INFO  [stdout] (default task-6)     select
+16:49:06,802 INFO  [stdout] (default task-6)         currencyst0_.currency as col_0_0_ 
+16:49:06,802 INFO  [stdout] (default task-6)     from
+16:49:06,802 INFO  [stdout] (default task-6)         CurrencyStatistics currencyst0_
+16:49:06,806 INFO  [stdout] (default task-6) Hibernate: 
+16:49:06,806 INFO  [stdout] (default task-6)     select
+16:49:06,806 INFO  [stdout] (default task-6)         currencyst0_.popularity as col_0_0_ 
+16:49:06,806 INFO  [stdout] (default task-6)     from
+16:49:06,806 INFO  [stdout] (default task-6)         CurrencyStatistics currencyst0_
+16:49:06,808 INFO  [stdout] (default task-6) Hibernate: 
+16:49:06,808 INFO  [stdout] (default task-6)     select
+16:49:06,808 INFO  [stdout] (default task-6)         next_val as id_val 
+16:49:06,808 INFO  [stdout] (default task-6)     from
+16:49:06,808 INFO  [stdout] (default task-6)         hibernate_sequence for update
+16:49:06,808 INFO  [stdout] (default task-6)             
+16:49:06,809 INFO  [stdout] (default task-6) Hibernate: 
+16:49:06,809 INFO  [stdout] (default task-6)     update
+16:49:06,809 INFO  [stdout] (default task-6)         hibernate_sequence 
+16:49:06,809 INFO  [stdout] (default task-6)     set
+16:49:06,809 INFO  [stdout] (default task-6)         next_val= ? 
+16:49:06,809 INFO  [stdout] (default task-6)     where
+16:49:06,809 INFO  [stdout] (default task-6)         next_val=?
+16:49:06,813 INFO  [stdout] (default task-6) Hibernate: 
+16:49:06,813 INFO  [stdout] (default task-6)     insert 
+16:49:06,813 INFO  [stdout] (default task-6)     into
+16:49:06,813 INFO  [stdout] (default task-6)         CurrencyStatistics
+16:49:06,813 INFO  [stdout] (default task-6)         (currency, popularity, id) 
+16:49:06,813 INFO  [stdout] (default task-6)     values
+16:49:06,813 INFO  [stdout] (default task-6)         (?, ?, ?)
+16:49:06,819 INFO  [stdout] (default task-6) Hibernate: 
+16:49:06,819 INFO  [stdout] (default task-6)     select
+16:49:06,819 INFO  [stdout] (default task-6)         fueltypest0_.fuelType as col_0_0_ 
+16:49:06,819 INFO  [stdout] (default task-6)     from
+16:49:06,819 INFO  [stdout] (default task-6)         FuelTypeStatistics fueltypest0_
+16:49:06,825 INFO  [stdout] (default task-6) Hibernate: 
+16:49:06,825 INFO  [stdout] (default task-6)     select
+16:49:06,826 INFO  [stdout] (default task-6)         fueltypest0_.popularity as col_0_0_ 
+16:49:06,826 INFO  [stdout] (default task-6)     from
+16:49:06,826 INFO  [stdout] (default task-6)         FuelTypeStatistics fueltypest0_
+16:49:06,827 INFO  [stdout] (default task-6) Hibernate: 
+16:49:06,827 INFO  [stdout] (default task-6)     select
+16:49:06,827 INFO  [stdout] (default task-6)         next_val as id_val 
+16:49:06,827 INFO  [stdout] (default task-6)     from
+16:49:06,827 INFO  [stdout] (default task-6)         hibernate_sequence for update
+16:49:06,827 INFO  [stdout] (default task-6)             
+16:49:06,827 INFO  [stdout] (default task-6) Hibernate: 
+16:49:06,827 INFO  [stdout] (default task-6)     update
+16:49:06,828 INFO  [stdout] (default task-6)         hibernate_sequence 
+16:49:06,828 INFO  [stdout] (default task-6)     set
+16:49:06,828 INFO  [stdout] (default task-6)         next_val= ? 
+16:49:06,828 INFO  [stdout] (default task-6)     where
+16:49:06,828 INFO  [stdout] (default task-6)         next_val=?
+16:49:06,830 INFO  [stdout] (default task-6) Hibernate: 
+16:49:06,830 INFO  [stdout] (default task-6)     insert 
+16:49:06,830 INFO  [stdout] (default task-6)     into
+16:49:06,830 INFO  [stdout] (default task-6)         FuelTypeStatistics
+16:49:06,830 INFO  [stdout] (default task-6)         (fuelType, popularity, id) 
+16:49:06,830 INFO  [stdout] (default task-6)     values
+16:49:06,830 INFO  [stdout] (default task-6)         (?, ?, ?)
+16:50:56,246 INFO  [stdout] (default task-7) Hibernate: 
+16:50:56,251 INFO  [stdout] (default task-7)     select
+16:50:56,252 INFO  [stdout] (default task-7)         countrysta0_.country as col_0_0_ 
+16:50:56,252 INFO  [stdout] (default task-7)     from
+16:50:56,252 INFO  [stdout] (default task-7)         CountryStatistics countrysta0_ 
+16:50:56,253 INFO  [stdout] (default task-7)     order by
+16:50:56,253 INFO  [stdout] (default task-7)         countrysta0_.popularity limit ?
+16:50:56,256 INFO  [stdout] (default task-7) Hibernate: 
+16:50:56,256 INFO  [stdout] (default task-7)     select
+16:50:56,256 INFO  [stdout] (default task-7)         countrysta0_.popularity as col_0_0_ 
+16:50:56,256 INFO  [stdout] (default task-7)     from
+16:50:56,256 INFO  [stdout] (default task-7)         CountryStatistics countrysta0_ 
+16:50:56,256 INFO  [stdout] (default task-7)     order by
+16:50:56,256 INFO  [stdout] (default task-7)         countrysta0_.popularity limit ?
+16:50:56,442 INFO  [stdout] (default task-8) Hibernate: 
+16:50:56,445 INFO  [stdout] (default task-8)     select
+16:50:56,445 INFO  [stdout] (default task-8)         countrysta0_.country as col_0_0_ 
+16:50:56,445 INFO  [stdout] (default task-8)     from
+16:50:56,445 INFO  [stdout] (default task-8)         CountryStatistics countrysta0_ 
+16:50:56,445 INFO  [stdout] (default task-8)     order by
+16:50:56,445 INFO  [stdout] (default task-8)         countrysta0_.popularity limit ?
+16:50:56,446 INFO  [stdout] (default task-8) Hibernate: 
+16:50:56,447 INFO  [stdout] (default task-8)     select
+16:50:56,447 INFO  [stdout] (default task-8)         countrysta0_.popularity as col_0_0_ 
+16:50:56,447 INFO  [stdout] (default task-8)     from
+16:50:56,447 INFO  [stdout] (default task-8)         CountryStatistics countrysta0_ 
+16:50:56,447 INFO  [stdout] (default task-8)     order by
+16:50:56,447 INFO  [stdout] (default task-8)         countrysta0_.popularity limit ?
+16:50:56,464 INFO  [stdout] (default task-9) Hibernate: 
+16:50:56,465 INFO  [stdout] (default task-9)     select
+16:50:56,465 INFO  [stdout] (default task-9)         currencyst0_.currency as col_0_0_ 
+16:50:56,465 INFO  [stdout] (default task-9)     from
+16:50:56,465 INFO  [stdout] (default task-9)         CurrencyStatistics currencyst0_
+16:50:56,468 INFO  [stdout] (default task-9) Hibernate: 
+16:50:56,468 INFO  [stdout] (default task-9)     select
+16:50:56,468 INFO  [stdout] (default task-9)         currencyst0_.popularity as col_0_0_ 
+16:50:56,468 INFO  [stdout] (default task-9)     from
+16:50:56,468 INFO  [stdout] (default task-9)         CurrencyStatistics currencyst0_
+16:50:56,486 INFO  [stdout] (default task-10) Hibernate: 
+16:50:56,486 INFO  [stdout] (default task-10)     select
+16:50:56,486 INFO  [stdout] (default task-10)         currencyst0_.currency as col_0_0_ 
+16:50:56,486 INFO  [stdout] (default task-10)     from
+16:50:56,487 INFO  [stdout] (default task-10)         CurrencyStatistics currencyst0_
+16:50:56,487 INFO  [stdout] (default task-10) Hibernate: 
+16:50:56,488 INFO  [stdout] (default task-10)     select
+16:50:56,488 INFO  [stdout] (default task-10)         currencyst0_.popularity as col_0_0_ 
+16:50:56,488 INFO  [stdout] (default task-10)     from
+16:50:56,488 INFO  [stdout] (default task-10)         CurrencyStatistics currencyst0_
+16:51:03,255 INFO  [stdout] (default task-11) Hibernate: 
+16:51:03,255 INFO  [stdout] (default task-11)     select
+16:51:03,256 INFO  [stdout] (default task-11)         currencyst0_.currency as col_0_0_ 
+16:51:03,256 INFO  [stdout] (default task-11)     from
+16:51:03,256 INFO  [stdout] (default task-11)         CurrencyStatistics currencyst0_
+16:51:03,257 INFO  [stdout] (default task-11) Hibernate: 
+16:51:03,258 INFO  [stdout] (default task-11)     select
+16:51:03,258 INFO  [stdout] (default task-11)         currencyst0_.popularity as col_0_0_ 
+16:51:03,258 INFO  [stdout] (default task-11)     from
+16:51:03,258 INFO  [stdout] (default task-11)         CurrencyStatistics currencyst0_
+16:51:03,365 INFO  [stdout] (default task-12) Hibernate: 
+16:51:03,366 INFO  [stdout] (default task-12)     select
+16:51:03,366 INFO  [stdout] (default task-12)         countrysta0_.country as col_0_0_ 
+16:51:03,366 INFO  [stdout] (default task-12)     from
+16:51:03,366 INFO  [stdout] (default task-12)         CountryStatistics countrysta0_ 
+16:51:03,366 INFO  [stdout] (default task-12)     order by
+16:51:03,366 INFO  [stdout] (default task-12)         countrysta0_.popularity limit ?
+16:51:03,367 INFO  [stdout] (default task-12) Hibernate: 
+16:51:03,367 INFO  [stdout] (default task-12)     select
+16:51:03,367 INFO  [stdout] (default task-12)         countrysta0_.popularity as col_0_0_ 
+16:51:03,367 INFO  [stdout] (default task-12)     from
+16:51:03,368 INFO  [stdout] (default task-12)         CountryStatistics countrysta0_ 
+16:51:03,368 INFO  [stdout] (default task-12)     order by
+16:51:03,368 INFO  [stdout] (default task-12)         countrysta0_.popularity limit ?
+16:51:03,390 INFO  [stdout] (default task-13) Hibernate: 
+16:51:03,390 INFO  [stdout] (default task-13)     select
+16:51:03,390 INFO  [stdout] (default task-13)         fueltypest0_.fuelType as col_0_0_ 
+16:51:03,390 INFO  [stdout] (default task-13)     from
+16:51:03,390 INFO  [stdout] (default task-13)         FuelTypeStatistics fueltypest0_
+16:51:03,392 INFO  [stdout] (default task-13) Hibernate: 
+16:51:03,392 INFO  [stdout] (default task-13)     select
+16:51:03,392 INFO  [stdout] (default task-13)         fueltypest0_.popularity as col_0_0_ 
+16:51:03,392 INFO  [stdout] (default task-13)     from
+16:51:03,392 INFO  [stdout] (default task-13)         FuelTypeStatistics fueltypest0_

@@ -2,9 +2,6 @@ package com.infoshareacademy.jjdd1.teamerror;
 
 import com.google.gson.Gson;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.PromotedCountriesSaver;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingCountryStatistics;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingCurrencyStatistics;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingFuelTypeStatistics;
 import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
@@ -38,15 +35,6 @@ public class TrendsServlet extends HttpServlet{
 
     @Inject
     Trendy trendy;
-
-    @Inject
-    SavingFuelTypeStatistics savingFuelTypeStatistics;
-
-    @Inject
-    SavingCountryStatistics savingCountryStatistics;
-
-    @Inject
-    SavingCurrencyStatistics savingCurrencyStatistics;
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
