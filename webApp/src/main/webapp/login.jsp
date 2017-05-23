@@ -1,3 +1,6 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="headAndStyle.jsp" %>
 
 
@@ -33,7 +36,7 @@
             <div class="col-md-4" style="padding:0;">
                 <h1>Welcome ${oauth.given_name} ${oauth.family_name}!</h1><br/><br/>
                 <form method="get" action="/start">
-                    <input type="submit" class="btn btn-primary btn-lg" value="Start you calculation">
+                    <input type="submit" class="btn btn-primary btn-lg" value="Start your calculation">
                 </form>
                 <form method="post" action="/admin">
                     <div class="buttons">
