@@ -10,6 +10,7 @@
 <%@ include file="headerOptions.jsp" %>
 
 
+<% if (request.getParameter("dieselPopularity") != null ) { %>
 
 <div class="row" style="padding-bottom: 120px; margin:0;">
     <div class="col-md-4"></div>
@@ -23,15 +24,22 @@
 <script src="vendor/Chart.bundle.js"></script>
 <script>
     var ctx = document.getElementById("fuelType");
-    var dieselPopularity = ${dieselPopularity};
-    var gasolinePopularity = ${gasolinePopularity};
+
     var fuelType = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: ["popularity of diesel", "popularity of gasoline"],
+            labels: [
+                <c:forEach items="${fuelTypesList}" var="fuelType">
+                "${fuelType.key}",
+                </c:forEach>
+            ],
             datasets: [
                 {
-                    data: [dieselPopularity, gasolinePopularity],
+                    data: [
+                        <c:forEach items="${fuelTypesList}" var="fuelType">
+                        "${fuelType.value}",
+                        </c:forEach>
+                    ],
                     backgroundColor: [
                         "#FF6384",
                         "#36A2EB"

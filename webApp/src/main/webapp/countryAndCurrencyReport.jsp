@@ -9,6 +9,7 @@
 <%@ include file="header.jsp" %>
 <%@ include file="headerOptions.jsp" %>
 
+<% if (request.getParameter("countriesList") != null) { %>
 
 <div class="row" style="padding-bottom: 120px; margin:0;">
         <div class="col-md-6" style="padding:0px 100px;">
@@ -160,5 +161,8 @@
     currency.update();
 </script>
 
+<% } else { %>
+<h2 class="error">Reports module is not connected at the moment</h2>
+<% } %>
 
 <%@ include file="footer.jsp" %>

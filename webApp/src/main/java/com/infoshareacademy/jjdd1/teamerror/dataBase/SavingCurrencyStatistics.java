@@ -23,38 +23,38 @@ public class SavingCurrencyStatistics {
     @PersistenceContext
     EntityManager entityManager;
 
-    public void updateCurrencyStatistics(String currency) {
-        Query query = entityManager.createQuery("UPDATE CurrencyStatistics cs SET cs.popularity = cs.popularity + 1" +
-                "WHERE cs.currency = ?1");
-        int result = query.setParameter(1, currency).executeUpdate();
-    }
-
-    public int getPopularity(String currency){
-        return entityManager.createQuery("SELECT cs.popularity FROM CurrencyStatistics cs " +
-                "WHERE cs.currency= ?1", Integer.class).setParameter(1, currency).getSingleResult();
-    }
-
-    public List<String> getListOfCurrencies(){
-        return entityManager.createQuery("SELECT cs.currency FROM CurrencyStatistics cs ORDER BY cs.popularity DESC"
-                , String.class).setMaxResults(10).getResultList();
-    }
-
-    public List<Integer> getListOfPopularity(){
-        return entityManager.createQuery("SELECT cs.popularity FROM CurrencyStatistics cs ORDER BY cs.popularity DESC"
-                , Integer.class).setMaxResults(10).getResultList();
-    }
-
-
-    @PostConstruct
-    public void setCurrencies() {
-        FilesContent filesContent = new CachedFilesContent();
-        CountryAndCurrency countryAndCurrency = new CountryAndCurrency(filesContent);
-        List<String> currencies = new ArrayList<>(countryAndCurrency.getCountryAndCurrency().values());
-
-        for(String currency: currencies){
-            CurrencyStatistics currencyStatistics = new CurrencyStatistics(currency, 0);
-            entityManager.persist(currencyStatistics);
-        }
-    }
+//    public void updateCurrencyStatistics(String currency) {
+//        Query query = entityManager.createQuery("UPDATE CurrencyStatistics cs SET cs.popularity = cs.popularity + 1" +
+//                "WHERE cs.currency = ?1");
+//        int result = query.setParameter(1, currency).executeUpdate();
+//    }
+//
+//    public int getPopularity(String currency){
+//        return entityManager.createQuery("SELECT cs.popularity FROM CurrencyStatistics cs " +
+//                "WHERE cs.currency= ?1", Integer.class).setParameter(1, currency).getSingleResult();
+//    }
+//
+//    public List<String> getListOfCurrencies(){
+//        return entityManager.createQuery("SELECT cs.currency FROM CurrencyStatistics cs ORDER BY cs.popularity DESC"
+//                , String.class).setMaxResults(10).getResultList();
+//    }
+//
+//    public List<Integer> getListOfPopularity(){
+//        return entityManager.createQuery("SELECT cs.popularity FROM CurrencyStatistics cs ORDER BY cs.popularity DESC"
+//                , Integer.class).setMaxResults(10).getResultList();
+//    }
+//
+//
+//    @PostConstruct
+//    public void setCurrencies() {
+//        FilesContent filesContent = new CachedFilesContent();
+//        CountryAndCurrency countryAndCurrency = new CountryAndCurrency(filesContent);
+//        List<String> currencies = new ArrayList<>(countryAndCurrency.getCountryAndCurrency().values());
+//
+//        for(String currency: currencies){
+//            CurrencyStatistics currencyStatistics = new CurrencyStatistics(currency, 0);
+//            entityManager.persist(currencyStatistics);
+//        }
+//    }
 
 }

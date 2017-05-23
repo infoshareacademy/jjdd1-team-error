@@ -34,6 +34,9 @@ public class Statistics {
         WebTarget target = client.target("http://localhost:8080/reportsModule-1.0-SNAPSHOT/statisticsUpdate");
 
         Response response = target.request().post((Entity.form(paramsForm)));
+        if (response.getStatus() != 200) {
+            // cash data
+        }
         response.close();
     }
 
@@ -59,6 +62,9 @@ public class Statistics {
 
     private static Map<String, Integer> getData(WebTarget target) {
         Response response = target.request().accept(MediaType.APPLICATION_JSON).get();
+        if (response.getStatus() != 200) {
+            return null;
+        }
         String result = response.readEntity(String.class);
         response.close();
 

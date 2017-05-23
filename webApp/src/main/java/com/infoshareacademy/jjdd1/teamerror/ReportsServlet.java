@@ -47,8 +47,7 @@ public class ReportsServlet extends HttpServlet{
 
         else if (req.getParameter("fuelTypeReport") != null) {
             req.setAttribute("title", "Fuel type report");
-            req.setAttribute("dieselPopularity", Statistics.getPetrolStatistics().get("diesel"));
-            req.setAttribute("gasolinePopularity", Statistics.getPetrolStatistics().get("gasoline"));
+            req.setAttribute("fuelTypesList", Statistics.getPetrolStatistics());
             RequestDispatcher dispatcher = req.getRequestDispatcher("/fuelTypeReport.jsp");
             dispatcher.forward(req, resp);
         }
