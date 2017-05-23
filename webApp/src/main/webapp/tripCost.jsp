@@ -6,7 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-<%@ include file="headersAndStyle.jsp" %>
+<%@ include file="headAndStyle.jsp" %>
+<%@ include file="header.jsp" %>
 <%@ include file="headerOptions.jsp" %>
 <div class="car">
     <img  id="car" src="img/moving-car-mirror.png" alt="car">

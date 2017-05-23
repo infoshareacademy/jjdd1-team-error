@@ -142,6 +142,6 @@
     <div id="footercontent" >infoShare Academy, Team ERROR</div>
 </div>
 <script src="/vendor/js/bootstrap.js"></script>
-</body
+</body>
 </html>
 
