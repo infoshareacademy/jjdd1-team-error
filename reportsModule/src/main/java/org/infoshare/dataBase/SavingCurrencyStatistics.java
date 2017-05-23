@@ -36,8 +36,10 @@ public class SavingCurrencyStatistics {
         List<Integer> values = entityManager.createQuery("SELECT cs.popularity FROM CurrencyStatistics cs ",
                 Integer.class).getResultList();
         Map<String, Integer> results = new LinkedHashMap<>();
-        for (int i = 0; i < names.size(); i++) {
-            results.put(names.get(i), values.get(i));
+        if (names != null && values != null) {
+            for (int i = 0; i < names.size(); i++) {
+                results.put(names.get(i), values.get(i));
+            }
         }
         return results;
     }

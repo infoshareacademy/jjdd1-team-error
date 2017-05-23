@@ -7,6 +7,7 @@ import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

@@ -17,6 +17,7 @@ import java.util.Map;
 /**
  * Created by sebastianlos on 22.05.17.
  */
+
 public class Statistics {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Statistics.class);
@@ -60,8 +61,8 @@ public class Statistics {
         Response response = target.request().accept(MediaType.APPLICATION_JSON).get();
         String result = response.readEntity(String.class);
         response.close();
-        Gson gson = new Gson();
 
+        Gson gson = new Gson();
         Map<String, Integer> resultMap = gson.fromJson(result, new TypeToken<Map<String, Integer>>(){}.getType());
         resultMap.forEach((k,v) -> System.out.println(k + " " + v));
         return resultMap;

@@ -36,18 +36,19 @@ public class ReportsServlet extends HttpServlet{
 
         if (req.getParameter("countryAndCurrencyReport") != null) {
             req.setAttribute("title", "Country and currency report");
-            req.setAttribute("countriesList", savingCountryStatistics.getListOfCountries());
-            req.setAttribute("countriesPopularityList", savingCountryStatistics.getListOfPopularity());
-            req.setAttribute("currenciesList", savingCurrencyStatistics.getListOfCurrencies());
-            req.setAttribute("currenciesPopularityList", savingCurrencyStatistics.getListOfPopularity());
+            req.setAttribute("countriesList", Statistics.getCountryStatistics().keySet());
+            req.setAttribute("countriesPopularityList", Statistics.getCountryStatistics().values());
+
+            req.setAttribute("currenciesList", Statistics.getCurrencyStatistics().keySet());
+            req.setAttribute("currenciesPopularityList", Statistics.getCurrencyStatistics().values());
             RequestDispatcher dispatcher = req.getRequestDispatcher("/countryAndCurrencyReport.jsp");
             dispatcher.forward(req, resp);
         }
 
         else if (req.getParameter("fuelTypeReport") != null) {
             req.setAttribute("title", "Fuel type report");
-            req.setAttribute("dieselPopularity", savingFuelTypeStatistics.getPopularity("diesel"));
-            req.setAttribute("gasolinePopularity", savingFuelTypeStatistics.getPopularity("gasoline"));
+            req.setAttribute("dieselPopularity", Statistics.getPetrolStatistics().get("diesel"));
+            req.setAttribute("gasolinePopularity", Statistics.getPetrolStatistics().get("gasoline"));
             RequestDispatcher dispatcher = req.getRequestDispatcher("/fuelTypeReport.jsp");
             dispatcher.forward(req, resp);
         }

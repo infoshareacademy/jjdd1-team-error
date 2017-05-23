@@ -33,17 +33,15 @@ public class SavingCountryStatistics {
 
 
     public Map<String, Integer> getCountryStatistics(){
-        List<String> names = new ArrayList<>();
-        if (entityManager.createQuery("SELECT cs.country FROM CountryStatistics cs ",
-                String.class) != null) {
-            names = entityManager.createQuery("SELECT cs.country FROM CountryStatistics cs ",
+        List<String> names = entityManager.createQuery("SELECT cs.country FROM CountryStatistics cs ",
                     String.class).getResultList();
-        }
         List<Integer> values = entityManager.createQuery("SELECT cs.popularity FROM CountryStatistics cs ",
                 Integer.class).getResultList();
         Map<String, Integer> results = new LinkedHashMap<>();
-        for (int i = 0; i < names.size(); i++) {
-            results.put(names.get(i), values.get(i));
+        if (names != null && values != null) {
+            for (int i = 0; i < names.size(); i++) {
+                results.put(names.get(i), values.get(i));
+            }
         }
         return results;
     }
