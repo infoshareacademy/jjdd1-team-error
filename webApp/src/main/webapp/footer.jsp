@@ -115,9 +115,9 @@
 
 </script>
 
-<div style="position: absolute; bottom:100px;">
+<div style="position: absolute;">
     <form>
-        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group btn-group-justified" role="group" aria-label="..." >
             <div class="btn-group" role="group">
                 <button class="btn btn-outline-inverse btn-lg" type="submit"
                         formmethod="get" formaction="/report" name="countryAndCurrencyReport" value="">Country / currency report</button>
@@ -129,8 +129,15 @@
             </div>
             <div class="btn-group" role="group">
                 <button class="btn btn-outline-inverse btn-lg" type="submit"
-                        formmethod="get" formaction="/report" name="fuelTypeReport" value="">Change files
+                        formmethod="post" formaction="/upload" name="fuelTypeReport" value="">Change files
                 </button>
+            </div>
+            <div class="btn-group" role="group">
+                <button class="btn btn-outline-inverse btn-lg" type="submit"
+                        <c:forEach items="${adminList}" var="admin">
+                            <c:if test="${(email != admin) || (email == false)}"><c:out value="disabled='disabled'"/></c:if>
+                        </c:forEach>
+                        formmethod="post" formaction="/admin" name="adminPage" value="">Admin</button>
             </div>
         </div>
     </form>

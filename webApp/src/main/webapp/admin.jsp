@@ -30,7 +30,6 @@
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id"
           content="447589672882-lon09s9eq542cpusfm4njbkjcuhpgif7.apps.googleusercontent.com">
-    <jsp:include page="sessionChecker.jsp" />
 </head>
 
 <body>
@@ -56,9 +55,8 @@
         <%--</div>--%>
     <%--</div>--%>
 
+
 </form>
-
-
 
 <script src="vendor/Chart.bundle.js"></script>
 <script src="vendor/jquery-3.2.1.js"></script>
@@ -68,43 +66,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
 <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
-
-
-
-<div style="position: absolute; bottom:100px;">
-    <form>
-        <div class="btn-group btn-group-justified" role="group" aria-label="..."
-                <c:forEach items="${adminList}" var="admin">
-                    <c:if test="${userMail != admin}"><c:out value="hidden='hidden'"/></c:if>
-                </c:forEach>
-
-        >
-            <div class="btn-group" role="group">
-                <button class="btn btn-outline-inverse btn-lg" type="submit"
-                        formmethod="get" formaction="/report" name="countryAndCurrencyReport" value="">Country / currency report</button>
-            </div>
-            <div class="btn-group" role="group">
-                <button class="btn btn-outline-inverse btn-lg" type="submit"
-                        formmethod="get" formaction="/report" name="fuelTypeReport" value="">Fuel report
-                </button>
-            </div>
-            <div class="btn-group" role="group">
-                <button class="btn btn-outline-inverse btn-lg" type="submit"
-                        formmethod="get" formaction="/report" name="fuelTypeReport" value="">Change files
-                </button>
-            </div>
-        </div>
-    </form>
-</div>
-
-<div id="footer">
-    <div class="car">
-        <img  id="car-mirror" src="img/moving-car.png" alt="car">
-    </div>
-    <div id="footercontent" >infoShare Academy, Team ERROR</div>
-</div>
-
 <script src="/vendor/js/bootstrap.js"></script>
+
+<%@ include file="footer.jsp" %>
 </body>
 </html>
 

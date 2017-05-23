@@ -65,8 +65,6 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
 
-        resp.setCharacterEncoding("UTF-8");
-        resp.setContentType("text/plain;charset=UTF-8");
         if (null != req.getParameter("error")) {
             req.setAttribute("error", req.getParameter("error"));
             return;
@@ -86,17 +84,9 @@ public class LoginServlet extends HttpServlet {
 
             HttpSession session = req.getSession(true);
             session.setAttribute("adminList", savingAdminBase.getListOfAdmins());
+            LOGGER.info("User data : {} ", session.getAttribute("adminList"));
 
-//            for (String s: savingAdminBase.getListOfAdmins()) {
-//                if(email.equals(s)){
-//                    session.setAttribute("userMail", email);
-//                }
-//            }
 
-//            LOGGER.info("User data : {} and {}", session.getAttribute("adminMail"));
-
-            req.getServletContext()
-                    .getRequestDispatcher("/index.jsp").forward(req, resp);
             OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
             service.signRequest(accessToken, request);
 

@@ -4,9 +4,10 @@
 <%@ include file="headAndStyle.jsp" %>
 
 
+
 </div>
     <c:choose>
-    <c:when test="${empty oauth.email}">
+        <c:when test="${isLogged == false}">
         <body>
         <div id="header">
             <div id="logo">
@@ -37,16 +38,6 @@
                 <h1>Welcome ${oauth.given_name} ${oauth.family_name}!</h1><br/><br/>
                 <form method="get" action="/start">
                     <input type="submit" class="btn btn-primary btn-lg" value="Start your calculation">
-                </form>
-                <form method="post" action="/admin">
-                    <div class="buttons">
-                        <button type="submit"
-                                <c:forEach items="${adminList}" var="admin">
-                                    <c:if test="${userMail != admin}"><c:out value="disabled='disabled'"/></c:if>
-                                </c:forEach>
-                                name="admin" value="" class="btn btn-primary btn-lg">Go to Admin Panel
-                        </button>
-                    </div>
                 </form>
             </div>
             <div class="col-md-4" style="padding:0;" >

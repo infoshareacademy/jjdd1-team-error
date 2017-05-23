@@ -1,5 +1,6 @@
 <%@ include file="headAndStyle.jsp" %>
 <%@ include file="header.jsp" %>
+<%@ include file="car.jsp" %>
 
 
 <form method="post" action="/afterInitial" class="form-horizontal" id="reg_form" style="padding-bottom:120px;">

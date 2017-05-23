@@ -56,7 +56,7 @@ public class SavingUserStatistics {
                 int result = query.setParameter(1, localDate).setParameter(2, email).executeUpdate();
                 Query query2 = entityManager.createQuery("UPDATE UserStatistics us SET us.recentLoginTime = ?1 WHERE " +
                         "us.email =?2");
-                int result2 = query.setParameter(1, localTime).setParameter(2, email).executeUpdate();
+                int result2 = query2.setParameter(1, localTime).setParameter(2, email).executeUpdate();
             }
         }
     }
