@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror.logging;
 
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingAdminBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,16 +76,15 @@ public class LoginServlet extends HttpServlet {
             }
 
             HttpSession session = req.getSession(true);
-            session.setAttribute("userName", name);
             session.setAttribute("adminList", savingAdminBase.getListOfAdmins());
 
-            for (String s: savingAdminBase.getListOfAdmins()) {
-                if(email.equals(s)){
-                    session.setAttribute("userMail", email);
-                }
-            }
+//            for (String s: savingAdminBase.getListOfAdmins()) {
+//                if(email.equals(s)){
+//                    session.setAttribute("userMail", email);
+//                }
+//            }
 
-            logger.info("User data : {} and {}", name, session.getAttribute("adminMail"));
+//            LOGGER.info("User data : {} and {}", session.getAttribute("adminMail"));
 
             req.getServletContext()
                     .getRequestDispatcher("/index.jsp").forward(req, resp);
