@@ -115,7 +115,7 @@
 
 </script>
 
-<div style="position: absolute;">
+<div style="position: absolute; bottom: 30px">
     <form>
         <div class="btn-group btn-group-justified" role="group" aria-label="..." >
             <div class="btn-group" role="group">
@@ -129,7 +129,7 @@
             </div>
             <div class="btn-group" role="group">
                 <button class="btn btn-outline-inverse btn-lg" type="submit"
-                        formmethod="post" formaction="/upload" name="fuelTypeReport" value="">Change files
+                        formmethod="post" formaction="/fileUploader.jsp" name="fuelTypeReport" value="">Change files
                 </button>
             </div>
             <div class="btn-group" role="group">
