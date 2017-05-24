@@ -82,7 +82,7 @@ public class ReportsSender {
         }
     }
 
-    @Schedule(hour = "15", minute = "*")
+    @Schedule(dayOfWeek = "*")
     public void sendReportEmail() {
         String subject = "New report - " + LocalDate.now();
         Map<String, Integer> countryStatistics = savingCountryStatistics.getCountryStatistics();

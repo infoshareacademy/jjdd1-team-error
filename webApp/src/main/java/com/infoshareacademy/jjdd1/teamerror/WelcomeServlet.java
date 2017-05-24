@@ -27,7 +27,6 @@ import java.util.List;
 public class WelcomeServlet extends HttpServlet {
 
     private final Logger LOGGER = LoggerFactory.getLogger(WelcomeServlet.class);
-    private HttpSession session;
     private FilesContent filesContent;
 
     @Inject
@@ -36,20 +35,16 @@ public class WelcomeServlet extends HttpServlet {
     @Inject
     PromotedCountriesSaver promotedCountriesSaver;
 
-    @Inject
-    FileDownloader fileDownloader;
-
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        fileDownloader.downloadSourceFiles();
         if (SourceFilesChecker.checkForSourceFiles(req, resp)) {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
             dispatcher.forward(req, resp);
             return;
         }
 
-        session = req.getSession();
+        HttpSession session = req.getSession();
         if (session.getAttribute("filesContent") == null) {
             filesContent = new CachedFilesContent();
         }

@@ -4,6 +4,7 @@ import com.infoshareacademy.jjdd1.teamerror.file_loader.FileReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -16,7 +17,7 @@ import java.net.URLConnection;
  * Created by sebastian_los on 16.05.17.
  */
 
-
+@Startup
 @Singleton
 public class FileDownloader {
 
@@ -37,6 +38,7 @@ public class FileDownloader {
         }
     }
 
+    @PostConstruct
     @Schedule(hour = "*")
     public void downloadSourceFiles() {
         downloadFile(CURRENCY_INFO_FILE_URL, FileReader.CURRENCY_INFO_FILE);

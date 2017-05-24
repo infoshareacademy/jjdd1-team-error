@@ -8,14 +8,12 @@ import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,15 +31,13 @@ public class Statistics {
     private final Logger LOGGER = LoggerFactory.getLogger(Statistics.class);
     private final String REPORTS_MODULE_PATH =
             "http://reports_module:8080/reportsModule-1.0-SNAPSHOT/";
-    private final String REPORTS_MODULE_UPDATE_PATH =
-            REPORTS_MODULE_PATH + "statisticsUpdate";
-
 
 
     public void updateStatistics(String country, String currency, String fuelType) {
         LOGGER.debug("Starting statistics update");
         checkForCachedStatisticsAndSendToApi();
-        if (sendStatisticsToApi(country, currency, fuelType) != 200) {
+        Integer status = sendStatisticsToApi(country, currency, fuelType);
+        if (status == null || status != 200) {
             cachedStatistics.setCashedStatistics(country, currency, fuelType);
         }
     }
@@ -65,7 +61,8 @@ public class Statistics {
         if (!cachedStatisticsList.isEmpty()) {
             LOGGER.debug("Sending cached statistic data to Reports Module");
             for (List<String> values : cachedStatisticsList) {
-                if (sendStatisticsToApi(values.get(0), values.get(1), values.get(2)) != 200) {
+                Integer status = sendStatisticsToApi(values.get(0), values.get(1), values.get(2));
+                if (status == null || status != 200) {
                     LOGGER.debug("Sending cached statistics failed");
                     return;
                 }
@@ -86,12 +83,19 @@ public class Statistics {
         String fuelTypeName = fuelType.equals("1") ? "diesel" : "gasoline";
         paramsForm.param("fuelType", fuelTypeName);
 
+        String REPORTS_MODULE_UPDATE_PATH = REPORTS_MODULE_PATH + "statisticsUpdate";
         LOGGER.debug("Getting WebTarget of {}", REPORTS_MODULE_UPDATE_PATH);
         WebTarget target = client.target(REPORTS_MODULE_UPDATE_PATH);
 
-        Response response = target.request().post((Entity.form(paramsForm)));
-        Integer status = response.getStatus();
-        LOGGER.debug("Response status: ", status);
+        Integer status = null;
+        try {
+            Response response = target.request().post((Entity.form(paramsForm)));
+            status = response.getStatus();
+        }
+        catch (Exception e) {
+            LOGGER.debug("Sending statistics to Reports Module failed");
+        }
+        LOGGER.debug("Statistics sending finished. Response status: ", status);
         return status;
     }
 
