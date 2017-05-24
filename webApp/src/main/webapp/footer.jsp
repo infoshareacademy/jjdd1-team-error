@@ -119,24 +119,24 @@
     <form>
         <div class="btn-group btn-group-justified" role="group" aria-label="..." >
             <div class="btn-group" role="group">
-                <button class="btn btn-outline-inverse btn-lg" type="submit"
+                <button id="one" class="btn btn-outline-inverse btn-lg" type="submit"
                         formmethod="get" formaction="/report" name="countryAndCurrencyReport" value="">Country / currency report</button>
             </div>
             <div class="btn-group" role="group">
-                <button class="btn btn-outline-inverse btn-lg" type="submit"
+                <button id="two" class="btn btn-outline-inverse btn-lg" type="submit"
                         formmethod="get" formaction="/report" name="fuelTypeReport" value="">Fuel report
                 </button>
             </div>
             <div class="btn-group" role="group">
-                <button class="btn btn-outline-inverse btn-lg" type="submit"
+                <button id="three" class="btn btn-outline-inverse btn-lg" type="submit"
                         formmethod="post" formaction="/fileUploader.jsp" name="fuelTypeReport" value="">Change files
                 </button>
             </div>
             <div class="btn-group" role="group">
-                <button class="btn btn-outline-inverse btn-lg" type="submit"
-                        <c:forEach items="${adminList}" var="admin">
-                            <c:if test="${(userEmail != admin) || (userEmail == false)}"><c:out value="disabled='disabled'"/></c:if>
-                        </c:forEach>
+                <button id="four" class="btn btn-outline-inverse btn-lg" type="submit"
+                        <%--<c:forEach items="${adminList}" var="admin">--%>
+                            <%--<c:if test="${userEmail != admin}"><c:out value="disabled='disabled'"/></c:if>--%>
+                        <%--</c:forEach>--%>
                         formmethod="post" formaction="/admin" name="adminPage" value="">Admin</button>
             </div>
         </div>
@@ -149,6 +149,30 @@
     <div id="footercontent" >infoShare Academy, Team ERROR</div>
 </div>
 <script src="/vendor/js/bootstrap.js"></script>
+
+<%--hidding buttons when admin isn't logged in--%>
+<script>
+    var useremail = '${userEmail}';
+    var obj = JSON.parse('${jsonAdminList}');
+    <%--colArray = '${adminList}';--%>
+
+    for(i=0; i<obj.length; i++){
+        $('#one').hide();
+        $('#two').hide();
+        $('#three').hide();
+        $('#four').hide();
+        if(useremail==obj[i]){
+            $('#one').show();
+            $('#two').show();
+            $('#three').show();
+            $('#four').show();
+            break;
+        }
+    }
+
+</script>
+
+
 </body>
 </html>
 
