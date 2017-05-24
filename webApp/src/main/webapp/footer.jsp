@@ -135,7 +135,7 @@
             <div class="btn-group" role="group">
                 <button class="btn btn-outline-inverse btn-lg" type="submit"
                         <c:forEach items="${adminList}" var="admin">
-                            <c:if test="${(userEmail != admin) || (userEmail == false)}"><c:out value="disabled='disabled'"/></c:if>
+                            <c:if test="${userEmail != admin}"><c:out value="disabled='disabled'"/></c:if>
                         </c:forEach>
                         formmethod="post" formaction="/admin" name="adminPage" value="">Admin</button>
             </div>
