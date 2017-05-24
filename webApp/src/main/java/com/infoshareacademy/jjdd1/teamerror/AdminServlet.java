@@ -1,5 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingAdminBase;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
 import com.infoshareacademy.jjdd1.teamerror.fileUpload.FileDownloader;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
@@ -24,13 +25,29 @@ public class AdminServlet extends HttpServlet {
     private HttpSession session;
     private FilesContent filesContent;
 
-
+    @Inject
+    SavingAdminBase savingAdminBase;
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
 
+        HttpSession session = req.getSession(true);
+
+        String emailInput = req.getParameter("emailInput");
+        if (emailInput != null) {
+            savingAdminBase.addAdmin(emailInput);
+        }
+
+        String emailRemover = req.getParameter("emailRemover");
+        if (emailRemover != null ) {
+            for (String s: savingAdminBase.getListOfAdmins()) {
+                if(emailRemover.equals(s)){
+                    savingAdminBase.removeAdmin(emailRemover);
+                }
+            }
+        }
 
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/admin.jsp");

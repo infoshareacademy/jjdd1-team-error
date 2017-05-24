@@ -9,13 +9,54 @@
 
 <form method="post" action="/admin" class="form-horizontal" id="reg_form" style="padding-bottom:120px;">
 
+    <div class="form-group">
+        <label class="col-md-4 control-label">Input admin email</label>
+        <div class="col-md-5  inputGroupContainer">
+            <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
+                <input name="emailInput" class="form-control" type="text" value="${emailInput}">
+                <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="submit" onclick="form.action='/admin';">Add Admin</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-4 control-label">Remove admin email</label>
+        <div class="col-md-5  inputGroupContainer">
+            <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
+                <select name="emailRemover" class="form-control selectpicker"  >
+                    <option value="">Choose an admin to remove</option>
+                    <c:forEach items="${adminList}" var="oneEmail">
+                        <c:if test="${oneEmail != selected}">
+                            <option value="${oneEmail}">${oneEmail}</option>
+                        </c:if>
+                    </c:forEach>
+                </select>
+
+                <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="submit" onclick="form.action='/admin';">Remove Admin</button>
+                </span>
+            </div>
+        </div>
+    </div>
     <%--<div class="form-group">--%>
         <%--<label class="col-md-4 control-label"></label>--%>
         <%--<div class="col-md-2">--%>
-            <%--<button type="submit" class="btn btn-warning" onclick="form.action='/trendy';" >Price Trends <span class="glyphicon glyphicon-send"></span></button>--%>
+            <%--<button type="submit" class="btn btn-warning" onclick="form.action='/admin';" >Add Admin <span class="glyphicon glyphicon-send"></span></button>--%>
         <%--</div>--%>
+    <%--</div>--%>
+    <%--<div class="form-group">--%>
+        <%--<label class="col-md-4 control-label">Input admin email</label>--%>
+        <%--<div class="col-md-5  inputGroupContainer">--%>
+            <%--<div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>--%>
+                <%--<input name="emailInput" class="form-control" type="text" value="${emailInput}">--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+    <%--<div class="form-group">--%>
+        <%--<label class="col-md-4 control-label"></label>--%>
         <%--<div class="col-md-2">--%>
-            <%--<button type="submit" class="btn btn-danger" onclick="form.action='/tripCost';">Trip Cost <span class="glyphicon glyphicon-send"></span></button>--%>
+            <%--<button type="submit" class="btn btn-warning" onclick="form.action='/admin';" >Add Admin <span class="glyphicon glyphicon-send"></span></button>--%>
         <%--</div>--%>
     <%--</div>--%>
 
