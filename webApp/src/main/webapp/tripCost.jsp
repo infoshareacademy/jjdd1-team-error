@@ -9,6 +9,7 @@
 <%@ include file="headAndStyle.jsp" %>
 <%@ include file="header.jsp" %>
 <%@ include file="headerOptions.jsp" %>
+<%@ include file="car.jsp" %>
 <%@ page errorPage="exceptionHandling.jsp" %>
 
 

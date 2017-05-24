@@ -9,6 +9,7 @@
 <%@ include file="headAndStyle.jsp" %>
 <%@ include file="header.jsp" %>
 <%@ include file="headerOptions.jsp" %>
+<%@ include file="car.jsp" %>
 
 <form method="post" action="/trendy" class="form-horizontal" id="trendy_form">
 <div class="data">

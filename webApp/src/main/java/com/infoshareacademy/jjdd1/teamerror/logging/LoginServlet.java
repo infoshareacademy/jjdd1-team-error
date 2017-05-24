@@ -1,6 +1,7 @@
 package com.infoshareacademy.jjdd1.teamerror.logging;
 
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingUserStatistics;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingAdminBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +11,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by igafalkowska on 28.04.17.
@@ -28,8 +31,6 @@ import javax.servlet.RequestDispatcher;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 
@@ -70,6 +71,9 @@ public class LoginServlet extends HttpServlet {
         return "http://" + hostAddress + ":" + portName + context;
     }
 
+    @Inject
+    SavingAdminBase savingAdminBase;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
@@ -78,6 +82,17 @@ public class LoginServlet extends HttpServlet {
             req.setAttribute("error", req.getParameter("error"));
             return;
         }
+
+        //setting the current list of admins
+        HttpSession session = req.getSession(true);
+        session.setAttribute("adminList", savingAdminBase.getListOfAdmins());
+        LOGGER.info("Admin List data : {} ", session.getAttribute("adminList"));
+
+        //creating a JSON admin list, to later use it in JavaScript in footer.jsp
+        List<String> adminList = savingAdminBase.getListOfAdmins();
+        String adminListString = new Gson().toJson(adminList);
+        session.setAttribute("jsonAdminList", adminListString);
+        LOGGER.info("JSON string from the Admin List: {} ", adminListString);
 
         final String code = req.getParameter("code");
         if (null != code) {
@@ -124,6 +139,12 @@ public class LoginServlet extends HttpServlet {
         LOGGER.debug(sessionUser.get("given_name"));
         LOGGER.debug(sessionUser.get("family_name"));
         LOGGER.debug(sessionUser.get("email"));
+
+        //if there is an email (a user is logged in) use the userEmail to string
+        if(sessionData.getEmail()!=null){
+            session.setAttribute("userEmail", (sessionData.getEmail()).toString());
+            LOGGER.debug("UserEmail data: {} ", (sessionData.getEmail()).toString());
+        }
 
         LocalDate date= LocalDate.now();
         LocalTime time= LocalTime.now();

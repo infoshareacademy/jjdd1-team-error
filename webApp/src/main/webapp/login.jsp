@@ -4,9 +4,10 @@
 <%@ include file="headAndStyle.jsp" %>
 
 
+
 </div>
     <c:choose>
-    <c:when test="${isLogged == false}">
+        <c:when test="${isLogged == false}">
         <body>
         <div id="header">
             <div id="logo">

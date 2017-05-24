@@ -1,6 +1,8 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
 import com.infoshareacademy.jjdd1.teamerror.dataBase.PromotedCountriesSaver;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.AdminBase;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingAdminBase;
 import com.infoshareacademy.jjdd1.teamerror.fileUpload.FileDownloader;
 import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.CachedFilesContent;
@@ -31,8 +33,6 @@ public class WelcomeServlet extends HttpServlet {
 
     @Inject
     PromotedCountries promotedCountries;
-
-    @Inject
     PromotedCountriesSaver promotedCountriesSaver;
 
     @Override

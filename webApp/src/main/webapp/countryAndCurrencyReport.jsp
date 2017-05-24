@@ -1,13 +1,9 @@
-<%@ page import="java.util.HashMap" %><%--
-  Created by IntelliJ IDEA.
-  User: Iga
-  Date: 09.05.2017
-  Time: 23:09
-  To change this template use File | Settings | File Templates.
---%>
 <%@ include file="headAndStyle.jsp" %>
+<%@ page import="java.util.HashMap" %>
+
 <%@ include file="header.jsp" %>
 <%@ include file="headerOptions.jsp" %>
+<%@ include file="car.jsp" %>
 
 <c:choose>
     <c:when test="${countryStatistics != null && currencyStatistics != null}">
