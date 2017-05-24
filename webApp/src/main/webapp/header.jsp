@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Iga
-  Date: 21.05.2017
-  Time: 13:50
-  To change this template use File | Settings | File Templates.
---%>
 
 <body>
 <div id="header">
@@ -19,8 +12,5 @@
                  </a>
              </div>
         </div>
-    </div>
-    <div class="car">
-        <img  id="car" src="img/moving-car-mirror.png" alt="car">
     </div>
 </div>

@@ -1,13 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Iga
-  Date: 09.05.2017
-  Time: 23:09
-  To change this template use File | Settings | File Templates.
---%>
 <%@ include file="headAndStyle.jsp" %>
 <%@ include file="header.jsp" %>
 <%@ include file="headerOptions.jsp" %>
+<%@ include file="car.jsp" %>
 
 
 <div class="row" style="padding-bottom: 120px; margin:0;">
