@@ -39,5 +39,7 @@ public class SavingAdminBase {
     public void setAdmins() {
         AdminBase adminBase = new AdminBase("krystian.skrzyszewski@gmail.com");
         entityManager.persist(adminBase);
+        adminBase = new AdminBase("los.gdansk@gmail.com");
+        entityManager.persist(adminBase);
     }
 }

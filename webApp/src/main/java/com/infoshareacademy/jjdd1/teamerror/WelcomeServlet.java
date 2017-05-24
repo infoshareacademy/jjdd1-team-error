@@ -33,6 +33,8 @@ public class WelcomeServlet extends HttpServlet {
 
     @Inject
     PromotedCountries promotedCountries;
+
+    @Inject
     PromotedCountriesSaver promotedCountriesSaver;
 
     @Override

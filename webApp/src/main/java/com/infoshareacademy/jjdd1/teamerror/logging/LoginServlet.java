@@ -1,23 +1,5 @@
 package com.infoshareacademy.jjdd1.teamerror.logging;
 
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingUserStatistics;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingAdminBase;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.inject.Inject;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.*;
-
-/**
- * Created by igafalkowska on 28.04.17.
- */
 import com.github.scribejava.apis.GoogleApi20;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -26,12 +8,30 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.google.gson.Gson;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingAdminBase;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingUserStatistics;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+/**
+ * Created by igafalkowska on 28.04.17.
+ */
 
 
 @WebServlet(urlPatterns = "/login")
@@ -155,9 +155,6 @@ public class LoginServlet extends HttpServlet {
         LOGGER.info("List of users emails: {}", savingUserStatistics.getListOfUsersEmails());
         LOGGER.info("List of users recent login date: {}", savingUserStatistics.getListOfUsersRecentLocalDate());
         LOGGER.info("List of users recent login time: {}", savingUserStatistics.getListOfUsersRecentLocalTime());
-        if(savingUserStatistics.getListOfUsers().size()>0) {
-            LOGGER.info("List of users: {}", savingUserStatistics.getListOfUsers().get(0));
-        }
 
         req.setAttribute("isLogged", sessionData.isLogged());
 
