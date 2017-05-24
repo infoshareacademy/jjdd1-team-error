@@ -120,15 +120,24 @@
         <div class="btn-group btn-group-justified" role="group" aria-label="..." >
             <div class="btn-group" role="group">
                 <button class="btn btn-outline-inverse btn-lg" type="submit"
+                        <c:forEach items="${adminList}" var="admin">
+                            <c:if test="${userEmail != admin}"><c:out value="disabled='disabled'"/></c:if>
+                        </c:forEach>
                         formmethod="get" formaction="/report" name="countryAndCurrencyReport" value="">Country / currency report</button>
             </div>
             <div class="btn-group" role="group">
                 <button class="btn btn-outline-inverse btn-lg" type="submit"
+                        <c:forEach items="${adminList}" var="admin">
+                            <c:if test="${userEmail != admin}"><c:out value="disabled='disabled'"/></c:if>
+                        </c:forEach>
                         formmethod="get" formaction="/report" name="fuelTypeReport" value="">Fuel report
                 </button>
             </div>
             <div class="btn-group" role="group">
                 <button class="btn btn-outline-inverse btn-lg" type="submit"
+                        <c:forEach items="${adminList}" var="admin">
+                            <c:if test="${userEmail != admin}"><c:out value="disabled='disabled'"/></c:if>
+                        </c:forEach>
                         formmethod="post" formaction="/fileUploader.jsp" name="fuelTypeReport" value="">Change files
                 </button>
             </div>
