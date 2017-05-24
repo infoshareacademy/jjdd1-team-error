@@ -33,6 +33,9 @@ public class TripCostServlet extends HttpServlet {
     @Inject
     TripFullCost cost;
 
+    @Inject
+    AfterInitialData afterInitialData;
+
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -47,7 +50,7 @@ public class TripCostServlet extends HttpServlet {
         session = req.getSession();
         FilesContent filesContent = (FilesContent)session.getAttribute("filesContent");
 
-        AfterInitialDataServlet.setReqParametersToSession(req, resp, filesContent);
+        afterInitialData.setReqParametersToSession(req, resp, filesContent);
 
         cost.setTripFullCost(filesContent);
 

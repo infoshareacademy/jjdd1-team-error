@@ -22,6 +22,9 @@ public class ReportsServlet extends HttpServlet{
     @Inject
     SavingUserStatistics savingUserStatistics;
 
+    @Inject
+    Statistics statistics;
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,12 +34,12 @@ public class ReportsServlet extends HttpServlet{
 
         if (req.getParameter("countryAndCurrencyReport") != null) {
             req.setAttribute("title", "Country and currency report");
-            Map<String, Integer> countryStatistics = Statistics.getStatistics("country");
+            Map<String, Integer> countryStatistics = statistics.getStatistics("country");
             LOGGER.debug("Country statistics: {}", countryStatistics);
             req.setAttribute("countryStatistics", countryStatistics);
 //            req.setAttribute("countriesPopularityList", countriesList.values());
 
-            Map<String, Integer> currencyStatistics = Statistics.getStatistics("currency");
+            Map<String, Integer> currencyStatistics = statistics.getStatistics("currency");
             LOGGER.debug("Currency statistics: {}", currencyStatistics);
             req.setAttribute("currencyStatistics", currencyStatistics);
 //            req.setAttribute("currenciesPopularityList", currenciesList.values());
@@ -46,7 +49,7 @@ public class ReportsServlet extends HttpServlet{
 
         else if (req.getParameter("fuelTypeReport") != null) {
             req.setAttribute("title", "Fuel type report");
-            Map<String, Integer> fuelTypeStatistics = Statistics.getStatistics("petrol");
+            Map<String, Integer> fuelTypeStatistics = statistics.getStatistics("petrol");
             req.setAttribute("fuelTypeStatistics", fuelTypeStatistics);
             RequestDispatcher dispatcher = req.getRequestDispatcher("/fuelTypeReport.jsp");
             dispatcher.forward(req, resp);

@@ -7,6 +7,7 @@ import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,13 +21,17 @@ import java.io.IOException;
  * Created by sebastian_los on 11.05.17.
  */
 
-public class AfterInitialDataServlet  extends HttpServlet {
+public class AfterInitialData extends HttpServlet {
 
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AfterInitialDataServlet.class);
+    @Inject
+    Statistics statistics;
 
 
-    static void setReqParametersToSession(HttpServletRequest req, HttpServletResponse resp,
+    private final Logger LOGGER = LoggerFactory.getLogger(AfterInitialData.class);
+
+
+    void setReqParametersToSession(HttpServletRequest req, HttpServletResponse resp,
                                           FilesContent filesContent) throws ServletException, IOException {
 
         LOGGER.debug("Setting req paremeters to session");
@@ -101,7 +106,7 @@ public class AfterInitialDataServlet  extends HttpServlet {
             CountryAndCurrency countryAndCurrency = new CountryAndCurrency(filesContent);
             countryAndCurrency.setCurrency(country);
             String currency = countryAndCurrency.getCurrency();
-            Statistics.updateStatistics(country, currency, fuelType);
+            statistics.updateStatistics(country, currency, fuelType);
             LOGGER.debug("Statistics updated, parameters: {} {} {}", country, currency, fuelType);
         }
     }
