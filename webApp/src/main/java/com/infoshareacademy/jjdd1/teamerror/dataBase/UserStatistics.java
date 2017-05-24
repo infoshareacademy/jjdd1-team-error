@@ -63,4 +63,15 @@ public class UserStatistics {
 
     public UserStatistics() {
     }
+
+    @Override
+    public String toString() {
+        return "UserInformation{" +
+                "userFirstName='" + userFirstName + '\'' +
+                ", userSecondName='" + userSecondName + '\'' +
+                ", email='" + email + '\'' +
+                ", recentLoginDate=" + recentLoginDate +
+                ", recentLoginTime=" + recentLoginTime +
+                '}';
+    }
 }

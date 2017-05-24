@@ -95,9 +95,8 @@ public class LoginServlet extends HttpServlet {
                 Gson gson = new Gson();
                 GoogleUser googleUser = gson.fromJson(googleJson, GoogleUser.class);
 
-                    sessionData.logUser(googleUser.getGiven_name(), googleUser.getFamily_name(), googleUser.getEmail());
-                    resp.sendRedirect("http://localhost:8080/login");
-
+                sessionData.logUser(googleUser.getGiven_name(), googleUser.getFamily_name(), googleUser.getEmail());
+                resp.sendRedirect("/login");
             }
         }
         Map<String, String> sessionUser = new HashMap<>();
@@ -113,17 +112,11 @@ public class LoginServlet extends HttpServlet {
         LocalTime time= LocalTime.now();
         savingUserStatistics.setOrUpdateUser(sessionUser.get("given_name"), sessionUser.get("family_name"),
                 sessionUser.get("email"), date, time);
-        LOGGER.info("List of users firs names: {}", savingUserStatistics.getListOfUsersFirstName());
-        LOGGER.info("List of users second names: {}", savingUserStatistics.getListOfUsersSecondName());
-        LOGGER.info("List of users emails: {}", savingUserStatistics.getListOfUsersEmails());
-        LOGGER.info("List of users recent login date: {}", savingUserStatistics.getListOfUsersRecentLocalDate());
-        LOGGER.info("List of users recent login time: {}", savingUserStatistics.getListOfUsersRecentLocalTime());
-        if(savingUserStatistics.getListOfUsers().size()>0) {
-            LOGGER.info("List of users: {}", savingUserStatistics.getListOfUsers().get(0));
+        if(sessionUser.get("email") != null) {
+            LOGGER.info("Information about currently logged in user: {}", savingUserStatistics.getUsersInformation(sessionUser.get("email")).toString());
         }
 
         req.setAttribute("isLogged", sessionData.isLogged());
-
         RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
         dispatcher.forward(req, resp);
     }
@@ -136,8 +129,6 @@ public class LoginServlet extends HttpServlet {
             additionalParams.put("access_type", "offline");
             additionalParams.put("prompt", "consent");
             resp.sendRedirect(service.getAuthorizationUrl(additionalParams));
-//            req.setAttribute("oauth", "wysyłam żądanie do google...");
-            req.setAttribute("isLogged", sessionData.isLogged());
             RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
             dispatcher.forward(req, resp);
         }

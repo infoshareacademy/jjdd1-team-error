@@ -57,11 +57,7 @@ public class ReportsServlet extends HttpServlet{
 
         else if (req.getParameter("usersReport") != null) {
             req.setAttribute("title", "Fuel type report");
-            req.setAttribute("usersFirstName", savingUserStatistics.getListOfUsersFirstName());
-            req.setAttribute("usersSecondName", savingUserStatistics.getListOfUsersSecondName());
-            req.setAttribute("usersEmail", savingUserStatistics.getListOfUsersEmails());
-            req.setAttribute("usersRecentLoginDate", savingUserStatistics.getListOfUsersRecentLocalDate());
-            req.setAttribute("usersRecentLoginTime", savingUserStatistics.getListOfUsersRecentLocalTime());
+            req.setAttribute("usersList", savingUserStatistics.getListOfUsers());
             RequestDispatcher dispatcher = req.getRequestDispatcher("/usersReport.jsp");
             dispatcher.forward(req, resp);
         }

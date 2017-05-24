@@ -4,6 +4,7 @@ import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -53,23 +54,19 @@ public class SavingUserStatistics {
         return entityManager.createQuery("SELECT us.recentLoginTime FROM UserStatistics us").getResultList();
     }
 
-    public List<Integer> getListOfId(){
-        return entityManager.createQuery("SELECT us.id FROM UserStatistics us").getResultList();
+
+    public List<UserStatistics> getListOfUsers(){
+        TypedQuery<UserStatistics> typedQuery = entityManager.createQuery
+                ("SELECT NEW UserStatistics(us.userFirstName, us.userSecondName, us.email, us.recentLoginDate, us.recentLoginTime)" +
+                " FROM UserStatistics us" , UserStatistics.class);
+        return typedQuery.getResultList();
     }
-//TODO correct two below methods
-    public List<List<String>> getListOfUsers(){
-        List users = new ArrayList();
-        for (int id: getListOfId()) {
-            users.add(entityManager.createQuery("SELECT us FROM UserStatistics us WHERE id=?1").setParameter(1, id).getResultList());
-        }
-        return users;
+
+    public UserStatistics getUsersInformation(String email){
+        TypedQuery<UserStatistics> typedQuery = entityManager.createQuery
+                ("SELECT NEW UserStatistics(us.userFirstName, us.userSecondName, us.email, us.recentLoginDate, us.recentLoginTime)" +
+                        " FROM UserStatistics us WHERE us.email=?1" , UserStatistics.class);
+        return typedQuery.setParameter(1, email).getSingleResult();
     }
-//    public List<String> getListOfUser(){
-//            return entityManager.createQuery("SELECT us FROM UserStatistics us WHERE id=?1").getResultList());
-//        }
-//
-//    query = em.createQuery("SELECT d FROM Department d");
-//    List<Department> dList = (List<Department>) query.getResultList();
-//    System.out.println(dList);
 
 }
