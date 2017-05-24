@@ -27,7 +27,7 @@ import java.util.*;
 public class TrendsServlet extends HttpServlet{
 
     private final Logger LOGGER = LoggerFactory.getLogger(com.infoshareacademy.jjdd1.teamerror.TrendsServlet.class);
-    HttpSession session;
+    private HttpSession session;
 
 
     @Inject

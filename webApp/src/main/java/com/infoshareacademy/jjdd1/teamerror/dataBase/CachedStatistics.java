@@ -17,16 +17,16 @@ public class CachedStatistics {
 
     private List<List<String>> cashedStatistics = new ArrayList<>();
 
-    public List<List<String>> getCashedStatistics() {
+    List<List<String>> getCashedStatistics() {
         return cashedStatistics;
     }
 
-    public void setCashedStatistics(String country, String currency, String fuelType) {
+    void setCashedStatistics(String country, String currency, String fuelType) {
         LOGGER.debug("Caching statistics: {} {} {}", country, currency, fuelType);
         this.cashedStatistics.add(Arrays.asList(country, currency, fuelType));
     }
 
-    public void clearCashedStatistics() {
+    void clearCashedStatistics() {
         cashedStatistics.clear();
     }
 }

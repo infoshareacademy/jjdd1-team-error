@@ -4,8 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.ws.rs.DELETE;
-import java.util.*;
+import java.util.List;
 
 @Singleton
 public class SavingAdminBase {

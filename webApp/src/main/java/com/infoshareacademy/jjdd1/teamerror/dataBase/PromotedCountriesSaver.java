@@ -11,7 +11,6 @@ import java.util.List;
  */
 
 @Singleton
-//@Startup
 public class PromotedCountriesSaver {
 
     @PersistenceContext

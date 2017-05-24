@@ -24,7 +24,6 @@ public class TripCostServlet extends HttpServlet {
 
 
     private final Logger LOGGER = LoggerFactory.getLogger(com.infoshareacademy.jjdd1.teamerror.TripCostServlet.class);
-    private HttpSession session;
 
 
     @Inject
@@ -47,8 +46,8 @@ public class TripCostServlet extends HttpServlet {
             return;
         }
 
-        session = req.getSession();
-        FilesContent filesContent = (FilesContent)session.getAttribute("filesContent");
+        HttpSession session = req.getSession();
+        FilesContent filesContent = (FilesContent) session.getAttribute("filesContent");
 
         afterInitialData.setReqParametersToSession(req, resp, filesContent);
 

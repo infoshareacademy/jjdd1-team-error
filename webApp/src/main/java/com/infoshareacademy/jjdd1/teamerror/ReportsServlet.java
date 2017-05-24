@@ -37,12 +37,10 @@ public class ReportsServlet extends HttpServlet{
             Map<String, Integer> countryStatistics = statistics.getStatistics("country");
             LOGGER.debug("Country statistics: {}", countryStatistics);
             req.setAttribute("countryStatistics", countryStatistics);
-//            req.setAttribute("countriesPopularityList", countriesList.values());
 
             Map<String, Integer> currencyStatistics = statistics.getStatistics("currency");
             LOGGER.debug("Currency statistics: {}", currencyStatistics);
             req.setAttribute("currencyStatistics", currencyStatistics);
-//            req.setAttribute("currenciesPopularityList", currenciesList.values());
             RequestDispatcher dispatcher = req.getRequestDispatcher("/countryAndCurrencyReport.jsp");
             dispatcher.forward(req, resp);
         }
