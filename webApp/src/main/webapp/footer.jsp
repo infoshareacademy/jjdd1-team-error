@@ -18,7 +18,7 @@
     $(document).ready(function() {
 
         $(".date-picker2").datepicker(
-            {dateFormat: 'yy/mm/dd'}
+            {dateFormat: 'yy/mm/dd', maxDate:'+4Y'}
         );
         $(".date-picker1").datepicker(
             {

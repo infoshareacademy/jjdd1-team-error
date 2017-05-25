@@ -133,7 +133,7 @@
         $(document).ready(function() {
 
             $(".date-picker2").datepicker(
-                {dateFormat: 'yy/mm/dd'}
+                {dateFormat: 'yy/mm/dd', maxDate:'+4Y'}
             );
             $(".date-picker1").datepicker(
                 {
@@ -141,10 +141,15 @@
                     onSelect: function (date) {
                         var periodDateFrom = $('.date-picker1').datepicker('getDate');
                         var date = new Date(Date.parse(periodDateFrom));
+//                        var dateMax = new Date(Date.parse(periodDateFrom));
                         date.setDate(date.getDate() + 1);
+//                        dateMax.setDate(date.getDate() + 1460);
                         var newDate = date.toDateString();
+//                        var newDateMax = date.toDateString();
                         newDate = new Date(Date.parse(newDate));
+//                        newDateMax = new Date(Date.parse(newDate));
                         $('.date-picker2').datepicker("option","minDate",newDate);
+//                        $('.date-picker2').datepicker("option","maxDate",newDateMax);
                     }
                 });
             $('#trendy_form').bootstrapValidator({
