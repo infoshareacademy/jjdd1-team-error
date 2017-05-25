@@ -4,7 +4,7 @@ services:
     container_name: "db_webapp"
     image: mysql:latest
     environment:
-      - MYSQL_DATABASE=teamerror
+      - MYSQL_DATABASE=db_webapp
       - MYSQL_USER=mysql
       - MYSQL_PASSWORD=mysql
       - MYSQL_ROOT_PASSWORD=pass
@@ -13,12 +13,6 @@ services:
   webapp:
     container_name: "webapp"
     build: ./webApp
-    environment:
-      - MYSQL_URI=db:3306
-      - MYSQL_DATABASE=teamerror
-      - MYSQL_USER=mysql
-      - MYSQL_PASSWORD=mysql
-      - MYSQL_ROOT_PASSWORD=pass
     ports:
       - 8740:8080
       - 8741:9990
@@ -31,7 +25,7 @@ services:
      container_name: "db_reportsmodule"
      image: mysql:latest
      environment:
-       - MYSQL_DATABASE=teamerror
+       - MYSQL_DATABASE=db_reportsmodule
        - MYSQL_USER=mysql
        - MYSQL_PASSWORD=mysql
        - MYSQL_ROOT_PASSWORD=pass
@@ -40,12 +34,6 @@ services:
   reports_module:
      container_name: "reportsmodule"
      build: ./reportsModule
-     environment:
-       - MYSQL_URI=db:3306
-       - MYSQL_DATABASE=teamerror
-       - MYSQL_USER=mysql
-       - MYSQL_PASSWORD=mysql
-       - MYSQL_ROOT_PASSWORD=pass
      ports:
        - 8742:8080
        - 8743:9990
