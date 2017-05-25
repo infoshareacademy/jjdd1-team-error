@@ -55,7 +55,8 @@ public class Statistics {
         return null;
     }
 
-    private void checkForCachedStatisticsAndSendToApi() {
+    // don't remove public
+    public void checkForCachedStatisticsAndSendToApi() {
         LOGGER.debug("Coming into checkForCachedStatisticsAndSendApi class");
         List<List<String>> cachedStatisticsList = this.cachedStatistics.getCashedStatistics();
         if (!cachedStatisticsList.isEmpty()) {

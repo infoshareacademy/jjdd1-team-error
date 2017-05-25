@@ -17,7 +17,8 @@ public class CachedStatistics {
 
     private List<List<String>> cashedStatistics = new ArrayList<>();
 
-    List<List<String>> getCashedStatistics() {
+    // don't remove public
+    public List<List<String>> getCashedStatistics() {
         return cashedStatistics;
     }
 
