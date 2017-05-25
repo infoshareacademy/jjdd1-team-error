@@ -45,4 +45,8 @@ public class SavingCurrencyStatistics {
         }
         return results;
     }
+
+    public void clearTable() {
+        entityManager.createQuery("DELETE FROM CurrencyStatistics").executeUpdate();
+    }
 }
