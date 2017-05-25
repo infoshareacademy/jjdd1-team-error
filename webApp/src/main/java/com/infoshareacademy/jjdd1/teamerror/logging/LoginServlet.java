@@ -125,35 +125,35 @@ public class LoginServlet extends HttpServlet {
                 String path = getProperPath(req, "/login");
                 resp.sendRedirect(path);
 
-
+            }
         }
-        Map<String, String> sessionUser = new HashMap<>();
-        sessionUser.put("given_name", sessionData.getUserFirstName());
-        sessionUser.put("family_name", sessionData.getUserSecondName());
-        sessionUser.put("email", sessionData.getEmail());
-        req.setAttribute("oauth", sessionUser);
-        LOGGER.debug(sessionUser.get("given_name"));
-        LOGGER.debug(sessionUser.get("family_name"));
-        LOGGER.debug(sessionUser.get("email"));
+            Map<String, String> sessionUser = new HashMap<>();
+            sessionUser.put("given_name", sessionData.getUserFirstName());
+            sessionUser.put("family_name", sessionData.getUserSecondName());
+            sessionUser.put("email", sessionData.getEmail());
+            req.setAttribute("oauth", sessionUser);
+            LOGGER.debug(sessionUser.get("given_name"));
+            LOGGER.debug(sessionUser.get("family_name"));
+            LOGGER.debug(sessionUser.get("email"));
 
-        //if there is an email (a user is logged in) use the userEmail to string
-        if(sessionData.getEmail()!=null){
-            session.setAttribute("userEmail", (sessionData.getEmail()).toString());
-            LOGGER.debug("UserEmail data: {} ", (sessionData.getEmail()).toString());
+            //if there is an email (a user is logged in) use the userEmail to string
+            if (sessionData.getEmail() != null) {
+                session.setAttribute("userEmail", (sessionData.getEmail()).toString());
+                LOGGER.debug("UserEmail data: {} ", (sessionData.getEmail()).toString());
+            }
+
+            LocalDate date = LocalDate.now();
+            LocalTime time = LocalTime.now();
+            savingUserStatistics.setOrUpdateUser(sessionUser.get("given_name"), sessionUser.get("family_name"),
+                    sessionUser.get("email"), date, time);
+            if (sessionUser.get("email") != null) {
+                LOGGER.info("Information about currently logged in user: {}", savingUserStatistics.getUsersInformation(sessionUser.get("email")).toString());
+            }
+
+            req.setAttribute("isLogged", sessionData.isLogged());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
+            dispatcher.forward(req, resp);
         }
-
-        LocalDate date= LocalDate.now();
-        LocalTime time= LocalTime.now();
-        savingUserStatistics.setOrUpdateUser(sessionUser.get("given_name"), sessionUser.get("family_name"),
-                sessionUser.get("email"), date, time);
-        if(sessionUser.get("email") != null) {
-            LOGGER.info("Information about currently logged in user: {}", savingUserStatistics.getUsersInformation(sessionUser.get("email")).toString());
-        }
-
-        req.setAttribute("isLogged", sessionData.isLogged());
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
-        dispatcher.forward(req, resp);
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -162,7 +162,7 @@ public class LoginServlet extends HttpServlet {
             final Map<String, String> additionalParams = new HashMap<>();
             additionalParams.put("access_type", "offline");
             additionalParams.put("prompt", "consent");
-            resp.sendRedirect(service.getAuthorizationUrl(additionalParams));
+            resp.sendRedirect(getOAuthService(req).getAuthorizationUrl(additionalParams));
             RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
             dispatcher.forward(req, resp);
         }

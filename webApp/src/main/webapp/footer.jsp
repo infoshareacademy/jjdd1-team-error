@@ -129,11 +129,16 @@
             </div>
             <div class="btn-group" role="group">
                 <button id="three" class="btn btn-outline-inverse btn-lg" type="submit"
-                        formmethod="post" formaction="/fileUploader.jsp" name="fuelTypeReport" value="">Change files
+                        formmethod="get" formaction="/report" name="usersReport" value="">Users report
                 </button>
             </div>
             <div class="btn-group" role="group">
                 <button id="four" class="btn btn-outline-inverse btn-lg" type="submit"
+                        formmethod="post" formaction="/fileUploader.jsp" name="fuelTypeReport" value="">Change files
+                </button>
+            </div>
+            <div class="btn-group" role="group">
+                <button id="five" class="btn btn-outline-inverse btn-lg" type="submit"
                         <%--<c:forEach items="${adminList}" var="admin">--%>
                             <%--<c:if test="${userEmail != admin}"><c:out value="disabled='disabled'"/></c:if>--%>
                         <%--</c:forEach>--%>
@@ -161,11 +166,13 @@
         $('#two').hide();
         $('#three').hide();
         $('#four').hide();
+        $('#five').hide();
         if(useremail==obj[i]){
             $('#one').show();
             $('#two').show();
             $('#three').show();
             $('#four').show();
+            $('#five').show();
             break;
         }
     }
