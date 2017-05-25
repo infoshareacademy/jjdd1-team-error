@@ -1,10 +1,7 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
 import com.google.gson.Gson;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingCountryStatistics;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingCurrencyStatistics;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingFuelTypeStatistics;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.PromotedCountriesSaver;
 import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
 import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
@@ -30,30 +27,22 @@ import java.util.*;
 public class TrendsServlet extends HttpServlet{
 
     private final Logger LOGGER = LoggerFactory.getLogger(com.infoshareacademy.jjdd1.teamerror.TrendsServlet.class);
-    HttpSession session;
+    private HttpSession session;
 
 
     @Inject
-    SavingClass savingClass;
+    PromotedCountriesSaver promotedCountriesSaver;
 
     @Inject
     Trendy trendy;
 
     @Inject
-    SavingFuelTypeStatistics savingFuelTypeStatistics;
-
-    @Inject
-    SavingCountryStatistics savingCountryStatistics;
-
-    @Inject
-    SavingCurrencyStatistics savingCurrencyStatistics;
+    AfterInitialData afterInitialData;
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         LOGGER.debug("Servlet start");
-
-        AfterInitialDataServlet.setReqParametersToSession(req, resp);
 
         if (SourceFilesChecker.checkForSourceFiles(req, resp)) {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
@@ -63,8 +52,10 @@ public class TrendsServlet extends HttpServlet{
 
         session = req.getSession();
         FilesContent filesContent = (FilesContent)session.getAttribute("filesContent");
-        trendy.setupClass(filesContent);
 
+        afterInitialData.setReqParametersToSession(req, resp, filesContent);
+
+        trendy.setupClass(filesContent);
 
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
@@ -121,28 +112,11 @@ public class TrendsServlet extends HttpServlet{
         Map<LocalDate, List<Double>> periodTrendy = trendy.getPeriodTrendy();
         String json1 = gson.toJson(periodTrendy.keySet());
         session.setAttribute("json1", json1);
-        LOGGER.info("Map key set: {} ",json1);
         String json2 = gson.toJson(periodTrendy.values());
         session.setAttribute("json2", json2);
-        LOGGER.info("Values: {}", json2);
         session.setAttribute("periodTrendy", periodTrendy);
         String conclusion = trendy.getConclusion();
         session.setAttribute("conclusion", conclusion);
-
-        LOGGER.info("Popularity of diesel is {}", savingFuelTypeStatistics.getPopularity("diesel"));
-        LOGGER.info("Popularity of gasoline is {}", savingFuelTypeStatistics.getPopularity("gasoline"));
-        savingFuelTypeStatistics.updatePopularity(trendy.getFuelType());
-        LOGGER.info("Popularity of {} is updated to {}", trendy.getFuelType(), savingFuelTypeStatistics.getPopularity(trendy.getFuelType()));
-
-        savingCountryStatistics.updateCountryStatistics(trendy.getCountry());
-        LOGGER.info("Popularity of {} is updated to {}", trendy.getCountry(), savingCountryStatistics.getPopularity(trendy.getCountry()));
-        LOGGER.info("Top 10 countries from database: {}", savingCountryStatistics.getListOfCountries());
-        LOGGER.info("Top 10 popularity of countries from database: {}", savingCountryStatistics.getListOfPopularity());
-
-        savingCurrencyStatistics.updateCurrencyStatistics(trendy.getCurrencySymbol());
-        LOGGER.info("Popularity of {} is updated to {}", trendy.getCurrencySymbol(), savingCurrencyStatistics.getPopularity(trendy.getCurrencySymbol()));
-        LOGGER.info("Top 10 currencies from database: {}", savingCurrencyStatistics.getListOfCurrencies());
-        LOGGER.info("Top 10 popularity of currencies from database: {}", savingCurrencyStatistics.getListOfPopularity());
 
         session.setAttribute("filesContent", filesContent);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/trendy.jsp");

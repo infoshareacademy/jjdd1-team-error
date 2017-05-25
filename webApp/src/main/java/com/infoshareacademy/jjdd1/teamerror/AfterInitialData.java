@@ -1,15 +1,15 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.Statistics;
 import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
-import com.infoshareacademy.jjdd1.teamerror.trendy_engine.Trendy;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.CountryAndCurrency;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,13 +20,18 @@ import java.io.IOException;
  * Created by sebastian_los on 11.05.17.
  */
 
-public class AfterInitialDataServlet  extends HttpServlet {
+public class AfterInitialData extends HttpServlet {
 
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(com.infoshareacademy.jjdd1.teamerror.AfterInitialDataServlet.class);
+    @Inject
+    Statistics statistics;
 
 
-    public static void setReqParametersToSession(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private final Logger LOGGER = LoggerFactory.getLogger(AfterInitialData.class);
+
+
+    void setReqParametersToSession(HttpServletRequest req, HttpServletResponse resp,
+                                          FilesContent filesContent) throws ServletException, IOException {
 
         LOGGER.debug("Setting req paremeters to session");
 
@@ -91,10 +96,17 @@ public class AfterInitialDataServlet  extends HttpServlet {
             session.setAttribute("startingDays", startingDays);
         }
 
+        LOGGER.info("Inisial data req params: country-{} fuelType-{} fuelUsage-{} full distance-{} " +
+                        "date1-{} date2-{}, tripLength-{} trendPeriodFrom-{}, trendPeriodTill-{}, startingDays-{}",
+                country, fuelType, fuelUsage, fullDistance, date1, date2, tripLength,
+                trendPeriodFrom, trendPeriodTill, startingDays);
 
-        LOGGER.info("Inisial data req params: country-{} fuelType-{} fuelUsage-{} full distance-{} date1-{} date2-{}, tripLength-{} " +
-                        "trendPeriodFrom-{}, trendPeriodTill-{}, startingDays-{}",
-                country, fuelType, fuelUsage, fullDistance, date1, date2, tripLength, trendPeriodFrom, trendPeriodTill, startingDays);
-
+        if (country != null && fuelType != null) {
+            CountryAndCurrency countryAndCurrency = new CountryAndCurrency(filesContent);
+            countryAndCurrency.setCurrency(country);
+            String currency = countryAndCurrency.getCurrency();
+            statistics.updateStatistics(country, currency, fuelType);
+            LOGGER.debug("Statistics updated, parameters: {} {} {}", country, currency, fuelType);
+        }
     }
 }

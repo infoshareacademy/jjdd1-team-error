@@ -1,4 +1,4 @@
-package com.infoshareacademy.jjdd1.teamerror.dataBase;
+package org.infoshare.dataBase;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,32 +9,32 @@ import javax.persistence.Id;
  * Created by igafalkowska on 11.05.17.
  */
 @Entity
-public class FuelTypeStatistics {
+public class CountryStatistics {
 
     @Id
     @GeneratedValue
     private int id;
 
     @Column
-    private String fuelType;
+    private String country;
 
     @Column
     private int popularity;
 
-    public FuelTypeStatistics() {
+    public CountryStatistics() {
     }
 
-    public FuelTypeStatistics(String fuelType, int popularity) {
-        this.fuelType = fuelType;
+    public CountryStatistics(String country, int popularity) {
+        this.country = country;
         this.popularity = popularity;
     }
 
-    public String getFuelType() {
-        return fuelType;
+    public String getCountry() {
+        return country;
     }
 
-    public void setFuelType(String fuelType) {
-        this.fuelType = fuelType;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public int getPopularity() {
@@ -45,4 +45,3 @@ public class FuelTypeStatistics {
         this.popularity = popularity;
     }
 }
-

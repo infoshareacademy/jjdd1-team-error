@@ -20,7 +20,7 @@ body {
     font-weight: 800;
     margin: 0;
     padding: 0;
-    height: 130px;
+    height: 60px;
     font-family: 'Gloria Hallelujah', cursive;
 }
 
@@ -60,13 +60,13 @@ a.link:hover{
 }
 
 #footer{
-    height: 100px;
+    height: 30px;
     color: papayawhip;
     position: absolute;
     right: 0;
     bottom: 0;
     left: 0;
-    margin-top: -100px;
+    /*margin-top: -30px;*/
 }
 
 #footercontent{
@@ -132,6 +132,10 @@ a.link:hover{
 .buttons, .radio_input {
     display: flex;
     justify-content: center;
+}
+.btn-primary-outline {
+    background-color: transparent;
+    border-color: #ccc;
 }
 .text_input {
     text-align: left;

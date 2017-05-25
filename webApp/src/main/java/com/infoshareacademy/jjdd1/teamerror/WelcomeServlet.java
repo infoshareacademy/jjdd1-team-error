@@ -1,11 +1,9 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingClass;
-import com.infoshareacademy.jjdd1.teamerror.fileUpload.FileDownloader;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.PromotedCountriesSaver;
 import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.CachedFilesContent;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
-import com.infoshareacademy.jjdd1.teamerror.file_loader.OnDemandFilesContent;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.PromotedCountries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,29 +26,24 @@ import java.util.List;
 public class WelcomeServlet extends HttpServlet {
 
     private final Logger LOGGER = LoggerFactory.getLogger(WelcomeServlet.class);
-    private HttpSession session;
     private FilesContent filesContent;
 
     @Inject
     PromotedCountries promotedCountries;
 
     @Inject
-    SavingClass savingClass;
-
-    @Inject
-    FileDownloader fileDownloader;
+    PromotedCountriesSaver promotedCountriesSaver;
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        fileDownloader.downloadSourceFiles();
         if (SourceFilesChecker.checkForSourceFiles(req, resp)) {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
             dispatcher.forward(req, resp);
             return;
         }
 
-        session = req.getSession();
+        HttpSession session = req.getSession();
         if (session.getAttribute("filesContent") == null) {
             filesContent = new CachedFilesContent();
         }
@@ -58,7 +51,7 @@ public class WelcomeServlet extends HttpServlet {
 
 
         LOGGER.debug("Reading data from database");
-        List<String> ret = savingClass.getPromotedCountries();
+        List<String> ret = promotedCountriesSaver.getPromotedCountries();
         LOGGER.debug("List of promoted countries from database: {}", ret);
         promotedCountries.setPromotedCountries(ret);
         LOGGER.info("Data from database successfully loaded");
