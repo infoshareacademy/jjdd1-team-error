@@ -86,6 +86,7 @@
                             message: 'The Departure Date is required and cannot be empty'
                         },
                         date: {
+                            maxDate: '+4Y',
                             format: 'YYYY/MM/DD',
                             message: 'The format is YYYY/MM/DD'
                         }
@@ -97,6 +98,7 @@
                             message: 'The Return Date is required and cannot be empty'
                         },
                         date: {
+                            maxDate: '+4Y',
                             format: 'YYYY/MM/DD',
                             message: 'The format is YYYY/MM/DD'
                         }
