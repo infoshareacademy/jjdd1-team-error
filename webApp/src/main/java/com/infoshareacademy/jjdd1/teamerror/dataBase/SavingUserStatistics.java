@@ -38,23 +38,6 @@ public class SavingUserStatistics {
         return entityManager.createQuery("SELECT us.email FROM UserStatistics us", String.class).getResultList();
     }
 
-    public List<String> getListOfUsersFirstName() {
-        return entityManager.createQuery("SELECT us.userFirstName FROM UserStatistics us").getResultList();
-    }
-
-    public List<String> getListOfUsersSecondName() {
-        return entityManager.createQuery("SELECT us.userSecondName FROM UserStatistics us").getResultList();
-    }
-
-    public List<LocalDate> getListOfUsersRecentLocalDate() {
-        return entityManager.createQuery("SELECT us.recentLoginDate FROM UserStatistics us").getResultList();
-    }
-
-    public List<LocalTime> getListOfUsersRecentLocalTime() {
-        return entityManager.createQuery("SELECT us.recentLoginTime FROM UserStatistics us").getResultList();
-    }
-
-
     public List<UserStatistics> getListOfUsers(){
         TypedQuery<UserStatistics> typedQuery = entityManager.createQuery
                 ("SELECT NEW UserStatistics(us.userFirstName, us.userSecondName, us.email, us.recentLoginDate, us.recentLoginTime)" +

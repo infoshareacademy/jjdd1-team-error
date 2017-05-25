@@ -11,16 +11,16 @@
 
 <h3>Information about users logged in to Trip Calculator</h3>
 <div class="row" style="padding-bottom: 120px; margin:0;">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
         <table class="table table-bordered">
             <thead>
                 <tr class="info">
-                    <th>First Name</th>
-                    <th>Second Name</th>
-                    <th>Email</th>
-                    <th>Recent login date</th>
-                    <th>Recent login hour</th>
+                    <th class="col-md-2">First Name</th>
+                    <th class="col-md-2">Second Name</th>
+                    <th class="col-md-2">Email</th>
+                    <th class="col-md-2">Recent login date</th>
+                    <th class="col-md-2">Recent login hour</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,7 +36,7 @@
             </tbody>
         </table>
     </div>
-    <div class="col-md-3"></div>
+    <div class="col-md-2"></div>
 </div>
 
 
