@@ -4,8 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.ws.rs.DELETE;
-import java.util.*;
+import java.util.List;
 
 @Singleton
 public class SavingAdminBase {
@@ -38,6 +37,8 @@ public class SavingAdminBase {
     @PostConstruct
     public void setAdmins() {
         AdminBase adminBase = new AdminBase("krystian.skrzyszewski@gmail.com");
+        entityManager.persist(adminBase);
+        adminBase = new AdminBase("los.gdansk@gmail.com");
         entityManager.persist(adminBase);
     }
 }

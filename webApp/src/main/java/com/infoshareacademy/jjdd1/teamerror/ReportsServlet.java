@@ -1,7 +1,7 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import com.infoshareacademy.jjdd1.teamerror.dataBase.*;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingCountryStatistics;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingUserStatistics;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.Statistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,19 +13,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 @WebServlet(urlPatterns = "/report")
 public class ReportsServlet extends HttpServlet{
     private static Logger LOGGER = LoggerFactory.getLogger(ReportsServlet.class);
 
     @Inject
-    SavingFuelTypeStatistics savingFuelTypeStatistics;
+    SavingUserStatistics savingUserStatistics;
 
     @Inject
-    SavingCountryStatistics savingCountryStatistics;
-
-    @Inject
-    SavingCurrencyStatistics savingCurrencyStatistics;
+    Statistics statistics;
 
 
     @Override
@@ -36,19 +34,33 @@ public class ReportsServlet extends HttpServlet{
 
         if (req.getParameter("countryAndCurrencyReport") != null) {
             req.setAttribute("title", "Country and currency report");
-            req.setAttribute("countriesList", savingCountryStatistics.getListOfCountries());
-            req.setAttribute("countriesPopularityList", savingCountryStatistics.getListOfPopularity());
-            req.setAttribute("currenciesList", savingCurrencyStatistics.getListOfCurrencies());
-            req.setAttribute("currenciesPopularityList", savingCurrencyStatistics.getListOfPopularity());
+            Map<String, Integer> countryStatistics = statistics.getStatistics("country");
+            LOGGER.debug("Country statistics: {}", countryStatistics);
+            req.setAttribute("countryStatistics", countryStatistics);
+
+            Map<String, Integer> currencyStatistics = statistics.getStatistics("currency");
+            LOGGER.debug("Currency statistics: {}", currencyStatistics);
+            req.setAttribute("currencyStatistics", currencyStatistics);
             RequestDispatcher dispatcher = req.getRequestDispatcher("/countryAndCurrencyReport.jsp");
             dispatcher.forward(req, resp);
         }
 
         else if (req.getParameter("fuelTypeReport") != null) {
             req.setAttribute("title", "Fuel type report");
-            req.setAttribute("dieselPopularity", savingFuelTypeStatistics.getPopularity("diesel"));
-            req.setAttribute("gasolinePopularity", savingFuelTypeStatistics.getPopularity("gasoline"));
+            Map<String, Integer> fuelTypeStatistics = statistics.getStatistics("petrol");
+            req.setAttribute("fuelTypeStatistics", fuelTypeStatistics);
             RequestDispatcher dispatcher = req.getRequestDispatcher("/fuelTypeReport.jsp");
+            dispatcher.forward(req, resp);
+        }
+
+        else if (req.getParameter("usersReport") != null) {
+            req.setAttribute("title", "Fuel type report");
+            req.setAttribute("usersFirstName", savingUserStatistics.getListOfUsersFirstName());
+            req.setAttribute("usersSecondName", savingUserStatistics.getListOfUsersSecondName());
+            req.setAttribute("usersEmail", savingUserStatistics.getListOfUsersEmails());
+            req.setAttribute("usersRecentLoginDate", savingUserStatistics.getListOfUsersRecentLocalDate());
+            req.setAttribute("usersRecentLoginTime", savingUserStatistics.getListOfUsersRecentLocalTime());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/usersReport.jsp");
             dispatcher.forward(req, resp);
         }
     }

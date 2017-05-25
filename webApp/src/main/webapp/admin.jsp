@@ -8,7 +8,6 @@
 
 
 <form method="post" action="/admin" class="form-horizontal" id="reg_form" style="padding-bottom:120px;">
-
     <div class="form-group">
         <label class="col-md-4 control-label">Input admin email</label>
         <div class="col-md-5  inputGroupContainer">
@@ -20,6 +19,8 @@
             </div>
         </div>
     </div>
+</form>
+<form method="post" action="/admin" class="form-horizontal" id="reg_form" style="padding-bottom:120px;">
     <div class="form-group">
         <label class="col-md-4 control-label">Remove admin email</label>
         <div class="col-md-5  inputGroupContainer">
@@ -39,28 +40,6 @@
             </div>
         </div>
     </div>
-    <%--<div class="form-group">--%>
-        <%--<label class="col-md-4 control-label"></label>--%>
-        <%--<div class="col-md-2">--%>
-            <%--<button type="submit" class="btn btn-warning" onclick="form.action='/admin';" >Add Admin <span class="glyphicon glyphicon-send"></span></button>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-    <%--<div class="form-group">--%>
-        <%--<label class="col-md-4 control-label">Input admin email</label>--%>
-        <%--<div class="col-md-5  inputGroupContainer">--%>
-            <%--<div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>--%>
-                <%--<input name="emailInput" class="form-control" type="text" value="${emailInput}">--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-    <%--<div class="form-group">--%>
-        <%--<label class="col-md-4 control-label"></label>--%>
-        <%--<div class="col-md-2">--%>
-            <%--<button type="submit" class="btn btn-warning" onclick="form.action='/admin';" >Add Admin <span class="glyphicon glyphicon-send"></span></button>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-
-
 </form>
 
 <script src="vendor/Chart.bundle.js"></script>

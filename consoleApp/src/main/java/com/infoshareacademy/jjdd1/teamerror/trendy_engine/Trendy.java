@@ -210,7 +210,7 @@ public class Trendy {
         determineCurrencyAndPetrolValuesSumsAndGenerateResults(results, cheapestAveragesSums, currencyValuesAvgListFinal, petrolValuesAvgListFinal);
 
         setConclusion(cheapestAveragesSums);
-        LOGGER.debug("Getting out of get PeriodTrendy method, results: {}", results);
+        LOGGER.debug("Getting out of get PeriodTrendy method");
         return results;
     }
 

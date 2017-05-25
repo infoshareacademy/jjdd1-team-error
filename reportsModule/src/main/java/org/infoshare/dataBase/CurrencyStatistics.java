@@ -1,4 +1,4 @@
-package com.infoshareacademy.jjdd1.teamerror.dataBase;
+package org.infoshare.dataBase;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,30 +8,31 @@ import javax.persistence.Id;
 /**
  * Created by igafalkowska on 11.05.17.
  */
+
 @Entity
-public class CountryStatistics {
+public class CurrencyStatistics {
 
     @Id
     @GeneratedValue
     private int id;
 
     @Column
-    private String country;
+    private String currency;
 
     @Column
     private int popularity;
 
-    public CountryStatistics(String country, int popularity) {
-        this.country = country;
+    public CurrencyStatistics(String currency, int popularity) {
+        this.currency = currency;
         this.popularity = popularity;
     }
 
-    public String getCountry() {
-        return country;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public int getPopularity() {

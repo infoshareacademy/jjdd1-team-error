@@ -238,6 +238,7 @@
                     categories: dateValues
                 },
                 yAxis: {
+                    min: 0,
                     title: {
                         text: 'Exchange rate'
                     }
@@ -246,6 +247,9 @@
                     enabled: false
                 },
                 plotOptions: {
+                    series: {
+                        fillOpacity: 0.1
+                    },
                     area: {
                         marker: {
                             radius: 2
@@ -261,9 +265,9 @@
                 },
 
                 series: [{
-                    type: 'area',
+                    type: "area",
+                    fillOpacity: 0.1,
                     name: 'Currency statistics',
-                    color: '#f76664',
                     fillColor: {
                         linearGradient: {
                             x1: 0,
@@ -272,17 +276,16 @@
                             y2: 1
                         },
                         stops: [
-                            [0, Highcharts.getOptions().colors[0]],
-                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                            [0, '#f76664'],
+                            [1, '#f4f4f4']
                         ]
                     },
                     data: currencyValues
                 }, {
-                    type: 'area',
+                    type: "area",
+                    fillOpacity: 0.1,
                     name: 'Petrol statistics',
-
                     fillColor: {
-                        color: '#79c97c',
                         linearGradient: {
                             x1: 0,
                             y1: 0,
@@ -290,15 +293,15 @@
                             y2: 1
                         },
                         stops: [
-                            [0, Highcharts.getOptions().colors[0]],
-                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                            [0, '#79c97c'],
+                            [1, '#f4f4f4']
                         ]
                     },
                     data: petrolValues
                 }, {
-                    type: 'area',
+                    type: "area",
+                    fillOpacity: 0.1,
                     name: 'Full statistics',
-                    color: '#39b0c9',
                     fillColor: {
                         linearGradient: {
                             x1: 0,
@@ -307,8 +310,8 @@
                             y2: 1
                         },
                         stops: [
-                            [0, Highcharts.getOptions().colors[0]],
-                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                            [0, '#39b0c9'],
+                            [1, '#f4f4f4']
                         ]
                     },
                     data: sumValues

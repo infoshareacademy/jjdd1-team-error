@@ -1,19 +1,23 @@
-package com.infoshareacademy.jjdd1.teamerror;
+package org.infoshare;
 
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingCountryStatistics;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingCurrencyStatistics;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingFuelTypeStatistics;
+import org.infoshare.dataBase.SavingCountryStatistics;
+import org.infoshare.dataBase.SavingCurrencyStatistics;
+import org.infoshare.dataBase.SavingFuelTypeStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
-import javax.mail.*;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -78,37 +82,38 @@ public class ReportsSender {
         }
     }
 
-    @Schedule(hour = "8")
-    public void sendCountryAndCurrencyReport() {
+    @Schedule(dayOfWeek = "*")
+    public void sendReportEmail() {
         String subject = "New report - " + LocalDate.now();
-        List<String> countries = savingCountryStatistics.getListOfCountries();
-        List<Integer> countryPopularity = savingCountryStatistics.getListOfPopularity();
-        List<String> currencies = savingCurrencyStatistics.getListOfCurrencies();
-        List<Integer> currenciesPopularity = savingCurrencyStatistics.getListOfPopularity();
-        Integer dieselPopularity = savingFuelTypeStatistics.getPopularity("diesel");
-        Integer gasolinePopularity = savingFuelTypeStatistics.getPopularity("gasoline");
+        Map<String, Integer> countryStatistics = savingCountryStatistics.getCountryStatistics();
+
+        Map<String, Integer> currencyStatistics = savingCurrencyStatistics.getCurrenciesStatistics();
+
+        Map<String, Integer> petrolStatistics = savingFuelTypeStatistics.getPetrolStatistics();
+
 
         StringBuilder report = new StringBuilder();
-        report.append("New report <br>--------------------------------------<br>");
-        createMultipleValues(countries, countryPopularity, report);
-        createMultipleValues(currencies, currenciesPopularity, report);
-        report.append("diesel ");
-        report.append(dieselPopularity);
-        report.append("<br>");
-        report.append("gasoline ");
-        report.append(gasolinePopularity);
-        report.append("<br>");
+        report.append("New report - ");
+        report.append( LocalDate.now());
+        report.append("<br>--------------------------------------<br>");
+        report.append("COUNTRY STATISTICS<br>");
+        createMultipleValues(countryStatistics, report);
+        report.append("<br>--------------------------------------<br>");
+        report.append("CURRENCY STATISTICS<br>");
+        createMultipleValues(currencyStatistics, report);
+        report.append("<br>--------------------------------------<br>");
+        report.append("FUEL TYPE STATISTICS<br>");
+        createMultipleValues(petrolStatistics, report);
         sendAnEmail(subject, report.toString());
     }
 
-    private void createMultipleValues(List<String> countries, List<Integer> countryPopularity,
+    private void createMultipleValues(Map<String, Integer> statistics,
                                       StringBuilder report) {
-        for (int i = 0; i < countries.size(); i++) {
-            report.append(countries.get(i));
+        statistics.forEach((k,v) -> {
+            report.append(k);
             report.append(" ");
-            report.append(countryPopularity.get(i));
+            report.append(v);
             report.append("<br>");
-            report.append("--------------------------------------<br>");
-        }
+        });
     }
 }
