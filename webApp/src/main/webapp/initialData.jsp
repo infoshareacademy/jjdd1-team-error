@@ -49,7 +49,7 @@
         <label class="col-md-4 control-label">Fuel Usage</label>
         <div class="col-md-5  inputGroupContainer">
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
-                <input name="fuelUsage" class="form-control" type="number" step="0.1" min="1" value="${fuelUsage}">
+                <input name="fuelUsage" class="form-control" type="number" step="0.1" min="1" max="1000" value="${fuelUsage}">
             </div>
         </div>
     </div>
@@ -60,7 +60,7 @@
         <label class="col-md-4 control-label">Distance Traveled</label>
         <div class="col-md-5  inputGroupContainer">
             <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
-                <input name="fullDistance" class="form-control" type="number" min="1" value="${fullDistance}">
+                <input name="fullDistance" class="form-control" type="number" min="1" max="100000" value="${fullDistance}">
             </div>
         </div>
     </div>
