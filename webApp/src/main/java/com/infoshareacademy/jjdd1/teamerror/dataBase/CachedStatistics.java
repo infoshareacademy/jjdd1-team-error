@@ -22,12 +22,12 @@ public class CachedStatistics {
         return cashedStatistics;
     }
 
-    void setCashedStatistics(String country, String currency, String fuelType) {
+    public void setCashedStatistics(String country, String currency, String fuelType) {
         LOGGER.debug("Caching statistics: {} {} {}", country, currency, fuelType);
         this.cashedStatistics.add(Arrays.asList(country, currency, fuelType));
     }
 
-    void clearCashedStatistics() {
+    public void clearCashedStatistics() {
         cashedStatistics.clear();
     }
 }

@@ -17,8 +17,10 @@ public class SavingFuelTypeStatistics {
     public void updatePetrolStatistics(String fuelType){
         Map<String, Integer> fuelTypes = getPetrolStatistics();
         if (!fuelTypes.isEmpty() && fuelTypes.containsKey(fuelType)) {
-            Query query = entityManager.createQuery("UPDATE FuelTypeStatistics p SET p.popularity = p.popularity + 1" +
-                    "WHERE p.fuelType = ?1");
+            Query query = entityManager
+                    .createQuery("UPDATE FuelTypeStatistics p " +
+                                    "SET p.popularity = p.popularity + 1" +
+                                    "WHERE p.fuelType = ?1");
             query.setParameter(1, fuelType).executeUpdate();
         }
         else {
@@ -27,10 +29,14 @@ public class SavingFuelTypeStatistics {
     }
 
     public Map<String, Integer> getPetrolStatistics(){
-        List<String> types = entityManager.createQuery("SELECT p.fuelType FROM FuelTypeStatistics p ",
-                    String.class).getResultList();
-        List<Integer> values = entityManager.createQuery("SELECT p.popularity FROM FuelTypeStatistics p ",
-                Integer.class).getResultList();
+        List<String> types = entityManager
+                .createQuery("SELECT p.fuelType " +
+                                "FROM FuelTypeStatistics p ", String.class).getResultList();
+
+        List<Integer> values = entityManager
+                .createQuery("SELECT p.popularity " +
+                                "FROM FuelTypeStatistics p ", Integer.class).getResultList();
+
         Map<String, Integer> results = new LinkedHashMap<>();
         if (types != null && values != null) {
             for (int i = 0; i < types.size(); i++) {
