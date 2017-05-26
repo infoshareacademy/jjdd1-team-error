@@ -7,17 +7,9 @@
 --%>
 <%@ include file="headAndStyle.jsp" %>
 <%@ include file="header.jsp" %>
-<h2 class="error">Error. One or more source file was not detected.</h2>
-<li>Petrol file is: ${petrolFileStatus}</li>
-<li>Currency info file is: ${currencyInfoFileStatus}</li>
-<li>Currency zip file is: ${currencyZipFileStatus}</li>
 <br>
-<form style="display: inline" method="post" action="/fileUploader.jsp">
-    <div class="buttons">
-        <input type="hidden" name="petrolFileStatus" value="${petrolFileStatus}" />
-        <input type="hidden" name="currencyInfoFileStatus" value="${currencyInfoFileStatus}" />
-        <input type="hidden" name="currencyZipFileStatus" value="${currencyZipFileStatus}" />
-        <button type="submit" name="uploadFiles">Upload files</button>
-    </div>
-</form>
+<h2 class="error">Uuuups... Something went wrong. Visit us again later.</h2>
+<br>
+<img style="display: block; margin: 0 auto" width="450px" height="192px" src="img/giphy.gif" />
+
 <%@ include file="footer.jsp" %>
