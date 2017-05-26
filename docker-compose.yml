@@ -10,8 +10,8 @@ services:
       - MYSQL_ROOT_PASSWORD=pass
     ports:
       - 4444:3306
-  webapplication:
-    container_name: "webapplication"
+  team_error_webapp:
+    container_name: "team_error_webapp"
     build: ./webApp
     ports:
       - 8740:8080
