@@ -83,11 +83,11 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        //setting the current list of admins
+//        //setting the current list of admins
         HttpSession session = req.getSession(true);
         session.setAttribute("adminList", savingAdminBase.getListOfAdmins());
         LOGGER.info("Admin List data : {} ", session.getAttribute("adminList"));
-
+//
         //creating a JSON admin list, to later use it in JavaScript in footer.jsp
         List<String> adminList = savingAdminBase.getListOfAdmins();
         String adminListString = new Gson().toJson(adminList);
@@ -140,7 +140,7 @@ public class LoginServlet extends HttpServlet {
         LOGGER.debug(sessionUser.get("family_name"));
         LOGGER.debug(sessionUser.get("email"));
 
-        //if there is an email (a user is logged in) use the userEmail to string
+//        //if there is an email (a user is logged in) use the userEmail to string (needed for admin button visibility)
         if(sessionData.getEmail()!=null){
             session.setAttribute("userEmail", (sessionData.getEmail()).toString());
             LOGGER.debug("UserEmail data: {} ", (sessionData.getEmail()).toString());
