@@ -103,7 +103,6 @@ public class TripFullCost {
     void setDate1(String date1String) {
         try {
             if(date1String.length()==8){
-                int integerCheck = Integer.parseInt(date1String);
                 LocalDate date1 = LocalDate.parse(date1String, DateTimeFormatter.ofPattern("yyyyMMdd"));
                 if(date1.toString().substring(8).equals(date1String.substring(6))){
                     this.date1 = date1;

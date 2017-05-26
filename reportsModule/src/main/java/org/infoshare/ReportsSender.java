@@ -37,7 +37,7 @@ public class ReportsSender {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReportsSender.class);
 
-    private static void sendAnEmail(String subject, String message) {
+    private void sendAnEmail(String subject, String message) {
 
         LOGGER.info("Getting in sendAnEmail class and setting up Mail Server properties");
         Properties mailServerProperties = System.getProperties();
@@ -68,6 +68,10 @@ public class ReportsSender {
             transport.connect("smtp.gmail.com", "teamerror.tripcalculator", "errorerror");
             transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
             LOGGER.info("Email sent successfully");
+            savingCountryStatistics.clearTable();
+            savingCurrencyStatistics.clearTable();
+            savingFuelTypeStatistics.clearTable();
+            LOGGER.debug("Statistics cleared");
         } catch (MessagingException e) {
             LOGGER.warn("Sending email failed, exception: {}", e);
         } finally {
@@ -77,20 +81,22 @@ public class ReportsSender {
                 }
 
             } catch (MessagingException e) {
-                LOGGER.warn("Problem with closing transport, exception: ", e);
+                LOGGER.warn("Problem with closing transport");
             }
         }
     }
 
-    @Schedule(dayOfWeek = "*")
+    @Schedule()
     public void sendReportEmail() {
-        String subject = "New report - " + LocalDate.now();
+        String subject = "New report - " + LocalDate.now().minusDays(1);
         Map<String, Integer> countryStatistics = savingCountryStatistics.getCountryStatistics();
+        savingCountryStatistics.clearTable();
 
         Map<String, Integer> currencyStatistics = savingCurrencyStatistics.getCurrenciesStatistics();
+        savingCurrencyStatistics.clearTable();
 
         Map<String, Integer> petrolStatistics = savingFuelTypeStatistics.getPetrolStatistics();
-
+        savingFuelTypeStatistics.clearTable();
 
         StringBuilder report = new StringBuilder();
         report.append("New report - ");

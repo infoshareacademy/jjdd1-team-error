@@ -5,7 +5,6 @@ import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,5 +45,9 @@ public class SavingCountryStatistics {
             }
         }
         return results;
+    }
+
+    public void clearTable() {
+        entityManager.createQuery("DELETE FROM CountryStatistics").executeUpdate();
     }
 }

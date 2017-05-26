@@ -25,6 +25,8 @@ public class Trendy {
     private static final int DEFAULT_DAYS_NUMBER = 60;
     private static final int DEFAULT_TRIP_LENGTH = 7;
     private static final int DEFAULT_STARTING_DAY = 6;
+    public static final int DATE_FORMAT_LENGTH = 8;
+    public static final int MAXIMUM_ANALYSIS_PERIOD = 5;
 
     private String conclusion = "";
     private Map<LocalDate, Double> petrolTrendy = new LinkedHashMap<>();
@@ -71,7 +73,7 @@ public class Trendy {
                 throw new Exception();
             }
         } catch (Exception e) {
-            LOGGER.error("Country [{}] is not accepted --> {}", country, e);
+            LOGGER.warn("Country [{}] is not accepted --> {}", country, e);
         }
     }
 
@@ -93,11 +95,11 @@ public class Trendy {
                     LOGGER.info("[{}] chosen", fuelType);
                     break;
                 default:
-                    LOGGER.error("[{}] fuel type is incorrect", fuelNumber);
+                    LOGGER.warn("[{}] fuel type is incorrect", fuelNumber);
                     break;
             }
         }catch (Exception e) {
-            LOGGER.error("[{}] is not a number", fuelNumber);
+            LOGGER.warn("[{}] is not a number", fuelNumber);
         }
     }
 
@@ -107,25 +109,30 @@ public class Trendy {
 
     public void setTrendyPeriodFrom(String trendyPeriodFrom) {
         try {
-            if(trendyPeriodFrom.length()==8){
+            if(trendyPeriodFrom.length()== DATE_FORMAT_LENGTH){
                 LocalDate date = LocalDate.parse(trendyPeriodFrom, DateTimeFormatter.ofPattern("yyyyMMdd"));
                 if(date.toString().substring(8).equals(trendyPeriodFrom.substring(6))){
-                    this.trendyPeriodFrom = date;
-                    LOGGER.info("Period date from chosen: {}", date);
+                    if(ChronoUnit.YEARS.between(LocalDate.now(), date) < MAXIMUM_ANALYSIS_PERIOD) {
+                        this.trendyPeriodFrom = date;
+                        LOGGER.info("Period date from chosen: {}", date);
+                    }
+                    else {
+                        LOGGER.warn("Too long period chosen");
+                    }
                 }
                 else{
-                    LOGGER.error("No such day exists");
+                    LOGGER.warn("No such day exists");
                 }
             }
             else{
-                LOGGER.error("Wrong date format");
+                LOGGER.warn("Wrong date format");
             }
         }
         catch (NumberFormatException e){
-            LOGGER.error("Input contains letters");
+            LOGGER.warn("Input contains letters");
         }
         catch( Exception e ) {
-            LOGGER.error("No such year/month/day exists");
+            LOGGER.warn("No such year/month/day exists");
         }
     }
 
@@ -138,22 +145,27 @@ public class Trendy {
             if(trendyPeriodTill.length()==8){
                 LocalDate date = LocalDate.parse(trendyPeriodTill, DateTimeFormatter.ofPattern("yyyyMMdd"));
                 if(date.toString().substring(8).equals(trendyPeriodTill.substring(6))){
-                    this.trendyPeriodTill = date;
-                    LOGGER.info("Period date till chosen: {}", date);
+                    if(ChronoUnit.YEARS.between(LocalDate.now(), date) < MAXIMUM_ANALYSIS_PERIOD) {
+                        this.trendyPeriodTill = date;
+                        LOGGER.info("Period date till chosen: {}", date);
+                    }
+                    else {
+                        LOGGER.warn("Too long period chosen");
+                    }
                 }
                 else{
-                    LOGGER.error("No such day exists");
+                    LOGGER.warn("No such day exists");
                 }
             }
             else{
-                LOGGER.error("Wrong date format");
+                LOGGER.warn("Wrong date format");
             }
         }
         catch (NumberFormatException e){
-            LOGGER.error("Input contains letters");
+            LOGGER.warn("Input contains letters");
         }
         catch( Exception e ) {
-            LOGGER.error("No such year/month/day exists");
+            LOGGER.warn("No such year/month/day exists");
         }
 
         LocalDate date = LocalDate.parse(trendyPeriodTill, DateTimeFormatter.ofPattern("yyyyMMdd"));
