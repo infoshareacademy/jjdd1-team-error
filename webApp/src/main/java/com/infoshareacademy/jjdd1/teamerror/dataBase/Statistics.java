@@ -33,18 +33,27 @@ public class Statistics {
             "http://reports_module:8080/reportsModule-1.0-SNAPSHOT/";
 
 
-    public void updateStatistics(String country, String currency, String fuelType) {
+    public void updateStatisticsOfCountryAndCurrencyAndFuelType(String country, String currency, String fuelType) {
         LOGGER.debug("Starting statistics update");
-        checkForCachedStatisticsAndSendToApi();
+        checkForCachedStatisticsOfCountryAndCurrencyAndFuelTypeAndSendToApi();
         Integer status = sendStatisticsToApi(country, currency, fuelType);
         if (status == null || status != 200) {
-            cachedStatistics.setCashedStatistics(country, currency, fuelType);
+            cachedStatistics.setCashedStatisticsOfCountryAndCurrencyAndFuelType(country, currency, fuelType);
+        }
+    }
+//TODO
+    public void updateStatisticsOfUserData(UserStatistics userStatistics) {
+        LOGGER.debug("Starting statistics update");
+        checkForCachedStatisticsOfCountryAndCurrencyAndFuelTypeAndSendToApi();
+        Integer status = sendStatisticsToApi(userStatistics);
+        if (status == null || status != 200) {
+            cachedStatistics.setCashedStatisticsOfUserData(userStatistics);
         }
     }
 
-    public Map<String, Integer> getStatistics(String kind){
+    public Map<String, Integer> getStatisticsOfCountryOrCurrencyOrFuelType(String kind){
         try {
-            checkForCachedStatisticsAndSendToApi();
+            checkForCachedStatisticsOfCountryAndCurrencyAndFuelTypeAndSendToApi();
             WebTarget target = getWebTarget(kind);
             Map<String, Integer> unsortedStatistics = getData(target);
             return mapSorterByValue(unsortedStatistics);
@@ -54,11 +63,24 @@ public class Statistics {
         }
         return null;
     }
+//TODO
+    public List<UserStatistics> getStatisticsOfUserData(){
+        try {
+            checkForCachedStatisticsOfUserDataAndSendToApi();
+            WebTarget target = getWebTarget(user);
+            List<UserStatistics> userStatisticsList = getData(target);
+            return userStatisticsList;
+        }
+        catch (Exception e) {
+            LOGGER.warn("Getting user statistics for failed");
+        }
+        return null;
+    }
 
     // don't remove public
-    public void checkForCachedStatisticsAndSendToApi() {
+    public void checkForCachedStatisticsOfCountryAndCurrencyAndFuelTypeAndSendToApi() {
         LOGGER.debug("Coming into checkForCachedStatisticsAndSendApi class");
-        List<List<String>> cachedStatisticsList = this.cachedStatistics.getCashedStatistics();
+        List<List<String>> cachedStatisticsList = this.cachedStatistics.getCashedStatisticsOfCountryAndCurrencyAndFuelType();
         if (!cachedStatisticsList.isEmpty()) {
             LOGGER.debug("Sending cached statistic data to Reports Module");
             for (List<String> values : cachedStatisticsList) {
@@ -69,7 +91,7 @@ public class Statistics {
                 }
             }
             LOGGER.debug("Clearing cached statistics");
-            cachedStatistics.clearCashedStatistics();
+            cachedStatistics.clearCashedStatisticsOfCountryAndCurrencyAndFuelType();
         }
     }
 

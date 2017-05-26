@@ -15,19 +15,33 @@ import java.util.List;
 public class CachedStatistics {
     private final Logger LOGGER = LoggerFactory.getLogger(CachedStatistics.class);
 
-    private List<List<String>> cashedStatistics = new ArrayList<>();
+    private List<List<String>> cashedStatisticsOfCountryAndCurrencyAndFuelType = new ArrayList<>();
+    private List<UserStatistics> cashedStatisticsOfUserData = new ArrayList<>();
 
     // don't remove public
-    public List<List<String>> getCashedStatistics() {
-        return cashedStatistics;
+    public List<List<String>> getCashedStatisticsOfCountryAndCurrencyAndFuelType() {
+        return cashedStatisticsOfCountryAndCurrencyAndFuelType;
     }
 
-    void setCashedStatistics(String country, String currency, String fuelType) {
+    public List<UserStatistics> getCashedStatisticsOfUserData() {
+        return cashedStatisticsOfUserData;
+    }
+
+    void setCashedStatisticsOfCountryAndCurrencyAndFuelType(String country, String currency, String fuelType) {
         LOGGER.debug("Caching statistics: {} {} {}", country, currency, fuelType);
-        this.cashedStatistics.add(Arrays.asList(country, currency, fuelType));
+        this.cashedStatisticsOfCountryAndCurrencyAndFuelType.add(Arrays.asList(country, currency, fuelType));
     }
 
-    void clearCashedStatistics() {
-        cashedStatistics.clear();
+    void setCashedStatisticsOfUserData(UserStatistics userStatistics) {
+        LOGGER.debug("Caching statistics: {}", userStatistics.toString());
+        this.cashedStatisticsOfUserData.add(userStatistics);
+    }
+
+    void clearCashedStatisticsOfCountryAndCurrencyAndFuelType() {
+        cashedStatisticsOfCountryAndCurrencyAndFuelType.clear();
+    }
+
+    void clearCashedStatisticsOfUserData() {
+        cashedStatisticsOfUserData.clear();
     }
 }

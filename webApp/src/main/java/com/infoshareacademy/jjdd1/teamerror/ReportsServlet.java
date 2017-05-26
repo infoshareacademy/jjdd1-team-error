@@ -34,11 +34,11 @@ public class ReportsServlet extends HttpServlet{
 
         if (req.getParameter("countryAndCurrencyReport") != null) {
             req.setAttribute("title", "Country and currency report");
-            Map<String, Integer> countryStatistics = statistics.getStatistics("country");
+            Map<String, Integer> countryStatistics = statistics.getStatisticsOfCountryOrCurrencyOrFuelType("country");
             LOGGER.debug("Country statistics: {}", countryStatistics);
             req.setAttribute("countryStatistics", countryStatistics);
 
-            Map<String, Integer> currencyStatistics = statistics.getStatistics("currency");
+            Map<String, Integer> currencyStatistics = statistics.getStatisticsOfCountryOrCurrencyOrFuelType("currency");
             LOGGER.debug("Currency statistics: {}", currencyStatistics);
             req.setAttribute("currencyStatistics", currencyStatistics);
             RequestDispatcher dispatcher = req.getRequestDispatcher("/countryAndCurrencyReport.jsp");
@@ -47,7 +47,7 @@ public class ReportsServlet extends HttpServlet{
 
         else if (req.getParameter("fuelTypeReport") != null) {
             req.setAttribute("title", "Fuel type report");
-            Map<String, Integer> fuelTypeStatistics = statistics.getStatistics("petrol");
+            Map<String, Integer> fuelTypeStatistics = statistics.getStatisticsOfCountryOrCurrencyOrFuelType("petrol");
             req.setAttribute("fuelTypeStatistics", fuelTypeStatistics);
             RequestDispatcher dispatcher = req.getRequestDispatcher("/fuelTypeReport.jsp");
             dispatcher.forward(req, resp);
