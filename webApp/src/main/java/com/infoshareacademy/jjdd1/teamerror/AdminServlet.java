@@ -3,6 +3,7 @@ package com.infoshareacademy.jjdd1.teamerror;
 import com.google.gson.Gson;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.PromotedCountriesSaver;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingAdminBase;
+import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
 import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,6 @@ public class AdminServlet extends HttpServlet {
 
     private final Logger LOGGER = LoggerFactory.getLogger(WelcomeServlet.class);
     private HttpSession session;
-    private FilesContent filesContent;
 
     @Inject
     SavingAdminBase savingAdminBase;
@@ -33,11 +33,20 @@ public class AdminServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        LOGGER.debug("Servlet start");
+
+        if (SourceFilesChecker.checkForSourceFiles(req, resp)) {
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
+            dispatcher.forward(req, resp);
+            return;
+        }
+
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");
 
+        session = req.getSession();
+
         //setting the current list of admins
-        HttpSession session = req.getSession(true);
         session.setAttribute("adminList", savingAdminBase.getListOfAdmins());
         session.setAttribute("promotedCountryList", promotedCountriesSaver.getPromotedCountries());
         LOGGER.info("Admin List data : {} ", session.getAttribute("adminList"));
@@ -53,6 +62,7 @@ public class AdminServlet extends HttpServlet {
         String emailInput = req.getParameter("emailInput");
         if (emailInput != null) {
             savingAdminBase.addAdmin(emailInput);
+            session.setAttribute("adminList", savingAdminBase.getListOfAdmins());
         }
 
         String emailRemover = req.getParameter("emailRemover");
@@ -60,6 +70,7 @@ public class AdminServlet extends HttpServlet {
             for (String s: savingAdminBase.getListOfAdmins()) {
                 if(emailRemover.equals(s)){
                     savingAdminBase.removeAdmin(emailRemover);
+                    session.setAttribute("adminList", savingAdminBase.getListOfAdmins());
                 }
             }
         }
@@ -67,6 +78,7 @@ public class AdminServlet extends HttpServlet {
         String countryInput = req.getParameter("countryInput");
         if (countryInput != null && !promotedCountriesSaver.getPromotedCountries().contains(countryInput)) {
             promotedCountriesSaver.addCountry(countryInput);
+            session.setAttribute("promotedCountryList", promotedCountriesSaver.getPromotedCountries());
         }
 
         String countryRemover = req.getParameter("countryRemover");
@@ -74,6 +86,7 @@ public class AdminServlet extends HttpServlet {
             for (String s: promotedCountriesSaver.getPromotedCountries()) {
                 if(countryRemover.equals(s)){
                     promotedCountriesSaver.removeCountry(countryRemover);
+                    session.setAttribute("promotedCountryList", promotedCountriesSaver.getPromotedCountries());
                 }
             }
         }

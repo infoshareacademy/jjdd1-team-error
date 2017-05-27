@@ -1,20 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="headAndStyle.jsp" %>
 
-
-
 </div>
-    <c:choose>
-        <c:when test="${isLogged == false}">
-        <body>
+<c:choose>
+    <c:when test="${isLogged == false}">
+        <div>
         <div id="header">
             <div id="logo">
                 <p>Trip Calculator</p>
             </div>
             <div class="car">
-                <img  id="car" src="img/moving-car-mirror.png" alt="car">
+                <img id="car" src="img/moving-car-mirror.png" alt="car">
             </div>
         </div>
         <div style="margin:0; padding-bottom:120px; padding-top:50px;"><br/>
@@ -29,10 +27,10 @@
         </div>
     </c:when>
     <c:otherwise>
-    <%@ include file="header.jsp" %>
+        <%@ include file="header.jsp" %>
         <div class="row" style="margin:0; padding-bottom:120px; padding-top:50px;">
             <div class="col-md-4" style="padding:0;">
-             <img class="photo" src="img/photo2.jpg" alt="car">
+                <img class="photo" src="img/photo2.jpg" alt="car">
             </div>
             <div class="col-md-4" style="padding:0;">
                 <h1>Welcome ${oauth.given_name} ${oauth.family_name}!</h1><br/><br/>
@@ -40,19 +38,18 @@
                     <input type="submit" class="btn btn-primary btn-lg" value="Start your calculation">
                 </form>
             </div>
-            <div class="col-md-4" style="padding:0;" >
+            <div class="col-md-4" style="padding:0;">
                 <img class="photo" src="img/photo1.jpg" alt="car">
             </div>
         </div>
         <div style="clear:both;"></div>
     </c:otherwise>
-    </c:choose>
-    <c:if test="${not empty error}">
-        <div>
-                ${error}
-        </div>
-    </c:if>
+</c:choose>
+<c:if test="${not empty error}">
+    <div>
+            ${error}
+    </div>
+</c:if>
 </div>
-
 
 <%@ include file="footer.jsp" %>

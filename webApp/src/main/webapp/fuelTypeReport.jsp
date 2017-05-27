@@ -1,15 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: igafalkowska
-  Date: 11.05.17
-  Time: 12:53
-  To change this template use File | Settings | File Templates.
---%>
 <%@ include file="headAndStyle.jsp" %>
 <%@ include file="header.jsp" %>
 <%@ include file="headerOptions.jsp" %>
 <%@ include file="car.jsp" %>
-
 
 <c:choose>
     <c:when test="${fuelTypeStatistics != null}">
@@ -26,7 +18,6 @@
         <script src="vendor/Chart.bundle.js"></script>
         <script>
             var ctx = document.getElementById("fuelType");
-
             var fuelType = new Chart(ctx, {
                 type: 'pie',
                 data: {
@@ -49,13 +40,12 @@
                             hoverBackgroundColor: [
                                 "#FF6384",
                                 "#36A2EB"
-                            ],
+                            ]
                         }
                     ]
                 }
             });
         </script>
-
     </c:when>
 
     <c:otherwise>

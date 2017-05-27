@@ -1,24 +1,16 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: SebastianLos
-  Date: 22.04.2017
-  Time: 11:19
-  To change this template use File | Settings | File Templates.
---%>
-
 <script src="vendor/Chart.bundle.js"></script>
 <script src="vendor/jquery-3.2.1.js"></script>
 <script src="vendor/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
-<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         $(".date-picker2").datepicker(
-            {dateFormat: 'yy/mm/dd', maxDate:'+4Y'}
+            {dateFormat: 'yy/mm/dd', maxDate: '+4Y'}
         );
         $(".date-picker1").datepicker(
             {
@@ -29,7 +21,7 @@
                     date.setDate(date.getDate() + 1);
                     var newDate = date.toDateString();
                     newDate = new Date(Date.parse(newDate));
-                    $('.date-picker2').datepicker("option","minDate",newDate);
+                    $('.date-picker2').datepicker("option", "minDate", newDate);
                 }
             });
 
@@ -40,17 +32,6 @@
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
-                uploadfile: {
-                    validators: {
-                        notEmpty: {
-                            message: 'You must select a valid payroll file to upload'
-                        },
-                        file: {
-                            extension: 'txt,csv',
-                            type: 'text/plain,text/csv'
-                        }
-                    }
-                },
                 country: {
                     validators: {
                         notEmpty: {
@@ -107,22 +88,23 @@
             }
         });
 
-        $('.date-picker1').on('changeDate show', function(e) {
+        $('.date-picker1').on('changeDate show', function (e) {
             $('#reg_form').bootstrapValidator('revalidateField', 'date1');
         });
-        $('.date-picker2').on('changeDate show', function(e) {
+        $('.date-picker2').on('changeDate show', function (e) {
             $('#reg_form').bootstrapValidator('revalidateField', 'date2');
         });
     });
-
 </script>
 
 <div style="position: absolute; bottom: 30px">
     <form>
-        <div class="btn-group btn-group-justified" role="group" aria-label="..." >
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
             <div class="btn-group" role="group">
                 <button id="one" class="btn btn-outline-inverse btn-lg" type="submit"
-                        formmethod="get" formaction="/report" name="countryAndCurrencyReport" value="">Country / currency report</button>
+                        formmethod="get" formaction="/report" name="countryAndCurrencyReport" value="">Country /
+                    currency report
+                </button>
             </div>
             <div class="btn-group" role="group">
                 <button id="two" class="btn btn-outline-inverse btn-lg" type="submit"
@@ -136,19 +118,15 @@
             </div>
             <div class="btn-group" role="group">
                 <button id="four" class="btn btn-outline-inverse btn-lg" type="submit"
-                        <%--<c:forEach items="${adminList}" var="admin">--%>
-                            <%--<c:if test="${userEmail != admin}"><c:out value="disabled='disabled'"/></c:if>--%>
-                        <%--</c:forEach>--%>
-                        formmethod="post" formaction="/admin" name="adminPage" value="">Admin</button>
+                        formmethod="post" formaction="/admin" name="adminPage" value="">Admin
+                </button>
             </div>
         </div>
     </form>
 </div>
+
 <div id="footer">
-    <%--<div class="car">--%>
-        <%--<img  id="car-mirror" src="img/moving-car.png" alt="car">--%>
-    <%--</div>--%>
-    <div id="footercontent" >infoShare Academy, Team ERROR</div>
+    <div id="footercontent">infoShare Academy, Team ERROR</div>
 </div>
 <script src="/vendor/js/bootstrap.js"></script>
 
@@ -156,14 +134,13 @@
 <script>
     var useremail = '${userEmail}';
     var obj = JSON.parse('${jsonAdminList}');
-    <%--colArray = '${adminList}';--%>
 
-    for(i=0; i<obj.length; i++){
+    for (i = 0; i < obj.length; i++) {
         $('#one').hide();
         $('#two').hide();
         $('#three').hide();
         $('#four').hide();
-        if(useremail==obj[i]){
+        if (useremail == obj[i]) {
             $('#one').show();
             $('#two').show();
             $('#three').show();
@@ -172,7 +149,6 @@
         }
     }
 </script>
-
 
 </body>
 </html>
