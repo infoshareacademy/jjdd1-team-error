@@ -12,22 +12,49 @@
 <%@ include file="car.jsp" %>
 <%@ page errorPage="exceptionHandling.jsp" %>
 
-
         <div class="data">
+            <ul class="list-group" style="min-width:300px;">
+                <li class="list-group-item list-group-item-success text-center"><b>GIVEN DATA</b></li>
+                <li class="list-group-item text-left">
+                    <span class="badge badge-success">${country}</span>Country:
+                </li>
+                <li class="list-group-item text-left">
+                    <span class="badge badge-success">${currency}</span>Currency:
+                </li>
+                <li class="list-group-item text-left">
+                    <span class="badge badge-success"><%= session.getAttribute("fuelTypeString") %></span>Fuel type:
+                </li>
+                <li class="list-group-item text-left">
+                    <span class="badge badge-success">${date1}</span>Departure date:
+                </li>
+                <li class="list-group-item text-left">
+                    <span class="badge badge-success">${date2}</span>Return date:
+                </li>
+                <li class="list-group-item text-left">
+                    <span class="badge badge-success">${fuelUsage}</span>Fuel usage:
+                </li>
+                <li class="list-group-item text-left">
+                    <span class="badge badge-success">${fullDistance}</span>Distance:
+                </li>
+            </ul>
             <br>
-            <label><b>Given data:</b></label>
-            <li>Country:  ${country}</li>
-            <li>Currency:  ${currency}</li>
-            <li>Fuel type:  ${fuelType}</li>
-            <li>Date of departure:  ${date1}</li>
-            <li>Date of return:  ${date2}</li>
-            <li>Fuel usage:  ${fuelUsage}</li>
-            <li>Distance:  ${fullDistance}</li>
         </div>
-        <div class="result" style="padding-bottom:120px;">
-            <br>
-            <h3>The cost of renting a car abroad (for the specified data) will be: ${fullCost} PLN</h3>
-        </div>
+    <div class="container" style="padding-bottom: 100px;">
+        <ul class="list-group" style="min-width:300px;">
+            <li class="list-group-item text-left">
+                <h2>The cost of renting a car abroad (for the specified data) will be:
+                <span class="label label-success">${fullCost} PLN</span></h2>
+            <%--<li class="list-group-item text-left">--%>
+                <%--<h2>The cost of renting a car abroad (for the specified data) will be:--%>
+                <%--<span class="badge badge-success">${fullCost} PLN</span></h2>--%>
+            </li>
+        </ul>
+        <br>
+    </div>
+        <%--<div class="result" style="padding-bottom:120px;">--%>
+            <%--<br>--%>
+            <%--<h3>The cost of renting a car abroad (for the specified data) will be: ${fullCost} PLN</h3>--%>
+        <%--</div>--%>
 
 
 <%@ include file="footer.jsp" %>

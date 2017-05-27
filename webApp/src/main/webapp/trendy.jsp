@@ -14,18 +14,33 @@
 <form method="post" action="/trendy" class="form-horizontal" id="trendy_form">
 <div class="data">
     <br>
-    <label><b>Given data:</b></label>
-    <li>Country: ${country}</li>
-    <li>Currency:  <%= session.getAttribute("currency") %></li>
-    <li>Fuel type:  <%= session.getAttribute("fuelTypeString") %></li>
-    <li>Trip length:  <%= session.getAttribute("tripLength") %></li>
-    <li>Date from:  <%= session.getAttribute("trendPeriodFrom") %></li>
-    <li>Date till:  <%= session.getAttribute("trendPeriodTill") %></li>
-    <li>Starting days:
-        <c:forEach items="${startingDaysString}" var="trend">
-            ${trend}
-        </c:forEach>
-    </li>
+    <ul class="list-group" style="min-width:300px;">
+        <li class="list-group-item list-group-item-info text-center"><b>GIVEN DATA</b></li>
+        <li class="list-group-item text-left">
+            <span class="badge badge-info">${country}</span>Country:
+        </li>
+        <li class="list-group-item text-left">
+            <span class="badge badge-info"><%= session.getAttribute("currency") %></span>Currency:
+        </li>
+        <li class="list-group-item text-left">
+            <span class="badge badge-info"><%= session.getAttribute("fuelTypeString") %></span>Fuel type:
+        </li>
+        <li class="list-group-item text-left">
+            <span class="badge badge-info"><%= session.getAttribute("tripLength") %></span>Trip length:
+        </li>
+        <li class="list-group-item text-left">
+            <span class="badge badge-info"><%= session.getAttribute("trendPeriodFrom") %></span>Date from:
+        </li>
+        <li class="list-group-item text-left">
+            <span class="badge badge-info"><%= session.getAttribute("trendPeriodTill") %></span>Date till:
+        </li>
+        <li class="list-group-item text-left">
+            <span class="badge badge-info"><c:forEach items="${startingDaysString}" var="trend">
+                ${trend}
+            </c:forEach>
+            </span>Starting days:
+        </li>
+    </ul>
     <br>
 </div>
 
@@ -64,64 +79,65 @@
 
     <div class="form-group">
         <label class="col-md-4 control-label">Starting days</label>
-    </div>
-    <div>
-        <label class="checkbox-inline">
-            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Monday")) { %>
+        <div class="col-md-5">
+            <label class="checkbox checkbox-inline">
+                <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Monday")) { %>
                 <input type="checkbox" name="startingDays" value="1" checked> Monday
-            <% } else { %>
+                <% } else { %>
                 <input type="checkbox" name="startingDays" value="1" > Monday
-            <% } %>
-        </label>
-        <label class="checkbox-inline">
-            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Tuesday")) { %>
-            <input type="checkbox" name="startingDays" value="2" checked> Tuesday
-            <% } else { %>
-            <input type="checkbox" name="startingDays" value="2" > Tuesday
-            <% } %>
-        </label>
-        <label class="checkbox-inline">
-            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Wednesday")) { %>
-            <input type="checkbox" name="startingDays" value="3" checked> Wednesday
-            <% } else { %>
-            <input type="checkbox" name="startingDays" value="3" > Wednesday
-            <% } %>
-        </label>
-        <label class="checkbox-inline">
-            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Thursday")) { %>
-            <input type="checkbox" name="startingDays" value="4" checked> Thursday
-            <% } else { %>
-            <input type="checkbox" name="startingDays" value="4" > Thursday
-            <% } %>
-        </label>
-        <label class="checkbox-inline">
-            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Friday")) { %>
-            <input type="checkbox" name="startingDays"  value="5" checked> Friday
-            <% } else { %>
-            <input type="checkbox" name="startingDays"  value="5" > Friday
-            <% } %>
-        </label>
-        <label class="checkbox-inline">
-            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Saturday")) { %>
-            <input type="checkbox" name="startingDays"  value="6" checked> Saturday
-            <% } else { %>
-            <input type="checkbox" name="startingDays"  value="6" > Saturday
-            <% } %>
-        </label>
-        <label class="checkbox-inline">
-            <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Sunday")) { %>
-            <input type="checkbox" name="startingDays"  value="7" checked> Sunday
-            <% } else { %>
-            <input type="checkbox" name="startingDays"  value="7" > Sunday
-            <% } %>
-        </label>
+                <% } %>
+            </label>
+            <label class="checkbox checkbox-inline">
+                <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Tuesday")) { %>
+                <input type="checkbox" name="startingDays" value="2" checked> Tuesday
+                <% } else { %>
+                <input type="checkbox" name="startingDays" value="2" > Tuesday
+                <% } %>
+            </label>
+            <label class="checkbox-inline">
+                <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Wednesday")) { %>
+                <input type="checkbox" name="startingDays" value="3" checked> Wednesday
+                <% } else { %>
+                <input type="checkbox" name="startingDays" value="3" > Wednesday
+                <% } %>
+            </label>
+            <label class="checkbox-inline">
+                <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Thursday")) { %>
+                <input type="checkbox" name="startingDays" value="4" checked> Thursday
+                <% } else { %>
+                <input type="checkbox" name="startingDays" value="4" > Thursday
+                <% } %>
+            </label>
+            <label class="checkbox-inline">
+                <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Friday")) { %>
+                <input type="checkbox" name="startingDays"  value="5" checked> Friday
+                <% } else { %>
+                <input type="checkbox" name="startingDays"  value="5" > Friday
+                <% } %>
+            </label>
+            <label class="checkbox-inline">
+                <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Saturday")) { %>
+                <input type="checkbox" name="startingDays"  value="6" checked> Saturday
+                <% } else { %>
+                <input type="checkbox" name="startingDays"  value="6" > Saturday
+                <% } %>
+            </label>
+            <label class="checkbox-inline">
+                <% if (((HashSet<String>)session.getAttribute("startingDaysString")).contains("Sunday")) { %>
+                <input type="checkbox" name="startingDays"  value="7" checked> Sunday
+                <% } else { %>
+                <input type="checkbox" name="startingDays"  value="7" > Sunday
+                <% } %>
+            </label>
+        </div>
     </div>
+
 
     <br>
 
     <!-- Submit button -->
     <div class="form-group">
-        <label class="col-md-4 control-label"></label>
+        <label class="col-md-5 control-label"></label>
         <div class="col-md-2">
             <button type="submit" class="btn btn-warning" >Price Trends <span class="glyphicon glyphicon-send"></span></button>
         </div>
@@ -132,21 +148,21 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-//            $(".date-picker2").datepicker(
-//                {dateFormat: 'yy/mm/dd', maxDate:'+4Y'}
-//            );
-//            $(".date-picker1").datepicker(
-//                {
-//                    dateFormat: 'yy/mm/dd', minDate: 0,
-//                    onSelect: function (date) {
-//                        var periodDateFrom = $('.date-picker1').datepicker('getDate');
-//                        var date = new Date(Date.parse(periodDateFrom));
-//                        date.setDate(date.getDate() + 1);
-//                        var newDate = date.toDateString();
-//                        newDate = new Date(Date.parse(newDate));
-//                        $('.date-picker2').datepicker("option","minDate",newDate);
-//                    }
-//                });
+            $(".date-picker2").datepicker(
+                {dateFormat: 'yy/mm/dd', maxDate:'+4Y'}
+            );
+            $(".date-picker1").datepicker(
+                {
+                    dateFormat: 'yy/mm/dd', minDate: 0,
+                    onSelect: function (date) {
+                        var periodDateFrom = $('.date-picker1').datepicker('getDate');
+                        var date = new Date(Date.parse(periodDateFrom));
+                        date.setDate(date.getDate() + 1);
+                        var newDate = date.toDateString();
+                        newDate = new Date(Date.parse(newDate));
+                        $('.date-picker2').datepicker("option","minDate",newDate);
+                    }
+                });
             $('#trendy_form').bootstrapValidator({
                 feedbackIcons: {
                     valid: 'glyphicon glyphicon-ok',
@@ -196,9 +212,14 @@
     </script>
 
 
-    <div id="container" style="min-width: 300px; height: 400px; margin: auto">
-        <h2>Fuel and Currency Trends</h2>
-        <h3><%= session.getAttribute("conclusion") %></h3>
+    <div class="container">
+        <ul class="list-group">
+            <li class="list-group-item list-group-item"><h2><B>Fuel and Currency Trends</B></h2></li>
+            <li class="list-group-item list-group-item-info"><h2><%= session.getAttribute("conclusion") %></h2></li>
+        </ul>
+    </div>
+
+    <div id="chart" style="min-width: 300px; height: 400px; margin: auto; padding-bottom: 100px">
     </div>
 
     <script>
@@ -222,7 +243,7 @@
         }
         $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=usdeur.json&callback=?', function (data) {
 
-            Highcharts.chart('container', {
+            Highcharts.chart('chart', {
                 chart: {
                     zoomType: 'x'
                 },
@@ -248,7 +269,7 @@
                 },
                 plotOptions: {
                     series: {
-                        fillOpacity: 0.1
+                        fillOpacity: 0.3
                     },
                     area: {
                         marker: {
@@ -266,69 +287,35 @@
 
                 series: [{
                     type: "area",
-                    fillOpacity: 0.1,
                     name: 'Currency statistics',
-                    fillColor: {
-                        linearGradient: {
-                            x1: 0,
-                            y1: 0,
-                            x2: 0,
-                            y2: 1
-                        },
-                        stops: [
-                            [0, '#f76664'],
-                            [1, '#f4f4f4']
-                        ]
-                    },
+                    color: '#ff9000',
+//                    fillColor: {
+//                        linearGradient: {
+//                            x1: 0,
+//                            y1: 0,
+//                            x2: 0,
+//                            y2: 1
+//                        },
+//                        stops: [
+//                            [0, '#f7000c'],
+//                            [1, '#f4f4f4']
+//                        ]
+//                    },
                     data: currencyValues
                 }, {
                     type: "area",
-                    fillOpacity: 0.1,
                     name: 'Petrol statistics',
-                    fillColor: {
-                        linearGradient: {
-                            x1: 0,
-                            y1: 0,
-                            x2: 0,
-                            y2: 1
-                        },
-                        stops: [
-                            [0, '#79c97c'],
-                            [1, '#f4f4f4']
-                        ]
-                    },
+                    color: '#44c900',
                     data: petrolValues
                 }, {
                     type: "area",
-                    fillOpacity: 0.1,
                     name: 'Full statistics',
-                    fillColor: {
-                        linearGradient: {
-                            x1: 0,
-                            y1: 0,
-                            x2: 0,
-                            y2: 1
-                        },
-                        stops: [
-                            [0, '#39b0c9'],
-                            [1, '#f4f4f4']
-                        ]
-                    },
+                    color: '#00afc9',
                     data: sumValues
-
                 }]
-
             });
         });
     </script>
-
-    <div class="container" style="padding-bottom:120px;">
-        <h2>Fuel and Currency Trends</h2>
-        <h3><%= session.getAttribute("conclusion") %></h3>
-        <div>
-            <canvas id="myChart"></canvas>
-        </div>
-    </div>
 
     <script src="vendor/Chart.bundle.js"></script>
 

@@ -29,8 +29,6 @@ public class PromotedCountriesSaver {
 
     public void addCountry(String someCountry){
 
-
-
         for(String s : getPromotedCountries()){
             try{
                 PromotedCountriesTable promotedCountriesTable = new PromotedCountriesTable(someCountry);
