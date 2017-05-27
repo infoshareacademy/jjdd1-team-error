@@ -28,16 +28,19 @@ public class PromotedCountriesSaver {
     }
 
     public void addCountry(String someCountry){
-
+        Boolean present = false;
         for(String s : getPromotedCountries()){
-            try{
-                PromotedCountriesTable promotedCountriesTable = new PromotedCountriesTable(someCountry);
-                entityManager.persist(promotedCountriesTable);
+            if(s.toUpperCase().equals(someCountry.toUpperCase())){
+                present = true;
             }
-            catch (Exception e){
-//                entityManager.getTransaction().rollback();
-                LOGGER.warn("Adding a country that already exists - failed");
-            }
+        }
+        if(present==false){
+            PromotedCountriesTable promotedCountriesTable = new PromotedCountriesTable(someCountry);
+            entityManager.persist(promotedCountriesTable);
+            entityManager.flush();
+        }
+        else{
+            entityManager.flush();
         }
     }
 

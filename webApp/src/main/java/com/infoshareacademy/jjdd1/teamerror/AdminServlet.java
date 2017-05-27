@@ -65,7 +65,7 @@ public class AdminServlet extends HttpServlet {
         }
 
         String countryInput = req.getParameter("countryInput");
-        if (countryInput != null) {
+        if (countryInput != null && !promotedCountriesSaver.getPromotedCountries().contains(countryInput)) {
             promotedCountriesSaver.addCountry(countryInput);
         }
 

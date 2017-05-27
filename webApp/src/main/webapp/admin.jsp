@@ -124,7 +124,6 @@
                 }
             }
         });
-
     });
     $(document).ready(function() {
         $('#admin_form3').bootstrapValidator({
