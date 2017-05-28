@@ -1,13 +1,15 @@
 <%@ include file="headAndStyle.jsp" %>
 <%@ include file="header.jsp" %>
-<h1>Upload your new files</h1>
+<%@ include file="headerOptions.jsp" %>
+
+<h1>Upload your files</h1>
 <br>
 <li>Petrol file is: ${petrolFileStatus}</li>
 <li>Currency info file is: ${currencyInfoFileStatus}</li>
 <li>Currency zip file is: ${currencyZipFileStatus}</li>
 <br>
 <!-- Select Basic -->
-<form method="post" action="/upload" class="form-horizontal" id="reg_form" enctype="multipart/form-data">
+<form method="post" action="/upload" class="form-horizontal" id="reg_form" enctype="multipart/form-data" style="padding-bottom: 120px">
     <div class="form-group">
         <label class="col-md-4 control-label">Petrol file</label>
         <div class="col-md-6 selectContainer">

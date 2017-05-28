@@ -5,7 +5,7 @@
 
 <div class="data">
     <br>
-    <ul class="list-group" style="min-width:300px;">
+    <ul class="list-group" style="width:500px;">
         <li class="list-group-item list-group-item-success text-center"><b>GIVEN DATA</b></li>
         <li class="list-group-item text-left">
             <span class="badge badge-success">${country}</span>Country:
@@ -32,12 +32,12 @@
     <br>
 </div>
 
-<div class="container" style="padding-bottom: 100px;">
-    <ul class="list-group" style="min-width:300px;">
+<div class="container" style="padding-bottom: 120px; margin: 0; margin:auto;">
+    <ul class="list-group" style="width:500px; margin:auto">
         <li class="list-group-item text-left">
-            <h2>The cost of renting a car abroad (for the specified data) will be:
+            <h3>The cost of renting a car abroad (for the specified data) will be:
                 <span class="label label-success">${fullCost} PLN</span>
-            </h2>
+            </h3>
         </li>
     </ul>
     <br>

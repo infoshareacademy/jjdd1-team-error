@@ -1,11 +1,10 @@
 <%@ include file="headAndStyle.jsp" %>
 <%@ include file="header.jsp" %>
 <%@ include file="headerOptions.jsp" %>
-<%@ include file="car.jsp" %>
 
 <title>Admin Login Page</title>
 
-<form method="post" action="/admin" class="form-horizontal" id="admin_form1" style="padding-bottom:30px;">
+<form method="post" action="/admin" class="form-horizontal" id="admin_form1" style="padding-top: 50px; padding-bottom:30px;">
     <div class="form-group">
         <label class="col-md-4 control-label">Input admin email</label>
         <div class="col-md-5  inputGroupContainer">
@@ -51,7 +50,7 @@
         </div>
     </div>
 </form>
-<form method="post" action="/admin" class="form-horizontal" id="admin_form4" style="padding-bottom:30px;">
+<form method="post" action="/admin" class="form-horizontal" id="admin_form4" style="padding-bottom:120px;">
     <div class="form-group row">
         <label class="col-md-4 control-label">Remove a promoted country</label>
         <div class="col-md-5  inputGroupContainer">
