@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="headAndStyle.jsp" %>
 
-</div>
 <c:choose>
     <c:when test="${isLogged == false}">
         <div>
