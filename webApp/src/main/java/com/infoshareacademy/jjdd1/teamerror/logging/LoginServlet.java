@@ -68,7 +68,12 @@ public class LoginServlet extends HttpServlet {
     private String getProperPath(HttpServletRequest req, String context) {
         String hostAddress = req.getServerName();
         Integer portName = req.getServerPort();
-        return "http://" + hostAddress + ":" + portName + context;
+        if (hostAddress.equals("localhost")) {
+            return "http://" + hostAddress + ":" + portName + context;
+        }
+        else {
+            return "https://team-error.jjdd1.is-academy.pl" + context;
+        }
     }
 
     @Inject

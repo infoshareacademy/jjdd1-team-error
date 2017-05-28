@@ -31,7 +31,7 @@ public class Statistics {
 
     private final Logger LOGGER = LoggerFactory.getLogger(Statistics.class);
     private final String REPORTS_MODULE_PATH =
-            "http://reports_module:8080/reportsModule-1.0-SNAPSHOT/";
+            "http://reportsmodule:8080/reportsModule-1.0-SNAPSHOT/";
 
 
     public void updateStatistics(String country, String currency, String fuelType) {

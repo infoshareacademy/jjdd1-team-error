@@ -11,14 +11,14 @@ services:
     ports:
       - 4444:3306
   team_error_webapp:
-    container_name: "team_error_webapp"
+    image: team_error_webapp
     build: ./webApp
     ports:
       - 8740:8080
       - 8741:9990
 
-    depends_on:
-      - db_webapp
+    links:
+      - db_webapp:db_webapp
 
 
   db_reportsmodule:
@@ -31,12 +31,18 @@ services:
        - MYSQL_ROOT_PASSWORD=pass
      ports:
        - 4445:3306
-  reports_module:
+
+  reportsmodule:
      container_name: "reportsmodule"
      build: ./reportsModule
+     environment:
+       - MYSQL_URI=db_reportsmodule:3306
+       - MYSQL_DATABASE=db_reportsmodule
+       - MYSQL_USER=mysql
+       - MYSQL_PASSWORD=mysql
+       - MYSQL_ROOT_PASSWORD=pass
      ports:
        - 8742:8080
        - 8743:9990
-
-     depends_on:
-       - db_reportsmodule
+     links:
+       - db_reportsmodule:reportsmodule
