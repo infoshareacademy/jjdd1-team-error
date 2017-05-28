@@ -13,6 +13,16 @@ body {
     width:100%;
 }
 
+/*.list-group{*/
+    /*text-align: left;*/
+    /*width:60%;*/
+    /*position: relative;*/
+/*}*/
+
+.badge{
+    text-align: left;
+}
+
 #header{
     text-align: center;
     color: white;
@@ -143,6 +153,7 @@ a.link:hover{
     margin:0 auto;
 }
 .data {
+    min-width: 200px;
     text-align: left;
     display: inline-block;
     margin:0 auto;

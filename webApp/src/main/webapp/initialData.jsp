@@ -2,7 +2,6 @@
 <%@ include file="header.jsp" %>
 <%@ include file="car.jsp" %>
 
-
 <form method="post" action="/afterInitial" class="form-horizontal" id="reg_form" style="padding-bottom:120px;">
 
     <div class="form-group">
@@ -26,8 +25,6 @@
         </div>
     </div>
 
-    <!-- Select Basic -->
-
     <div class="form-group">
         <label class="col-md-4 control-label">Fuel Type</label>
         <div class="col-md-5 selectContainer">
@@ -43,8 +40,6 @@
         </div>
     </div>
 
-    <!-- Text input-->
-
     <div class="form-group">
         <label class="col-md-4 control-label">Fuel Usage</label>
         <div class="col-md-5  inputGroupContainer">
@@ -53,8 +48,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Text input-->
 
     <div class="form-group">
         <label class="col-md-4 control-label">Distance Traveled</label>
@@ -74,7 +67,6 @@
         </div>
     </div>
 
-    <!-- Text input-->
     <div class="form-group">
         <label class="col-md-4 control-label">Return Date</label>
         <div class="col-md-5 inputGroupContainer">
@@ -83,8 +75,6 @@
             </div>
         </div>
     </div>
-
-
 
     <!-- Submit buttons -->
     <div class="form-group">
@@ -96,9 +86,6 @@
             <button type="submit" class="btn btn-danger" onclick="form.action='/tripCost';">Trip Cost <span class="glyphicon glyphicon-send"></span></button>
         </div>
     </div>
-
-    <%--</fieldset>--%>
 </form>
-
 
 <%@ include file="footer.jsp" %>
