@@ -1,6 +1,5 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import com.infoshareacademy.jjdd1.teamerror.dataBase.Statistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

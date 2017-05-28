@@ -2,6 +2,7 @@ package com.infoshareacademy.jjdd1.teamerror;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.CachedStatistics;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -35,8 +35,6 @@ public class Statistics {
             "http://reportsmodule:8080/reportsModule-1.0-SNAPSHOT/";
 
     // doesn't work without public!!!
-    public void updateStatistics(String country, String currency, String fuelType) {
-
     public void updateStatisticsOfCountryAndCurrencyAndFuelType(String country, String currency, String fuelType) {
         LOGGER.debug("Starting statistics update");
         checkForCachedStatisticsOfCountryAndCurrencyAndFuelTypeAndSendToApi();
@@ -47,7 +45,6 @@ public class Statistics {
     }
 
     // doesn't work without public!!!
-    public Map<String, Integer> getStatistics(String kind){
     public Map<String, Integer> getStatisticsOfCountryOrCurrencyOrFuelType(String kind){
         try {
             checkForCachedStatisticsOfCountryAndCurrencyAndFuelTypeAndSendToApi();
@@ -138,9 +135,6 @@ public class Statistics {
         return result;
     }
 
-
-
-
     public void updateStatisticsOfUserData(String firstName, String secondName, String email, String localDateString, String localTimeString) {
         LOGGER.debug("Starting user statistics update");
         checkForCachedStatisticsOfUserDataAndSendToApi();
@@ -155,8 +149,7 @@ public class Statistics {
             checkForCachedStatisticsOfUserDataAndSendToApi();
             String user = "user";
             WebTarget target = getWebTarget(user);
-            List<List<String>> userStatisticsList = getUserData(target);
-            return userStatisticsList;
+            return getUserData(target);
         }
         catch (Exception e) {
             LOGGER.warn("Getting user statistics for failed");

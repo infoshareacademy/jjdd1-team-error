@@ -4,8 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ejb.Singleton;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,12 +23,12 @@ public class CachedStatistics {
         return cashedStatisticsOfCountryAndCurrencyAndFuelType;
     }
 
-    void setCashedStatisticsOfCountryAndCurrencyAndFuelType(String country, String currency, String fuelType) {
+    public void setCashedStatisticsOfCountryAndCurrencyAndFuelType(String country, String currency, String fuelType) {
         LOGGER.debug("Caching statistics: {} {} {}", country, currency, fuelType);
         this.cashedStatisticsOfCountryAndCurrencyAndFuelType.add(Arrays.asList(country, currency, fuelType));
     }
 
-    void clearCashedStatisticsOfCountryAndCurrencyAndFuelType() {
+    public void clearCashedStatisticsOfCountryAndCurrencyAndFuelType() {
         cashedStatisticsOfCountryAndCurrencyAndFuelType.clear();
     }
 
@@ -38,12 +36,12 @@ public class CachedStatistics {
         return cashedStatisticsOfUserData;
     }
 
-    void setCashedStatisticsOfUserData(String firstName, String secondName, String email, String localDateString, String localTimeString) {
+    public void setCashedStatisticsOfUserData(String firstName, String secondName, String email, String localDateString, String localTimeString) {
         LOGGER.debug("Caching statistics: {}, {}, {}, {}, {}", firstName, secondName, email, localDateString, localTimeString);
         this.cashedStatisticsOfUserData.add(Arrays.asList(firstName, secondName, email, localDateString, localTimeString));
     }
 
-    void clearCashedStatisticsOfUserData() {
+    public void clearCashedStatisticsOfUserData() {
         cashedStatisticsOfUserData.clear();
     }
 }

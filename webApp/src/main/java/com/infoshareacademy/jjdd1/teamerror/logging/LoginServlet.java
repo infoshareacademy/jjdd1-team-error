@@ -8,8 +8,8 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.google.gson.Gson;
+import com.infoshareacademy.jjdd1.teamerror.Statistics;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingAdminBase;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.Statistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +24,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +32,7 @@ import java.util.concurrent.ExecutionException;
 
 @WebServlet(urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
+    private static final String MAIN_DOMAIN = "https://team-error.jjdd1.is-academy.pl";
     private static Logger LOGGER = LoggerFactory.getLogger(LoginServlet.class);
 
     @Inject
@@ -41,15 +41,15 @@ public class LoginServlet extends HttpServlet {
     @Inject
     Statistics statistics;
 
-    final String CLIENT_ID = "447589672882-lon09s9eq542cpusfm4njbkjcuhpgif7.apps.googleusercontent.com";
-    final String CLIENT_SECRET = "kypWEr8p2gMxtv1DZZG6g2mt";
     private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/oauth2/v2/userinfo";
 
     private OAuth20Service service = null;
 
     private OAuth20Service getOAuthService(HttpServletRequest req) {
         if (service == null) {
-            String path = getProperPath(req, "/login");
+            String path = getProperPath(req);
+            String CLIENT_ID = "447589672882-lon09s9eq542cpusfm4njbkjcuhpgif7.apps.googleusercontent.com";
+            String CLIENT_SECRET = "kypWEr8p2gMxtv1DZZG6g2mt";
             service = new ServiceBuilder()
                     .apiKey(CLIENT_ID)
                     .apiSecret(CLIENT_SECRET)
@@ -62,14 +62,14 @@ public class LoginServlet extends HttpServlet {
         return service;
     }
 
-    private String getProperPath(HttpServletRequest req, String context) {
+    private String getProperPath(HttpServletRequest req) {
         String hostAddress = req.getServerName();
         Integer portName = req.getServerPort();
         if (hostAddress.equals("localhost")) {
-            return "http://" + hostAddress + ":" + portName + context;
+            return "http://" + hostAddress + ":" + portName + "/login";
         }
         else {
-            return "https://team-error.jjdd1.is-academy.pl" + context;
+            return MAIN_DOMAIN + "/login";
         }
     }
 
@@ -102,9 +102,7 @@ public class LoginServlet extends HttpServlet {
 
             try {
                 accessToken = getOAuthService(req).getAccessToken(code);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
 
@@ -114,21 +112,22 @@ public class LoginServlet extends HttpServlet {
             Response response = null;
             try {
                 response = getOAuthService(req).execute(request);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
 
-            if (response.getCode() != 200) {
+            if (response != null && response.getCode() != 200) {
                 req.setAttribute("error", "Brak połączenia z api google");
             } else {
-                String googleJson = response.getBody();
+                String googleJson = null;
+                if (response != null) {
+                    googleJson = response.getBody();
+                }
                 Gson gson = new Gson();
                 GoogleUser googleUser = gson.fromJson(googleJson, GoogleUser.class);
 
                 sessionData.logUser(googleUser.getGiven_name(), googleUser.getFamily_name(), googleUser.getEmail());
-                String path = getProperPath(req, "/login");
+                String path = getProperPath(req);
                 resp.sendRedirect(path);
 
             }
@@ -144,8 +143,8 @@ public class LoginServlet extends HttpServlet {
 
             //if there is an email (a user is logged in) use the userEmail to string
             if (sessionData.getEmail() != null) {
-                session.setAttribute("userEmail", (sessionData.getEmail()).toString());
-                LOGGER.debug("UserEmail data: {} ", (sessionData.getEmail()).toString());
+                session.setAttribute("userEmail", (sessionData.getEmail()));
+                LOGGER.debug("UserEmail data: {} ", (sessionData.getEmail()));
             }
 
             LocalDate date = LocalDate.now();
