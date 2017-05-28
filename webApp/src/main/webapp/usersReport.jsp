@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: igafalkowska
-  Date: 23.05.17
-  Time: 12:13
-  To change this template use File | Settings | File Templates.
---%>
 <%@ include file="headAndStyle.jsp" %>
 <%@ include file="header.jsp" %>
 <%@ include file="headerOptions.jsp" %>
@@ -27,9 +20,6 @@
             </tr>
         </c:forEach>
     </tr>
-
-
 </table>
-
 
 <%@ include file="footer.jsp" %>

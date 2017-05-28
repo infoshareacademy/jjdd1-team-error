@@ -15,7 +15,7 @@ public class PromotedCountriesTable {
     @GeneratedValue
     private int id;
 
-    @Column
+    @Column (unique = true)
     private String name;
 
     public PromotedCountriesTable() {
