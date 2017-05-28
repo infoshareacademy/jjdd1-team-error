@@ -23,6 +23,7 @@ public class FileReader {
     public static final String CURRENCY_INFO_FILE = "omeganbp.lst.txt";
     public static final String PATH_TO_FILES = System.getProperty("java.io.tmpdir") + "/files/";
     public static final String PETROL_FILE_NAME = "iSA-PetrolPrices.csv";
+    public static final String PETROL_INFO_FILE_NAME = "countries.json";
     public static final String CURRENCY_ZIP_FILE = "omeganbp.zip";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileReader.class);
@@ -31,17 +32,24 @@ public class FileReader {
     static List<String> loadFile(String path) {
 
         LOGGER.debug("Loading file, path: {}", path);
-        InputStream inputStream = null;
-        try {
-            inputStream = Files.newInputStream(Paths.get(path));
-        } catch (IOException e) {
-            LOGGER.error("Loading file failed, path: {} exception: {}", path, e);
-        }
+        InputStream inputStream = loadFileToInputStream(path);
         if (inputStream != null) {
             return new BufferedReader(new InputStreamReader(inputStream)).lines()
                     .collect(Collectors.toList());
         }
         return new ArrayList<>();
+    }
+
+    public static InputStream loadFileToInputStream(String path) {
+        LOGGER.debug("Loading file to InputStream, path: {}", path);
+        InputStream inputStream = null;
+        try {
+            inputStream = Files.newInputStream(Paths.get(path));
+            LOGGER.info("File loaded to InputStream");
+        } catch (IOException e) {
+            LOGGER.error("Loading file failed, path: {} exception: {}", path, e);
+        }
+        return inputStream;
     }
 
     static List<String> loadFileForDefaultZip(String fileName) {

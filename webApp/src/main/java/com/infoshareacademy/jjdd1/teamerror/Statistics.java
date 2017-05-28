@@ -34,7 +34,7 @@ public class Statistics {
             "http://reportsmodule:8080/reportsModule-1.0-SNAPSHOT/";
 
 
-    public void updateStatistics(String country, String currency, String fuelType) {
+    void updateStatistics(String country, String currency, String fuelType) {
         LOGGER.debug("Starting statistics update");
         checkForCachedStatisticsAndSendToApi();
         Integer status = sendStatisticsToApi(country, currency, fuelType);
@@ -43,7 +43,7 @@ public class Statistics {
         }
     }
 
-    public Map<String, Integer> getStatistics(String kind){
+    Map<String, Integer> getStatistics(String kind){
         try {
             checkForCachedStatisticsAndSendToApi();
             WebTarget target = getWebTarget(kind);
@@ -121,10 +121,7 @@ public class Statistics {
 
         LOGGER.debug("Parsing data from Json to Map");
         Gson gson = new Gson();
-        Map<String, Integer> resultMap = gson.fromJson(result, new TypeToken<Map<String, Integer>>(){}.getType());
-
-        resultMap.forEach((k,v) -> System.out.println(k + " " + v));
-        return resultMap;
+        return gson.fromJson(result, new TypeToken<Map<String, Integer>>(){}.getType());
     }
 
     private Map<String, Integer> mapSorterByValue(Map<String, Integer> unsortedMap) {
