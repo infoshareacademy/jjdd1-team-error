@@ -26,11 +26,11 @@
             <tbody>
                 <c:forEach items="${usersList}" var="user" begin="0" end="${usersList.size()}">
                     <tr class="active">
-                        <td><c:out value="${user.userFirstName}"></c:out></td>
-                        <td><c:out value="${user.userSecondName}"></c:out></td>
-                        <td><c:out value="${user.email}"></c:out></td>
-                        <td><c:out value="${user.recentLoginDate}"></c:out></td>
-                        <td><c:out value="${user.recentLoginTime}"></c:out></td>
+                        <td><c:out value="${user.get(0)}"></c:out></td>
+                        <td><c:out value="${user.get(1)}"></c:out></td>
+                        <td><c:out value="${user.get(2)}"></c:out></td>
+                        <td><c:out value="${user.get(3)}"></c:out></td>
+                        <td><c:out value="${user.get(4)}"></c:out></td>
                     </tr>
                 </c:forEach>
             </tbody>

@@ -9,7 +9,7 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.google.gson.Gson;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingAdminBase;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingUserStatistics;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.Statistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class LoginServlet extends HttpServlet {
     SessionData sessionData;
 
     @Inject
-    SavingUserStatistics savingUserStatistics;
+    Statistics statistics;
 
     final String CLIENT_ID = "447589672882-lon09s9eq542cpusfm4njbkjcuhpgif7.apps.googleusercontent.com";
     final String CLIENT_SECRET = "kypWEr8p2gMxtv1DZZG6g2mt";
@@ -144,11 +145,9 @@ public class LoginServlet extends HttpServlet {
 
             LocalDate date = LocalDate.now();
             LocalTime time = LocalTime.now();
-            savingUserStatistics.setOrUpdateUser(sessionUser.get("given_name"), sessionUser.get("family_name"),
-                    sessionUser.get("email"), date, time);
-            if (sessionUser.get("email") != null) {
-                LOGGER.info("Information about currently logged in user: {}", savingUserStatistics.getUsersInformation(sessionUser.get("email")).toString());
-            }
+
+            statistics.updateStatisticsOfUserData(sessionUser.get("given_name"), sessionUser.get("family_name"),
+                    sessionUser.get("email"), date.toString(), time.toString());
 
             req.setAttribute("isLogged", sessionData.isLogged());
             RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");

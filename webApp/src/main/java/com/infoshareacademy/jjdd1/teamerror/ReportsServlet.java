@@ -1,6 +1,5 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingUserStatistics;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.Statistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,14 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet(urlPatterns = "/report")
 public class ReportsServlet extends HttpServlet{
     private static Logger LOGGER = LoggerFactory.getLogger(ReportsServlet.class);
-
-    @Inject
-    SavingUserStatistics savingUserStatistics;
 
     @Inject
     Statistics statistics;
@@ -55,7 +52,8 @@ public class ReportsServlet extends HttpServlet{
 
         else if (req.getParameter("usersReport") != null) {
             req.setAttribute("title", "Fuel type report");
-            req.setAttribute("usersList", savingUserStatistics.getListOfUsers());
+            List<List<String>> userStatistics = statistics.getStatisticsOfUserData();
+            req.setAttribute("usersList", userStatistics);
             RequestDispatcher dispatcher = req.getRequestDispatcher("/usersReport.jsp");
             dispatcher.forward(req, resp);
         }

@@ -7,6 +7,8 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ public class SavingUserStatistics {
     @PersistenceContext
     EntityManager entityManager;
 
-    public void setOrUpdateUser(String firstName, String secondName, String email, LocalDate localDate, LocalTime localTime) {
+    public void setOrUpdateUser(String firstName, String secondName, String email, String localDate, String localTime) {
         if (email != null) {
             if (!getListOfUsersEmails().contains(email)) {
                 UserStatistics userStatistics = new UserStatistics(firstName, secondName, email, localDate, localTime);
@@ -36,11 +38,18 @@ public class SavingUserStatistics {
         return entityManager.createQuery("SELECT us.email FROM UserStatistics us", String.class).getResultList();
     }
 
-    public List<UserStatistics> getListOfUsers(){
+    public List<List<String>> getListOfUsers(){
         TypedQuery<UserStatistics> typedQuery = entityManager.createQuery
                 ("SELECT NEW UserStatistics(us.userFirstName, us.userSecondName, us.email, us.recentLoginDate, us.recentLoginTime)" +
                 " FROM UserStatistics us" , UserStatistics.class);
-        return typedQuery.getResultList();
+
+        List<UserStatistics> userStatisticsList =  typedQuery.getResultList();
+        List<List<String>> userList = new ArrayList<>();
+        for (UserStatistics user: userStatisticsList) {
+            userList.add(Arrays.asList(user.getUserFirstName(), user.getUserSecondName(), user.getEmail(), user.getRecentLoginDate(),
+                    user.getRecentLoginTime()));
+        }
+        return userList;
     }
 
     public UserStatistics getUsersInformation(String email){

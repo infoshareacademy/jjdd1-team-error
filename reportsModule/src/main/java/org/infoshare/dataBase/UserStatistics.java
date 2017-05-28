@@ -27,10 +27,10 @@ public class UserStatistics {
     private String email;
 
     @Column
-    private LocalDate recentLoginDate;
+    private String recentLoginDate;
 
     @Column
-    private LocalTime recentLoginTime;
+    private String recentLoginTime;
 
     public String getUserFirstName() {
         return userFirstName;
@@ -44,15 +44,15 @@ public class UserStatistics {
         return email;
     }
 
-    public LocalDate getRecentLoginDate() {
+    public String getRecentLoginDate() {
         return recentLoginDate;
     }
 
-    public LocalTime getRecentLoginTime() {
+    public String getRecentLoginTime() {
         return recentLoginTime;
     }
 
-    public UserStatistics(String userFirstName, String userSecondName, String email, LocalDate recentLoginDate, LocalTime recentLoginTime) {
+    public UserStatistics(String userFirstName, String userSecondName, String email, String recentLoginDate, String recentLoginTime) {
         this.userFirstName = userFirstName;
         this.userSecondName = userSecondName;
         this.email = email;

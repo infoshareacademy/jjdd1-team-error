@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ejb.Singleton;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,15 +18,11 @@ public class CachedStatistics {
     private final Logger LOGGER = LoggerFactory.getLogger(CachedStatistics.class);
 
     private List<List<String>> cashedStatisticsOfCountryAndCurrencyAndFuelType = new ArrayList<>();
-    private List<UserStatistics> cashedStatisticsOfUserData = new ArrayList<>();
+    private List<List<String>> cashedStatisticsOfUserData = new ArrayList<>();
 
     // don't remove public
     public List<List<String>> getCashedStatisticsOfCountryAndCurrencyAndFuelType() {
         return cashedStatisticsOfCountryAndCurrencyAndFuelType;
-    }
-
-    public List<UserStatistics> getCashedStatisticsOfUserData() {
-        return cashedStatisticsOfUserData;
     }
 
     void setCashedStatisticsOfCountryAndCurrencyAndFuelType(String country, String currency, String fuelType) {
@@ -32,13 +30,17 @@ public class CachedStatistics {
         this.cashedStatisticsOfCountryAndCurrencyAndFuelType.add(Arrays.asList(country, currency, fuelType));
     }
 
-    void setCashedStatisticsOfUserData(UserStatistics userStatistics) {
-        LOGGER.debug("Caching statistics: {}", userStatistics.toString());
-        this.cashedStatisticsOfUserData.add(userStatistics);
-    }
-
     void clearCashedStatisticsOfCountryAndCurrencyAndFuelType() {
         cashedStatisticsOfCountryAndCurrencyAndFuelType.clear();
+    }
+
+    public List<List<String>> getCashedStatisticsOfUserData() {
+        return cashedStatisticsOfUserData;
+    }
+
+    void setCashedStatisticsOfUserData(String firstName, String secondName, String email, String localDateString, String localTimeString) {
+        LOGGER.debug("Caching statistics: {}, {}, {}, {}, {}", firstName, secondName, email, localDateString, localTimeString);
+        this.cashedStatisticsOfUserData.add(Arrays.asList(firstName, secondName, email, localDateString, localTimeString));
     }
 
     void clearCashedStatisticsOfUserData() {

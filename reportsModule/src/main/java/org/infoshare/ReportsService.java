@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -55,8 +56,7 @@ public class ReportsService {
                                          @FormParam("recentLoginDate") String localDate,
                                          @FormParam("recentLoginTime") String localTime
     ) {
-        savingUserStatistics.setOrUpdateUser(firstName, secondName, email, LocalDate.parse(localDate), LocalTime.parse(localTime));
-
+        savingUserStatistics.setOrUpdateUser(firstName, secondName, email, localDate, localTime);
         return Response.ok().build();
     }
 
@@ -88,7 +88,7 @@ public class ReportsService {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/userStatistics")
     public Response getUserStatistics() {
-        List<UserStatistics> userStatisticsList = savingUserStatistics.getListOfUsers();
+        List<List<String>> userStatisticsList = savingUserStatistics.getListOfUsers();
         return Response.ok(userStatisticsList).build();
     }
 }
