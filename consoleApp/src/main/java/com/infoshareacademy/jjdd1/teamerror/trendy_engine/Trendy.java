@@ -2,7 +2,10 @@ package com.infoshareacademy.jjdd1.teamerror.trendy_engine;
 
 import com.infoshareacademy.jjdd1.teamerror.HelpfulMethods;
 import com.infoshareacademy.jjdd1.teamerror.currency_petrol_data.RatesInfo;
-import com.infoshareacademy.jjdd1.teamerror.file_loader.*;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.CountryAndCurrency;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.CurrencyFileFilter;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.FilesContent;
+import com.infoshareacademy.jjdd1.teamerror.file_loader.PetrolFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,8 +28,8 @@ public class Trendy {
     private static final int DEFAULT_DAYS_NUMBER = 60;
     private static final int DEFAULT_TRIP_LENGTH = 7;
     private static final int DEFAULT_STARTING_DAY = 6;
-    public static final int DATE_FORMAT_LENGTH = 8;
-    public static final int MAXIMUM_ANALYSIS_PERIOD = 5;
+    private static final int DATE_FORMAT_LENGTH = 8;
+    private static final int MAXIMUM_ANALYSIS_PERIOD = 5;
 
     private String conclusion = "";
     private Map<LocalDate, Double> petrolTrendy = new LinkedHashMap<>();

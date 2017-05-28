@@ -8,8 +8,8 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.google.gson.Gson;
+import com.infoshareacademy.jjdd1.teamerror.Statistics;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingAdminBase;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingUserStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,30 +29,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-/**
- * Created by igafalkowska on 28.04.17.
- */
-
 
 @WebServlet(urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
+    private static final String MAIN_DOMAIN = "https://team-error.jjdd1.is-academy.pl";
     private static Logger LOGGER = LoggerFactory.getLogger(LoginServlet.class);
 
     @Inject
     SessionData sessionData;
 
     @Inject
-    SavingUserStatistics savingUserStatistics;
+    Statistics statistics;
 
-    final String CLIENT_ID = "447589672882-lon09s9eq542cpusfm4njbkjcuhpgif7.apps.googleusercontent.com";
-    final String CLIENT_SECRET = "kypWEr8p2gMxtv1DZZG6g2mt";
     private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/oauth2/v2/userinfo";
 
     private OAuth20Service service = null;
 
     private OAuth20Service getOAuthService(HttpServletRequest req) {
         if (service == null) {
-            String path = getProperPath(req, "/login");
+            String path = getProperPath(req);
+            String CLIENT_ID = "447589672882-lon09s9eq542cpusfm4njbkjcuhpgif7.apps.googleusercontent.com";
+            String CLIENT_SECRET = "kypWEr8p2gMxtv1DZZG6g2mt";
             service = new ServiceBuilder()
                     .apiKey(CLIENT_ID)
                     .apiSecret(CLIENT_SECRET)
@@ -65,14 +62,14 @@ public class LoginServlet extends HttpServlet {
         return service;
     }
 
-    private String getProperPath(HttpServletRequest req, String context) {
+    private String getProperPath(HttpServletRequest req) {
         String hostAddress = req.getServerName();
         Integer portName = req.getServerPort();
         if (hostAddress.equals("localhost")) {
-            return "http://" + hostAddress + ":" + portName + context;
+            return "http://" + hostAddress + ":" + portName + "/login";
         }
         else {
-            return "https://team-error.jjdd1.is-academy.pl" + context;
+            return MAIN_DOMAIN + "/login";
         }
     }
 
@@ -88,11 +85,11 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-//        //setting the current list of admins
+        //setting the current list of admins
         HttpSession session = req.getSession(true);
         session.setAttribute("adminList", savingAdminBase.getListOfAdmins());
         LOGGER.info("Admin List data : {} ", session.getAttribute("adminList"));
-//
+
         //creating a JSON admin list, to later use it in JavaScript in footer.jsp
         List<String> adminList = savingAdminBase.getListOfAdmins();
         String adminListString = new Gson().toJson(adminList);
@@ -105,9 +102,7 @@ public class LoginServlet extends HttpServlet {
 
             try {
                 accessToken = getOAuthService(req).getAccessToken(code);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
 
@@ -117,55 +112,51 @@ public class LoginServlet extends HttpServlet {
             Response response = null;
             try {
                 response = getOAuthService(req).execute(request);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
 
-            if (response.getCode() != 200) {
+            if (response != null && response.getCode() != 200) {
                 req.setAttribute("error", "Brak połączenia z api google");
             } else {
-                String googleJson = response.getBody();
+                String googleJson = null;
+                if (response != null) {
+                    googleJson = response.getBody();
+                }
                 Gson gson = new Gson();
                 GoogleUser googleUser = gson.fromJson(googleJson, GoogleUser.class);
 
                 sessionData.logUser(googleUser.getGiven_name(), googleUser.getFamily_name(), googleUser.getEmail());
-                String path = getProperPath(req, "/login");
+                String path = getProperPath(req);
                 resp.sendRedirect(path);
 
             }
         }
-        Map<String, String> sessionUser = new HashMap<>();
-        sessionUser.put("given_name", sessionData.getUserFirstName());
-        sessionUser.put("family_name", sessionData.getUserSecondName());
-        sessionUser.put("email", sessionData.getEmail());
-        req.setAttribute("oauth", sessionUser);
-        LOGGER.debug(sessionUser.get("given_name"));
-        LOGGER.debug(sessionUser.get("family_name"));
-        LOGGER.debug(sessionUser.get("email"));
+            Map<String, String> sessionUser = new HashMap<>();
+            sessionUser.put("given_name", sessionData.getUserFirstName());
+            sessionUser.put("family_name", sessionData.getUserSecondName());
+            sessionUser.put("email", sessionData.getEmail());
+            req.setAttribute("oauth", sessionUser);
+            LOGGER.debug(sessionUser.get("given_name"));
+            LOGGER.debug(sessionUser.get("family_name"));
+            LOGGER.debug(sessionUser.get("email"));
 
-//        //if there is an email (a user is logged in) use the userEmail to string (needed for admin button visibility)
-        if(sessionData.getEmail()!=null){
-            session.setAttribute("userEmail", (sessionData.getEmail()).toString());
-            LOGGER.debug("UserEmail data: {} ", (sessionData.getEmail()).toString());
+            //if there is an email (a user is logged in) use the userEmail to string
+            if (sessionData.getEmail() != null) {
+                session.setAttribute("userEmail", (sessionData.getEmail()));
+                LOGGER.debug("UserEmail data: {} ", (sessionData.getEmail()));
+            }
+
+            LocalDate date = LocalDate.now();
+            LocalTime time = LocalTime.now();
+
+            statistics.updateStatisticsOfUserData(sessionUser.get("given_name"), sessionUser.get("family_name"),
+                    sessionUser.get("email"), date.toString(), time.toString());
+
+            req.setAttribute("isLogged", sessionData.isLogged());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
+            dispatcher.forward(req, resp);
         }
-
-        LocalDate date= LocalDate.now();
-        LocalTime time= LocalTime.now();
-        savingUserStatistics.setOrUpdateUser(sessionUser.get("given_name"), sessionUser.get("family_name"),
-                sessionUser.get("email"), date, time);
-        LOGGER.info("List of users firs names: {}", savingUserStatistics.getListOfUsersFirstName());
-        LOGGER.info("List of users second names: {}", savingUserStatistics.getListOfUsersSecondName());
-        LOGGER.info("List of users emails: {}", savingUserStatistics.getListOfUsersEmails());
-        LOGGER.info("List of users recent login date: {}", savingUserStatistics.getListOfUsersRecentLocalDate());
-        LOGGER.info("List of users recent login time: {}", savingUserStatistics.getListOfUsersRecentLocalTime());
-
-        req.setAttribute("isLogged", sessionData.isLogged());
-
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
-        dispatcher.forward(req, resp);
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -175,8 +166,6 @@ public class LoginServlet extends HttpServlet {
             additionalParams.put("access_type", "offline");
             additionalParams.put("prompt", "consent");
             resp.sendRedirect(getOAuthService(req).getAuthorizationUrl(additionalParams));
-//            req.setAttribute("oauth", "wysyłam żądanie do google...");
-            req.setAttribute("isLogged", sessionData.isLogged());
             RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
             dispatcher.forward(req, resp);
         }

@@ -104,7 +104,7 @@ public class AfterInitialData extends HttpServlet {
             CountryAndCurrency countryAndCurrency = new CountryAndCurrency(filesContent);
             countryAndCurrency.setCurrency(country);
             String currency = countryAndCurrency.getCurrency();
-            statistics.updateStatistics(country, currency, fuelType);
+            statistics.updateStatisticsOfCountryAndCurrencyAndFuelType(country, currency, fuelType);
             LOGGER.debug("Statistics updated, parameters: {} {} {}", country, currency, fuelType);
         }
     }

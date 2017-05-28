@@ -199,3 +199,7 @@ select {
 .btn-outline-inverse:hover{
     background-color: rgba(13, 147, 176, 0.94);
 }
+
+td {
+    text-align: left;
+}
