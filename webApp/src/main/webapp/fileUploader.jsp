@@ -4,9 +4,9 @@
 
 <h1>Upload your files</h1>
 <br>
-<li>Petrol file is: ${param.petrolFileStatus}</li>
-<li>Currency info file is: ${param.currencyInfoFileStatus}</li>
-<li>Currency zip file is: ${param.currencyZipFileStatus}</li
+<li>Petrol file is: ${petrolFileStatus}</li>
+<li>Currency info file is: ${currencyInfoFileStatus}</li>
+<li>Currency zip file is: ${currencyZipFileStatus}</li>
 <br>
 <!-- Select Basic -->
 <form method="post" action="/upload" class="form-horizontal" id="reg_form" enctype="multipart/form-data" style="padding-bottom: 120px">

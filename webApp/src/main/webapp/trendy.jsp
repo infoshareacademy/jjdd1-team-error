@@ -9,37 +9,37 @@
 <div class="row">
     <div class="col-md-4" style="padding-left: 100px">
 
-    <div class="data">
-        <br>
-        <ul class="list-group" style="min-width:300px;">
-            <li class="list-group-item list-group-item-info text-center"><b>GIVEN DATA</b></li>
-            <li class="list-group-item text-left">
-                <span class="badge badge-info">${country}</span>Country:
-            </li>
-            <li class="list-group-item text-left">
-                <span class="badge badge-info"><%= session.getAttribute("currency") %></span>Currency:
-            </li>
-            <li class="list-group-item text-left">
-                <span class="badge badge-info"><%= session.getAttribute("fuelTypeString") %></span>Fuel type:
-            </li>
-            <li class="list-group-item text-left">
-                <span class="badge badge-info"><%= session.getAttribute("tripLength") %></span>Trip length:
-            </li>
-            <li class="list-group-item text-left">
-                <span class="badge badge-info"><%= session.getAttribute("trendPeriodFrom") %></span>Date from:
-            </li>
-            <li class="list-group-item text-left">
-                <span class="badge badge-info"><%= session.getAttribute("trendPeriodTill") %></span>Date till:
-            </li>
-            <li class="list-group-item text-left">
-            <span class="badge badge-info"><c:forEach items="${startingDaysString}" var="trend">
-                ${trend}
-            </c:forEach>
-            </span>Starting days:
-            </li>
-        </ul>
-        <br>
-    </div>
+        <div class="data">
+            <br>
+            <ul class="list-group" style="min-width:300px;">
+                <li class="list-group-item list-group-item-info text-center"><b>GIVEN DATA</b></li>
+                <li class="list-group-item text-left">
+                    <span class="badge badge-info">${country}</span>Country:
+                </li>
+                <li class="list-group-item text-left">
+                    <span class="badge badge-info"><%= session.getAttribute("currency") %></span>Currency:
+                </li>
+                <li class="list-group-item text-left">
+                    <span class="badge badge-info"><%= session.getAttribute("fuelTypeString") %></span>Fuel type:
+                </li>
+                <li class="list-group-item text-left">
+                    <span class="badge badge-info"><%= session.getAttribute("tripLength") %></span>Trip length:
+                </li>
+                <li class="list-group-item text-left">
+                    <span class="badge badge-info"><%= session.getAttribute("trendPeriodFrom") %></span>Date from:
+                </li>
+                <li class="list-group-item text-left">
+                    <span class="badge badge-info"><%= session.getAttribute("trendPeriodTill") %></span>Date till:
+                </li>
+                <li class="list-group-item text-left">
+                <span class="badge badge-info"><c:forEach items="${startingDaysString}" var="trend">
+                    ${trend}
+                </c:forEach>
+                </span>Starting days:
+                </li>
+            </ul>
+            <br>
+        </div>
     </div>
 
 <div class="col-md-8" style="padding-top: 20px; padding-right: 120px">
@@ -75,8 +75,15 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-2 control-label">Starting days</label>
-            <div class="col-md-10">
+            <label class="col-md-4 control-label">Starting days</label>
+            <div class="col-md-5">
+                <label class="checkbox-inline">
+                    <% if (((HashSet<String>) session.getAttribute("startingDaysString")).contains("Sunday")) { %>
+                    <input type="checkbox" name="startingDays" value="7" checked> Sunday
+                    <% } else { %>
+                    <input type="checkbox" name="startingDays" value="7"> Sunday
+                    <% } %>
+                </label>
                 <label class="checkbox checkbox-inline">
                     <% if (((HashSet<String>) session.getAttribute("startingDaysString")).contains("Monday")) { %>
                     <input type="checkbox" name="startingDays" value="1" checked> Monday
@@ -117,13 +124,6 @@
                     <input type="checkbox" name="startingDays" value="6" checked> Saturday
                     <% } else { %>
                     <input type="checkbox" name="startingDays" value="6"> Saturday
-                    <% } %>
-                </label>
-                <label class="checkbox-inline">
-                    <% if (((HashSet<String>) session.getAttribute("startingDaysString")).contains("Sunday")) { %>
-                    <input type="checkbox" name="startingDays" value="7" checked> Sunday
-                    <% } else { %>
-                    <input type="checkbox" name="startingDays" value="7"> Sunday
                     <% } %>
                 </label>
             </div>

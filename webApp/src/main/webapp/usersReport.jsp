@@ -5,12 +5,15 @@
   Time: 12:13
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="headAndStyle.jsp" %>
 <%@ include file="header.jsp" %>
 <%@ include file="headerOptions.jsp" %>
 
 <c:choose>
-    <c:when test="${userList != null}">
+    <c:when test="${usersList != null}">
         <h3>Information about users logged in to Trip Calculator</h3>
         <div class="row" style="padding-bottom: 120px; margin:0;">
             <div class="col-md-2"></div>

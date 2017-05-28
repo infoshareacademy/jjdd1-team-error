@@ -124,14 +124,11 @@
             </div>
             <div class="btn-group" role="group">
                 <button id="four" class="btn btn-outline-inverse btn-lg" type="submit"
-                        formmethod="post" formaction="/fileUploader.jsp" name="fuelTypeReport" value="">Change files
+                        formmethod="post" formaction="/fileUploader.jsp" name="fuelTypeReport" value="">Update files
                 </button>
             </div>
             <div class="btn-group" role="group">
                 <button id="five" class="btn btn-outline-inverse btn-lg" type="submit"
-                <%--<c:forEach items="${adminList}" var="admin">--%>
-                <%--<c:if test="${userEmail != admin}"><c:out value="disabled='disabled'"/></c:if>--%>
-                <%--</c:forEach>--%>
                         formmethod="post" formaction="/admin" name="adminPage" value="">Admin</button>
             </div>
         </div>
