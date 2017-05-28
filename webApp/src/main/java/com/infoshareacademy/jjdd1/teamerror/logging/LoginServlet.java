@@ -9,7 +9,7 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.google.gson.Gson;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingAdminBase;
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingUserStatistics;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.Statistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,14 +24,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-
-/**
- * Created by igafalkowska on 28.04.17.
- */
 
 
 @WebServlet(urlPatterns = "/login")
@@ -42,7 +39,7 @@ public class LoginServlet extends HttpServlet {
     SessionData sessionData;
 
     @Inject
-    SavingUserStatistics savingUserStatistics;
+    Statistics statistics;
 
     final String CLIENT_ID = "447589672882-lon09s9eq542cpusfm4njbkjcuhpgif7.apps.googleusercontent.com";
     final String CLIENT_SECRET = "kypWEr8p2gMxtv1DZZG6g2mt";
@@ -88,11 +85,11 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-//        //setting the current list of admins
+        //setting the current list of admins
         HttpSession session = req.getSession(true);
         session.setAttribute("adminList", savingAdminBase.getListOfAdmins());
         LOGGER.info("Admin List data : {} ", session.getAttribute("adminList"));
-//
+
         //creating a JSON admin list, to later use it in JavaScript in footer.jsp
         List<String> adminList = savingAdminBase.getListOfAdmins();
         String adminListString = new Gson().toJson(adminList);
@@ -136,36 +133,31 @@ public class LoginServlet extends HttpServlet {
 
             }
         }
-        Map<String, String> sessionUser = new HashMap<>();
-        sessionUser.put("given_name", sessionData.getUserFirstName());
-        sessionUser.put("family_name", sessionData.getUserSecondName());
-        sessionUser.put("email", sessionData.getEmail());
-        req.setAttribute("oauth", sessionUser);
-        LOGGER.debug(sessionUser.get("given_name"));
-        LOGGER.debug(sessionUser.get("family_name"));
-        LOGGER.debug(sessionUser.get("email"));
+            Map<String, String> sessionUser = new HashMap<>();
+            sessionUser.put("given_name", sessionData.getUserFirstName());
+            sessionUser.put("family_name", sessionData.getUserSecondName());
+            sessionUser.put("email", sessionData.getEmail());
+            req.setAttribute("oauth", sessionUser);
+            LOGGER.debug(sessionUser.get("given_name"));
+            LOGGER.debug(sessionUser.get("family_name"));
+            LOGGER.debug(sessionUser.get("email"));
 
-//        //if there is an email (a user is logged in) use the userEmail to string (needed for admin button visibility)
-        if(sessionData.getEmail()!=null){
-            session.setAttribute("userEmail", (sessionData.getEmail()).toString());
-            LOGGER.debug("UserEmail data: {} ", (sessionData.getEmail()).toString());
+            //if there is an email (a user is logged in) use the userEmail to string
+            if (sessionData.getEmail() != null) {
+                session.setAttribute("userEmail", (sessionData.getEmail()).toString());
+                LOGGER.debug("UserEmail data: {} ", (sessionData.getEmail()).toString());
+            }
+
+            LocalDate date = LocalDate.now();
+            LocalTime time = LocalTime.now();
+
+            statistics.updateStatisticsOfUserData(sessionUser.get("given_name"), sessionUser.get("family_name"),
+                    sessionUser.get("email"), date.toString(), time.toString());
+
+            req.setAttribute("isLogged", sessionData.isLogged());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
+            dispatcher.forward(req, resp);
         }
-
-        LocalDate date= LocalDate.now();
-        LocalTime time= LocalTime.now();
-        savingUserStatistics.setOrUpdateUser(sessionUser.get("given_name"), sessionUser.get("family_name"),
-                sessionUser.get("email"), date, time);
-        LOGGER.info("List of users firs names: {}", savingUserStatistics.getListOfUsersFirstName());
-        LOGGER.info("List of users second names: {}", savingUserStatistics.getListOfUsersSecondName());
-        LOGGER.info("List of users emails: {}", savingUserStatistics.getListOfUsersEmails());
-        LOGGER.info("List of users recent login date: {}", savingUserStatistics.getListOfUsersRecentLocalDate());
-        LOGGER.info("List of users recent login time: {}", savingUserStatistics.getListOfUsersRecentLocalTime());
-
-        req.setAttribute("isLogged", sessionData.isLogged());
-
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
-        dispatcher.forward(req, resp);
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -175,8 +167,6 @@ public class LoginServlet extends HttpServlet {
             additionalParams.put("access_type", "offline");
             additionalParams.put("prompt", "consent");
             resp.sendRedirect(getOAuthService(req).getAuthorizationUrl(additionalParams));
-//            req.setAttribute("oauth", "wysyłam żądanie do google...");
-            req.setAttribute("isLogged", sessionData.isLogged());
             RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
             dispatcher.forward(req, resp);
         }

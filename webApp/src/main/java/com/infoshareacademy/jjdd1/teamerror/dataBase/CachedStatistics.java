@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ejb.Singleton;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,19 +17,33 @@ import java.util.List;
 public class CachedStatistics {
     private final Logger LOGGER = LoggerFactory.getLogger(CachedStatistics.class);
 
-    private List<List<String>> cashedStatistics = new ArrayList<>();
+    private List<List<String>> cashedStatisticsOfCountryAndCurrencyAndFuelType = new ArrayList<>();
+    private List<List<String>> cashedStatisticsOfUserData = new ArrayList<>();
 
     // don't remove public
-    public List<List<String>> getCashedStatistics() {
-        return cashedStatistics;
+    public List<List<String>> getCashedStatisticsOfCountryAndCurrencyAndFuelType() {
+        return cashedStatisticsOfCountryAndCurrencyAndFuelType;
     }
 
-    public void setCashedStatistics(String country, String currency, String fuelType) {
+    void setCashedStatisticsOfCountryAndCurrencyAndFuelType(String country, String currency, String fuelType) {
         LOGGER.debug("Caching statistics: {} {} {}", country, currency, fuelType);
-        this.cashedStatistics.add(Arrays.asList(country, currency, fuelType));
+        this.cashedStatisticsOfCountryAndCurrencyAndFuelType.add(Arrays.asList(country, currency, fuelType));
     }
 
-    public void clearCashedStatistics() {
-        cashedStatistics.clear();
+    void clearCashedStatisticsOfCountryAndCurrencyAndFuelType() {
+        cashedStatisticsOfCountryAndCurrencyAndFuelType.clear();
+    }
+
+    public List<List<String>> getCashedStatisticsOfUserData() {
+        return cashedStatisticsOfUserData;
+    }
+
+    void setCashedStatisticsOfUserData(String firstName, String secondName, String email, String localDateString, String localTimeString) {
+        LOGGER.debug("Caching statistics: {}, {}, {}, {}, {}", firstName, secondName, email, localDateString, localTimeString);
+        this.cashedStatisticsOfUserData.add(Arrays.asList(firstName, secondName, email, localDateString, localTimeString));
+    }
+
+    void clearCashedStatisticsOfUserData() {
+        cashedStatisticsOfUserData.clear();
     }
 }

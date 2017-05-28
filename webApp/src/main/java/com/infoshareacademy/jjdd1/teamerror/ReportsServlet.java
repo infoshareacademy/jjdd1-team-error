@@ -1,6 +1,6 @@
 package com.infoshareacademy.jjdd1.teamerror;
 
-import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingUserStatistics;
+import com.infoshareacademy.jjdd1.teamerror.dataBase.Statistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,14 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet(urlPatterns = "/report")
 public class ReportsServlet extends HttpServlet{
     private static Logger LOGGER = LoggerFactory.getLogger(ReportsServlet.class);
-
-    @Inject
-    SavingUserStatistics savingUserStatistics;
 
     @Inject
     Statistics statistics;
@@ -33,11 +31,11 @@ public class ReportsServlet extends HttpServlet{
 
         if (req.getParameter("countryAndCurrencyReport") != null) {
             req.setAttribute("title", "Country and currency report");
-            Map<String, Integer> countryStatistics = statistics.getStatistics("country");
+            Map<String, Integer> countryStatistics = statistics.getStatisticsOfCountryOrCurrencyOrFuelType("country");
             LOGGER.debug("Country statistics: {}", countryStatistics);
             req.setAttribute("countryStatistics", countryStatistics);
 
-            Map<String, Integer> currencyStatistics = statistics.getStatistics("currency");
+            Map<String, Integer> currencyStatistics = statistics.getStatisticsOfCountryOrCurrencyOrFuelType("currency");
             LOGGER.debug("Currency statistics: {}", currencyStatistics);
             req.setAttribute("currencyStatistics", currencyStatistics);
             RequestDispatcher dispatcher = req.getRequestDispatcher("/countryAndCurrencyReport.jsp");
@@ -46,7 +44,7 @@ public class ReportsServlet extends HttpServlet{
 
         else if (req.getParameter("fuelTypeReport") != null) {
             req.setAttribute("title", "Fuel type report");
-            Map<String, Integer> fuelTypeStatistics = statistics.getStatistics("petrol");
+            Map<String, Integer> fuelTypeStatistics = statistics.getStatisticsOfCountryOrCurrencyOrFuelType("petrol");
             req.setAttribute("fuelTypeStatistics", fuelTypeStatistics);
             RequestDispatcher dispatcher = req.getRequestDispatcher("/fuelTypeReport.jsp");
             dispatcher.forward(req, resp);
@@ -54,11 +52,8 @@ public class ReportsServlet extends HttpServlet{
 
         else if (req.getParameter("usersReport") != null) {
             req.setAttribute("title", "Fuel type report");
-            req.setAttribute("usersFirstName", savingUserStatistics.getListOfUsersFirstName());
-            req.setAttribute("usersSecondName", savingUserStatistics.getListOfUsersSecondName());
-            req.setAttribute("usersEmail", savingUserStatistics.getListOfUsersEmails());
-            req.setAttribute("usersRecentLoginDate", savingUserStatistics.getListOfUsersRecentLocalDate());
-            req.setAttribute("usersRecentLoginTime", savingUserStatistics.getListOfUsersRecentLocalTime());
+            List<List<String>> userStatistics = statistics.getStatisticsOfUserData();
+            req.setAttribute("usersList", userStatistics);
             RequestDispatcher dispatcher = req.getRequestDispatcher("/usersReport.jsp");
             dispatcher.forward(req, resp);
         }
