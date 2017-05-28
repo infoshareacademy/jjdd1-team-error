@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/start", "/tripCost", "/report", "/trendy", "/"})
+@WebFilter(urlPatterns = {"/start", "/tripCost", "/report", "/trendy", "/", "/admin"})
 public class LoginFilter implements  Filter{
 
         private static Logger LOGGER = LoggerFactory.getLogger(LoginFilter.class);

@@ -28,6 +28,7 @@
     </c:when>
     <c:otherwise>
         <%@ include file="header.jsp" %>
+        <%@ include file="car.jsp" %>
         <div class="row" style="margin:0; padding-bottom:120px; padding-top:50px;">
             <div class="col-md-4" style="padding:0;">
                 <img class="photo" src="img/photo2.jpg" alt="car">
