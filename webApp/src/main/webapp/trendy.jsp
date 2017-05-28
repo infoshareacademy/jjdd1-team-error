@@ -6,7 +6,9 @@
 <%@ include file="headerOptions.jsp" %>
 <%@ include file="car.jsp" %>
 
-<form method="post" action="/trendy" class="form-horizontal" id="trendy_form">
+<div class="row">
+    <div class="col-md-4" style="padding-left: 100px">
+
     <div class="data">
         <br>
         <ul class="list-group" style="min-width:300px;">
@@ -38,11 +40,14 @@
         </ul>
         <br>
     </div>
+    </div>
 
+<div class="col-md-8" style="padding-top: 20px; padding-right: 120px">
+        <form method="post" action="/trendy" class="form-horizontal" id="trendy_form">
     <div>
         <div class="form-group">
-            <label class="col-md-4 control-label">Trip length</label>
-            <div class="col-md-5  inputGroupContainer">
+            <label class="col-md-2 control-label">Trip length</label>
+            <div class="col-md-10  inputGroupContainer">
                 <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
                     <input name="tripLength" class="form-control" type="number" min="1"
                            value="<%= session.getAttribute("tripLength") %>"/>
@@ -50,8 +55,8 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-4 control-label">Date from</label>
-            <div class="col-md-5 inputGroupContainer">
+            <label class="col-md-2 control-label">Date from</label>
+            <div class="col-md-10 inputGroupContainer">
                 <div class="input-group"><span class="input-group-addon"><i
                         class="glyphicon glyphicon-calendar"></i></span>
                     <input type="text" id="trendPEriodFrom" name="trendPeriodFrom" class="form-control date-picker1"
@@ -60,8 +65,8 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-4 control-label">Date till</label>
-            <div class="col-md-5 inputGroupContainer">
+            <label class="col-md-2 control-label">Date till</label>
+            <div class="col-md-10 inputGroupContainer">
                 <div class="input-group"><span class="input-group-addon"><i
                         class="glyphicon glyphicon-calendar"></i></span>
                     <input type="text" id="periodDateTill" name="trendPeriodTill" class="form-control date-picker2"
@@ -70,8 +75,8 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-4 control-label">Starting days</label>
-            <div class="col-md-5">
+            <label class="col-md-2 control-label">Starting days</label>
+            <div class="col-md-10">
                 <label class="checkbox checkbox-inline">
                     <% if (((HashSet<String>) session.getAttribute("startingDaysString")).contains("Monday")) { %>
                     <input type="checkbox" name="startingDays" value="1" checked> Monday
@@ -125,8 +130,8 @@
         </div>
         <br>
         <!-- Submit button -->
-        <div class="form-group">
-            <label class="col-md-5 control-label"></label>
+        <div class="form-group" style="padding-top: 30px">
+            <label class="col-md-3 control-label"></label>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-warning">Price Trends
                     <span class="glyphicon glyphicon-send"></span>
@@ -135,6 +140,8 @@
         </div>
     </div>
 </form>
+</div>
+</div>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -202,13 +209,13 @@
 
 <div class="container">
     <ul class="list-group">
-        <li class="list-group-item list-group-item"><h2><B>Fuel and Currency Trends</B></h2></li>
-        <li class="list-group-item list-group-item-info"><h2><%= session.getAttribute("conclusion") %>
-        </h2></li>
+        <li class="list-group-item list-group-item"><h3><B>Fuel and Currency Trends</B></h3></li>
+        <li class="list-group-item list-group-item-info"><h3><%= session.getAttribute("conclusion") %>
+        </h3></li>
     </ul>
 </div>
 
-<div id="chart" style="min-width: 300px; height: 400px; margin: auto; padding-bottom: 100px">
+<div id="chart" style="min-width: 300px; height: 400px; margin: auto; padding: 0px 100px 120px 100px">
 </div>
 
 <script>
