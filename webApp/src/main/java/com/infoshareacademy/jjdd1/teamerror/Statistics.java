@@ -33,8 +33,8 @@ public class Statistics {
     private final String REPORTS_MODULE_PATH =
             "http://reportsmodule:8080/reportsModule-1.0-SNAPSHOT/";
 
-
-    void updateStatistics(String country, String currency, String fuelType) {
+    // doesn't work without public!!!
+    public void updateStatistics(String country, String currency, String fuelType) {
         LOGGER.debug("Starting statistics update");
         checkForCachedStatisticsAndSendToApi();
         Integer status = sendStatisticsToApi(country, currency, fuelType);
@@ -43,7 +43,8 @@ public class Statistics {
         }
     }
 
-    Map<String, Integer> getStatistics(String kind){
+    // doesn't work without public!!!
+    public Map<String, Integer> getStatistics(String kind){
         try {
             checkForCachedStatisticsAndSendToApi();
             WebTarget target = getWebTarget(kind);
