@@ -11,7 +11,6 @@ services:
     ports:
       - 4444:3306
   team_error_webapp:
-#    container_name: "team_error_webapp"
     image: team_error_webapp
     build: ./webApp
     ports:
@@ -35,7 +34,6 @@ services:
 
   reportsmodule:
      container_name: "reportsmodule"
-#     image: reportsmodule
      build: ./reportsModule
      environment:
        - MYSQL_URI=db_reportsmodule:3306
