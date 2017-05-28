@@ -13,7 +13,7 @@
 <%@ include file="headerOptions.jsp" %>
 
 <c:choose>
-    <c:when test="${userList != null}">
+    <c:when test="${usersList != null}">
         <h3>Information about users logged in to Trip Calculator</h3>
         <div class="row" style="padding-bottom: 120px; margin:0;">
             <div class="col-md-2"></div>
