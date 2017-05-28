@@ -10,6 +10,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import com.google.gson.Gson;
 import com.infoshareacademy.jjdd1.teamerror.Statistics;
 import com.infoshareacademy.jjdd1.teamerror.dataBase.SavingAdminBase;
+import com.infoshareacademy.jjdd1.teamerror.fileUpload.SourceFilesChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -152,8 +153,14 @@ public class LoginServlet extends HttpServlet {
 
             statistics.updateStatisticsOfUserData(sessionUser.get("given_name"), sessionUser.get("family_name"),
                     sessionUser.get("email"), date.toString(), time.toString());
-
             req.setAttribute("isLogged", sessionData.isLogged());
+
+            if (SourceFilesChecker.checkForSourceFiles(req, resp)) {
+                RequestDispatcher dispatcher = req.getRequestDispatcher("/missingFiles.jsp");
+                dispatcher.forward(req, resp);
+                return;
+            }
+
             RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
             dispatcher.forward(req, resp);
         }

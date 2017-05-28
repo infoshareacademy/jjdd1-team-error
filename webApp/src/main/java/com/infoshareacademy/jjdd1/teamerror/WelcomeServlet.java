@@ -49,14 +49,11 @@ public class WelcomeServlet extends HttpServlet {
         }
         promotedCountries.setFilesContent(filesContent);
 
-
         LOGGER.debug("Reading data from database");
         List<String> ret = promotedCountriesSaver.getPromotedCountries();
         LOGGER.debug("List of promoted countries from database: {}", ret);
         promotedCountries.setPromotedCountries(ret);
         LOGGER.info("Data from database successfully loaded");
-
-
 
         req.setAttribute("countryList", promotedCountries.getOrderedPromotedCountries());
         session.setAttribute("filesContent", filesContent);

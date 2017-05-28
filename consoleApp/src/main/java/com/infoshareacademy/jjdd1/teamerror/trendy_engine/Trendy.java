@@ -191,11 +191,13 @@ public class Trendy {
 
     public Set<String> getStartingDaysString() {
         String[] weekDays = DateFormatSymbols.getInstance().getWeekdays();
-        if (startingDays.contains(7)) {
-            startingDays.remove(7);
-            startingDays.add(0);
+        Set<Integer> newStartingDays = new TreeSet<>();
+        newStartingDays.addAll(startingDays);
+        if (newStartingDays.contains(7)) {
+            newStartingDays.remove(7);
+            newStartingDays.add(0);
         }
-        return startingDays.stream()
+        return newStartingDays.stream()
                 .map(day -> weekDays[++day])
                 .collect(Collectors.toSet());
     }
@@ -208,7 +210,8 @@ public class Trendy {
 
     public Map<LocalDate, List<Double>> getPeriodTrendy() {
         LOGGER.debug("Getting in getPeriodTrendy method, parameters - DateFrom: {} DateTill: {} TripLength: {} " +
-                        "startingDays: {}", trendyPeriodFrom, trendyPeriodTill, tripLength, getStartingDaysString());
+                        "String startingDays: {} Starting days: {}", trendyPeriodFrom, trendyPeriodTill, tripLength,
+                        getStartingDaysString(), startingDays);
         setTrendy();
         Map<LocalDate, Double> currencyValuesAvgList = new TreeMap<>();
         Map<LocalDate, Double> petrolValuesAvgList = new TreeMap<>();

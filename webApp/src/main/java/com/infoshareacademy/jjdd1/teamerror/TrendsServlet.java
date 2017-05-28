@@ -27,7 +27,6 @@ import java.util.*;
 public class TrendsServlet extends HttpServlet{
 
     private final Logger LOGGER = LoggerFactory.getLogger(com.infoshareacademy.jjdd1.teamerror.TrendsServlet.class);
-    private HttpSession session;
 
 
     @Inject
@@ -50,8 +49,8 @@ public class TrendsServlet extends HttpServlet{
             return;
         }
 
-        session = req.getSession();
-        FilesContent filesContent = (FilesContent)session.getAttribute("filesContent");
+        HttpSession session = req.getSession();
+        FilesContent filesContent = (FilesContent) session.getAttribute("filesContent");
 
         afterInitialData.setReqParametersToSession(req, resp, filesContent);
 

@@ -37,21 +37,23 @@ public class SourceFilesChecker extends HttpServlet {
         LOGGER.debug("Checking existence of resource files path: {}", currencyZipFilePath);
         File currencyZipFile = new File(currencyZipFilePath);
 
+        HttpSession session = req.getSession();
+        session.setAttribute("petrolFileStatus",  "ok");
+        session.setAttribute("currencyInfoFileStatus",  "ok");
+        session.setAttribute("currencyZipFileStatus",  "ok");
+
         if(!petrolFile.exists() || !currencyInfoFile.exists() || !currencyZipFile.exists()) {
-            req.setAttribute("petrolFileStatus",  "ok");
-            req.setAttribute("currencyInfoFileStatus",  "ok");
-            req.setAttribute("currencyZipFileStatus",  "ok");
 
             if (!petrolFile.exists()) {
-                req.setAttribute("petrolFileStatus",  "missing");
+                session.setAttribute("petrolFileStatus",  "missing");
                 LOGGER.warn("Petrol file missing");
             }
             if (!currencyInfoFile.exists()) {
-                req.setAttribute("currencyInfoFileStatus",  "missing");
+                session.setAttribute("currencyInfoFileStatus",  "missing");
                 LOGGER.warn("Currency info file missing");
             }
             if (!currencyZipFile.exists()) {
-                req.setAttribute("currencyZipFileStatus",  "missing");
+                session.setAttribute("currencyZipFileStatus",  "missing");
                 LOGGER.warn("Currency zim file missing");
             }
             return true;

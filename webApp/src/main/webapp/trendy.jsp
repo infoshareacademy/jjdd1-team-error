@@ -72,6 +72,13 @@
         <div class="form-group">
             <label class="col-md-4 control-label">Starting days</label>
             <div class="col-md-5">
+                <label class="checkbox-inline">
+                    <% if (((HashSet<String>) session.getAttribute("startingDaysString")).contains("Sunday")) { %>
+                    <input type="checkbox" name="startingDays" value="7" checked> Sunday
+                    <% } else { %>
+                    <input type="checkbox" name="startingDays" value="7"> Sunday
+                    <% } %>
+                </label>
                 <label class="checkbox checkbox-inline">
                     <% if (((HashSet<String>) session.getAttribute("startingDaysString")).contains("Monday")) { %>
                     <input type="checkbox" name="startingDays" value="1" checked> Monday
@@ -112,13 +119,6 @@
                     <input type="checkbox" name="startingDays" value="6" checked> Saturday
                     <% } else { %>
                     <input type="checkbox" name="startingDays" value="6"> Saturday
-                    <% } %>
-                </label>
-                <label class="checkbox-inline">
-                    <% if (((HashSet<String>) session.getAttribute("startingDaysString")).contains("Sunday")) { %>
-                    <input type="checkbox" name="startingDays" value="7" checked> Sunday
-                    <% } else { %>
-                    <input type="checkbox" name="startingDays" value="7"> Sunday
                     <% } %>
                 </label>
             </div>

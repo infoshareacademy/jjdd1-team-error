@@ -80,10 +80,10 @@
     <div class="form-group">
         <label class="col-md-4 control-label"></label>
         <div class="col-md-2">
-            <button type="submit" class="btn btn-warning" onclick="form.action='/trendy';" >Price Trends <span class="glyphicon glyphicon-send"></span></button>
+            <button type="submit" class="btn btn-danger" onclick="form.action='/tripCost';">Trip Cost <span class="glyphicon glyphicon-send"></span></button>
         </div>
         <div class="col-md-2">
-            <button type="submit" class="btn btn-danger" onclick="form.action='/tripCost';">Trip Cost <span class="glyphicon glyphicon-send"></span></button>
+            <button type="submit" class="btn btn-warning" onclick="form.action='/trendy';" >Price Trends <span class="glyphicon glyphicon-send"></span></button>
         </div>
     </div>
 </form>
