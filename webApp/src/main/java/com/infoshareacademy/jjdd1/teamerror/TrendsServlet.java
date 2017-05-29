@@ -53,8 +53,13 @@ public class TrendsServlet extends HttpServlet{
         FilesContent filesContent = (FilesContent) session.getAttribute("filesContent");
 
         afterInitialData.setReqParametersToSession(req, resp, filesContent);
-
         trendy.setupClass(filesContent);
+
+        // setup default values
+        trendy.setStartingDays(new HashSet<>(Collections.singletonList("6")));
+        trendy.setTrendyPeriodFrom(LocalDate.now().toString().replaceAll("-", ""));
+        trendy.setTrendyPeriodTill(LocalDate.now().plusMonths(2).toString().replaceAll("-", ""));
+
 
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain;charset=UTF-8");

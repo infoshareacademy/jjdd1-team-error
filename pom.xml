@@ -31,7 +31,6 @@
   <modules>
     <module>consoleApp</module>
     <module>webApp</module>
-    <module>reportsModuleTest</module>
     <module>reportsModule</module>
   </modules>
 
