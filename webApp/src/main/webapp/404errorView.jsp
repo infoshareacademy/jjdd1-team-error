@@ -1,9 +1,12 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>404</title>
-</head>
-<body>
-<img style="display: block; margin: 0 auto" width="900px" height="600px" src="img/404-Error.jpg"/>
-</body>
-</html>
+<%@ include file="headAndStyle.jsp" %>
+<%@ include file="header.jsp" %>
+
+<br>
+<h2 class="error">Whoops... The page cannot be found.</h2>
+<br>
+<img style="display: block; margin: 0 auto" width="480px" height="360px" src="img/404error.gif"/>
+<form method="get" action="/start">
+    <input type="submit" class="btn btn-primary btn-lg" value="Start from beginning">
+</form>
+<%@ include file="footer.jsp" %>
+
