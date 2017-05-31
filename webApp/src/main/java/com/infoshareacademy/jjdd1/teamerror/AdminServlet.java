@@ -52,7 +52,6 @@ public class AdminServlet extends HttpServlet {
         LOGGER.info("Admin List data : {} ", session.getAttribute("adminList"));
         LOGGER.info("Country List data : {} ", session.getAttribute("promotedCountryList"));
 
-
         //creating a JSON admin list, to later use it in JavaScript in footer.jsp
         List<String> adminList = savingAdminBase.getListOfAdmins();
         String adminListString = new Gson().toJson(adminList);
@@ -90,7 +89,6 @@ public class AdminServlet extends HttpServlet {
                 }
             }
         }
-
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/admin.jsp");
         dispatcher.forward(req, resp);
