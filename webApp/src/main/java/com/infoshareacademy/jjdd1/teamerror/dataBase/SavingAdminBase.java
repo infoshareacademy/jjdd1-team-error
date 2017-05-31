@@ -40,6 +40,8 @@ public class SavingAdminBase {
         entityManager.persist(adminBase);
         adminBase = new AdminBase("los.gdansk@gmail.com");
         entityManager.persist(adminBase);
+        adminBase = new AdminBase("teamerror.tripcalculator@gmail.com");
+        entityManager.persist(adminBase);
         AdminBase adminBaseIga = new AdminBase("falkowska.iga@gmail.com");
         entityManager.persist(adminBaseIga);
     }
